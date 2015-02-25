@@ -1,0 +1,89 @@
+
+/* Base color variables */
+$primary-color: #B53F3F
+
+.content-main
+  width: 70%
+  margin: 0 auto
+
+
+/* Tags*/
+
+body
+  font-family: 'Open Sans' 
+  background-color: #ececec !important
+  color: #333 !important  
+
+
+/* Icons */
+
+button.space
+  margin-left: 5px
+
+.tiny
+  transform: scale(1)
+.small
+  transform: scale(2)
+.medium
+  transform: scale(3)
+.large
+  transform: scale(4)
+
+
+/* Decks */
+
+.title
+  color: $primary-color
+
+.deck-item
+  position: relative
+  display: block
+  float: left
+  width: 120px
+  height: 160px
+  background-color: #fff
+  box-shadow: 0 2px 4px rgba(0,0,0,.2)
+  border-radius: 10px
+  margin: 0 20px 20px 0
+
+  transition-duration: 0.2s
+  transition-property: box-shadow, transform
+  transition-timing-function: ease-in-out
+
+.deck-item:hover
+  cursor: hand
+  box-shadow: rgba(0, 0, 0, 0.2) 6px 6px 15px 0px
+  transform: translate(-5px, -5px)
+
+.deck-name
+  text-align: center
+
+
+/* Deck Details */
+
+md-tabs.deck-tabs .md-header
+  background-color: transparent
+  border-bottom: 1px solid #D8D8D8
+md-tabs.deck-tabs md-tab md-tab-label
+  color: #bbb
+md-tabs.deck-tabs md-tab.active md-tab-label
+  color: lighten($primary-color, 10%)
+md-tabs.deck-tabs md-tabs-ink-bar
+  background: $primary-color
+
+md-dialog[aria-label="Deck Details"]
+  border-radius: 20px
+[aria-label="Deck Details"] .md-actions
+  border-top: solid 1px rgba(0, 0, 0, 0.12)  
+
+.deck-details
+  margin: 20px
+.deck-tab-contents
+  min-width: 400px
+  padding: 15px
+
+.template
+  display: block
+  width: 100px
+  height: 150px
+  outline: 1px solid black

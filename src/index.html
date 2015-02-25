@@ -1,0 +1,25 @@
+<html>
+<head>
+  <title>Cardinal</title>
+  <base href="/">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/styles/app.css">
+  <link rel="stylesheet" href="assets/styles/fonts.css">
+  <link rel="stylesheet" href="assets/styles/angular-material.min.css">
+  <link rel="stylesheet" href="assets/styles/material-design-icons.css">
+</head>
+
+<body ng-app="cardinal">
+
+  <div layout="column" layout-fill ui-view></div>
+
+  <script src="lib/vendor.js"></script>
+  <script src="app.js"></script>
+
+  <script src="decks/decksService.js"></script>
+  <script src="decks/decksController.js"></script>
+  <script src="decks/deckDetailsController.js"></script>
+  <script src="templates/templateController.js"></script>
+
+</body>
+</html>

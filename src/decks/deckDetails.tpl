@@ -8,12 +8,19 @@
 
     <md-input-container>
       <label>Name</label>
-      <input type="text" ng-model="deck.name">
+      <input
+          type="text"
+          ng-model="deck.name"
+          ng-keyup="checkDisableSave()">
     </md-input-container>
 
     <md-input-container>
       <label>Description</label>
-      <textarea ng-model="deck.description" md-maxlength="255"></textarea>
+      <textarea
+          md-maxlength="255"
+          ng-model="deck.description"
+          ng-keyup="checkDisableSave()">
+      </textarea>
     </md-input-container>
 
   </div>
@@ -79,17 +86,20 @@
 
   <div class="md-actions" layout="row">
 
-    <md-button class="md-warn md-raised">
+    <md-button class="md-warn" ng-click="delete()">
       Delete
     </md-button>
 
     <span flex></span>
 
-    <md-button class="md-raised">
+    <md-button class="md-raised" ng-click="cancel()">
       Cancel
     </md-button>
 
-    <md-button class="md-primary md-raised" ng-click="save()">
+    <md-button
+        class="md-primary md-raised"
+        ng-disabled="disableSave"
+        ng-click="save()">
       Save
     </md-button>
 

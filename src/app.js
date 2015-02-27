@@ -33,7 +33,7 @@ function Routes ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
     $urlRouterProvider.otherwise('/');
 
     $mdThemingProvider.theme('default')
-      .primaryPalette('grey')
+      .primaryPalette('blue')
       .accentPalette('brown')
       .warnPalette('red');
 }

@@ -4,29 +4,47 @@ angular
   .module('cardinal.controllers')
   .controller(
     'DeckDetailsController',
-    ['$scope', 'deck', 'DecksService', DeckDetailsController]
+    ['deck', 'isNew', '$scope', '$mdDialog', 'DecksService', DeckDetailsController]
   );
 
-function DeckDetailsController ($scope, deck, DecksService) {
-  $scope.deck = deck;
+function DeckDetailsController (deck, isNew, $scope, $mdDialog, DecksService) {
+  var originalDeck;
+
   $scope.selectedTab = 0;
+  $scope.disableSave = true;
 
-  $scope.newItem = function (item) {
-    if (item === 'template') {
-      $scope.deck.createTemplate();
-    }
-  };
+  function setLocals () {
+    originalDeck = _.cloneDeep(deck);
+    $scope.deck = deck;
 
-  $scope.hide = function () {
-    $mdDialog.hide();
+    Object.unobserve(deck, setLocals)
+  }
+
+  // If deck arrived undefined, watch for define before setting locals
+  'name' in deck ? setLocals() : Object.observe(deck, setLocals);
+
+  $scope.checkDisableSave = function () {
+    // Check in evalAsync as $scope.deck will not yet be updated otherwise
+    $scope.$evalAsync(function () {
+      $scope.disableSave = _.isEqual(originalDeck, $scope.deck);
+    });
+  }
+
+  // Create confirm button directive
+  $scope.delete = function (evt) {
+    DecksService.delete(deck._id);
+    $mdDialog.cancel('Deck deleted');
   };
 
   $scope.cancel = function () {
-    $mdDialog.cancel();
+    if (isNew) {
+      DecksService.delete(deck._id);
+    }
+
+    $mdDialog.cancel('Cancelled new deck');
   };
 
-  $scope.save = function (deck) {
-    DecksService.create(deck);
-    $mdDialog.hide(answer);
+  $scope.save = function () {
+    alert('Saved');
   };
 }

@@ -7,15 +7,23 @@ angular
     [ '$resource', DecksService ]);
 
 function DecksService ($resource) {
+  var allDecks = [];
   var deckApi = $resource(
     'http://localhost:8888/:resource/:id',
     { },
     { // method:?, params:?, isArray:?, headers:?
       createDeck: { method: 'POST', params: { resource: 'decks' }},
+      deleteDeck: { method: 'DELETE',  params: { resource: 'decks' }},
       getDecks: { method: 'GET', params: { resource: 'decks' }, isArray: true },
       getDeck: { method: 'GET', params: { resource: 'decks' }},
     }
   );
+
+  deckApi.getDecks().$promise.then(function (decks) {
+    decks.forEach(function (deck) {
+      allDecks.push(_.clone(deck));
+    });
+  });
 
   function Deck (id) {
     // var query;
@@ -92,8 +100,21 @@ function DecksService ($resource) {
     //   });
     // },
 
-    create: function (deck) {
-      return deckApi.createDeck(deck);
+    create: function () {
+      var newDeck = {};
+
+      deckApi.createDeck().$promise.then(function (deck) {
+        delete deck['$promise'];
+        delete deck['$resolved'];
+        _.assign(newDeck, deck);
+      });
+
+      allDecks.push(newDeck);
+      return newDeck;
+    },
+
+    delete: function (deckId) {
+      return deckApi.deleteDeck({ id: deckId });
     }
 
   //   createTemplate: function (name, deck) {
@@ -124,16 +145,6 @@ function DecksService ($resource) {
   //     return DataService.get(id);
   //   },
 
-    // delete: function (deck) {
-    //   DataService.delete(deck);
-    //   delete decks[deck.id];
-    //   // try {
-    //   //   DataService.remove(deck);
-    //   // } catch (e) {
-    //   //   return false;
-    //   // }
-    //   // return true;
-    // }
 
   //   save: function(deck) {
   //     DataService.update(deck);
@@ -143,7 +154,7 @@ function DecksService ($resource) {
 
   Object.defineProperty(decksService, 'all', {
     get: function() {
-      return deckApi.getDecks();
+      return allDecks;
     }
   });
 

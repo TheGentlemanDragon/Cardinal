@@ -15,7 +15,7 @@
     <span md-ink-ripple
         ng-class="{ selected: control==='settings' }"
         ng-click="control='settings'">
-      <i class="mdi mdi-cog"></i>
+      <i class="mdi mdi-settings"></i>
       <md-tooltip md-direction="left" md-delay="100">
         Settings
       </md-tooltip>
@@ -23,8 +23,7 @@
 
     <span md-ink-ripple
         ng-class="{ selected: control==='layout' }"
-        ng-click="control='layout'"
-        >
+        ng-click="control='layout'">
       <i class="mdi mdi-crop-portrait"></i>
       <!-- <i class="mdi mdi-drawing"></i> -->
       <!-- <i class="mdi mdi-file-document-box"></i> -->

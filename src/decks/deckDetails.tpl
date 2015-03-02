@@ -52,9 +52,25 @@
         aria-labelledby="tab1" ng-switch-when="0">
 
       <div class="template-item"
+          layout="row" layout-align="space-between center"
           ng-repeat="template in templates"
-          ng-click="openTemplate(template)">
-        {{ template.name }}
+          ng-click="toggleCheck(template)">
+
+        <span>
+          <i ng-if="!template.checked" class="mdi mdi-checkbox-blank-outline"></i>
+          <i ng-if="template.checked" class="mdi mdi-checkbox-marked"></i>
+        </span>
+        
+        <span>
+          {{ template.name }}
+        </span>
+
+        <span ng-click="openTemplate(template)">
+          <i class="mdi mdi-open-in-app hover-reveal"></i>
+          <md-tooltip md-direction="right" md-delay="400">
+            Open in editor
+          </md-tooltip>
+        </span>
       </div>
     </div>
 
@@ -76,7 +92,10 @@
       New
     </md-button>
 
-    <md-button class="md-raised" ng-disabled="true">
+    <md-button
+        class="md-raised"
+        ng-disabled="checked.length == 0"
+        ng-click="deleteItems(checked)">
       Delete
     </md-button>
 

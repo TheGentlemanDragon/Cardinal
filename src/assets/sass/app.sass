@@ -28,6 +28,11 @@ $text-dark: #333
   color: lighten($text-dark, 50%)
   margin: 0 5px
 
+/* Utility */
+
+.hover-reveal
+  opacity: 0
+
 /* Tags*/
 
 body
@@ -118,12 +123,12 @@ md-dialog[aria-label="Deck Details"]
 .deck-tab-contents
   min-width: 400px
   max-height: 189px
-  padding: 15px
+  //padding: 15px
   overflow-y: auto
 
 .template-item
   display: block
-  padding: 10px
+  padding: 10px 20px
   width: 100%
   cursor: hand
 
@@ -131,10 +136,14 @@ md-dialog[aria-label="Deck Details"]
     background-color: $primary-color
     color: #fff
 
+    span i.hover-reveal
+      opacity: 1
+
   + .template-item
     border-top: 1px lighten($text-dark, 75%) solid
 
 /* Editor */
+
 .editor-controls
   span
     position: relative

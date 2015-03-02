@@ -19,18 +19,24 @@ function Routes ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
 
   $stateProvider
     .state('decks', {
-      url: '/',
+      url: '/decks',
       templateUrl: 'decks/decks.tpl',
       controller: 'DecksController'
     })
 
-    // .state('templates', {
-    //   url: '/templates/:templateId',
-    //   templateUrl: 'templates/template.tpl',
-    //   controller: 'TemplateController'
-    // });
+    // .state('deck', {
+    //   url: '/decks/:deckId',
+    //   templateUrl: 'decks/decks.tpl',
+    //   controller: 'DecksController'
+    // })
 
-    $urlRouterProvider.otherwise('/');
+    .state('templates', {
+      url: '/editor/template/:templateId',
+      templateUrl: 'editor/editor.tpl',
+      controller: 'EditorController'
+    });
+
+    $urlRouterProvider.otherwise('/decks');
 
     $mdThemingProvider.theme('default')
       .primaryPalette('blue')

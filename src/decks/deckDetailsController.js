@@ -4,16 +4,18 @@ angular
   .module('cardinal.controllers')
   .controller(
     'DeckDetailsController',
-    ['deck', 'isNew', '$scope', '$mdDialog', 'DataService', DeckDetailsController]
+    ['deck', 'isNew', '$scope', '$state', '$mdDialog', 'DataService', DeckDetailsController]
   );
 
-function DeckDetailsController (deck, isNew, $scope, $mdDialog, DataService) {
+function DeckDetailsController (deck, isNew, $scope, $state, $mdDialog, DataService) {
   var originalDeck;
   var result = { action: null, msg: null };
 
   $scope.selectedTab = 0;
   $scope.disableSave = true;
   $scope.deck = deck;
+  $scope.templates = DataService('templates').search({ deckId: deck._id });
+
   originalDeck = _.cloneDeep(deck);
 
   $scope.checkDisableSave = function () {
@@ -56,6 +58,14 @@ function DeckDetailsController (deck, isNew, $scope, $mdDialog, DataService) {
   };
 
   $scope.newItem = function () {
-    DataService('decks').createTemplate
+    var itemType = $scope.selectedTab === 0 ? 'templates' : 'cards';
+    DataService(itemType).save({ deckId: deck._id });    
+  };
+
+  $scope.openTemplate = function (template) {
+    result.action = 'open';
+    result.msg = false;
+    $mdDialog.hide(result);
+    $state.go('templates', { templateId: template._id });
   };
 }

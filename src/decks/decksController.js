@@ -40,7 +40,10 @@ function DecksController ($scope, $state, $mdDialog, $mdToast, DataService) {
           return item._id === deck._id;
         });
       }
-      $mdToast.showSimple(result.msg);
+
+      if (result.msg) {
+        $mdToast.showSimple(result.msg);
+      }
     });
   };
 }

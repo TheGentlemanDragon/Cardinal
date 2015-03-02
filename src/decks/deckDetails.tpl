@@ -49,11 +49,11 @@
 
     <div class="deck-tab-contents"
         role="tabpanel" id="tab1-content"
-        layout="row" layout-align="left center"
         aria-labelledby="tab1" ng-switch-when="0">
 
-      <div class="template"
-          ng-repeat="template in deck.templates">
+      <div class="template-item"
+          ng-repeat="template in templates"
+          ng-click="openTemplate(template)">
         {{ template.name }}
       </div>
     </div>

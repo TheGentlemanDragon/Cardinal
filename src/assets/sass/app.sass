@@ -1,18 +1,30 @@
 
 /* Base color variables */
 $primary-color: #2196F3
+$text-dark: #333
 
 .content-main
   width: 70%
   margin: 0 auto
 
+.header
+  margin: 20px auto 30px
+  font-size: 25px
+
+.title
+  color: $primary-color
+  font-size: 35px
+
+.slash
+  color: lighten($text-dark, 50%)
+  margin: 0 5px
 
 /* Tags*/
 
 body
   font-family: 'Open Sans' 
   background-color: #ececec !important
-  color: #333 !important  
+  color: $text-dark !important  
 
 
 /* Icons */
@@ -32,15 +44,13 @@ button.space
 
 /* Decks */
 
-.title
-  color: $primary-color
-
 .deck-item
   position: relative
-  display: block
+  padding: 15px
+  text-align: center
   float: left
-  width: 120px
-  height: 160px
+  width: 130px
+  height: 182px
   background-color: #fff
   box-shadow: 0 2px 4px rgba(0,0,0,.2)
   border-radius: 10px
@@ -54,6 +64,11 @@ button.space
   cursor: hand
   box-shadow: rgba(0, 0, 0, 0.2) 6px 6px 15px 0px
   transform: translate(-5px, -5px)
+
+.deck-item span
+  width: 100%
+  overflow: hidden
+  text-overflow: ellipsis
 
 .deck-name
   text-align: center

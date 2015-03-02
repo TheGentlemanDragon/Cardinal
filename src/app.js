@@ -58,4 +58,12 @@ function generateUUID () {
     return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
   });
   return uuid;
-};
+}
+
+// function stripPromise (promise) {
+//   var result = {};
+//   delete promise['$promise'];
+//   delete promise['$resolved'];
+//   _.assign(result, promise);
+//   return result;
+// }

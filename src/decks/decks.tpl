@@ -1,8 +1,11 @@
 <div class="content-main">
 
-  <h1 class="title">Cardinal</h1>
+  <div class="header">
+    <span class="title">Cardinal</span>
+    <span class="slash">/</span>
+    <span>My Decks</span>
+  </div>
 
-  <h3>My Decks</h3>
 
   <!-- Deck List -->
 

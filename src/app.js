@@ -30,11 +30,28 @@ function Routes ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
     //   controller: 'DecksController'
     // })
 
-    .state('templates', {
-      url: '/editor/template/:templateId',
+    .state('editor', {
+      url: '/editor/:templateId',
       templateUrl: 'editor/editor.tpl',
       controller: 'EditorController'
-    });
+    })
+      .state('editor.settings', {
+        url: '/settings',
+        templateUrl: 'editor/settings.tpl'
+      })
+      .state('editor.layout', {
+        url: '/layout',
+        templateUrl: 'editor/layout.tpl',
+        controller: 'LayoutController'
+      })
+      .state('editor.data', {
+        url: '/data',
+        templateUrl: 'editor/data.tpl'
+      })
+      .state('editor.preview', {
+        url: '/preview',
+        templateUrl: 'editor/preview.tpl'
+      });
 
     $urlRouterProvider.otherwise('/decks');
 

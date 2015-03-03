@@ -84,7 +84,7 @@ function DeckDetailsController (deck, isNew, $scope, $state, $mdDialog, DataServ
     result.action = 'open';
     result.msg = false;
     $mdDialog.hide(result);
-    $state.go('templates', { templateId: template._id });
+    $state.go('editor.settings', { templateId: template._id });
   };
 
   $scope.toggleCheck = function (item) {

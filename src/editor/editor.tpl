@@ -9,47 +9,28 @@
   </div>
 
 
-  <div class="editor-controls"
-      layout="column" layout-align="start start">
-    
-    <span md-ink-ripple
-        ng-class="{ selected: control==='settings' }"
-        ng-click="control='settings'">
-      <i class="mdi mdi-settings"></i>
-      <md-tooltip md-direction="left" md-delay="100">
-        Settings
-      </md-tooltip>
-    </span>
+  <div layout="row" layout-align="start start">
+  
+    <!-- Navigation Controls -->
+    <div  class="editor-controls"
+          layout="column" layout-align="start start">
 
-    <span md-ink-ripple
-        ng-class="{ selected: control==='layout' }"
-        ng-click="control='layout'">
-      <i class="mdi mdi-crop-portrait"></i>
-      <!-- <i class="mdi mdi-drawing"></i> -->
-      <!-- <i class="mdi mdi-file-document-box"></i> -->
-      <md-tooltip md-direction="left" md-delay="100">
-        Layout
-      </md-tooltip>
-    </span>
+      <span md-ink-ripple
+            ng-repeat="control in controls"
+            ng-class="{selected: control.state == state}"
+            ng-click="go(control.state)">
+        <i class="mdi" ng-class="control.icon"></i>
+        <md-tooltip md-direction="left" md-delay="100">
+          {{ control.label }}
+        </md-tooltip>
+      </span>
 
-    <span md-ink-ripple
-        ng-class="{ selected: control==='data' }"
-        ng-click="control='data'">
-      <i class="mdi mdi-database-outline"></i>
-      <!-- <i class="mdi mdi-database-outline"></i> -->
-      <md-tooltip md-direction="left" md-delay="100">
-        Data
-      </md-tooltip>
-    </span>
+    </div>
 
-    <span md-ink-ripple
-        ng-class="{ selected: control==='preview' }"
-        ng-click="control='preview'">
-      <i class="mdi mdi-eye"></i>
-      <md-tooltip md-direction="left" md-delay="100">
-        Preview
-      </md-tooltip>
-    </span>
+    <div flex ui-view>
+
+    </div>
 
   </div>
+
 </div>

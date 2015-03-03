@@ -8,18 +8,16 @@
 
     <md-input-container>
       <label>Name</label>
-      <input
-          type="text"
-          ng-model="deck.name"
-          ng-keyup="checkDisableSave()">
+      <input  type="text"
+              ng-model="deck.name"
+              ng-keyup="checkDisableSave()">
     </md-input-container>
 
     <md-input-container>
       <label>Description</label>
-      <textarea
-          md-maxlength="255"
-          ng-model="deck.description"
-          ng-keyup="checkDisableSave()">
+      <textarea md-maxlength="255"
+                ng-model="deck.description"
+                ng-keyup="checkDisableSave()">
       </textarea>
     </md-input-container>
 
@@ -47,14 +45,14 @@
 
     <!-- Template Tab Content -->
 
-    <div class="deck-tab-contents"
-        role="tabpanel" id="tab1-content"
-        aria-labelledby="tab1" ng-switch-when="0">
+    <div  class="deck-tab-contents"
+          role="tabpanel" id="tab1-content"
+          aria-labelledby="tab1" ng-switch-when="0">
 
-      <div class="template-item"
-          layout="row" layout-align="space-between center"
-          ng-repeat="template in templates"
-          ng-click="toggleCheck(template)">
+      <div  class="template-item"
+            layout="row" layout-align="space-between center"
+            ng-repeat="template in templates"
+            ng-click="toggleCheck(template)">
 
         <span>
           <i ng-if="!template.checked" class="mdi mdi-checkbox-blank-outline"></i>
@@ -76,9 +74,9 @@
 
     <!-- Card Tab Content -->
 
-    <div class="deck-tab-contents"
-        role="tabpanel" id="tab2-content"
-        aria-labelledby="tab2" ng-switch-when="1">
+    <div  class="deck-tab-contents"
+          role="tabpanel" id="tab2-content"
+          aria-labelledby="tab2" ng-switch-when="1">
     </div>
   </ng-switch>
 

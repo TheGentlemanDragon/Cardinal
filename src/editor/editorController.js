@@ -4,14 +4,17 @@ angular
   .module('cardinal.controllers')
   .controller(
     'EditorController',
-    ['$scope', '$state', '$stateParams', '$mdDialog', '$mdToast', 'DataService', EditorController]
+    ['$scope', '$state', '$mdDialog', '$mdToast', 'DataService', EditorController]
   );
 
-function EditorController ($scope, $state, $stateParams, $mdDialog, $mdToast, DataService) {
-  $scope.template = DataService('templates').get({ id: $stateParams.templateId });
-  $scope.go = $state.go;
+function EditorController ($scope, $state, $mdDialog, $mdToast, DataService) {
+  $scope.template = DataService('templates').get({ id: $state.params.templateId });
 
-  $scope.$on("$stateChangeSuccess", function updatePage() {
+  $scope.template.$promise.then(function (temp) {
+    $scope.deckId = temp.deckId;
+  });
+
+  $scope.$on('$stateChangeSuccess', function updatePage() {
     $scope.state = $state.current.name;
   });  
 

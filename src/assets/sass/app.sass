@@ -5,20 +5,28 @@ $primary-color: #2196F3
 $background: #ececec
 $text-dark: #333
 
-.content-main
-  width: 70%
-  margin: 0 auto
+html, body
+  padding: 0
+  margin: 0
+  background-color: $background !important
+  font-family: 'Open Sans' 
+  color: $text-dark !important
+  // overflow-y: hidden
 
 .header
-  margin: 20px auto 30px
-  font-size: 25px
-
   a
     color: lighten($primary-color, 20%)
     text-decoration: none
-
   a:hover
     text-decoration: underline
+
+  width: 70%
+  margin: 15px auto 20px
+  font-size: 25px
+
+.main-content
+  width: 70%
+  margin: 0 auto
 
 .title
   color: $primary-color
@@ -28,17 +36,16 @@ $text-dark: #333
   color: lighten($text-dark, 50%)
   margin: 0 5px
 
+/* Overrides */
+md-toast
+  position: fixed
+
 /* Utility */
 
 .hover-reveal
   opacity: 0
 
 /* Tags*/
-
-body
-  font-family: 'Open Sans' 
-  background-color: $background !important
-  color: $text-dark !important  
 
 ::-webkit-scrollbar
     width: 10px
@@ -159,3 +166,14 @@ md-dialog[aria-label="Deck Details"]
 
   i
     @extend .tiny
+
+.editor-content
+  h1, h3
+    margin: 0
+
+  h3
+    margin-bottom: 20px
+    color: lighten($text-dark, 45%)
+
+  padding: 0 40px
+

@@ -13,8 +13,27 @@ function DecksController ($scope, $state, $mdDialog, $mdToast, DataService) {
   // Load decks
   $scope.decks = DataService('decks').search({});
 
+  // Open deck details if given deck id
+  $scope.decks.$promise.then(function (decks) {
+    if ($state.params.deckId) {
+      var deck = _.find(decks, function (deck) {
+        return deck._id === $state.params.deckId;
+      });
+      $scope.openDeck(deck);
+    }
+  });
+
+  // Default toast settings
+  var notify = function (msg) {
+    $mdToast.show($mdToast
+      .simple()
+      .content(msg)
+      .position('top right')
+    );
+  }
+
   $scope.newDeck = function (evt) {
-    $mdToast.showSimple('Creating new deck');
+    notify('Creating new deck');
     DataService('decks')
       .save({}).$promise
       .then(function(deck) {
@@ -42,7 +61,7 @@ function DecksController ($scope, $state, $mdDialog, $mdToast, DataService) {
       }
 
       if (result.msg) {
-        $mdToast.showSimple(result.msg);
+        notify(result.msg);
       }
     });
   };

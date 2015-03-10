@@ -24,11 +24,11 @@ function Routes ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
       controller: 'DecksController'
     })
 
-    // .state('deck', {
-    //   url: '/decks/:deckId',
-    //   templateUrl: 'decks/decks.tpl',
-    //   controller: 'DecksController'
-    // })
+    .state('deck', {
+      url: '/decks/:deckId',
+      templateUrl: 'decks/decks.tpl',
+      controller: 'DecksController'
+    })
 
     .state('editor', {
       url: '/editor/:templateId',

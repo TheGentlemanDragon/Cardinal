@@ -94,7 +94,7 @@ function DeckDetailsController (deck, isNew, $scope, $state, $mdDialog, DataServ
     $scope.checked.length = 0;
 
     // Rebuild checked array
-     _.forEach(ary, function (aryItem) {
+    _.forEach(ary, function (aryItem) {
       if (aryItem.checked) {
         $scope.checked.push(aryItem);
       }

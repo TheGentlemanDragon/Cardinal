@@ -3,7 +3,6 @@
 /* Create and configure application */
 
 angular.module('cardinal', [
-  'cardinal.services', 'cardinal.controllers',
   'ui.router', 'ngMaterial', 'ngResource',
 ])
 
@@ -24,11 +23,11 @@ function Routes ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
       controller: 'DecksController'
     })
 
-    // .state('deck', {
-    //   url: '/decks/:deckId',
-    //   templateUrl: 'decks/decks.tpl',
-    //   controller: 'DecksController'
-    // })
+    .state('deck', {
+      url: '/decks/:deckId',
+      templateUrl: 'decks/decks.tpl',
+      controller: 'DecksController'
+    })
 
     .state('editor', {
       url: '/editor/:templateId',
@@ -64,11 +63,6 @@ function Routes ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
 function Run () {
   // App initialization stuff here
 }
-
-/* Create sub-modules */
-
-angular.module('cardinal.services', []);
-angular.module('cardinal.controllers', []);
 
 
 /* Global utilities */

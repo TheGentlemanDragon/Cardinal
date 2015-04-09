@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-  .module('cardinal.controllers')
+  .module('cardinal')
   .controller(
     'LayoutController',
     ['$scope', '$state', '$stateParams', '$mdDialog', '$mdToast', 'DataService', LayoutController]

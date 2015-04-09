@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-  .module('cardinal.controllers')
+  .module('cardinal')
   .controller(
     'EditorController',
     ['$scope', '$state', '$mdDialog', '$mdToast', 'DataService', EditorController]
@@ -9,6 +9,7 @@ angular
 
 function EditorController ($scope, $state, $mdDialog, $mdToast, DataService) {
   $scope.template = DataService('templates').get({ id: $state.params.templateId });
+  $scope.go = $state.go;
 
   $scope.template.$promise.then(function (temp) {
     $scope.deckId = temp.deckId;

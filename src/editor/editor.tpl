@@ -7,7 +7,7 @@
     <span md-ink-ripple
           ng-repeat="control in controls"
           ng-class="{selected: control.state == state}"
-          ng-click="$state.go(control.state)">
+          ng-click="go(control.state)">
       <i class="mdi" ng-class="control.icon"></i>
       <md-tooltip md-direction="left" md-delay="100">
         {{ control.label }}
@@ -21,4 +21,3 @@
   </div>
 
 </div>
-d

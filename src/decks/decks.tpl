@@ -1,10 +1,5 @@
 
-<!--   <div class="header">
-    <span class="title">Cardinal</span>
-    <span class="slash">/</span>
-    <span>My Decks</span>
-  </div>
- -->
+<div class="sub-title">My Decks</div>
 
 <!-- Deck List -->
 

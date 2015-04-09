@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-  .module('cardinal.controllers')
+  .module('cardinal')
   .controller(
     'DecksController',
     ['$scope', '$state', '$mdDialog', '$mdToast', 'DataService', DecksController]

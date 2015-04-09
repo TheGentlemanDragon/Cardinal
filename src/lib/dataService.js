@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-  .module('cardinal.services')
+  .module('cardinal')
   .factory(
     'DataService',
     [ '$resource', DataService ]);

@@ -3,7 +3,6 @@
 /* Create and configure application */
 
 angular.module('cardinal', [
-  'cardinal.services', 'cardinal.controllers',
   'ui.router', 'ngMaterial', 'ngResource',
 ])
 
@@ -64,11 +63,6 @@ function Routes ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
 function Run () {
   // App initialization stuff here
 }
-
-/* Create sub-modules */
-
-angular.module('cardinal.services', []);
-angular.module('cardinal.controllers', []);
 
 
 /* Global utilities */

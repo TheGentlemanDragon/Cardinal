@@ -39,15 +39,6 @@ md-toast
 md-input-container input[disabled]
   color rgba(0, 0, 0, 0.4) !important
 
-
-/* Utility */
-
-.hover-reveal
-  opacity 0
-
-
-/* Tags*/
-
 ::-webkit-scrollbar
     width 10px
  
@@ -56,6 +47,15 @@ md-input-container input[disabled]
  
 ::-webkit-scrollbar-thumb
     background-color lighten(text-dark, 30%)
+
+
+/* Utility */
+
+.hover-reveal
+  opacity 0
+
+
+/* Tags*/
 
 
 /* Icons */
@@ -176,5 +176,30 @@ md-dialog[aria-label="Deck Details"]
   h3
     margin-bottom 20px
     color lighten(text-dark, 45%)
+    
+  md-content
+    background-color: initial
 
   padding 0 40px
+
+.field
+  background-color #fff
+  width 400px
+  
+  md-input-container
+    margin-left 5px
+  
+  .button
+    opacity 0.2
+    transition opacity 0.2s ease-in-out
+
+  .button:hover
+    opacity 1
+    transition opacity 0.35s ease-in-out
+
+  .md-select-label span
+    width 100%
+
+  [placeholder="Type"]
+    margin 24px 10px 0 10px
+    width 79px

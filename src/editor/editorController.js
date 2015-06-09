@@ -8,16 +8,10 @@ angular
   );
 
 function EditorController ($scope, $state, $mdDialog, $mdToast, DataService) {
-  $scope.template = DataService('templates').get({ id: $state.params.templateId });
+  var templateHash;
+
   $scope.go = $state.go;
-
-  $scope.template.$promise.then(function (temp) {
-    $scope.deckId = temp.deckId;
-  });
-
-  $scope.$on('$stateChangeSuccess', function updatePage() {
-    $scope.state = $state.current.name;
-  });  
+  $scope.selectedFields = [];
 
   $scope.controls = [
     {
@@ -26,14 +20,14 @@ function EditorController ($scope, $state, $mdDialog, $mdToast, DataService) {
       icon: 'mdi-settings'
     },
     {
-      state: 'editor.layout',
-      label: 'Layout',
-      icon: 'mdi-crop-portrait'
-    },
-    {
       state: 'editor.data',
       label: 'Data',
       icon: 'mdi-database-outline'
+    },
+    {
+      state: 'editor.layout',
+      label: 'Layout',
+      icon: 'mdi-crop-portrait'
     },
     {
       state: 'editor.preview',
@@ -41,6 +35,75 @@ function EditorController ($scope, $state, $mdDialog, $mdToast, DataService) {
       icon: 'mdi-eye'
     }
   ];
+
+  DataService('templates')
+    .get({ id: $state.params.templateId })
+    .$promise
+    .then(function (temp) {
+      $scope.template = temp;
+      temp.fields.forEach(function () {
+        $scope.selectedFields.push(false);
+      })
+      $scope.deckId = temp.deckId;
+      templateHash = getTemplateHash(temp);
+    });
+
+  $scope.$on('$stateChangeSuccess', function updatePage() {
+    $scope.state = $state.current.name;
+  });
+
+  function getTemplateHash (obj) {
+    return obj.name + '|'
+      + obj.fields
+        .reduce(function (prev, item) {
+          return prev + item.name + '|' + item.type + '|';
+        }, '');
+  };
+
+  $scope.fieldsSelected = function () {
+    return $scope.selectedFields.some(function (item) { return item; });
+  };
+
+  $scope.addField = function () {
+    $scope.template.fields.push({ name: 'Field Name', type: 'text' });
+    $scope.template.$save();
+  };
+
+  $scope.deleteField = function (index) {
+    $scope.template.fields.splice(index, 1);
+    $scope.template.$save();
+  }
+
+  $scope.moveFieldUp = function (index) {
+    if (index <= 0) {
+      return;
+    }
+
+    var temp = $scope.template.fields[index - 1];
+    $scope.template.fields[index - 1] = $scope.template.fields[index];
+    $scope.template.fields[index] = temp;
+    $scope.template.$save();    
+  }
+
+  $scope.moveFieldDown = function (index) {
+    if (index - 1 >= $scope.template.fields.length) {
+      return;
+    }
+
+    var temp = $scope.template.fields[index + 1];
+    $scope.template.fields[index + 1] = $scope.template.fields[index];
+    $scope.template.fields[index] = temp;
+    $scope.template.$save();  
+  }
+
+  $scope.saveTemplate = function () {
+    var newHash = getTemplateHash($scope.template);
+
+    if (templateHash !== newHash) {
+      templateHash = newHash;
+      $scope.template.$save();
+    }
+  };
 
 
 }

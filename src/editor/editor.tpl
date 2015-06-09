@@ -16,7 +16,7 @@
 
   </div>
 
-  <div ui-view class="editor-content">
+  <div ui-view class="editor-content" flex>
 
   </div>
 

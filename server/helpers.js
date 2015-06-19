@@ -14,7 +14,40 @@ exports.logRequest = function (req) {
   }
   
   console.log(util.format(' - %s %s %s', req.method, req.url, body));
+};
 
+exports.applySchema = function (obj, schema) {
+
+  // Fill in absent fields with defaults
+  var keys = Object.keys(schema);
+  while (key = keys.pop()) {
+    obj[key] = obj[key] || schema[key];
+  }
+
+  delete obj._id;
+
+  // Check that all required fields have values
+  if ( '_required' in obj) {
+    var missing = [];
+
+    obj._required.forEach(function (item) {
+      if (!(item in obj && obj[item])) {
+        missing.push(item);
+      }
+    });
+
+    delete obj._required;
+
+    if (missing.length > 0) {
+      return { error: 'Missing required fields:' + missing.join(', ') };
+    }
+  }
+  return { error: false };
+};
+
+exports.error = function (error) {
+  res.send("  Error: " + error);
+  return next();
 };
 
 // // Polyfills

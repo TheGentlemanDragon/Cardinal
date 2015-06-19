@@ -3,45 +3,11 @@ var mongo = require('promised-mongo');
 var helpers = require('./helpers.js');
 
 var logRequest = helpers.logRequest;
+var applySchema = helpers.applySchema;
+var error = helpers.error;
 var db = mongo('localhost/cardinal');
 
 function authenticate (req, res, next) {
-  return next();
-}
-
-function applySchema (obj, schema) {
-
-  // Fill in absent fields with defaults
-  var keys = Object.keys(schema);
-  key = keys.pop();
-  while (key) {
-    obj[key] = obj[key] || schema[key];
-    key = keys.pop();
-  }
-
-  delete obj._id;
-
-  // Check that all required fields have values
-  if ( '_required' in obj) {
-    var missing = [];
-
-    obj._required.forEach(function (item) {
-      if (!(item in obj && obj[item])) {
-        missing.push(item);
-      }
-    });
-
-    delete obj._required;
-
-    if (missing.length > 0) {
-      return { error: 'Missing required fields:' + missing.join(', ') };
-    }
-  }
-  return { error: false };
-}
-
-function error (error) {
-  res.send("  Error: " + error);
   return next();
 }
 
@@ -166,11 +132,13 @@ var cardSchema = {
   _required: ['templateId', 'deckId'],
   name: 'New Card',
   templateId: '',
-  deckId: ''
+  deckId: '',
+  data: {}
 };
 
 createHandlers('decks', deckSchema);
 createHandlers('templates', templateSchema);
+createHandlers('cards', cardSchema);
 
 server.listen(8888, function() {
   console.log('%s listening at %s', server.name, server.url);

@@ -5,20 +5,17 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <link rel="stylesheet" href="assets/styles/app.css">
   <link rel="stylesheet" href="assets/styles/fonts.css">
-  <link rel="stylesheet" href="assets/styles/angular-material.min.css">
   <link rel="stylesheet" href="assets/styles/materialdesignicons.css">
+  <link rel="stylesheet" href="assets/styles/angular-material.min.css">
 </head>
 
 <body ng-app="cardinal">
 
-  <div layout="column" layout-fill>
+  <md-toolbar class="md-medium-tall">
+    <div class="title md-display-1 page-width">Cardinal</div>
+  </md-toolbar>
 
-    <div class="header">
-      <span class="title">Cardinal</span>
-    </div>
-
-    <div class="main-content" ui-view></div>
-  </div>
+  <div class="page-width" ui-view></div>
 
   <script src="lib/vendor.js"></script>
   <script src="app.js"></script>
@@ -31,3 +28,4 @@
 
 </body>
 </html>
+

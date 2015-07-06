@@ -1,30 +1,36 @@
-'use strict';
+(function() {
+  'use strict';
 
-angular
-  .module('cardinal')
-  .factory(
-    'DataService',
-    [ '$resource', DataService ]);
+  angular
+    .module('cardinal')
+    .factory('DataService', DataService);
 
-function DataService ($resource) {
+  DataService.$inject = ['$resource'];
 
-  // Cached resources for use as singletons
-  var resources = {};
+  function DataService ($resource) {
 
-  // Return the resource requested by name
-  return function (resource) {
+    // Cached resources for use as singletons
+    var resources = {};
 
-    // If this resource hasn't been cached, create and cache it
-    if (!(resource in resources)) {
-      resources[resource] = $resource(
-        'http://localhost:8888/' + resource + '/:id',
-        { id: '@_id' },
-        {
-          search: { method: 'POST', params: { id: 'search' }, isArray: true }
-        }
-      );
-    }
+    // Return the resource requested by name
+    return Service;
 
-    return resources[resource];
-  };
-}
+    ////////////
+
+    function Service (resource) {
+
+      // If this resource hasn't been cached, create and cache it
+      if (!(resource in resources)) {
+        resources[resource] = $resource(
+          'http://localhost:8888/' + resource + '/:id',
+          { id: '@_id' },
+          {
+            search: { method: 'POST', params: { id: 'search' }, isArray: true }
+          }
+        );
+      }
+
+      return resources[resource];
+    };
+  }
+})();

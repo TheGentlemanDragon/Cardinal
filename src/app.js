@@ -7,61 +7,72 @@ angular.module('cardinal', [
 ])
 
 .config([
-  '$urlRouterProvider', '$stateProvider', '$locationProvider', '$mdThemingProvider',
-  Routes])
+  '$urlRouterProvider', '$stateProvider', '$locationProvider', '$mdThemingProvider', Config
+])
 
-.run([Run]);
+.run([
+  '$mdToast', Run
+]);
 
-function Routes ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemingProvider) {
+function Config ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemingProvider) {
 
   $locationProvider.html5Mode(false);
 
+  // Set routes
   $stateProvider
     .state('decks', {
       url: '/decks',
-      templateUrl: 'decks/decks.tpl',
-      controller: 'DecksController'
+      templateUrl: 'decks/decks.html',
+      controller: 'DecksController as vm'
     })
 
     .state('deck', {
       url: '/decks/:deckId',
-      templateUrl: 'decks/decks.tpl',
+      templateUrl: 'decks/decks.html',
       controller: 'DecksController'
     })
 
     .state('editor', {
       url: '/editor/:templateId',
-      templateUrl: 'editor/editor.tpl',
+      templateUrl: 'editor/editor.html',
       controller: 'EditorController'
     })
       .state('editor.settings', {
         url: '/settings',
-        templateUrl: 'editor/settings.tpl'
+        templateUrl: 'editor/settings.html'
       })
       .state('editor.layout', {
         url: '/layout',
-        templateUrl: 'editor/layout.tpl',
+        templateUrl: 'editor/layout.html',
         controller: 'LayoutController'
       })
       .state('editor.data', {
         url: '/data',
-        templateUrl: 'editor/data.tpl'
+        templateUrl: 'editor/data.html'
       })
       .state('editor.preview', {
         url: '/preview',
-        templateUrl: 'editor/preview.tpl'
+        templateUrl: 'editor/preview.html'
       });
 
     $urlRouterProvider.otherwise('/decks');
 
     $mdThemingProvider.theme('default')
       .primaryPalette('blue')
-      .accentPalette('brown')
+      .accentPalette('red')
       .warnPalette('red');
 }
 
-function Run () {
+function Run ($mdToast) {
   // App initialization stuff here
+
+  $mdToast.notify = function (msg) {
+    $mdToast.show($mdToast
+      .simple()
+      .content(msg)
+      .position('bottom left')
+    );
+  };
 }
 
 

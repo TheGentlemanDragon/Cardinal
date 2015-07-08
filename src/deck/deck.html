@@ -1,0 +1,50 @@
+
+<div layout="row">
+  <div class="md-title">{{vm.deck.name}}</div>
+</div>
+
+<!-- Deck properties -->
+<md-input-container >
+  <label>Name</label>
+  <input  type="text"
+          ng-model="vm.deck.name"
+          ng-keyup="checkDisableSave()">
+</md-input-container>
+
+<md-input-container>
+  <label>Description</label>
+  <textarea md-maxlength="255"
+            ng-model="vm.deck.description"
+            ng-keyup="checkDisableSave()">
+  </textarea>
+</md-input-container>
+
+<!-- Templates -->
+
+<div layout="row">
+  <div class="md-title" flex>Templates</div>
+  <md-button
+      class="md-fab md-accent fab-button-inline" aria-label="New Template"
+      ng-click="vm.newTemplate($event)">
+    <i class="mdi mdi-plus medium"></i>
+  </md-button>
+</div>
+
+<div layout="column">
+
+  <!-- List Templates -->
+
+  <md-grid-list
+      md-cols="7" md-row-height="5:7" md-gutter="20px">
+
+    <md-grid-tile
+        class="tile" md-ink-ripple
+        ng-repeat="template in vm.templates"
+        ng-click="vm.openTemplate(template, $event)">
+      <md-grid-tile-footer>
+        <h3>{{ template.name }}</h3>
+      </md-grid-tile-footer>
+    </md-grid-tile>
+
+  </md-grid-list>
+</div>

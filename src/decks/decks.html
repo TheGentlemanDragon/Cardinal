@@ -1,6 +1,6 @@
 
 <md-button
-    class="md-fab md-accent floating-button" aria-label="New Deck"
+    class="md-fab md-accent fab-button-floating" aria-label="New Deck"
     ng-click="vm.newDeck($event)">
   <i class="mdi mdi-plus medium"></i>
 </md-button>
@@ -12,7 +12,7 @@
 <md-grid-list md-cols="6" md-row-height="1:1" md-gutter="20px">
 
   <md-grid-tile
-      class="deck" md-ink-ripple
+      class="tile" md-ink-ripple
       ng-repeat="(deckId, deck) in vm.decks"
       ng-click="vm.openDeck(deck, $event)">
     <md-grid-tile-footer><h3>{{ deck.name }}</h3></md-grid-tile-footer>

@@ -48,28 +48,29 @@
     };
 
     function openDeck (deck, evt, isNew) {
-      $mdDialog
-        .show({
-          controller: DeckDetailsController,
-          templateUrl: 'decks/deckDetails.html',
-          targetEvent: evt,
-          locals: {
-            deck: deck,
-            isNew: isNew || false
-          },
-          clickOutsideToClose: false
-        })
-        .then(function(result) {
-          if (result.action === 'delete') {
-            _.remove(vm.decks, function (item) {
-              return item._id === deck._id;
-            });
-          }
+      $state.go('deck', { deckId: deck._id });
+      // $mdDialog
+      //   .show({
+      //     controller: DeckDetailsController,
+      //     templateUrl: 'decks/deckDetails.html',
+      //     targetEvent: evt,
+      //     locals: {
+      //       deck: deck,
+      //       isNew: isNew || false
+      //     },
+      //     clickOutsideToClose: false
+      //   })
+      //   .then(function(result) {
+      //     if (result.action === 'delete') {
+      //       _.remove(vm.decks, function (item) {
+      //         return item._id === deck._id;
+      //       });
+      //     }
 
-          if (result.msg) {
-            $mdToast.notify(result.msg);
-          }
-        });
+      //     if (result.msg) {
+      //       $mdToast.notify(result.msg);
+      //     }
+      //   });
     };
   }
 })();

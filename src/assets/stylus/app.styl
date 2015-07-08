@@ -1,7 +1,7 @@
 /* Base color variables */
 
-primary-color = #2196F3
-accent-color = #795548
+primary = #2196F3
+accent = #795548
 background = #ececec
 text-dark = #333
 
@@ -16,19 +16,24 @@ html, body
 .title
   margin-top 35px
   
-.deck, .deck-add
-  background-color #ececec
-  transition background-color 0.1s ease-in-out
+.tile
+  background-color background
   &:hover
-    background-color darken(#ececec, 15%)
-    transition background-color 0.2s ease-in-out
+    background-color darken(background, 15%)
 
-.floating-button
+.fab-button-floating
   left 1090px
   top -33px
   margin-bottom -62px !important
 
 /* Override styles */
+md-grid-list + md-grid-list
+  margin-top 20px
+
+md-grid-tile
+  transition background-color 0.1s ease-in-out
+  &:hover
+    transition background-color 0.2s ease-in-out
 
 .md-title
   margin 15px 0

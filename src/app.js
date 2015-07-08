@@ -28,32 +28,39 @@ function Config ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
 
     .state('deck', {
       url: '/decks/:deckId',
-      templateUrl: 'decks/decks.html',
-      controller: 'DecksController'
+      templateUrl: 'deck/deck.html',
+      controller: 'DeckController as vm',
+      params: { msg: null }
     })
 
-    .state('editor', {
-      url: '/editor/:templateId',
-      templateUrl: 'editor/editor.html',
-      controller: 'EditorController'
-    })
-      .state('editor.settings', {
-        url: '/settings',
-        templateUrl: 'editor/settings.html'
-      })
-      .state('editor.layout', {
-        url: '/layout',
-        templateUrl: 'editor/layout.html',
-        controller: 'LayoutController'
-      })
-      .state('editor.data', {
-        url: '/data',
-        templateUrl: 'editor/data.html'
-      })
-      .state('editor.preview', {
-        url: '/preview',
-        templateUrl: 'editor/preview.html'
-      });
+    .state('template', {
+      url: '/templates/:templateId',
+      templateUrl: 'template/template.html',
+      controller: 'TemplateController as vm'
+    });
+
+      // .state('editor', {
+      //   url: '/editor/:templateId',
+      //   templateUrl: 'editor/editor.html',
+      //   controller: 'EditorController'
+      // })
+      // .state('editor.settings', {
+      //   url: '/settings',
+      //   templateUrl: 'editor/settings.html'
+      // })
+      // .state('editor.layout', {
+      //   url: '/layout',
+      //   templateUrl: 'editor/layout.html',
+      //   controller: 'LayoutController'
+      // })
+      // .state('editor.data', {
+      //   url: '/data',
+      //   templateUrl: 'editor/data.html'
+      // })
+      // .state('editor.preview', {
+      //   url: '/preview',
+      //   templateUrl: 'editor/preview.html'
+      // });
 
     $urlRouterProvider.otherwise('/decks');
 

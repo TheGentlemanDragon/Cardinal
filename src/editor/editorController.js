@@ -111,6 +111,4 @@ function EditorController ($scope, $state, $mdDialog, $mdToast, DataService) {
       $scope.template.$save();
     }
   };
-
-
 }

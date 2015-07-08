@@ -37,7 +37,7 @@ gulp.task('js', function () {
     // gulp.src('node_modules/**/*.js')
     .pipe(uglify())
     .pipe(concat('vendor.js'))
-    .pipe(gulp.dest('./src/lib/'));
+    .pipe(gulp.dest('./src/assets/js/'));
 });
 
 // Copy css files

@@ -125,7 +125,8 @@ var templateSchema = {
   _required: ['deckId'],
   name: 'New Template',
   deckId: '',
-  fields: []
+  fields: [],
+  elements: []
 };
 
 var cardSchema = {

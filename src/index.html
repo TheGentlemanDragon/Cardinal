@@ -5,29 +5,31 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <link rel="stylesheet" href="assets/styles/app.css">
   <link rel="stylesheet" href="assets/styles/fonts.css">
+  <link rel="stylesheet" href="assets/styles/material-design-iconic-font.css">
   <link rel="stylesheet" href="assets/styles/angular-material.min.css">
-  <link rel="stylesheet" href="assets/styles/materialdesignicons.css">
 </head>
 
 <body ng-app="cardinal">
 
-  <div layout="column" layout-fill>
+  <md-toolbar class="md-medium-tall">
+    <div class="title md-display-1 page-width">Cardinal</div>
+  </md-toolbar>
 
-    <div class="header">
-      <span class="title">Cardinal</span>
-    </div>
+  <div class="page-width" ui-view></div>
 
-    <div class="main-content" ui-view></div>
-  </div>
-
-  <script src="lib/vendor.js"></script>
+  <script src="assets/js/vendor.js"></script>
   <script src="app.js"></script>
 
-  <script src="lib/dataService.js"></script>
-  <script src="decks/decksController.js"></script>
-  <script src="decks/deckDetailsController.js"></script>
+  <script src="components/cn-icon.directive.js"></script>
+  <script src="deck/deck.controller.js"></script>
+  <script src="decks/decks.controller.js"></script>
+  <script src="template/template.controller.js"></script>
+  <!--
   <script src="editor/editorController.js"></script>
   <script src="editor/layoutController.js"></script>
+  -->
+  <script src="services/data.service.js"></script>
 
 </body>
 </html>
+

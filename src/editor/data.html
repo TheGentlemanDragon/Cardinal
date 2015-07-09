@@ -62,19 +62,19 @@
 
   <md-tab label="Values">
     <md-content class="md-padding">
-      <table>
+      <table class="values">
         <!-- Headers -->
         <tr>
           <th ng-repeat="field in template.fields">{{field.name}}</th>
         </tr>
 
         <!-- Values -->
-        <tr>
+        <tr ng-if="cards" ng-repeat="card in cards">
           <td ng-repeat="field in template.fields">This is a value</td>
         </tr>
 
-        <tr>
-          <td></td>
+        <tr ng-if="cards.length === 0">
+          <td class="empty" colspan="{{template.fields.length}}">There are no cards of this template</td>
         </tr>
       </table>
     </md-content>

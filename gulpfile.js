@@ -1,47 +1,29 @@
 var gulp        = require('gulp');
 var browserSync = require('browser-sync');
 var concat      = require('gulp-concat');
+var uncss       = require('gulp-uncss');
 var uglify      = require('gulp-uglify');
 var stylus      = require('gulp-stylus');
 var sourcemaps  = require('gulp-sourcemaps');
 
 // Static server
-gulp.task('browser-sync', function() {
+gulp.task('serve', function() {
   var config = {
     server: {
       baseDir: './src'
     },
     files: [
       './src/**/*.js',
-      './src/**/*.tpl'
+      './src/**/*.html'
     ],
     notify: false,
-    injectChanges: false    
+    injectChanges: false
   };
 
   browserSync(config);
 });
 
-// Compile stylus files
-gulp.task('stylus', function () {
-  gulp.src('./src/assets/stylus/*.styl')
-    .pipe(sourcemaps.init())
-    .pipe(stylus())
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./src/assets/styles'));
-});
-
-// Copy css files
-gulp.task('css', function () {
-  return gulp.src(
-    [
-      'node_modules/angular-material/angular-material.min.css'
-    ]
-  )
-  .pipe(gulp.dest('./src/assets/styles/'));
-});
-
-// Process JS files and return the stream.
+// Concatenate vendor js
 gulp.task('js', function () {
   return gulp.src([
       'node_modules/angular/angular.min.js',
@@ -55,16 +37,42 @@ gulp.task('js', function () {
     // gulp.src('node_modules/**/*.js')
     .pipe(uglify())
     .pipe(concat('vendor.js'))
-    .pipe(gulp.dest('./src/lib/'));
+    .pipe(gulp.dest('./src/assets/js/'));
 });
 
-// Launch BrowserSync and watch JS files
-gulp.task('default', ['stylus', 'css', 'js', 'browser-sync'], function () {
+// Copy css files
+gulp.task('css', function () {
+  return gulp.src(
+      [ './node_modules/angular-material/angular-material.min.css' ]
+    )
+    .pipe(gulp.dest('./src/assets/styles/'));
+});
 
+// // Strip unused CSS
+// gulp.task('uncss', function() {
+//   return gulp.src('./node_modules/angular-material/angular-material.min.css')
+//     .pipe(uncss({
+//       html: ['./src/**/*.html']
+//     }))
+//     .pipe(gulp.dest('./src/assets/styles/'));
+// });
+
+// Compile stylus files
+gulp.task('stylus', function () {
+  return gulp.src('./src/assets/stylus/*.styl')
+    .pipe(sourcemaps.init())
+    .pipe(stylus())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./src/assets/styles'));
+});
+
+// Reload on changes
+gulp.task('watch', function () {
   // add browserSync.reload to the tasks array to make
   // all browsers reload after tasks are complete.
-  // gulp.watch('src/**/*.js', [browserSync.reload]);
-  gulp.watch('./src/assets/stylus/*.styl', ['stylus', browserSync.reload]);
-  // gulp.watch('./src/**/*.js', browserSync.reload);
-  // gulp.watch('./src/**/*.tpl', browserSync.reload);
+  gulp.watch('./src/assets/stylus/app.styl', ['stylus', browserSync.reload]);
+  // gulp.watch('./src/**/*.html', ['uncss', 'stylus', browserSync.reload]);
+  // gulp.watch('./src/**/*.html', [browserSync.reload]);
 });
+
+gulp.task('default', ['js', 'css', 'stylus', 'serve', 'watch']);

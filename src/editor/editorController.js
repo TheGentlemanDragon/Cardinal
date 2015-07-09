@@ -48,6 +48,13 @@ function EditorController ($scope, $state, $mdDialog, $mdToast, DataService) {
       templateHash = getTemplateHash(temp);
     });
 
+  DataService('cards')
+    .search({ templateId: $state.params.templateId })
+    .$promise
+    .then(function (cards) {
+      $scope.cards = cards;
+    });
+
   $scope.$on('$stateChangeSuccess', function updatePage() {
     $scope.state = $state.current.name;
   });
@@ -104,6 +111,4 @@ function EditorController ($scope, $state, $mdDialog, $mdToast, DataService) {
       $scope.template.$save();
     }
   };
-
-
 }

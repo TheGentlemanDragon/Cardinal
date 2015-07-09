@@ -9,12 +9,18 @@
 
   function DeckController ($state, $mdToast, DataService) {
     var vm = this;
-    var templates = DataService('templates');
 
+    var Cards = DataService('cards');
+    var Templates = DataService('templates');
+    var cachedCards = {};
+
+    vm.activateTemplate = activateTemplate;
+    vm.cards = [];
+    vm.createCard = createCard;
     vm.deck = DataService('decks').get({ id: $state.params.deckId });
     vm.newTemplate = newTemplate;
     vm.openTemplate = openTemplate;
-    vm.templates = templates.search({ deckId: $state.params.deckId });
+    vm.templates = Templates.search({ deckId: $state.params.deckId });
 
     activate()
 
@@ -24,23 +30,46 @@
       }
     }
 
+    function activateTemplate (template) {
+      vm.activeTemplate = template;
+
+      if (!cachedCards[template._id]) {
+        cachedCards[template._id] = Cards.search({ templateId: template._id });
+      }
+
+      vm.cards = cachedCards[template._id];
+    }
+
+    function createCard (template) {
+      if (!template._id) {
+        // TODO: Throw 'No Template ID' error
+        return;
+      }
+      Cards
+        .save({ templateId: template._id, deckId: template.deckId })
+        .$promise
+        .then(function (card) {
+          // TODO: Open card
+          cachedCards[template._id] = Cards.search({ templateId: template._id });
+          vm.cards = cachedCards[template._id]
+        });
+    }
+
     function newTemplate () {
       if (!vm.deck._id) {
         // TODO: Throw 'No Deck ID' error
         return;
       }
-      templates
+      Templates
         .save({ deckId: vm.deck._id })
         .$promise
         .then(function (template) {
           vm.templates.push(template);
+          $state.go('template', { templateId: template._id });
         });
     }
 
     function openTemplate (template) {
-      // result.action = 'open';
-      // result.msg = false;
-      // $mdDialog.hide(result);
       $state.go('template', { templateId: template._id });
     };
 

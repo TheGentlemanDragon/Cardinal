@@ -1,21 +1,20 @@
 
 <div layout="row">
-  <div class="md-title">{{vm.deck.name}}</div>
+  <div class="md-title">{{ vm.deck.name }}</div>
 </div>
 
 <!-- Deck properties -->
+
 <md-input-container >
   <label>Name</label>
   <input  type="text"
-          ng-model="vm.deck.name"
-          ng-keyup="checkDisableSave()">
+          ng-model="vm.deck.name">
 </md-input-container>
 
 <md-input-container>
   <label>Description</label>
   <textarea md-maxlength="255"
-            ng-model="vm.deck.description"
-            ng-keyup="checkDisableSave()">
+            ng-model="vm.deck.description">
   </textarea>
 </md-input-container>
 
@@ -24,27 +23,125 @@
 <div layout="row">
   <div class="md-title" flex>Templates</div>
   <md-button
-      class="md-fab md-accent fab-button-inline" aria-label="New Template"
-      ng-click="vm.newTemplate($event)">
-    <i class="mdi mdi-plus medium"></i>
+      class="md-fab md-accent" aria-label="New Template"
+      ng-click="vm.newTemplate()">
+    <i cn-icon="plus 2x"></i>
   </md-button>
 </div>
 
-<div layout="column">
+<!-- List Templates -->
 
-  <!-- List Templates -->
+<md-grid-list
+    md-cols="7" md-row-height="5:7" md-gutter="20px">
 
-  <md-grid-list
+  <md-grid-tile
+      class="tile"
+      ng-repeat="template in vm.templates"
+      ng-mouseenter="vm.activateTemplate(template)"
+      ng-mouseleave="vm.activeTemplate = null"
+      ng-click="vm.openTemplate(template)">
+
+    <div layout="column" ng-if="vm.activeTemplate == template">
+      <md-button
+          class="md-icon-button"
+          aria-label="Open Template"
+          ng-click="vm.openTemplate(template); $event.stopPropagation()">
+        <md-tooltip md-direction="left">
+          Open
+        </md-tooltip>
+        <i cn-icon="open-in-browser lg"></i>
+      </md-button>
+
+      <md-button
+          class="md-icon-button md-raised"
+          aria-label="Create Card"
+          ng-click="vm.createCard(template); $event.stopPropagation()">
+        <md-tooltip md-direction="left">
+          Create Card
+        </md-tooltip>
+        <i cn-icon="plus lg"></i>
+      </md-button>
+
+      <md-button
+          class="md-icon-button md-raised md-accent"
+          aria-label="Delete Template"
+          ng-click="vm.deleteTemplate(template); $event.stopPropagation()">
+        <md-tooltip md-direction="left">
+          Delete
+        </md-tooltip>
+        <i cn-icon="delete lg"></i>
+      </md-button>
+    </div>
+
+    <md-grid-tile-footer>
+      <h3>{{ template.name }}</h3>
+    </md-grid-tile-footer>
+  </md-grid-tile>
+
+</md-grid-list>
+
+<!-- Cards -->
+
+<div ng-if="vm.cards && vm.cards.length > 0">
+
+  <div layout="row">
+    <div class="md-title" flex>Cards</div>
+    <md-button
+        class="md-fab md-accent" aria-label="Create Card"
+        ng-click="vm.createCard(vm.activeTemplate)">
+      <i cn-icon="plus 2x"></i>
+    </md-button>
+  </div>
+
+  <!-- List Template Cards -->
+
+    <md-grid-list
       md-cols="7" md-row-height="5:7" md-gutter="20px">
 
     <md-grid-tile
-        class="tile" md-ink-ripple
-        ng-repeat="template in vm.templates"
-        ng-click="vm.openTemplate(template, $event)">
+        class="tile"
+        ng-repeat="card in vm.cards"
+        ng-mouseenter="vm.activeCard = card"
+        ng-mouseleave="vm.activeCard = null"
+        ng-click="vm.openCard(card)">
+
+  <!--       <div layout="column" ng-if="vm.activeCard == template">
+        <md-button
+            class="md-icon-button"
+            aria-label="Open Template"
+            ng-click="vm.openTemplate(template); $event.stopPropagation()">
+          <md-tooltip md-direction="left">
+            Open
+          </md-tooltip>
+          <i cn-icon="open-in-browser lg"></i>
+        </md-button>
+
+        <md-button
+            class="md-icon-button md-raised"
+            aria-label="Create Card"
+            ng-click="vm.createCard(template); $event.stopPropagation()">
+          <md-tooltip md-direction="left">
+            Create Card
+          </md-tooltip>
+          <i cn-icon="plus lg"></i>
+        </md-button>
+
+        <md-button
+            class="md-icon-button md-raised md-accent"
+            aria-label="Delete Template"
+            ng-click="vm.deleteTemplate(template); $event.stopPropagation()">
+          <md-tooltip md-direction="left">
+            Delete
+          </md-tooltip>
+          <i cn-icon="delete lg"></i>
+        </md-button>
+      </div> -->
+
       <md-grid-tile-footer>
-        <h3>{{ template.name }}</h3>
+        <h3>{{ card.name }}</h3>
       </md-grid-tile-footer>
     </md-grid-tile>
 
   </md-grid-list>
+
 </div>

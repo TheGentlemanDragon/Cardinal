@@ -1,7 +1,7 @@
 /* Base color variables */
 
 primary = #2196F3
-accent = #795548
+accent = #FF5252
 background = #ececec
 text-dark = #333
 
@@ -20,6 +20,13 @@ html, body
   background-color background
   &:hover
     background-color darken(background, 15%)
+  figure
+    align-items flex-start
+    justify-content flex-end
+  .md-button.md-icon-button
+    margin 8px 8px 0
+    height 44px
+    width 44px
 
 .fab-button-floating
   left 1090px
@@ -31,15 +38,14 @@ md-grid-list + md-grid-list
   margin-top 20px
 
 md-grid-tile
+  cursor hand
   transition background-color 0.1s ease-in-out
   &:hover
     transition background-color 0.2s ease-in-out
 
 .md-title
   margin 15px 0
-
-md-grid-tile
-  cursor hand
+    
 // .header
 //   width 70%
 //   margin 15px auto 20px

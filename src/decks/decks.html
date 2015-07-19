@@ -1,9 +1,14 @@
 
-<md-button
-    class="md-fab md-accent fab-button-floating" aria-label="New Deck"
-    ng-click="vm.newDeck($event)">
-  <i class="mdi mdi-plus medium"></i>
-</md-button>
+<div class="float-container">
+  <md-button
+      class="md-fab md-accent fab-button-floating" aria-label="New Deck"
+      ng-click="vm.newDeck($event)">
+    <i cn-icon="plus 2x"></i>
+    <md-tooltip md-direction="down">
+      New Deck
+    </md-tooltip>
+  </md-button>
+</div>
 
 <div class="md-title">Decks</div>
 

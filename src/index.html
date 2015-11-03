@@ -1,12 +1,15 @@
+<!doctype html>
 <html>
 <head>
   <title>Cardinal</title>
   <base href="/">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <link rel="stylesheet" href="assets/styles/app.css">
+  <link rel="stylesheet" href="app.css">
+  <link rel="stylesheet" href="vendor/angular-material.css">
+<!--
   <link rel="stylesheet" href="assets/styles/fonts.css">
   <link rel="stylesheet" href="assets/styles/material-design-iconic-font.css">
-  <link rel="stylesheet" href="assets/styles/angular-material.min.css">
+-->
 </head>
 
 <body ng-app="cardinal">
@@ -17,19 +20,7 @@
 
   <div class="page-width" ui-view></div>
 
-  <script src="assets/js/vendor.js"></script>
-  <script src="app.js"></script>
-
-  <script src="components/cn-icon.directive.js"></script>
-  <script src="deck/deck.controller.js"></script>
-  <script src="decks/decks.controller.js"></script>
-  <script src="template/template.controller.js"></script>
-  <!--
-  <script src="editor/editorController.js"></script>
-  <script src="editor/layoutController.js"></script>
-  -->
-  <script src="services/data.service.js"></script>
-
+  <script src="bundle.js"></script>
 </body>
 </html>
 

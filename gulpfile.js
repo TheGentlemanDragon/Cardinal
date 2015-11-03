@@ -75,4 +75,4 @@ gulp.task('watch', function () {
   // gulp.watch('./src/**/*.html', [browserSync.reload]);
 });
 
-gulp.task('default', ['js', 'css', 'stylus', 'serve', 'watch']);
+gulp.task('default', ['stylus', 'serve', 'watch']);

@@ -1,0 +1,20 @@
+--2015-11-03 00:18:20--  https://github.com/google/fonts/raw/master/apache/opensans/OpenSans-Semibold.ttf
+Resolving github.com (github.com)... 192.30.252.131
+Connecting to github.com (github.com)|192.30.252.131|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://raw.githubusercontent.com/google/fonts/master/apache/opensans/OpenSans-Semibold.ttf [following]
+--2015-11-03 00:18:20--  https://raw.githubusercontent.com/google/fonts/master/apache/opensans/OpenSans-Semibold.ttf
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 23.235.44.133
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|23.235.44.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 221328 (216K) [application/octet-stream]
+Saving to: ‘OpenSans-Semibold.ttf.1’
+
+     0K .......... .......... .......... .......... .......... 23% 1.70M 0s
+    50K .......... .......... .......... .......... .......... 46% 1.83M 0s
+   100K .......... .......... .......... .......... .......... 69% 11.9M 0s
+   150K .......... .......... .......... .......... .......... 92% 3.13M 0s
+   200K .......... ......                                     100%  139M=0.08s
+
+2015-11-03 00:18:20 (2.81 MB/s) - ‘OpenSans-Semibold.ttf.1’ saved [221328/221328]
+

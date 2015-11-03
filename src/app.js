@@ -1,10 +1,21 @@
 'use strict';
 
+var angular = require('angular');
+
 /* Create and configure application */
 
 angular.module('cardinal', [
-  'ui.router', 'ngMaterial', 'ngResource',
+  require('angular-ui-router'),
+  require('angular-material'),
+  require('angular-resource')
 ])
+
+.controller('DeckController', require('./deck/deck.controller.js'))
+.controller('DecksController', require('./decks/decks.controller.js'))
+.controller('EditorController', require('./editor/editor.controller.js'))
+.controller('TemplateController', require('./template/template.controller.js'))
+.directive('cnIcon', require('./components/cn-icon.directive.js'))
+.factory('DataService', require('./services/data.service.js'))
 
 .config([
   '$urlRouterProvider', '$stateProvider', '$locationProvider', '$mdThemingProvider', Config

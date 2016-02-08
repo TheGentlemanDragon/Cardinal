@@ -1,20 +1,60 @@
+<section layout="row" flex>
 
-<div layout="row">
-  <div class="md-title">{{vm.template.name}}</div>
-</div>
+  <!-- Card Preview -->
 
-<!-- Template properties -->
+  <md-content flex>
+  </md-content>
 
-<md-input-container flex>
-  <label>id</label>
-  <input  type="text" disabled
-          ng-model="vm.template._id">
-</md-input-container>
+  <!-- Rigth Bar -->
 
-<md-input-container flex>
-  <label>Name</label>
-  <input  type="text"
-          ng-model="vm.template.name">
-</md-input-container>
+  <md-sidenav class="md-sidenav-right md-whiteframe-z2"
+              md-is-locked-open="$mdMedia('gt-md')"
+              md-component-id="right">
 
-<md-button class="md-raised md-warn" ng-click="vm.deleteTemplate(vm.template)">Delete</md-button>
+    <!-- Template Properties -->
+
+    <div  class="nav-section-title"
+          ng-click="vm.menu = 'properties'">
+      Properties
+    </div>
+
+    <md-content ng-if="vm.menu === 'properties'"
+                class="nav-section">
+
+      <!-- Template Name -->
+
+      <md-input-container>
+        <label>Name</label>
+        <input  type="text"
+        ng-model="vm.template.name">
+      </md-input-container>
+
+      <!-- Template ID -->
+
+      <md-input-container>
+        <label>id</label>
+        <input  type="text" disabled
+                ng-model="vm.template._id">
+      </md-input-container>
+
+      <md-button  class="md-raised md-warn"
+                  ng-click="vm.deleteTemplate(vm.template)">
+          Delete
+      </md-button>
+    </md-content>
+
+    <!-- Template Layout -->
+
+    <div  class="nav-section-title"
+          ng-click="vm.menu = 'layout'">
+      Layout
+    </div>
+
+    <md-content ng-if="vm.menu === 'layout'"
+                class="nav-section">
+
+      Layout
+    </md-content>
+
+  </md-sidenav>
+</section>

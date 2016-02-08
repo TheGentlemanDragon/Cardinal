@@ -19,6 +19,7 @@ primary = #2196F3
 accent = #FF5252
 background = #ececec
 text-dark = #333
+text-light = #FFF
 
 html, body
   // font-family 'Open Sans'
@@ -50,7 +51,21 @@ html, body
     left 1090px
     top -50px
 
+.nav-section-title, .nav-section
+  padding 10px
+
+.nav-section-title
+  color text-light
+  cursor pointer
+  background-color darken(background, 40%)
+  font-weight bold
+  font-size large
+
+.nav-section
+  background-color background
+
 /* Override styles */
+
 md-grid-list + md-grid-list
   margin-top 20px
 

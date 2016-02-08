@@ -1,18 +1,21 @@
 module.exports = TemplateController;
 
-TemplateController.$inject = ['$state', '$mdDialog', 'DataService'];
+TemplateController.$inject = [
+  '$state', '$mdDialog', '$mdSidenav', 'DataService'
+];
 
-function TemplateController ($state, $mdDialog, DataService) {
+function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
   var vm = this;
   var templates = DataService('templates');
 
   vm.deleteTemplate = deleteTemplate;
+  vm.menu = 'properties';
   vm.template = DataService('templates').get({ id: $state.params.templateId });
 
   function deleteTemplate (template, event) {
     var confirm = $mdDialog.confirm()
       .parent(angular.element(document.body))
-      .title('Are you sure you want to delete \'' + vm.template.name + '\'?')
+      .title(`Are you sure you want to delete '${vm.template.name}'?`)
       .content('You will not be able to undo this action')
       .ariaLabel('Delete Template')
       .ok('Delete')
@@ -28,7 +31,7 @@ function TemplateController ($state, $mdDialog, DataService) {
           console.log(result);
           $state.go('deck', {
             deckId: vm.template.deckId,
-            msg: 'Deleted template "%t"'.replace('%t', vm.template.name)
+            msg: 'Deleted template "${vm.template.name}"'
           });
         });
     }

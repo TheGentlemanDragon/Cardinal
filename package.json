@@ -6,7 +6,7 @@
     "serve": "node ./tasks/browser-sync.js",
     "vendor": "./tasks/vendor.sh",
     "js": "watchify src/app.js -o src/bundle.js --debug",
-    "dev": "npm run js & npm run serve"
+    "dev": "node server & npm run js & npm run serve"
   },
   "repository": {
     "type": "git",
@@ -25,13 +25,13 @@
     "angular-material": "^1.0.1",
     "angular-resource": "^1.4.7",
     "angular-ui-router": "^0.2.15",
-    "browser-sync": "^2.9.11",
     "font-awesome": "^4.4.0",
     "lodash": "^3.10.1",
-    "md-color-picker": "^0.1.0",
     "promised-mongo": "^1.2.0",
     "restify": "^4.0.3",
-    "stylus": "^0.53.0",
-    "tinycolor2": "^1.3.0"
+    "stylus": "^0.53.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.9.11"
   }
 }

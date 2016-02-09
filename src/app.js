@@ -1,5 +1,7 @@
 'use strict';
 
+// Global dependencies
+
 var angular = require('angular');
 
 /* Create and configure application */

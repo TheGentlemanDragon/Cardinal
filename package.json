@@ -25,7 +25,6 @@
     "angular-material": "^1.0.1",
     "angular-resource": "^1.4.7",
     "angular-ui-router": "^0.2.15",
-    "font-awesome": "^4.4.0",
     "lodash": "^3.10.1",
     "promised-mongo": "^1.2.0",
     "restify": "^4.0.3",

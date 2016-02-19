@@ -16,7 +16,6 @@ angular.module('cardinal', [
 .controller('DecksController', require('./decks/decks.controller.js'))
 .controller('EditorController', require('./editor/editor.controller.js'))
 .controller('TemplateController', require('./template/template.controller.js'))
-.directive('cnIcon', require('./components/cn-icon.directive.js'))
 .factory('DataService', require('./services/data.service.js'))
 
 .config([

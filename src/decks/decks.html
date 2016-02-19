@@ -3,7 +3,7 @@
   <md-button
       class="md-fab md-accent fab-button-floating" aria-label="New Deck"
       ng-click="vm.newDeck($event)">
-    <i cn-icon="plus 2x"></i>
+    <md-icon class="md-36">add</md-icon>
     <md-tooltip md-direction="down">
       New Deck
     </md-tooltip>
@@ -22,5 +22,5 @@
       ng-click="vm.openDeck(deck, $event)">
     <md-grid-tile-footer><h3>{{ deck.name }}</h3></md-grid-tile-footer>
   </md-grid-tile>
-  
+
 </md-grid-list>

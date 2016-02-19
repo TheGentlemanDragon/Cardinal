@@ -2,4 +2,5 @@
 bower_components
 node_modules
 *.css
-src/lib/vendor.js
+src/vendor
+src/bundle.js

@@ -1,10 +1,7 @@
 'use strict';
 
-// Global dependencies
-
-var angular = require('angular');
-
 /* Create and configure application */
+var angular = require('angular');
 
 angular.module('cardinal', [
   require('angular-ui-router'),

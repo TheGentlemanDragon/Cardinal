@@ -2,12 +2,25 @@
 
   <!-- Card Preview -->
 
-  <md-content flex>
+  <md-content layout="column" layout-align="center center" flex>
+
+    <!-- Card -->
+
+    <div  class="card"
+          layout="column">
+      <div  class="element"
+            ng-repeat="element in vm.elements"
+            ng-style="element.styleObj">
+        {{ Test }}
+      </div>
+    </div>
+
   </md-content>
 
   <!-- Rigth Bar -->
 
-  <md-sidenav class="md-sidenav-right md-whiteframe-z2"
+  <md-sidenav class="md-sidenav-right md-whiteframe-z2 template-nav"
+              layout="column"
               md-is-locked-open="$mdMedia('gt-md')"
               md-component-id="right">
 
@@ -18,16 +31,16 @@
       Properties
     </div>
 
-    <md-content ng-if="vm.menu === 'properties'"
+    <md-content class="nav-section"
                 layout="column"
-                class="nav-section">
+                ng-if="vm.menu === 'properties'">
 
       <!-- Template Name -->
 
       <md-input-container>
         <label>Name</label>
         <input  type="text"
-        ng-model="vm.template.name">
+                ng-model="vm.template.name">
       </md-input-container>
 
       <!-- Template ID -->
@@ -51,8 +64,128 @@
       Layout
     </div>
 
-    <md-content ng-if="vm.menu === 'layout'"
-                class="nav-section">
+    <!-- Element Actions -->
+
+    <md-content class="nav-section"
+                ng-if="vm.menu === 'layout'">
+
+      <!-- Add Element -->
+
+      <md-button  class="md-icon-button md-primary"
+                  ng-click="vm.addElement()">
+        <md-icon>add_box</md-icon>
+      </md-button>
+
+      <!-- Delete Element -->
+
+      <md-button  class="md-icon-button md-primary"
+                  ng-if="vm.elements.length"
+                  ng-click="vm.deleteElement()">
+        <md-icon>delete</md-icon>
+      </md-button>
+
+      <!-- Select Element -->
+
+      <md-menu ng-if="vm.elements.length">
+
+        <md-button  class="md-icon-button"
+                    ng-click="$mdOpenMenu($event)">
+          <md-icon>check_box_outline_blank</md-icon>
+        </md-button>
+
+        {{ vm.element.name }}
+
+        <md-menu-content width="3">
+          <md-menu-item ng-repeat="element in vm.elements">
+            <md-button ng-click="vm.selectElement($index)">
+              {{ element.name }}
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </md-content>
+
+    <!-- Element Properties -->
+
+    <md-content class="nav-section"
+                layout="column"
+                ng-if="vm.elements.length">
+
+      <!-- Element Name -->
+
+      <md-input-container>
+        <label>Name</label>
+        <input  type="text"
+                ng-model="vm.element.name">
+      </md-input-container>
+
+      <!-- Location -->
+
+      <div layout="row">
+
+        <md-input-container class="md-icon-float md-icon-right md-block">
+          <label>Left</label>
+          <input ng-model="vm.element.style.left" type="number" step="0.1">
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <md-select  ng-model="vm.element.units.left"
+                      aria-label="Left Unit">
+            <md-option ng-repeat="unit in ['px', '%']" value="{{ unit }}">
+              {{ unit }}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <div layout="row">
+
+        <md-input-container class="md-icon-float md-icon-right md-block">
+          <label>Top</label>
+          <input ng-model="vm.element.style.top" type="number" step="0.01">
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <md-select  ng-model="vm.element.units.top"
+                      aria-label="Top Unit">
+            <md-option ng-repeat="unit in ['px', '%']" value="{{ unit }}">
+              {{ unit }}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <!-- Dimensions -->
+
+      <div layout="row">
+
+        <md-input-container class="md-icon-float md-icon-right md-block">
+          <label>Width</label>
+          <input ng-model="vm.element.style.width" type="number" step="0.01">
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <md-select  ng-model="vm.element.units.width"
+                      aria-label="Width Unit">
+            <md-option ng-repeat="unit in ['px', '%']" value="{{ unit }}">
+              {{ unit }}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+
+      <div layout="row">
+
+        <md-input-container class="md-icon-float md-icon-right md-block">
+          <label>Height</label>
+          <input ng-model="vm.element.style.height" type="number" step="0.01">
+        </md-input-container>
+        <md-input-container class="md-block" flex-gt-sm>
+          <md-select  ng-model="vm.element.units.height"
+                      aria-label="Height Unit">
+            <md-option ng-repeat="unit in ['px', '%']" value="{{ unit }}">
+              {{ unit }}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
 
     </md-content>
 

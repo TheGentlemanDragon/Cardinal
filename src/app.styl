@@ -14,9 +14,9 @@
 //   font-style normal
 
 md-icon.md-36
-    font-size 36px
-    width 36px
-    height 36px
+  font-size 36px
+  width 36px
+  height 36px
 
 /* Base color variables */
 
@@ -39,11 +39,14 @@ html, body
 
 .tile
   background-color background
+
   &:hover
     background-color darken(background, 15%)
+
   figure
     align-items flex-start
     justify-content flex-end
+
   .md-button.md-icon-button
     margin 8px 8px 0
     height 44px
@@ -65,12 +68,41 @@ html, body
   background-color darken(background, 40%)
   font-weight bold
   font-size large
+  outline none
 
 .nav-section
   background-color background
 
   md-input-container
     margin-bottom -6px
+
+.template-nav
+  height 0%
+
+
+/* Card */
+
+.card
+  width 375px
+  height 525px
+  border-radius 15px
+  box-shadow 0px 0px 10px 0px rgba(0, 0, 0, 0.5)
+
+.element
+  position 'relative'
+  border-radius 3px
+  animation-duration 0.7s
+  animation-name pulse
+  animation-iteration-count infinite
+  animation-direction alternate
+
+
+@keyframes pulse
+  from
+    box-shadow 0px 0px 3px 1px primary
+
+  to
+    box-shadow 0px 0px 3px 0px primary
 
 /* Override styles */
 

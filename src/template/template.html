@@ -7,11 +7,15 @@
     <!-- Card -->
 
     <div  class="card"
-          layout="column">
-      <div  class="element"
-            ng-repeat="element in vm.elements"
-            ng-style="element.styleObj">
-        {{ Test }}
+          layout="column"
+          style="transform: scale({{ vm.zoom }})">
+      <div  ng-repeat="element in vm.elements"
+            ng-style="element.styleContainer">
+
+        <div  ng-class="{ selected: element === vm.element, element: element.styleObj != '' }"
+              ng-style="element.styleElement">
+        </div>
+
       </div>
     </div>
 
@@ -64,9 +68,26 @@
       Layout
     </div>
 
-    <!-- Element Actions -->
+    <!-- Zoom Slider -->
 
     <md-content class="nav-section"
+                layout="row"
+                ng-if="vm.menu === 'layout'">
+
+      <div flex="20" layout layout-align="center center">
+        <span class="md-body-1">Zoom</span>
+      </div>
+      <md-slider  class="md-primary"
+                  ng-model="vm.zoom"
+                  step="0.05" min="1" max="3"
+                  aria-label="zooom"
+                  flex>
+      </md-slider>
+    </md-content>
+
+    <!-- Element Actions -->
+
+    <md-content class="nav-section nav-buttons"
                 ng-if="vm.menu === 'layout'">
 
       <!-- Add Element -->
@@ -125,7 +146,7 @@
 
         <md-input-container class="md-icon-float md-icon-right md-block">
           <label>Left</label>
-          <input ng-model="vm.element.style.left" type="number" step="0.1">
+          <input ng-model="vm.element.container.left" type="number" step="1">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
           <md-select  ng-model="vm.element.units.left"
@@ -141,7 +162,7 @@
 
         <md-input-container class="md-icon-float md-icon-right md-block">
           <label>Top</label>
-          <input ng-model="vm.element.style.top" type="number" step="0.01">
+          <input ng-model="vm.element.container.top" type="number" step="1">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
           <md-select  ng-model="vm.element.units.top"
@@ -159,7 +180,7 @@
 
         <md-input-container class="md-icon-float md-icon-right md-block">
           <label>Width</label>
-          <input ng-model="vm.element.style.width" type="number" step="0.01">
+          <input ng-model="vm.element.style.width" type="number" step="1">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
           <md-select  ng-model="vm.element.units.width"
@@ -175,7 +196,7 @@
 
         <md-input-container class="md-icon-float md-icon-right md-block">
           <label>Height</label>
-          <input ng-model="vm.element.style.height" type="number" step="0.01">
+          <input ng-model="vm.element.style.height" type="number" step="1">
         </md-input-container>
         <md-input-container class="md-block" flex-gt-sm>
           <md-select  ng-model="vm.element.units.height"
@@ -188,6 +209,8 @@
       </div>
 
     </md-content>
+
+    <div layout="row"></div>
 
   </md-sidenav>
 </section>

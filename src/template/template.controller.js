@@ -14,12 +14,18 @@ function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
   class element {
     constructor (index) {
       this.name = 'element';
-      this.style = {
+      this.container = {
+        position: 'relative',
+        width: 0,
+        height: 0,
         left: null,
-        top: null,
+        top: null
+      };
+      this.style = {
+        position: 'absolute',
+        'font-size': 12,
         width: null,
-        height: null,
-        'font-size': 12
+        height: null
       };
       this.units = {
         left: 'px',
@@ -33,21 +39,25 @@ function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
       this.content = '';
     }
 
-    get styleObj() {
-      if (!_.every(this.style) || !_.every(this.units)) {
-        return '';
-      }
-
-      return _.transform(this.units, (result, value, key) => {
-        result[key] = this.style[key] + value;
+    get styleElement() {
+      return _.transform(this.style, (result, value, key) => {
+        result[key] = value + (value && this.units[key] ? this.units[key] : '');
       }, {});
     }
+
+    get styleContainer() {
+      return _.transform(this.container, (result, value, key) => {
+        result[key] = value + (value && this.units[key] ? this.units[key] : '');
+      }, {});
+    }
+
   };
 
   vm.elements = [];
   vm.menu = 'layout';
   vm.element = null;
   vm.template = DataService('templates').get({ id: $state.params.templateId });
+  vm.zoom = 1;
 
   vm.addElement = addElement;
   vm.deleteTemplate = deleteTemplate;

@@ -9,7 +9,6 @@ TemplateController.$inject = [
 function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
   var _ = require('lodash');
   var vm = this;
-  var templates = DataService('templates');
 
   class element {
     constructor (index) {
@@ -18,14 +17,14 @@ function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
         position: 'relative',
         width: 0,
         height: 0,
-        left: null,
-        top: null
+        left: 10,
+        top: 10
       };
       this.style = {
         position: 'absolute',
         'font-size': 12,
-        width: null,
-        height: null
+        width: 60,
+        height: 20
       };
       this.units = {
         left: 'px',
@@ -35,8 +34,8 @@ function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
         'font-size': 'px'
       };
       this.attributes = {};
-      this.type = 'text';
-      this.content = '';
+      this.content = 'text';
+      this.layer = 'float';
     }
 
     get styleElement() {
@@ -53,20 +52,27 @@ function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
 
   };
 
-  vm.elements = [];
-  vm.menu = 'layout';
+  vm.cards = DataService('cards').search({ templateId: $state.params.templateId });
   vm.element = null;
+  vm.elements = [];
+  vm.menu = 'properties';
   vm.template = DataService('templates').get({ id: $state.params.templateId });
-  vm.zoom = 1;
+  vm.zoom = getZoom() || 1;
 
   vm.addElement = addElement;
   vm.deleteTemplate = deleteTemplate;
+  vm.saveZoom = saveZoom;
   vm.selectElement = selectElement;
+
+  vm.cards.$promise.then(function(cards) {
+    vm.card = cards[0];
+  });
 
   function addElement () {
     var newElement = new element(vm.elements.length);
     vm.elements.push(newElement);
     selectElement(vm.elements.length - 1);
+    focusElement('[ng-model="vm.element.name"]');
   }
 
   function deleteTemplate (template, event) {
@@ -98,7 +104,28 @@ function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
     }
   }
 
+  function focusElement (element) {
+    var element = element;
+    window.setTimeout(() => {
+      element = document.querySelector(element);
+      element.setSelectionRange(0, element.value.length)
+    }, 100);
+  }
+
+  function getZoom () {
+    return parseFloat(localStorage.getItem('zoom'));
+  }
+
+  function saveZoom (zoom) {
+    localStorage.setItem('zoom', zoom);
+  }
+
   function selectElement (index) {
     vm.element = vm.elements[index];
+
+    if (!vm.card) {
+      vm.card = vm.cards[0];
+    }
   }
+
 }

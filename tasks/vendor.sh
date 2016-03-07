@@ -6,3 +6,4 @@ mkdir -p ./src/vendor/fonts
 cp ./node_modules/angular-material/angular-material.css ./src/vendor/
 
 wget https://github.com/google/fonts/raw/master/apache/opensans/OpenSans-Semibold.ttf -P src/vendor/fonts
+# wget https://apis.google.com/js/platform.js -P src/vendor

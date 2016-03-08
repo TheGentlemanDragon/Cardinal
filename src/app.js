@@ -14,18 +14,21 @@ angular.module('cardinal', [
 .controller('EditorController', require('./editor/editor.controller.js'))
 .controller('LoginController', require('./login/login.controller.js'))
 .controller('TemplateController', require('./template/template.controller.js'))
-.service('DataService', require('./services/data.service.js'))
+
+.directive('cnSignIn', require('./components/sign-in.directive.js'))
+
 .service('AuthService', require('./services/auth.service.js'))
+.service('DataService', require('./services/data.service.js'))
 
 .config([
-  '$urlRouterProvider', '$stateProvider', '$locationProvider', '$mdThemingProvider', Config
+  '$locationProvider', '$mdThemingProvider', '$stateProvider', '$urlRouterProvider', Config
 ])
 
 .run([
-  '$mdToast', '$rootScope', '$state', '$stateParams', 'AuthService', Run
+  '$mdToast', '$rootScope', '$state', 'AuthService', Run
 ]);
 
-function Config ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemingProvider) {
+function Config ($locationProvider, $mdThemingProvider, $stateProvider, $urlRouterProvider) {
 
   $locationProvider.html5Mode(false);
 
@@ -34,7 +37,10 @@ function Config ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
     .state('login', {
       url: '/login',
       templateUrl: 'login/login.html',
-      controller: 'LoginController as vm'
+      controller: 'LoginController as vm',
+      params: {
+        reroute: undefined
+      }
     })
 
     .state('decks', {
@@ -87,10 +93,11 @@ function Config ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
       .warnPalette('red');
 }
 
-function Run ($mdToast, $rootScope, $state, $stateParams, AuthService) {
-  // App initialization stuff here
+// App initialization stuff here
+function Run ($mdToast, $rootScope, $state, AuthService) {
   var authenticated = false;
 
+  // Add a convenience method for Toasts
   $mdToast.notify = function (msg) {
     $mdToast.show($mdToast
       .simple()
@@ -99,28 +106,16 @@ function Run ($mdToast, $rootScope, $state, $stateParams, AuthService) {
     );
   };
 
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    // console.log('event', event);
-    // console.log('toState', toState);
-    // console.log('toParams', toParams);
-    // console.log('fromState', fromState);
-    // console.log('fromParams', fromParams);
-
+  // Check for Authentication prior to each route call
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
     if (toState.name === 'login') {
       return;
     }
 
     if (!AuthService.isAuthenticated) {
       event.preventDefault()
-      $state.go('login', { destination: { name: toState.name, params: toParams }})
-    }
-    // transitionTo() promise will be rejected with
-    // a 'transition prevented' error
-  });
-
-  $rootScope.$on('$viewContentLoaded', function (event) {
-    if (toState.name === 'login') {
-      $rootScope.loginLoaded = true;
+      toParams.state = toState.name;
+      $state.go('login', { reroute: toParams } )
     }
   });
 

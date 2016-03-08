@@ -7,13 +7,14 @@ exports.log = function (msg) {
   console.log(msg);
 };
 
-exports.logRequest = function (req) {
+exports.logRequest = function (req, res, next) {
   var body = '';
   if (req.body) {
     body += JSON.stringify(req.body);
   }
-  
+
   console.log(util.format(' - %s %s %s', req.method, req.url, body));
+  return next();
 };
 
 exports.applySchema = function (obj, schema) {
@@ -42,6 +43,7 @@ exports.applySchema = function (obj, schema) {
       return { error: 'Missing required fields:' + missing.join(', ') };
     }
   }
+
   return { error: false };
 };
 

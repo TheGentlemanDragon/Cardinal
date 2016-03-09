@@ -9,13 +9,13 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
-<body ng-app="cardinal">
+<body ng-app="cardinal" layout="column">
 
   <md-toolbar class="md-medium-tall">
     <div class="title md-display-1 page-width">Cardinal</div>
   </md-toolbar>
 
-  <div class="page-width" ui-view></div>
+  <div class="page-width" ui-view layout="column" flex></div>
 
   <script src="bundle.js"></script>
 </body>

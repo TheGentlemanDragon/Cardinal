@@ -1,0 +1,47 @@
+module.exports = LoginController;
+
+LoginController.$inject = ['$state', '$stateParams', 'AuthService'];
+
+function LoginController ($state, $stateParams, AuthService) {
+  var vm = this;
+
+  vm.onSignIn = onSignIn;
+  vm.signOut = signOut;
+
+  function onSignIn (googleUser) {
+    var profile = googleUser.getBasicProfile();
+
+    AuthService.isAuthenticated = true;
+    AuthService.user = {
+      id: profile.getId(),
+      name: profile.getName(),
+      email: profile.getEmail(),
+      imageUrl: profile.getImageUrl()
+    };
+
+    var goTo = $stateParams.reroute.state;
+    delete $stateParams.state;
+    $state.go(goTo, $stateParams.reroute);
+  }
+
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      $state.go('login');
+    });
+  }
+
+  // var localVar = {};
+  //
+  // vm.scopeFunction = localFuntion;
+  // vm.scopeVar = [];
+  //
+  // activate()
+  //
+  // function activate() {
+  //   if ($state.params.msg) {
+  //     $mdToast.notify($state.params.msg);
+  //   }
+  // }
+
+}

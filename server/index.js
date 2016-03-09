@@ -8,20 +8,27 @@ var error = helpers.error;
 var db = mongo('localhost/cardinal');
 
 function authenticate (req, res, next) {
+  if (!req.params.userId) {
+    res.send(401, 'You must supply a \'userId\' to make a request.');
+  }
   return next();
 }
 
 var server = restify.createServer();
 
+server.use(restify.bodyParser());
+server.use(restify.queryParser());
+server.use(restify.CORS());
 server.use(authenticate);
-server.use(restify.bodyParser({ mapParams: false }));
-server.use(
-  function crossOrigin (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-    return next();
-  }
-);
+server.use(logRequest);
+// server.use(
+//   function crossOrigin (req, res, next) {
+//     res.header('Access-Control-Allow-Origin', 'http://localhost:3000/');
+//     res.header('Access-Control-Allow-Headers', 'Accept, Content-Type, Credential');
+//     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
+//     return next();
+//   }
+// );
 
 // Create set of REST CRUD functions based on mongo DB collection name
 function createHandlers(collectionName, schema) {
@@ -30,10 +37,9 @@ function createHandlers(collectionName, schema) {
   // Get document array by query
   server.post('/' + collectionName + '/search',
     function (req, res, next) {
-      logRequest(req);
 
       collection
-        .find(req.body)
+        .find(req.params)
         .toArray()
         .then(function (docs) {
           res.send(200, docs);
@@ -45,9 +51,8 @@ function createHandlers(collectionName, schema) {
   // Create new document
   server.post('/' + collectionName,
     function (req, res, next) {
-      logRequest(req);
 
-      var result = applySchema(req.body, schema);
+      var result = applySchema(req.params, schema);
 
       if (result.error) {
         res.send(400, result.error);
@@ -55,7 +60,7 @@ function createHandlers(collectionName, schema) {
       }
 
       collection
-        .insert(req.body)
+        .insert(req.params)
         .then(function (doc) {
           res.send(201, doc);
         }, error);
@@ -66,10 +71,12 @@ function createHandlers(collectionName, schema) {
   // Get document by id
   server.get('/' + collectionName + '/:id',
     function (req, res, next) {
-      logRequest(req);
+      req.params._id = mongo.ObjectId(req.params.id);
+      delete req.params.id;
+      console.log(req.params);
 
       collection
-        .findOne({ _id: mongo.ObjectId(req.params.id) })
+        .findOne(req.params)
         .then(function (doc) {
           res.send(200, doc);
         }, error);
@@ -80,9 +87,8 @@ function createHandlers(collectionName, schema) {
   // Update document by id
   server.post('/' + collectionName + '/:id',
     function (req, res, next) {
-      logRequest(req);
 
-      var result = applySchema(req.body, schema);
+      var result = applySchema(req.params, schema);
 
       if (result.error) {
         res.send(400, result.error);
@@ -92,7 +98,7 @@ function createHandlers(collectionName, schema) {
       collection
         .findAndModify({
           query: { _id: mongo.ObjectId(req.params.id) },
-          update: { '$set': req.body }
+          update: { '$set': req.params }
         })
         .then(function (doc) {
           res.send(200);
@@ -104,7 +110,6 @@ function createHandlers(collectionName, schema) {
   // Delete document by id
   server.del('/' + collectionName + '/:id',
     function (req, res, next) {
-      logRequest(req);
 
       collection
         .remove({ _id: mongo.ObjectId(req.params.id) })
@@ -117,21 +122,25 @@ function createHandlers(collectionName, schema) {
 }
 
 var deckSchema = {
+  _required: ['userId'],
   name: 'New Deck',
-  description: ''
+  userId: null,
+  description: '',
 };
 
 var templateSchema = {
-  _required: ['deckId'],
+  _required: ['userId', 'deckId'],
   name: 'New Template',
+  userId: null,
   deckId: '',
   fields: [],
   elements: []
 };
 
 var cardSchema = {
-  _required: ['templateId', 'deckId'],
+  _required: ['userId', 'templateId', 'deckId'],
   name: 'New Card',
+  userId: null,
   templateId: '',
   deckId: '',
   data: {}

@@ -12,23 +12,37 @@ angular.module('cardinal', [
 .controller('DeckController', require('./deck/deck.controller.js'))
 .controller('DecksController', require('./decks/decks.controller.js'))
 .controller('EditorController', require('./editor/editor.controller.js'))
+.controller('LoginController', require('./login/login.controller.js'))
 .controller('TemplateController', require('./template/template.controller.js'))
-.factory('DataService', require('./services/data.service.js'))
+
+.directive('cnSignIn', require('./components/sign-in.directive.js'))
+
+.service('AuthService', require('./services/auth.service.js'))
+.service('DataService', require('./services/data.service.js'))
 
 .config([
-  '$urlRouterProvider', '$stateProvider', '$locationProvider', '$mdThemingProvider', Config
+  '$locationProvider', '$mdThemingProvider', '$stateProvider', '$urlRouterProvider', Config
 ])
 
 .run([
-  '$mdToast', Run
+  '$mdToast', '$rootScope', '$state', 'AuthService', Run
 ]);
 
-function Config ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemingProvider) {
+function Config ($locationProvider, $mdThemingProvider, $stateProvider, $urlRouterProvider) {
 
   $locationProvider.html5Mode(false);
 
   // Set routes
   $stateProvider
+    .state('login', {
+      url: '/login',
+      templateUrl: 'login/login.html',
+      controller: 'LoginController as vm',
+      params: {
+        reroute: undefined
+      }
+    })
+
     .state('decks', {
       url: '/decks',
       templateUrl: 'decks/decks.html',
@@ -79,9 +93,11 @@ function Config ($urlRouterProvider, $stateProvider, $locationProvider, $mdThemi
       .warnPalette('red');
 }
 
-function Run ($mdToast) {
-  // App initialization stuff here
+// App initialization stuff here
+function Run ($mdToast, $rootScope, $state, AuthService) {
+  var authenticated = false;
 
+  // Add a convenience method for Toasts
   $mdToast.notify = function (msg) {
     $mdToast.show($mdToast
       .simple()
@@ -89,20 +105,34 @@ function Run ($mdToast) {
       .position('bottom left')
     );
   };
+
+  // Check for Authentication prior to each route call
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    if (toState.name === 'login') {
+      return;
+    }
+
+    if (!AuthService.isAuthenticated) {
+      event.preventDefault()
+      toParams.state = toState.name;
+      $state.go('login', { reroute: toParams } )
+    }
+  });
+
 }
 
 
 /* Global utilities */
 
-function generateUUID () {
-  var d = new Date().getTime();
-  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-  });
-  return uuid;
-}
+// function generateUUID () {
+//   var d = new Date().getTime();
+//   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+//     var r = (d + Math.random() * 16) % 16 | 0;
+//     d = Math.floor(d / 16);
+//     return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+//   });
+//   return uuid;
+// }
 
 // function stripPromise (promise) {
 //   var result = {};

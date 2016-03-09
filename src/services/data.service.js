@@ -1,8 +1,8 @@
 module.exports = DataService;
 
-DataService.$inject = ['$resource'];
+DataService.$inject = ['$resource', 'AuthService'];
 
-function DataService ($resource) {
+function DataService ($resource, AuthService) {
 
   // Cached resources for use as singletons
   var resources = {};
@@ -18,7 +18,7 @@ function DataService ($resource) {
     if (!(resource in resources)) {
       resources[resource] = $resource(
         'http://localhost:8888/' + resource + '/:id',
-        { id: '@_id' },
+        { id: '@_id', userId: AuthService.user.id },
         {
           search: { method: 'POST', params: { id: 'search' }, isArray: true }
         }

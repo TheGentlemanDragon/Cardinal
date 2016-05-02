@@ -54,25 +54,31 @@ function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
 
   vm.cards = DataService('cards').search({ templateId: $state.params.templateId });
   vm.element = null;
-  vm.elements = [];
   vm.menu = 'properties';
   vm.template = DataService('templates').get({ id: $state.params.templateId });
+  // vm.template.elements = vm.template.elements || [];
   vm.zoom = getZoom() || 1;
 
   vm.addElement = addElement;
   vm.deleteTemplate = deleteTemplate;
   vm.saveZoom = saveZoom;
   vm.selectElement = selectElement;
+  vm.saveTemplate = saveTemplate;
 
-  vm.cards.$promise.then(function(cards) {
+  vm.cards.$promise.then(cards => {
     vm.card = cards[0];
   });
 
+  vm.template.$promise.then(template => {
+    console.log(template);
+  });
+
   function addElement () {
-    var newElement = new element(vm.elements.length);
-    vm.elements.push(newElement);
-    selectElement(vm.elements.length - 1);
+    var newElement = new element(vm.template.elements.length);
+    vm.template.elements.push(newElement);
+    selectElement(vm.template.elements.length - 1);
     focusElement('[ng-model="vm.element.name"]');
+    vm.saveTemplate();
   }
 
   function deleteTemplate (template, event) {
@@ -116,12 +122,16 @@ function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
     return parseFloat(localStorage.getItem('zoom'));
   }
 
+  function saveTemplate () {
+    vm.template.$save();
+  }
+
   function saveZoom (zoom) {
     localStorage.setItem('zoom', zoom);
   }
 
   function selectElement (index) {
-    vm.element = vm.elements[index];
+    vm.element = vm.template.elements[index];
 
     if (!vm.card) {
       vm.card = vm.cards[0];

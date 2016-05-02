@@ -9,7 +9,7 @@
     <div  class="card"
           layout="column"
           style="transform: scale({{ vm.zoom }})">
-      <div  ng-repeat="element in vm.elements"
+      <div  ng-repeat="element in vm.template.elements"
             ng-style="element.styleContainer">
 
         <div  class="element-content"
@@ -107,10 +107,10 @@
         <!-- Select Element -->
 
         <md-input-container   class="no-top-margin"
-                              ng-if="vm.elements.length">
+                              ng-if="vm.template.elements.length">
           <md-select  ng-model="vm.element"
                       aria-label="Select Unit">
-            <md-option ng-repeat="el in vm.elements" ng-value="el">
+            <md-option ng-repeat="el in vm.template.elements" ng-value="el">
               {{ el.name }}
             </md-option>
           </md-select>
@@ -119,7 +119,7 @@
         <!-- Delete Element -->
 
         <md-button  class="md-icon-button md-primary"
-                    ng-if="vm.elements.length"
+                    ng-if="vm.template.elements.length"
                     ng-click="vm.deleteElement()">
         <md-icon>delete</md-icon>
       </md-button>
@@ -130,7 +130,7 @@
 
       <div  class="nav-section element-attributes"
             layout="column"
-            ng-if="vm.elements.length">
+            ng-if="vm.template.elements.length">
 
         <!-- Element Name -->
 
@@ -309,7 +309,7 @@
                 ng-model="vm.card.name">
       </md-input-container>
 
-      <div ng-repeat="element in vm.elements">
+      <div ng-repeat="element in vm.template.elements">
         <md-input-container class="no-bottom-margin">
           <label>{{ element.name }}</label>
           <input ng-model="vm.card.data[element.name]">

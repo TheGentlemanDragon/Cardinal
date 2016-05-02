@@ -8,55 +8,13 @@ TemplateController.$inject = [
 
 function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
   var _ = require('lodash');
+  var Element = require('./element.class')
   var vm = this;
-
-  class element {
-    constructor (index) {
-      this.name = 'element';
-      this.container = {
-        position: 'relative',
-        width: 0,
-        height: 0,
-        left: 10,
-        top: 10
-      };
-      this.style = {
-        position: 'absolute',
-        'font-size': 12,
-        width: 60,
-        height: 20
-      };
-      this.units = {
-        left: 'px',
-        top: 'px',
-        width: 'px',
-        height: 'px',
-        'font-size': 'px'
-      };
-      this.attributes = {};
-      this.content = 'text';
-      this.layer = 'float';
-    }
-
-    get styleElement() {
-      return _.transform(this.style, (result, value, key) => {
-        result[key] = value + (value && this.units[key] ? this.units[key] : '');
-      }, {});
-    }
-
-    get styleContainer() {
-      return _.transform(this.container, (result, value, key) => {
-        result[key] = value + (value && this.units[key] ? this.units[key] : '');
-      }, {});
-    }
-
-  };
 
   vm.cards = DataService('cards').search({ templateId: $state.params.templateId });
   vm.element = null;
-  vm.menu = 'properties';
+  vm.menu = 'layout';
   vm.template = DataService('templates').get({ id: $state.params.templateId });
-  // vm.template.elements = vm.template.elements || [];
   vm.zoom = getZoom() || 1;
 
   vm.addElement = addElement;
@@ -70,15 +28,36 @@ function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
   });
 
   vm.template.$promise.then(template => {
-    console.log(template);
+    // Elements are stored as normal JS objects; cast them into Element class types
+    template.elements.forEach((item, index, array) => {
+      array[index] = Object.assign(new Element(), item);
+    })
+    selectElement(0);
   });
 
   function addElement () {
-    var newElement = new element(vm.template.elements.length);
+    var newElement = new Element();
     vm.template.elements.push(newElement);
     selectElement(vm.template.elements.length - 1);
     focusElement('[ng-model="vm.element.name"]');
     vm.saveTemplate();
+  }
+
+  // TODO: Return changed values
+  // TODO: Create API Patch to update only changes
+  // TODO: Add Patch to data service
+  function compareObjects (obj1, obj2) {
+    _.merge(obj1, obj2, (objectValue, sourceValue, key, object, source) => {
+      var diffValue = !_.isEqual(objectValue, sourceValue);
+      var diffReference = Object(objectValue) !== objectValue;
+      if (diffValue && diffReference) {
+        console.log(key + "\n    Expected: " + sourceValue + "\n    Actual: " + objectValue);
+      }
+    });
+  }
+
+  function deleteElement () {
+
   }
 
   function deleteTemplate (template, event) {

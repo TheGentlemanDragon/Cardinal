@@ -1,3 +1,15 @@
+<div class="float-container">
+  <md-button
+      class="md-fab md-accent fab-button-floating"
+      aria-label="Save Template"
+      ng-click="vm.template.$save()">
+    <md-icon class="md-36">save</i>
+    <md-tooltip md-direction="down">
+      Save Template
+    </md-tooltip>
+  </md-button>
+</div>
+
 <section layout="row" flex>
 
   <!-- Card Preview -->
@@ -10,7 +22,8 @@
           layout="column"
           style="transform: scale({{ vm.zoom }})">
       <div  ng-repeat="element in vm.template.elements"
-            ng-style="element.styleContainer">
+            ng-style="element.styleContainer"
+            ng-click="vm.selectElement($index)">
 
         <div  class="element-content"
               ng-class="{ selected: element === vm.element, element: element.styleObj != '' }"
@@ -57,6 +70,8 @@
         <input  type="text" disabled
                 ng-model="vm.template._id">
       </md-input-container>
+
+      <!-- Delete Template -->
 
       <md-button  class="md-raised md-warn"
                   ng-click="vm.deleteTemplate(vm.template)">
@@ -119,10 +134,10 @@
         <!-- Delete Element -->
 
         <md-button  class="md-icon-button md-primary"
-                    ng-if="vm.template.elements.length"
+                    ng-if="vm.element"
                     ng-click="vm.deleteElement()">
-        <md-icon>delete</md-icon>
-      </md-button>
+          <md-icon>delete</md-icon>
+        </md-button>
 
       </div>
 

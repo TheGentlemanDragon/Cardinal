@@ -9,16 +9,7 @@ function LoginController ($state, $stateParams, AuthService) {
   vm.signOut = signOut;
 
   function onSignIn (googleUser) {
-    var profile = googleUser.getBasicProfile();
-
-    AuthService.isAuthenticated = true;
-    AuthService.user = {
-      id: profile.getId(),
-      name: profile.getName(),
-      email: profile.getEmail(),
-      imageUrl: profile.getImageUrl()
-    };
-
+    AuthService.authenticate(googleUser.getBasicProfile());
     var goTo = $stateParams.reroute.state;
     delete $stateParams.state;
     $state.go(goTo, $stateParams.reroute);

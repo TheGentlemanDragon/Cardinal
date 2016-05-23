@@ -26,8 +26,8 @@
     "angular-resource": "^1.4.7",
     "angular-ui-router": "^0.2.15",
     "lodash": "^4.5.0",
-    "promised-mongo": "^1.2.0",
-    "restify": "^4.0.3",
+    "mongodb": "^2.1.19",
+    "restify": "^4.0.4",
     "stylus": "^0.53.0"
   },
   "devDependencies": {

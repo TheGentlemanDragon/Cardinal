@@ -1,11 +1,12 @@
+var url = 'mongodb://localhost:27017/cardinal';
+
 var restify = require('restify');
-var mongo = require('promised-mongo');
+var mongo = require('mongodb').MongoClient.connect(url);
 var helpers = require('./helpers.js');
 
 var logRequest = helpers.logRequest;
 var applySchema = helpers.applySchema;
 var error = helpers.error;
-var db = mongo('localhost/cardinal');
 
 function authenticate (req, res, next) {
   if (!req.params.userId) {
@@ -32,18 +33,17 @@ server.use(logRequest);
 
 // Create set of REST CRUD functions based on mongo DB collection name
 function createHandlers(collectionName, schema) {
-  var collection = db.collection(collectionName);
 
   // Get document array by query
   server.post('/' + collectionName + '/search',
     function (req, res, next) {
-
-      collection
-        .find(req.params)
-        .toArray()
-        .then(function (docs) {
-          res.send(200, docs);
-        }, error);
+      mongo.then( db =>
+        db.collection(collectionName)
+          .find(req.params)
+          .toArray()
+        )
+        .then( docs => res.send(200, docs) )
+        .catch(error);
       return next();
     }
   );
@@ -59,11 +59,12 @@ function createHandlers(collectionName, schema) {
         return next();
       }
 
-      collection
-        .insert(req.params)
-        .then(function (doc) {
-          res.send(201, doc);
-        }, error);
+      mongo.then( db =>
+        db.collection(collectionName)
+          .insert(req.params)
+        )
+        .then( docs => res.send(201, docs) )
+        .catch(error);
       return next();
     }
   );
@@ -71,15 +72,15 @@ function createHandlers(collectionName, schema) {
   // Get document by id
   server.get('/' + collectionName + '/:id',
     function (req, res, next) {
-      req.params._id = mongo.ObjectId(req.params.id);
+      req.params._id = req.params.id;
       delete req.params.id;
-      console.log(req.params);
 
-      collection
-        .findOne(req.params)
-        .then(function (doc) {
-          res.send(200, doc);
-        }, error);
+      mongo.then( db =>
+        db.collection(collectionName)
+          .findOne(req.params)
+        )
+        .then( docs => res.send(200, docs) )
+        .catch(error);
       return next();
     }
   );
@@ -95,14 +96,15 @@ function createHandlers(collectionName, schema) {
         return next();
       }
 
-      collection
-        .findAndModify({
-          query: { _id: mongo.ObjectId(req.params.id) },
-          update: { '$set': req.params }
-        })
-        .then(function (doc) {
-          res.send(200);
-        }, error);
+      mongo.then( db =>
+        db.collection(collectionName)
+          .findAndModify({
+            query: { _id: req.params.id },
+            update: { '$set': req.params }
+          })
+        )
+        .then( docs => res.send(200, docs) )
+        .catch(error);
       return next();
     }
   );
@@ -111,21 +113,21 @@ function createHandlers(collectionName, schema) {
   server.del('/' + collectionName + '/:id',
     function (req, res, next) {
 
-      collection
-        .remove({ _id: mongo.ObjectId(req.params.id) })
-        .then(function (doc) {
-          res.send(204);
-        }, error);
+      mongo.then( db =>
+        db.collection(collectionName)
+          .remove({ _id: req.params.id })
+        )
+        .then( docs => res.send(204, docs) )
+        .catch(error);
       return next();
     }
   );
 }
 
-var deckSchema = {
+var gameSchema = {
   _required: ['userId'],
-  name: 'New Deck',
-  userId: null,
-  description: '',
+  name: 'New Game',
+  userId: null
 };
 
 var templateSchema = {
@@ -146,9 +148,17 @@ var cardSchema = {
   data: {}
 };
 
-createHandlers('decks', deckSchema);
+var deckSchema = {
+  _required: ['userId'],
+  name: 'New Deck',
+  userId: null,
+  description: '',
+};
+
+createHandlers('gameSchema', gameSchema);
 createHandlers('templates', templateSchema);
 createHandlers('cards', cardSchema);
+createHandlers('decks', deckSchema);
 
 server.listen(8888, function() {
   console.log('%s listening at %s', server.name, server.url);

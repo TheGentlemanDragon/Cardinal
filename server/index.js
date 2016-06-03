@@ -155,7 +155,7 @@ var deckSchema = {
   description: '',
 };
 
-createHandlers('gameSchema', gameSchema);
+createHandlers('games', gameSchema);
 createHandlers('templates', templateSchema);
 createHandlers('cards', cardSchema);
 createHandlers('decks', deckSchema);

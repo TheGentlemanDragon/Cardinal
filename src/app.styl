@@ -7,162 +7,223 @@
   font-weight normal
   font-style normal
 
+
+body, cardinal-app
+  margin 0
+  width 100vw
+  height 100vh
+  background-color #eeeeee
+
+[container]
+  display flex
+
+[container="row"]
+  flex-direction row
+
+[container="column"]
+  flex-direction column
+
+[container~="#left"], [container~="#top"]
+  justify-content flex-start
+
+[container~="#center"], [container~="#middle"]
+  justify-content center
+
+[container~="#right"], [container~="#bottom"]
+  justify-content flex-end
+
+[container~="#spread"]
+  justify-content space-between
+
+[container~="#spaced"]
+  justify-content space-around
+
+[container~="@left"], [container~="@top"]
+  align-items flex-start
+
+[container~="@center"], [container~="@middle"]
+  align-items center
+
+[container~="@right"], [container~="@bottom"]
+  align-items flex-end
+
+[container~="@stretch"]
+  align-items stretch
+
+[container~="@baseline"]
+  align-items baseline
+
+[flex]
+  flex-grow 1
+
+.shadow16
+  box-shadow 0px 0px 16px rgba(0,0,0,0.6)
+
+
+
+
+
+
+
+
+
+
 // @font-face
 //   font-family 'Aileron'
 //   src url('/vendor/fonts/Aileron-Regular.otf') format('opentype')
 //   font-weight normal
 //   font-style normal
 
-md-icon.md-36
-  font-size 36px
-  width 36px
-  height 36px
+// md-icon.md-36
+//   font-size 36px
+//   width 36px
+//   height 36px
 
-/* Base color variables */
+// /* Base color variables */
 
-primary = #2196f3
-accent = #ff5252
-background = #ececec
-text-dark = #333333
-text-light = #ffffff
+// primary = #2196f3
+// accent = #ff5252
+// background = #ececec
+// text-dark = #333333
+// text-light = #ffffff
 
-html, body
-  font-family 'Open Sans'
-  overflow hidden
+// html, body
+//   font-family 'Open Sans'
+//   overflow hidden
 
-.page-width
-  width 1160px
-  margin 0 auto
+// .page-width
+//   width 1160px
+//   margin 0 auto
 
-.title
-  margin-top 35px
+// .title
+//   margin-top 35px
 
-.tile
-  background-color background
+// .tile
+//   background-color background
 
-  &:hover
-    background-color darken(background, 15%)
+//   &:hover
+//     background-color darken(background, 15%)
 
-  figure
-    align-items flex-start
-    justify-content flex-end
+//   figure
+//     align-items flex-start
+//     justify-content flex-end
 
-  .md-button.md-icon-button
-    margin 8px 8px 0
-    height 44px
-    width 44px
+//   .md-button.md-icon-button
+//     margin 8px 8px 0
+//     height 44px
+//     width 44px
 
-.float-container
-  position absolute
+// .float-container
+//   position absolute
 
-  .fab-button-floating
-    left 1090px
-    top -50px
+//   .fab-button-floating
+//     left 1090px
+//     top -50px
 
-.nav-section-title, .nav-section
-  padding 10px
+// .nav-section-title, .nav-section
+//   padding 10px
 
-.nav-section-title
-  color text-light
-  cursor pointer
-  background-color darken(background, 40%)
-  font-weight bold
-  font-size large
-  outline none
+// .nav-section-title
+//   color text-light
+//   cursor pointer
+//   background-color darken(background, 40%)
+//   font-weight bold
+//   font-size large
+//   outline none
 
-.nav-section
-  background-color background
-  overflow-y auto
+// .nav-section
+//   background-color background
+//   overflow-y auto
 
-.nav-buttons
-  padding-bottom 20px
+// .nav-buttons
+//   padding-bottom 20px
 
-.template-nav
-  background-color background
+// .template-nav
+//   background-color background
 
-.element-content
-  box-sizing: border-box
-  padding 0 0 0 4px
-  overflow hidden
+// .element-content
+//   box-sizing: border-box
+//   padding 0 0 0 4px
+//   overflow hidden
 
-.element-attributes
-  margin-top -20px
+// .element-attributes
+//   margin-top -20px
 
-.no-top-margin
-  margin-top 0
+// .no-top-margin
+//   margin-top 0
 
-.no-bottom-margin
-  margin-bottom 0
+// .no-bottom-margin
+//   margin-bottom 0
 
-.no-padding
-  padding 0
+// .no-padding
+//   padding 0
 
-.no-horizontal-padding
-  padding-left 0
-  padding-right 0
-
-
-/* Login */
-
-.login-modal
-  position absolute
-  left 0
-  top 0
-  width 100vw
-  height 100vh
-  background-color background
-  z-index 10
-
-.login-box
-  background-color primary
-  width 250px
-  height 350px
-  border-radius 15px
-  box-shadow 0px 0px 10px 0px rgba(0, 0, 0, 0.5)
-
-.login-title
-  color text-light
+// .no-horizontal-padding
+//   padding-left 0
+//   padding-right 0
 
 
+// /* Login */
 
-/* Card */
+// .login-modal
+//   position absolute
+//   left 0
+//   top 0
+//   width 100vw
+//   height 100vh
+//   background-color background
+//   z-index 10
 
-.card
-  width 375px
-  height 525px
-  border-radius 15px
-  box-shadow 0px 0px 10px 0px rgba(0, 0, 0, 0.5)
-  transform scale(1.3)
+// .login-box
+//   background-color primary
+//   width 250px
+//   height 350px
+//   border-radius 15px
+//   box-shadow 0px 0px 10px 0px rgba(0, 0, 0, 0.5)
 
-.element
-  border-radius 1px
-  outline 1px dashed rgba(0, 0, 0, 0.5)
-  cursor pointer
+// .login-title
+//   color text-light
 
-.selected
-  animation-duration 0.7s
-  animation-name pulse
-  animation-iteration-count infinite
-  animation-direction alternate
-  outline 0
 
-@keyframes pulse
-  from
-    box-shadow 0px 0px 3px 1px primary
 
-  to
-    box-shadow 0px 0px 1px 0px primary
+// /* Card */
 
-/* Override styles */
+// .card
+//   width 375px
+//   height 525px
+//   border-radius 15px
+//   box-shadow 0px 0px 10px 0px rgba(0, 0, 0, 0.5)
+//   transform scale(1.3)
 
-md-grid-list + md-grid-list
-  margin-top 20px
+// .element
+//   border-radius 1px
+//   outline 1px dashed rgba(0, 0, 0, 0.5)
+//   cursor pointer
 
-md-grid-tile
-  cursor hand
-  transition background-color 0.1s ease-in-out
-  &:hover
-    transition background-color 0.2s ease-in-out
+// .selected
+//   animation-duration 0.7s
+//   animation-name pulse
+//   animation-iteration-count infinite
+//   animation-direction alternate
+//   outline 0
 
-.md-title
-  margin 15px 0
+// @keyframes pulse
+//   from
+//     box-shadow 0px 0px 3px 1px primary
+
+//   to
+//     box-shadow 0px 0px 1px 0px primary
+
+// /* Override styles */
+
+// md-grid-list + md-grid-list
+//   margin-top 20px
+
+// md-grid-tile
+//   cursor hand
+//   transition background-color 0.1s ease-in-out
+//   &:hover
+//     transition background-color 0.2s ease-in-out
+
+// .md-title
+//   margin 15px 0

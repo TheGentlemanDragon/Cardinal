@@ -1,23 +1,23 @@
 <!doctype html>
 <html>
-<head>
-  <title>Cardinal</title>
-  <base href="/">
-  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <meta name="google-signin-client_id" content="676933282906-ufr25fpd2rjkcotfhfm2j9vbehmd5dam.apps.googleusercontent.com">
-  <link rel="stylesheet" href="vendor/MaterialIcons.css">
-  <link rel="stylesheet" href="vendor/angular-material.css">
-  <link rel="stylesheet" href="app.css">
-</head>
+  <head>
+    <meta charset="utf-8">
+    <title>Cardinal</title>
+    <base href="/">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <!-- <link rel="stylesheet" href="vendor/MaterialIcons.css"> -->
+    <!-- <link rel="stylesheet" href="vendor/angular-material.css"> -->
+    <link rel="stylesheet" href="app.css">
 
-<body ng-app="cardinal" layout="column">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id"
+          content="676933282906-ufr25fpd2rjkcotfhfm2j9vbehmd5dam.apps.googleusercontent.com">
+  </head>
 
-  <md-toolbar class="md-medium-tall">
-    <div class="title md-display-1 page-width">Cardinal</div>
-  </md-toolbar>
+  <body ng-app="cardinal" container="row #left @stretch">
+    <side-nav></side-nav>
 
-  <div class="page-width" ui-view layout="column" flex></div>
-
-  <script src="bundle.js"></script>
-</body>
+    <script src="bundle.js"></script>
+  </body>
 </html>

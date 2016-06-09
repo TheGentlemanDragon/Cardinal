@@ -1,14 +1,14 @@
-module.exports = cnSignIn;
+module.exports = GoogleSignIn;
 
-cnSignIn.$inject = [];
+GoogleSignIn.$inject = [];
 
-function cnSignIn () {
+function GoogleSignIn () {
   return {
     scope: {
       buttonId: '@',
       options: '&'
     },
-    template: '<div></div>',
+
     link: function(scope, element, attrs) {
       // Add Google Platform JS to page
       var script = document.createElement('script');

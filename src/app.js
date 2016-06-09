@@ -5,30 +5,47 @@ var angular = require('angular');
 
 angular.module('cardinal', [
   require('angular-ui-router'),
-  require('angular-material'),
+  // require('angular-material'),
   require('angular-resource')
 ])
 
-.controller('DeckController', require('./deck/deck.controller.js'))
-.controller('DecksController', require('./decks/decks.controller.js'))
-.controller('EditorController', require('./editor/editor.controller.js'))
-.controller('LoginController', require('./login/login.controller.js'))
-.controller('TemplateController', require('./template/template.controller.js'))
+.component('sideNav', {
+  templateUrl: './side-nav/side-nav.template.html',
+  controller: require('./side-nav/side-nav.controller.js'),
+  bindings: {}
+})
 
-.directive('cnSignIn', require('./components/sign-in.directive.js'))
+.component('googleSignIn', {
+  templateUrl: './login/google-sign-in.template.html',
+  controller: require('./login/google-sign-in.controller.js'),
+  bindings: {}
+})
 
-.service('AuthService', require('./services/auth.service.js'))
-.service('DataService', require('./services/data.service.js'))
+// .controller('DeckController', require('./deck/deck.controller.js'))
+// .controller('DecksController', require('./decks/decks.controller.js'))
+// .controller('EditorController', require('./editor/editor.controller.js'))
+// .controller('LoginController', require('./login/login.controller.js'))
+// .controller('TemplateController', require('./template/template.controller.js'))
 
+.service('AuthService', require('./shared/auth.service.js'))
+.service('DataService', require('./shared/data.service.js'))
+
+// .config([
+//   '$locationProvider', '$mdThemingProvider', '$stateProvider', '$urlRouterProvider', Config
+// ])
 .config([
-  '$locationProvider', '$mdThemingProvider', '$stateProvider', '$urlRouterProvider', Config
+  '$locationProvider', '$stateProvider', '$urlRouterProvider', Config
 ])
 
+// .run([
+//   '$mdToast', '$rootScope', '$state', 'AuthService', Run
+// ]);
 .run([
-  '$mdToast', '$rootScope', '$state', 'AuthService', Run
+  '$rootScope', '$state', 'AuthService', Run
 ]);
 
-function Config ($locationProvider, $mdThemingProvider, $stateProvider, $urlRouterProvider) {
+// function Config ($locationProvider, $mdThemingProvider, $stateProvider, $urlRouterProvider) {
+function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
 
   $locationProvider.html5Mode(false);
 
@@ -85,38 +102,39 @@ function Config ($locationProvider, $mdThemingProvider, $stateProvider, $urlRout
       //   templateUrl: 'editor/preview.html'
       // });
 
-    $urlRouterProvider.otherwise('/decks');
+    $urlRouterProvider.otherwise('/games');
 
-    $mdThemingProvider.theme('default')
-      .primaryPalette('blue')
-      .accentPalette('red')
-      .warnPalette('red');
+    // $mdThemingProvider.theme('default')
+    //   .primaryPalette('blue')
+    //   .accentPalette('red')
+    //   .warnPalette('red');
 }
 
 // App initialization stuff here
-function Run ($mdToast, $rootScope, $state, AuthService) {
+// function Run ($mdToast, $rootScope, $state, AuthService) {
+function Run ($rootScope, $state, AuthService) {
   var authenticated = false;
 
-  // Add a convenience method for Toasts
-  $mdToast.notify = function (msg) {
-    $mdToast.show($mdToast
-      .simple()
-      .content(msg)
-      .position('bottom left')
-    );
-  };
+  // // Add a convenience method for Toasts
+  // $mdToast.notify = function (msg) {
+  //   $mdToast.show($mdToast
+  //     .simple()
+  //     .content(msg)
+  //     .position('bottom left')
+  //   );
+  // };
 
   // Check for Authentication prior to each route call
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-    if (toState.name === 'login') {
-      return;
-    }
+    // if (toState.name === 'login') {
+    //   return;
+    // }
 
-    if (!AuthService.isAuthenticated) {
-      event.preventDefault()
-      toParams.state = toState.name;
-      $state.go('login', { reroute: toParams } )
-    }
+    // if (!AuthService.isAuthenticated) {
+    //   event.preventDefault()
+    //   toParams.state = toState.name;
+    //   $state.go('login', { reroute: toParams } )
+    // }
   });
 
 }

@@ -5,138 +5,77 @@ var angular = require('angular');
 
 angular.module('cardinal', [
   require('angular-ui-router'),
-  // require('angular-material'),
   require('angular-resource')
 ])
 
-.component('sideNav', {
-  templateUrl: './side-nav/side-nav.template.html',
-  controller: require('./side-nav/side-nav.controller.js'),
-  bindings: {}
-})
-
-.component('googleSignIn', {
-  templateUrl: './login/google-sign-in.template.html',
-  controller: require('./login/google-sign-in.controller.js'),
-  bindings: {}
-})
-
-// .controller('DeckController', require('./deck/deck.controller.js'))
-// .controller('DecksController', require('./decks/decks.controller.js'))
-// .controller('EditorController', require('./editor/editor.controller.js'))
-// .controller('LoginController', require('./login/login.controller.js'))
-// .controller('TemplateController', require('./template/template.controller.js'))
-
 .service('AuthService', require('./shared/auth.service.js'))
+.service('ActionBarService', require('./action-bar/action-bar.service.js'))
 .service('DataService', require('./shared/data.service.js'))
+.service('ModalService', require('./modal/modal.service.js'))
 
-// .config([
-//   '$locationProvider', '$mdThemingProvider', '$stateProvider', '$urlRouterProvider', Config
-// ])
+.controller('GamesController', require('./routes/games/games.controller.js'))
+.controller('TemplateController', require('./routes/templates/template.controller.js'))
+
+.directive('actionBar', require('./action-bar/action-bar.directive.js'))
+.directive('componentList', require('./component-list/component-list.directive.js'))
+.directive('hoverScroll', require('./shared/hover-scroll.directive.js'))
+.directive('modal', require('./modal/modal.directive.js'))
+
+// .directive('googleSignIn', require('./login/google-sign-in.directive.js'))
+
 .config([
   '$locationProvider', '$stateProvider', '$urlRouterProvider', Config
 ])
 
-// .run([
-//   '$mdToast', '$rootScope', '$state', 'AuthService', Run
-// ]);
 .run([
-  '$rootScope', '$state', 'AuthService', Run
+  '$rootScope', '$state', 'AuthService', 'ModalService', Run
 ]);
 
-// function Config ($locationProvider, $mdThemingProvider, $stateProvider, $urlRouterProvider) {
 function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
 
-  $locationProvider.html5Mode(false);
+  $locationProvider.html5Mode(true);
 
   // Set routes
   $stateProvider
-    .state('login', {
-      url: '/login',
-      templateUrl: 'login/login.html',
-      controller: 'LoginController as vm',
-      params: {
-        reroute: undefined
-      }
+    .state('games', {
+      url: '/games',
+      templateUrl: 'routes/games/games.html',
+      controller: 'GamesController as vm'
     })
-
-    .state('decks', {
-      url: '/decks',
-      templateUrl: 'decks/decks.html',
-      controller: 'DecksController as vm'
+    .state('game', {
+      url: '/games/:gameId',
+      templateUrl: 'routes/games/game.html',
+      controller: 'GamesController as vm'
     })
-
-    .state('deck', {
-      url: '/decks/:deckId',
-      templateUrl: 'deck/deck.html',
-      controller: 'DeckController as vm',
-      params: { msg: null }
-    })
-
     .state('template', {
       url: '/templates/:templateId',
-      templateUrl: 'template/template.html',
+      templateUrl: 'routes/templates/template.html',
       controller: 'TemplateController as vm'
     });
 
-      // .state('editor', {
-      //   url: '/editor/:templateId',
-      //   templateUrl: 'editor/editor.html',
-      //   controller: 'EditorController'
-      // })
-      // .state('editor.settings', {
-      //   url: '/settings',
-      //   templateUrl: 'editor/settings.html'
-      // })
-      // .state('editor.layout', {
-      //   url: '/layout',
-      //   templateUrl: 'editor/layout.html',
-      //   controller: 'LayoutController'
-      // })
-      // .state('editor.data', {
-      //   url: '/data',
-      //   templateUrl: 'editor/data.html'
-      // })
-      // .state('editor.preview', {
-      //   url: '/preview',
-      //   templateUrl: 'editor/preview.html'
-      // });
 
     $urlRouterProvider.otherwise('/games');
-
-    // $mdThemingProvider.theme('default')
-    //   .primaryPalette('blue')
-    //   .accentPalette('red')
-    //   .warnPalette('red');
 }
 
 // App initialization stuff here
-// function Run ($mdToast, $rootScope, $state, AuthService) {
-function Run ($rootScope, $state, AuthService) {
+function Run ($rootScope, $state, AuthService, ModalService) {
   var authenticated = false;
 
-  // // Add a convenience method for Toasts
-  // $mdToast.notify = function (msg) {
-  //   $mdToast.show($mdToast
-  //     .simple()
-  //     .content(msg)
-  //     .position('bottom left')
-  //   );
-  // };
+  // // Check for Authentication prior to each route call
+  // $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+  //   if (toState.name === 'login') {
+  //     return;
+  //   }
+  //
+  //   if (!AuthService.isAuthenticated) {
+  //     event.preventDefault()
+  //     toParams.state = toState.name;
+  //     $state.go('login', { reroute: toParams } )
+  //   }
+  // });
 
-  // Check for Authentication prior to each route call
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-    // if (toState.name === 'login') {
-    //   return;
-    // }
-
-    // if (!AuthService.isAuthenticated) {
-    //   event.preventDefault()
-    //   toParams.state = toState.name;
-    //   $state.go('login', { reroute: toParams } )
-    // }
-  });
-
+  // Register Modals
+  ModalService.register('new-game');
 }
 
 

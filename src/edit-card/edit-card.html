@@ -1,0 +1,14 @@
+<div  class="card"
+      layout="column"
+      style="transform: scale({{ vm.zoom }})">
+  <div  ng-repeat="element in vm.elements"
+        ng-style="element.styleContainer">
+
+    <div  class="element-content"
+          ng-class="{ selected: element === vm.element, element: element.styleObj != '' }"
+          ng-style="element.styleElement">
+      {{ vm.preview ? vm.card.data[element.name] : element.name }}
+    </div>
+
+  </div>
+</div>

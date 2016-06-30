@@ -1,0 +1,38 @@
+.games
+
+  .item
+    box-shadow 0 1px 3px 0 rgba(0, 0, 0, 0.3),
+               0 1px 1px 0 rgba(0, 0, 0, 0.24),
+               0 2px 1px -1px rgba(0, 0, 0, 0.22)
+    cursor pointer
+    font-family 'Sans'
+    font-size 20px
+    margin 8px
+    text-align center
+    transition box-shadow 0.2s, transform 0.2s
+    -webkit-user-select none
+
+    &:hover
+      box-shadow 0 6px 6px -3px rgba(0, 0, 0, 0.3),
+                 0 10px 14px 1px rgba(0, 0, 0, 0.24),
+                 0 4px 18px 3px rgba(0, 0, 0, 0.22)
+
+  .game
+    background-color #ffffff
+    border-radius 3px
+    flex 0 0 215px
+    height 120px
+
+    &:hover
+      transform scale(1.15, 1.15)
+
+  .template
+    background-color rgba(255, 255, 255, 0.4)
+    border 3px dashed rgba(0, 0, 0, 0.5)
+    border-radius 10px
+    flex 0 0 calc(200px * 0.71429)
+    height 200px
+    padding 15px
+
+    &:hover
+      transform scale(1.1, 1.1)

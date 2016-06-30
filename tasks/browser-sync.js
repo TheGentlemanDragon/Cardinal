@@ -5,6 +5,18 @@ const bs = require('browser-sync').create(),
       stylus = require('stylus'),
       styleMap = {};
 
+function rewriteUrl (req, res, next) {
+  let fileName = require('url').parse(req.url);
+  fileName = fileName.href.split(fileName.search).join('');
+
+  // If not loading an asset file, load index so Angular HTML5 mode works
+  if (!fileName.includes('.')) {
+    req.url = '/index.html';
+  }
+
+  return next();
+}
+
 function writeToStyleMap (file, callback) {
   return (err, data) => {
     styleMap[file.replace('./', '')] = data;
@@ -48,6 +60,7 @@ bs.watch('./src/**/*.styl', restyle);
 
 bs.init({
   server: './src',
+  middleware: rewriteUrl,
   socket: {
     namespace: '/browser-sync'
   }

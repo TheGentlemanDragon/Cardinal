@@ -5,9 +5,8 @@
     <title>Cardinal</title>
     <base href="/">
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700" rel="stylesheet" type="text/css">
     <!-- <link rel="stylesheet" href="vendor/MaterialIcons.css"> -->
-    <!-- <link rel="stylesheet" href="vendor/angular-material.css"> -->
     <link rel="stylesheet" href="app.css">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,8 +14,17 @@
           content="676933282906-ufr25fpd2rjkcotfhfm2j9vbehmd5dam.apps.googleusercontent.com">
   </head>
 
-  <body ng-app="cardinal" container="row #left @stretch">
-    <side-nav></side-nav>
+  <body ng-app="cardinal">
+
+    <modal></modal>
+
+    <div class="title">
+      Cardinal
+    </div>
+
+    <div class="page" ng-class="vm.class" container="column #top @stretch" ui-view></div>
+
+    <action-bar container="column #middle @left" context="games"></action-bar>
 
     <script src="bundle.js"></script>
   </body>

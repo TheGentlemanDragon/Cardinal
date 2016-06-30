@@ -16,11 +16,7 @@ function GoogleSignIn () {
 
       script.onload = function () {
         // Render a google button
-        var div = element.find('div')[0];
-        div.id = attrs.buttonId;
-
-        // First argument is an id, second options
-        gapi.signin2.render(div.id, scope.options());
+        gapi.signin2.render('googleSignIn', scope.options());
       };
 
       document.head.appendChild(script);

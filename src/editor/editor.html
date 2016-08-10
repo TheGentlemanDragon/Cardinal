@@ -1,0 +1,54 @@
+<!-- Template Name -->
+
+<div container="row #left @middle">
+  <label>Name</label>
+  <input type="text" cn-click-select
+    ng-model="vm.template.name" />
+</div>
+
+<!-- Elements -->
+
+<div container="row #left @middle">
+  <label>Elements</label>
+  <select
+      ng-if="vm.template.elements"
+      ng-model="vm.selected"
+      ng-options="element as element.name for element in vm.template.elements track by element.id">
+  <select/>
+</div>
+
+<!-- Element Buttons -->
+
+<div container="row #left @middle">
+  <button>+</button>
+  <button>x</button>
+</div>
+
+<!-- Element Properties -->
+
+<div class="element-properties" flex>
+
+  <!-- Element Name -->
+
+  <div container="row #left @middle">
+    <label>Name</label>
+    <input type="text" cn-click-select
+      ng-model="vm.selected.name" />
+  </div>
+
+  <!-- Element Style -->
+
+  <div container="column #top @left">
+    <label>Style</label>
+    <textarea cn-click-select
+      ng-model="vm.rawStyle"
+      ng-change="vm.applyStyle(vm.selected, vm.rawStyle)" />
+  </div>
+</div>
+
+<div container="row #left @middle">
+  <label>Scale</label>
+  <input
+    type="range" min="1.5" max="3.5" step="0.01"
+    ng-model="vm.scale"/>
+</div>

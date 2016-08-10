@@ -1,0 +1,95 @@
+editor
+  // background-color rgba(255, 255, 255, 0.15)
+  background-color rgba(35, 35, 35, 0.95)
+  border-radius 10px
+  box-sizing border-box
+  color white
+  display block
+  font-family sans
+  font-size 16px
+  margin 70px 0 70px 5vw
+  padding 8px 20px 8px 20px
+  width 330px
+
+  .element-properties
+    background-color rgba(255, 255, 255, 0.15)
+    box-shadow inset 0px 8px 15px -8px rgba(0, 0, 0, 0.75)
+    margin 10px -20px 0
+    padding 5px 25px 0
+
+    & textarea
+      min-height 300px
+      resize none
+
+  button
+    background-color rgb(15, 70, 130)
+    border-radius 5px
+    box-sizing border-box
+    height 35px
+    margin 5px 15px 0 0
+    min-width inherit
+    transition box-shadow, transform 0.1s linear
+    width 35px
+
+    &:hover
+      transform translate(0, -1px)
+      box-shadow 2px 2px 8px 4px rgba(0, 0, 0, 0.2)
+      transition box-shadow, transform 0.1s linear
+
+    &:active
+      transform translate(0, 0)
+      box-shadow 1px 1px 6px 4px rgba(0, 0, 0, 0.2)
+      background-color rgb(11, 56, 105)
+      transition box-shadow, transform 0s linear
+
+  label
+    margin 10px 0
+    width 140px
+
+  select, textarea
+    background-color rgba(255, 255, 255, 0.1)
+    border-bottom solid 2px rgb(15, 70, 130)
+    border-radius 3px 3px 0 0
+    border-style none
+    box-sizing border-box
+    color rgb(220, 220, 220)
+    font-family sans-serif
+    font-size 18px
+    margin 10px 0
+    padding 5px
+    transition 0.1s linear background-color, color
+    width 100%
+
+    &:focus
+      background-color rgba(255, 255, 255, 0.9)
+      border-style none
+      color rgb(40, 40, 40)
+      outline none
+      transition 0.3s linear background-color, color
+
+  input
+    box-shadow none
+    box-sizing border-box
+    font-family sans-serif
+    font-size 18px
+    margin 10px 0
+    width 100%
+
+    &[type^='textarea']
+      height 300px
+
+    &[type^='text']
+
+      &:focus
+        background-color rgba(255, 255, 255, 0.9)
+        color rgb(40, 40, 40)
+        outline none
+        transition 0.3s linear background-color, color
+
+      background-color rgba(255, 255, 255, 0.1)
+      border-radius 3px 3px 0 0
+      border-style none
+      border-bottom solid 2px rgb(15, 70, 130)
+      color rgb(220, 220, 220)
+      padding 5px 8px
+      transition 0.1s linear background-color, color

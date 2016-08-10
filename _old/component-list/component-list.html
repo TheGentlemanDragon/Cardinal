@@ -1,0 +1,11 @@
+<div class="title">
+  {{ vm.title }}
+</div>
+<div class="list" container="row #left @middle">
+  <span class="item" container="column #center @center"
+        ng-class="vm.context"
+        ng-repeat="item in vm.items"
+        ng-click="vm.doAction(vm.context, item._id)">
+    {{ item.name }}
+  </span>
+</div>

@@ -14,11 +14,12 @@ angular.module('cardinal', [
 .service('ModalService', require('./modal/modal.service.js'))
 
 .controller('GamesController', require('./routes/games/games.controller.js'))
+.controller('GameController', require('./routes/game/game.controller.js'))
 .controller('TemplateController', require('./routes/templates/template.controller.js'))
 
 .directive('actionBar', require('./action-bar/action-bar.directive.js'))
-.directive('componentList', require('./component-list/component-list.directive.js'))
-.directive('hoverScroll', require('./shared/hover-scroll.directive.js'))
+.directive('cnClickSelect', require('./shared/cn-click-select.directive.js'))
+.directive('editor', require('./editor/editor.directive.js'))
 .directive('modal', require('./modal/modal.directive.js'))
 
 // .directive('googleSignIn', require('./login/google-sign-in.directive.js'))
@@ -44,8 +45,8 @@ function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
     })
     .state('game', {
       url: '/games/:gameId',
-      templateUrl: 'routes/games/game.html',
-      controller: 'GamesController as vm'
+      templateUrl: 'routes/game/game.html',
+      controller: 'GameController as vm'
     })
     .state('template', {
       url: '/templates/:templateId',

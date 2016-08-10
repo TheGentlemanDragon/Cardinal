@@ -1,3 +1,7 @@
-  <!-- Card Preview -->
+<!-- Card Preview -->
 
-  <edit-card></edit-card>
+<editor container="column" ng-if="vm.template"></editor>
+
+<div class="card-container" container="row #center @middle" flex>
+  <card style="transform: scale({{ vm.scale }}, {{ vm.scale }})"></card>
+</div>

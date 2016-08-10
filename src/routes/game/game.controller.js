@@ -5,7 +5,7 @@ GamesController.$inject = [ '$state', 'ActionBarService', 'DataService' ];
 function GamesController ($state, ActionBarService, DataService) {
   var vm = this;
 
-  vm.class = 'games padded';
+  vm.class = 'game padded';
   vm.layout = 'column #top @stretch';
 
   vm.openGame = openGame;
@@ -14,8 +14,10 @@ function GamesController ($state, ActionBarService, DataService) {
   activate()
 
   function activate() {
-    let collection = 'games';
-    let query = {};
+    let collection = 'templates';
+    let query = {
+      gameId: $state.params.gameId
+    };
 
     DataService(collection)
       .search(query)

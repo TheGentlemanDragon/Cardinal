@@ -2,18 +2,15 @@ module.exports = Editor;
 
 function Editor () {
   var directive = {
-    controller: EditorController,
+    controller:  require('./editor.controller.js'),
     controllerAs: 'editor',
     restrict: 'E',
-    scope: false,
+    scope: {
+      template: '=',
+      scale: '='
+    },
     templateUrl: './editor/editor.html'
   };
 
   return directive;
-}
-
-EditorController.$inject = [ ];
-
-function EditorController () {
-  const vm = this;
 }

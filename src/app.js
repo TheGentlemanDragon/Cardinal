@@ -12,12 +12,14 @@ angular.module('cardinal', [
 .service('ActionBarService', require('./action-bar/action-bar.service.js'))
 .service('DataService', require('./shared/data.service.js'))
 .service('ModalService', require('./modal/modal.service.js'))
+.service('TemplateService', require('./shared/template.service.js'))
 
 .controller('GamesController', require('./routes/games/games.controller.js'))
 .controller('GameController', require('./routes/game/game.controller.js'))
 .controller('TemplateController', require('./routes/templates/template.controller.js'))
 
 .directive('actionBar', require('./action-bar/action-bar.directive.js'))
+.directive('card', require('./card/card.directive.js'))
 .directive('cnClickSelect', require('./shared/cn-click-select.directive.js'))
 .directive('editor', require('./editor/editor.directive.js'))
 .directive('modal', require('./modal/modal.directive.js'))
@@ -51,7 +53,14 @@ function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
     .state('template', {
       url: '/templates/:templateId',
       templateUrl: 'routes/templates/template.html',
-      controller: 'TemplateController as vm'
+      controller: 'TemplateController as vm',
+      resolve: {
+        template: function (TemplateService, $stateParams) {
+          return TemplateService
+            .get($stateParams.templateId)
+            .then(response => response[0]);
+        }
+      }
     });
 
 

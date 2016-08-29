@@ -1,3 +1,6 @@
 <element
-  ng-repeat="element in vm.elements">
+    ng-repeat="element in card.elements"
+    style="{{ element.style }}"
+    ng-class="{editing: !element.selected, selected: element.selected}">
+  {{ element.name }}
 </element>

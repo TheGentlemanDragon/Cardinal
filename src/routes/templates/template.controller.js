@@ -1,42 +1,19 @@
 module.exports = TemplateController;
 
-TemplateController.$inject = [ '$state', 'ActionBarService', 'DataService' ];
+TemplateController.$inject = [ '$state', 'ActionBarService', 'template' ];
 
-function TemplateController ($state, ActionBarService, DataService) {
+function TemplateController ($state, ActionBarService, template) {
   var vm = this;
 
   vm.class = 'template';
   vm.layout = 'row #top @stretch';
   vm.scale = 2.5;
-
-  vm.applyStyle = applyStyle;
+  vm.template = template;
 
   activate();
 
   function activate() {
-    DataService('templates')
-      .search({ _id: $state.params.templateId})
-      .$promise
-      .then(function (response) {
-        vm.template = response[0];
-        vm.selected = vm.template.elements[0];
-        ActionBarService.context = '';
-      });
-  }
-
-  function applyStyle(element, style) {
-
-    try {
-      var lines = style
-        .split('\n')
-        .map(line => {
-          line = line.split(':');
-          return `"${line[0]}": ${line[1].trim()}`;
-        });
-      var style = JSON.parse('{' + lines.join(',') + '}');
-      element.style = style;
-    } catch (e) {
-    }
+    ActionBarService.context = '';
   }
 }
 

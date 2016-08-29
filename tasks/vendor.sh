@@ -15,5 +15,5 @@ wget -nc https://github.com/google/material-design-icons/blob/master/iconfont/Ma
 # Modify Material Icons css
 REMOTE_FONT="https://fonts.gstatic.com/s/materialicons/v12/2fcrYFNaTjcS6g4U3t-Y5StnKWgpfO2iSkLzTz-AABg.ttf"
 LOCAL_FONT="'/vendor/fonts/MaterialIcons-Regular.woff2'"
-sed -i "s,${REMOTE_FONT},${LOCAL_FONT},g" src/vendor/MaterialIcons.css
-sed -i 's/truetype/woff2/g' src/vendor/MaterialIcons.css
+sed -i -e "s,${REMOTE_FONT},${LOCAL_FONT},g" src/vendor/MaterialIcons.css
+sed -i -e 's/truetype/woff2/g' src/vendor/MaterialIcons.css

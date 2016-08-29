@@ -1,3 +1,15 @@
+<div class="float-container">
+  <md-button
+      class="md-fab md-accent fab-button-floating"
+      aria-label="Save Template"
+      ng-click="vm.template.$save()">
+    <md-icon class="md-36">save</i>
+    <md-tooltip md-direction="down">
+      Save Template
+    </md-tooltip>
+  </md-button>
+</div>
+
 <section layout="row" flex>
 
   <!-- Card Preview -->
@@ -9,8 +21,9 @@
     <div  class="card"
           layout="column"
           style="transform: scale({{ vm.zoom }})">
-      <div  ng-repeat="element in vm.elements"
-            ng-style="element.styleContainer">
+      <div  ng-repeat="element in vm.template.elements"
+            ng-style="element.styleContainer"
+            ng-click="vm.selectElement($index)">
 
         <div  class="element-content"
               ng-class="{ selected: element === vm.element, element: element.styleObj != '' }"
@@ -57,6 +70,8 @@
         <input  type="text" disabled
                 ng-model="vm.template._id">
       </md-input-container>
+
+      <!-- Delete Template -->
 
       <md-button  class="md-raised md-warn"
                   ng-click="vm.deleteTemplate(vm.template)">
@@ -107,10 +122,10 @@
         <!-- Select Element -->
 
         <md-input-container   class="no-top-margin"
-                              ng-if="vm.elements.length">
+                              ng-if="vm.template.elements.length">
           <md-select  ng-model="vm.element"
                       aria-label="Select Unit">
-            <md-option ng-repeat="el in vm.elements" ng-value="el">
+            <md-option ng-repeat="el in vm.template.elements" ng-value="el">
               {{ el.name }}
             </md-option>
           </md-select>
@@ -119,10 +134,10 @@
         <!-- Delete Element -->
 
         <md-button  class="md-icon-button md-primary"
-                    ng-if="vm.elements.length"
+                    ng-if="vm.element"
                     ng-click="vm.deleteElement()">
-        <md-icon>delete</md-icon>
-      </md-button>
+          <md-icon>delete</md-icon>
+        </md-button>
 
       </div>
 
@@ -130,7 +145,7 @@
 
       <div  class="nav-section element-attributes"
             layout="column"
-            ng-if="vm.elements.length">
+            ng-if="vm.template.elements.length">
 
         <!-- Element Name -->
 
@@ -309,7 +324,7 @@
                 ng-model="vm.card.name">
       </md-input-container>
 
-      <div ng-repeat="element in vm.elements">
+      <div ng-repeat="element in vm.template.elements">
         <md-input-container class="no-bottom-margin">
           <label>{{ element.name }}</label>
           <input ng-model="vm.card.data[element.name]">

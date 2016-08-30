@@ -1,8 +1,7 @@
-<script src="vendor/platform.js"></script>
 <div class="login-modal" layout="column" layout-align="center center">
   <div class="login-box" layout="column" layout-align="center center">
     <h2 class="login-title">Cardinal</h2>
-    <cn-sign-in button-id="uniqueid" options="{ 'onsuccess': vm.onSignIn }"></cn-sign-in>
+    <google-sign-in id="googleSignIn" options="{ 'onsuccess': vm.onSignIn }"></google-sign-in>
     <!-- <a href="#" ng-click="vm.signOut()">Sign out</a> -->
   </div>
 </div>

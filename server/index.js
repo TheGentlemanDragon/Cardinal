@@ -2,6 +2,7 @@ var url = 'mongodb://localhost:27017/cardinal';
 
 var restify = require('restify');
 var mongo = require('mongodb').MongoClient.connect(url);
+var ObjectId = require('mongodb').ObjectId
 var helpers = require('./helpers.js');
 
 var logRequest = helpers.logRequest;
@@ -15,12 +16,20 @@ function authenticate (req, res, next) {
   return next();
 }
 
+function transformId (req, res, next) {
+  if (req.params._id) {
+    req.params._id = new ObjectId(req.params._id);
+  }
+  return next();
+}
+
 var server = restify.createServer();
 
 server.use(restify.bodyParser());
 server.use(restify.queryParser());
 server.use(restify.CORS());
 server.use(authenticate);
+server.use(transformId);
 server.use(logRequest);
 // server.use(
 //   function crossOrigin (req, res, next) {

@@ -1,109 +1,65 @@
 module.exports = EditorController;
 
-EditorController.$inject = ['$scope', '$state', '$mdDialog', '$mdToast', 'DataService'];
+EditorController.$inject = [ '$scope' ];
 
-function EditorController ($scope, $state, $mdDialog, $mdToast, DataService) {
-  var templateHash;
+function EditorController ($scope) {
+  const vm = this;
 
-  $scope.go = $state.go;
-  $scope.selectedFields = [];
+  // Vars
+  vm.elementKeys = getElementKeys();
+  vm.scale = $scope.scale;
 
-  $scope.controls = [
-    {
-      state: 'editor.settings',
-      label: 'Settings',
-      icon: 'mdi-settings'
-    },
-    {
-      state: 'editor.data',
-      label: 'Data',
-      icon: 'mdi-database-outline'
-    },
-    {
-      state: 'editor.layout',
-      label: 'Layout',
-      icon: 'mdi-crop-portrait'
-    },
-    {
-      state: 'editor.preview',
-      label: 'Preview',
-      icon: 'mdi-eye'
-    }
-  ];
+  // Functions
+  vm.addElement = addElement;
+  vm.applyStyle = applyStyle;
+  vm.getStyle = getStyle;
+  vm.selectElement = selectElement;
 
-  DataService('templates')
-    .get({ id: $state.params.templateId })
-    .$promise
-    .then(function (temp) {
-      $scope.template = temp;
-      temp.fields.forEach(function () {
-        $scope.selectedFields.push(false);
-      })
-      $scope.deckId = temp.deckId;
-      templateHash = getTemplateHash(temp);
-    });
+  activate();
 
-  DataService('cards')
-    .search({ templateId: $state.params.templateId })
-    .$promise
-    .then(function (cards) {
-      $scope.cards = cards;
-    });
-
-  $scope.$on('$stateChangeSuccess', function updatePage() {
-    $scope.state = $state.current.name;
-  });
-
-  function getTemplateHash (obj) {
-    return obj.name + '|'
-      + obj.fields
-        .reduce(function (prev, item) {
-          return prev + item.name + '|' + item.type + '|';
-        }, '');
-  };
-
-  $scope.fieldsSelected = function () {
-    return $scope.selectedFields.some(function (item) { return item; });
-  };
-
-  $scope.addField = function () {
-    $scope.template.fields.push({ name: 'Field Name', type: 'text' });
-    $scope.template.$save();
-  };
-
-  $scope.deleteField = function (index) {
-    $scope.template.fields.splice(index, 1);
-    $scope.template.$save();
+  function activate() {
+    selectElement(0);
   }
 
-  $scope.moveFieldUp = function (index) {
-    if (index <= 0) {
-      return;
-    }
-
-    var temp = $scope.template.fields[index - 1];
-    $scope.template.fields[index - 1] = $scope.template.fields[index];
-    $scope.template.fields[index] = temp;
-    $scope.template.$save();
+  function addElement() {
+    let id = $scope.template.elements.length;
+    let element = {
+      id: id,
+      name: `element ${id + 1}`,
+      style: ''
+    };
+    $scope.template.elements.push(element);
+    vm.elementKeys = getElementKeys();
+    selectElement(id);
   }
 
-  $scope.moveFieldDown = function (index) {
-    if (index - 1 >= $scope.template.fields.length) {
-      return;
+  function applyStyle(style) {
+    let newStyle;
+    try {
+      newStyle = style.split('\n').join('; ');
     }
-
-    var temp = $scope.template.fields[index + 1];
-    $scope.template.fields[index + 1] = $scope.template.fields[index];
-    $scope.template.fields[index] = temp;
-    $scope.template.$save();
+    catch (e) { }
+    finally {
+      if (newStyle) {
+        $scope.element.style = newStyle;
+      }
+    }
   }
 
-  $scope.saveTemplate = function () {
-    var newHash = getTemplateHash($scope.template);
+  function getStyle(element) {
+    return (element.style || '').replace(/; /g, '\n');
+  }
 
-    if (templateHash !== newHash) {
-      templateHash = newHash;
-      $scope.template.$save();
-    }
-  };
+  function getElementKeys() {
+    return $scope.template.elements.map(element => element.name);
+  }
+
+  function selectElement(index) {
+    $scope.template.elements.forEach(element => delete element.selected);
+    $scope.element = $scope.template.elements[index];
+    vm.element = $scope.element.name;
+    $scope.element.selected = true;
+    $scope.rawStyle = getStyle($scope.element);
+  }
+
 }

@@ -18,7 +18,7 @@ function DataService ($resource, AuthService) {
     if (!(resource in resources)) {
       resources[resource] = $resource(
         'http://localhost:8888/' + resource + '/:id',
-        { id: '@_id', userId: AuthService.user.id },
+        { id: '@_id', userId: 'nando' }, //'AuthService.user.id },
         {
           search: { method: 'POST', params: { id: 'search' }, isArray: true }
         }

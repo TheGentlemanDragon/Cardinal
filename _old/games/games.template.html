@@ -1,0 +1,13 @@
+<div class="title">Games</div>
+
+<!-- Game List -->
+
+<div class="game-list">
+
+  <div class="game-item"
+      ng-repeat="(gameId, game) in vm.games"
+      ng-click="vm.openGame(game, $event)">
+    <h3>{{ game.name }}</h3>
+  </div>
+
+</div>

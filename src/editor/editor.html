@@ -1,23 +1,60 @@
-<div layout="row" layout-align="start start">
+<!-- Template Name -->
 
-  <!-- Navigation Controls -->
-  <div  class="editor-controls"
-        layout="column" layout-align="start start">
+<div container="row #left @middle">
+  <label>Name</label>
+  <input  type="text"
+          ng-model="template.name"
+          cn-click-select>
+</div>
 
-    <span md-ink-ripple
-          ng-repeat="control in controls"
-          ng-class="{selected: control.state == state}"
-          ng-click="go(control.state)">
-      <i class="mdi" ng-class="control.icon"></i>
-      <md-tooltip md-direction="left" md-delay="100">
-        {{ control.label }}
-      </md-tooltip>
-    </span>
+<!-- Elements -->
 
+<div  container="row #left @middle">
+  <label>Elements</label>
+  <select ng-model="editor.element"
+          ng-change="editor.selectElement(editor.elementKeys.indexOf(editor.element))"
+          ng-options="element
+                        for element
+                        in editor.elementKeys">
+  </select>
+</div>
+
+<!-- Element Buttons -->
+
+<div container="row #right @middle">
+  <button ng-click="editor.addElement()">Add Element</button>
+</div>
+
+<!-- Element Properties -->
+
+<div class="element-properties">
+
+  <!-- Element Name -->
+
+  <div container="row #left @middle">
+    <label>Name</label>
+    <input  type="text"
+            ng-model="element.name"
+            cn-click-select>
+    <button>x</button>
   </div>
 
-  <div ui-view class="editor-content" flex>
+  <!-- Element Style -->
 
+  <div container="column #top @left">
+    <label>Style</label>
+    <textarea ng-model="rawStyle"
+              ng-change="editor.applyStyle(rawStyle)">
+    </textarea>
   </div>
+</div>
 
+<div flex></div>
+
+<div container="row #left @middle">
+  <label>Scale</label>
+  <input  type="range"
+          min="1.5" max="3.5" step="0.01"
+          ng-model="editor.scale"
+          ng-change="scale = editor.scale">
 </div>

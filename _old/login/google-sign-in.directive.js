@@ -1,14 +1,14 @@
-module.exports = cnSignIn;
+module.exports = GoogleSignIn;
 
-cnSignIn.$inject = [];
+GoogleSignIn.$inject = [];
 
-function cnSignIn () {
+function GoogleSignIn () {
   return {
     scope: {
       buttonId: '@',
       options: '&'
     },
-    template: '<div></div>',
+
     link: function(scope, element, attrs) {
       // Add Google Platform JS to page
       var script = document.createElement('script');
@@ -16,11 +16,7 @@ function cnSignIn () {
 
       script.onload = function () {
         // Render a google button
-        var div = element.find('div')[0];
-        div.id = attrs.buttonId;
-
-        // First argument is an id, second options
-        gapi.signin2.render(div.id, scope.options());
+        gapi.signin2.render('googleSignIn', scope.options());
       };
 
       document.head.appendChild(script);

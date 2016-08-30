@@ -1,0 +1,11 @@
+<div class="page-title">
+  Templates
+</div>
+
+<div class="list" container="row #left @top">
+  <span class="item template" container="column #center @center"
+        ng-repeat="template in vm.items"
+        ng-click="vm.openTemplate(template._id)">
+    {{ template.name }}
+  </span>
+</div>

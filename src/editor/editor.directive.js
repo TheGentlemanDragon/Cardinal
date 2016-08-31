@@ -6,8 +6,9 @@ function Editor () {
     controllerAs: 'editor',
     restrict: 'E',
     scope: {
-      template: '=',
-      scale: '='
+      element: '=',
+      scale: '=',
+      template: '='
     },
     templateUrl: './editor/editor.html'
   };

@@ -6,6 +6,7 @@ function Card () {
     controllerAs: 'card',
     restrict: 'E',
     scope: {
+      selectedElementId: '=',
       instance: '=',
       isEmpty: '='
 

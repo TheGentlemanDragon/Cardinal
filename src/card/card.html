@@ -1,6 +1,9 @@
 <element
-    ng-repeat="element in card.elements"
+    ng-repeat="element in card.elements track by element.id"
     style="{{ element.style }}"
-    ng-class="{editing: !element.selected, selected: element.selected}">
+    ng-class="{
+      editing: (element.id !== selectedElementId),
+      selected: (element.id === selectedElementId)
+    }">
   {{ element.name }}
 </element>

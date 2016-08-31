@@ -25,7 +25,7 @@ exports.applySchema = function (obj, schema) {
     obj[key] = obj[key] || schema[key];
   }
 
-  delete obj._id;
+  // delete obj._id;
 
   // Check that all required fields have values
   if ( '_required' in obj) {
@@ -47,9 +47,11 @@ exports.applySchema = function (obj, schema) {
   return { error: false };
 };
 
-exports.error = function (error) {
-  res.send("  Error: " + error);
-  return next();
+exports.error = function (res) {
+  return function (error) {
+    res.send("  Error: " + error);
+    return next();
+  }
 };
 
 // // Polyfills

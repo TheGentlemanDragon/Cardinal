@@ -20,7 +20,8 @@ function DataService ($resource, AuthService) {
         'http://localhost:8888/' + resource + '/:id',
         { id: '@_id', userId: 'nando' }, //'AuthService.user.id },
         {
-          search: { method: 'POST', params: { id: 'search' }, isArray: true }
+          search: { method: 'POST', params: { id: 'search' }, isArray: true },
+          update: { method: 'POST' }
         }
       );
     }

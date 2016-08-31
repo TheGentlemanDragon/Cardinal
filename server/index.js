@@ -52,7 +52,7 @@ function createHandlers(collectionName, schema) {
           .toArray()
         )
         .then( docs => res.send(200, docs) )
-        .catch(error);
+        .catch(error(res));
       return next();
     }
   );
@@ -73,7 +73,7 @@ function createHandlers(collectionName, schema) {
           .insert(req.params)
         )
         .then( docs => res.send(201, docs) )
-        .catch(error);
+        .catch(error(res));
       return next();
     }
   );
@@ -89,7 +89,7 @@ function createHandlers(collectionName, schema) {
           .findOne(req.params)
         )
         .then( docs => res.send(200, docs) )
-        .catch(error);
+        .catch(error(res));
       return next();
     }
   );
@@ -105,15 +105,22 @@ function createHandlers(collectionName, schema) {
         return next();
       }
 
+      // Don't save the display id (string version of _id)
+      delete req.params.id;
+
       mongo.then( db =>
         db.collection(collectionName)
-          .findAndModify({
-            query: { _id: req.params.id },
-            update: { '$set': req.params }
-          })
+          .findAndModify(
+            { _id: req.params._id }, // Query
+            [],                     // Sort Order
+            { '$set': req.params }, // Update
+            { upsert: true, new: true }
+          )
         )
-        .then( docs => res.send(200, docs) )
-        .catch(error);
+        .then( docs => {
+          res.send(200, docs.value)
+        })
+        .catch(error(res));
       return next();
     }
   );
@@ -127,7 +134,7 @@ function createHandlers(collectionName, schema) {
           .remove({ _id: req.params.id })
         )
         .then( docs => res.send(204, docs) )
-        .catch(error);
+        .catch(error(res));
       return next();
     }
   );
@@ -140,10 +147,10 @@ var gameSchema = {
 };
 
 var templateSchema = {
-  _required: ['userId', 'deckId'],
+  _required: ['userId', 'gameId'],
   name: 'New Template',
   userId: null,
-  deckId: '',
+  gameId: '',
   fields: [],
   elements: []
 };

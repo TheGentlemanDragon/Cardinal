@@ -4,7 +4,7 @@
 
 <div class="list" container="row #left @top">
   <span class="item game" container="column #center @center"
-        ng-repeat="game in vm.items"
+        ng-repeat="game in vm.items track by game._id"
         ng-click="vm.openGame(game._id)">
     {{ game.name }}
   </span>

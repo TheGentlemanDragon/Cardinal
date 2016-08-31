@@ -1,12 +1,14 @@
 <!-- Card Preview -->
 
-<editor template="vm.template"
+<editor container="column"
+        element="vm.element"
         scale="vm.scale"
-        container="column">
+        template="vm.template">
 </editor>
 
 <div class="card-container" container="row #center @middle" flex>
   <card
+      selected-element-id="vm.element.id"
       instance="vm.template"
       is-empty="true"
       style="transform: scale({{ vm.scale }}, {{ vm.scale }})">

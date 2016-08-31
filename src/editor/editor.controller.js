@@ -1,24 +1,25 @@
 module.exports = EditorController;
 
-EditorController.$inject = [ '$scope' ];
+EditorController.$inject = [ '$interval', '$scope', 'DataService' ];
 
-function EditorController ($scope) {
+function EditorController ($interval, $scope, DataService) {
   const vm = this;
+  let cachedTemplate = JSON.stringify($scope.template);
 
   // Vars
-  vm.elementKeys = getElementKeys();
   vm.scale = $scope.scale;
 
   // Functions
   vm.addElement = addElement;
-  vm.applyStyle = applyStyle;
-  vm.getStyle = getStyle;
-  vm.selectElement = selectElement;
 
   activate();
 
   function activate() {
-    selectElement(0);
+    $scope.element = $scope.template.elements[0];
+    Object.defineProperty($scope, 'style', {
+      get: () => getStyle($scope.template.elements[$scope.element.id]),
+      set: (style) => applyStyle(style)
+    });
   }
 
   function addElement() {
@@ -29,8 +30,7 @@ function EditorController ($scope) {
       style: ''
     };
     $scope.template.elements.push(element);
-    vm.elementKeys = getElementKeys();
-    selectElement(id);
+    $scope.element = element;
   }
 
   function applyStyle(style) {
@@ -41,8 +41,17 @@ function EditorController ($scope) {
     catch (e) { }
     finally {
       if (newStyle) {
-        $scope.element.style = newStyle;
+        $scope.template.elements[$scope.element.id].style = newStyle;
       }
+    }
+  }
+
+  function checkTemplate() {
+    let template = JSON.stringify($scope.template);
+
+    if (!angular.equals(cachedTemplate, template)) {
+      cachedTemplate = template;
+      DataService('templates').update({ id: $scope.template._id }, $scope.template);
     }
   }
 
@@ -54,12 +63,5 @@ function EditorController ($scope) {
     return $scope.template.elements.map(element => element.name);
   }
 
-  function selectElement(index) {
-    $scope.template.elements.forEach(element => delete element.selected);
-    $scope.element = $scope.template.elements[index];
-    vm.element = $scope.element.name;
-    $scope.element.selected = true;
-    $scope.rawStyle = getStyle($scope.element);
-  }
-
+  $interval(checkTemplate, 3000);
 }

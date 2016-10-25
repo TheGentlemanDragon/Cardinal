@@ -3,7 +3,7 @@
 <div container="row #left @middle">
   <label>Name</label>
   <input  type="text"
-          ng-model="template.name"
+          ng-model="$ctrl.template.name"
           cn-click-select>
 </div>
 
@@ -11,15 +11,15 @@
 
 <div  container="row #left @middle">
   <label>Elements</label>
-  <select ng-options="el as el.name for el in template.elements track by el.id"
-          ng-model="element">
+  <select ng-options="el as el.name for el in $ctrl.template.elements track by el.id"
+          ng-model="$ctrl.element">
   </select>
 </div>
 
 <!-- Element Buttons -->
 
 <div container="row #right @middle">
-  <button ng-click="editor.addElement()">Add Element</button>
+  <button ng-click="$ctrl.addElement()">Add Element</button>
 </div>
 
 <!-- Element Properties -->
@@ -31,7 +31,7 @@
   <div container="row #left @middle">
     <label>Name</label>
     <input  type="text"
-            ng-model="element.name"
+            ng-model="$ctrl.element.name"
             cn-click-select>
     <button>x</button>
   </div>
@@ -40,7 +40,7 @@
 
   <div container="column #top @left">
     <label>Style</label>
-    <textarea ng-model="style">
+    <textarea ng-model="$ctrl.style">
     </textarea>
   </div>
 </div>
@@ -51,6 +51,6 @@
   <label>Scale</label>
   <input  type="range"
           min="1.5" max="3.5" step="0.01"
-          ng-model="editor.scale"
-          ng-change="scale = editor.scale">
+          ng-model="$ctrl.scale"
+          ng-change="scale = $ctrl.scale">
 </div>

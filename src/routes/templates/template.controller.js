@@ -10,10 +10,16 @@ function TemplateController ($state, ActionBarService, template) {
   vm.scale = 2.5;
   vm.template = template;
 
+  vm.selectElement = selectElement;
+
   activate();
 
   function activate() {
     ActionBarService.context = '';
+  }
+
+  function selectElement($event) {
+    vm.element = vm.template.elements[$event.element.id];
   }
 }
 

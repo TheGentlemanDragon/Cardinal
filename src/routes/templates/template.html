@@ -8,9 +8,9 @@
 
 <div class="card-container" container="row #center @middle" flex>
   <card
-      selected-element-id="vm.element.id"
       instance="vm.template"
       is-empty="true"
+      on-select-element="vm.selectElement($event)"
       style="transform: scale({{ vm.scale }}, {{ vm.scale }})">
   </card>
 </div>

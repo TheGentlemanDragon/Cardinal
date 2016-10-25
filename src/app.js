@@ -12,19 +12,19 @@ angular.module('cardinal', [
 .service('ActionBarService', require('./action-bar/action-bar.service.js'))
 .service('DataService', require('./shared/data.service.js'))
 .service('ModalService', require('./modal/modal.service.js'))
-.service('TemplateService', require('./shared/template.service.js'))
 
 .controller('GamesController', require('./routes/games/games.controller.js'))
 .controller('GameController', require('./routes/game/game.controller.js'))
 .controller('TemplateController', require('./routes/templates/template.controller.js'))
 
 .directive('actionBar', require('./action-bar/action-bar.directive.js'))
-.directive('card', require('./card/card.directive.js'))
 .directive('cnClickSelect', require('./shared/cn-click-select.directive.js'))
-.directive('editor', require('./editor/editor.directive.js'))
 .directive('modal', require('./modal/modal.directive.js'))
 
 // .directive('googleSignIn', require('./login/google-sign-in.directive.js'))
+
+.component('card', require('./card/card.component.js'))
+.component('editor', require('./editor/editor.component.js'))
 
 .config([
   '$locationProvider', '$stateProvider', '$urlRouterProvider', Config
@@ -55,9 +55,10 @@ function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
       templateUrl: 'routes/templates/template.html',
       controller: 'TemplateController as vm',
       resolve: {
-        template: function (TemplateService, $stateParams) {
-          return TemplateService
-            .get($stateParams.templateId)
+        template: function (DataService, $stateParams) {
+          return DataService('templates')
+            .search({ _id: $stateParams.templateId })
+            .$promise
             .then(response => response[0]);
         }
       }

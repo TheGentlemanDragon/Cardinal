@@ -22,7 +22,10 @@
       Cardinal
     </div>
 
-    <div class="page" ng-class="vm.class" ng-attr-container="{{ vm.layout }}" ui-view></div>
+    <div class="page"
+         ng-attr-container="{{ vm.layout }}"
+         ui-view>
+    </div>
 
     <action-bar container="column #middle @left" context="games"></action-bar>
 

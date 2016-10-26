@@ -13,8 +13,6 @@ angular.module('cardinal', [
 .service('DataService', require('./shared/data.service.js'))
 .service('ModalService', require('./modal/modal.service.js'))
 
-.controller('GamesController', require('./routes/games/games.controller.js'))
-.controller('GameController', require('./routes/game/game.controller.js'))
 .controller('TemplateController', require('./routes/templates/template.controller.js'))
 
 .directive('actionBar', require('./action-bar/action-bar.directive.js'))
@@ -22,6 +20,9 @@ angular.module('cardinal', [
 .directive('modal', require('./modal/modal.directive.js'))
 
 // .directive('googleSignIn', require('./login/google-sign-in.directive.js'))
+
+.component('games', require('./routes/games/games.component.js'))
+.component('game', require('./routes/game/game.component.js'))
 
 .component('card', require('./card/card.component.js'))
 .component('editor', require('./editor/editor.component.js'))
@@ -42,13 +43,11 @@ function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('games', {
       url: '/games',
-      templateUrl: 'routes/games/games.html',
-      controller: 'GamesController as vm'
+      template: '<games></games>'
     })
     .state('game', {
       url: '/games/:gameId',
-      templateUrl: 'routes/game/game.html',
-      controller: 'GameController as vm'
+      template: '<game></game>'
     })
     .state('template', {
       url: '/templates/:templateId',

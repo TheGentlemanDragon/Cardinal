@@ -4,8 +4,8 @@
 
 <div class="list" container="row #left @top">
   <span class="item template" container="column #center @center"
-        ng-repeat="template in vm.items track by template._id"
-        ng-click="vm.openTemplate(template._id)">
+        ng-repeat="template in $ctrl.items track by template._id"
+        ng-click="$ctrl.openTemplate(template._id)">
     {{ template.name }}
   </span>
 </div>

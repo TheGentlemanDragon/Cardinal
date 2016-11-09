@@ -4,7 +4,6 @@ class GameController {
     this.$state = $state;
     this.ABS = ActionBarService;
     this.DS = DataService;
-    this.layout = 'column #top @stretch';
   }
 
   $onInit () {

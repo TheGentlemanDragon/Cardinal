@@ -19,18 +19,15 @@
   },
   "homepage": "https://github.com/nandokun/cardinal",
   "dependencies": {
-    "angular": "^1.5.6",
-    "angular-animate": "^1.5.6",
-    "angular-aria": "^1.5.6",
-    "angular-material": "^1.0.9",
-    "angular-resource": "^1.5.6",
-    "angular-ui-router": "^0.2.15",
-    "lodash": "^4.5.0",
-    "mongodb": "^2.1.19",
-    "restify": "^4.0.4",
-    "stylus": "^0.53.0"
+    "angular": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular-ui-router": "^0.3.2",
+    "lodash": "^4.16.6",
+    "mongodb": "^2.2.11",
+    "restify": "^4.2.0",
+    "stylus": "^0.54.5"
   },
   "devDependencies": {
-    "browser-sync": "^2.11.1"
+    "browser-sync": "^2.17.5"
   }
 }

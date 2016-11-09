@@ -1,0 +1,14 @@
+<editor container="column"
+        element="$ctrl.element"
+        scale="$ctrl.scale"
+        template="$ctrl.template">
+</editor>
+
+<div container="row #center @middle" flex>
+  <card
+      instance="$ctrl.template"
+      is-empty="true"
+      on-select-element="$ctrl.selectElement($event)"
+      style="transform: scale({{ $ctrl.scale }}, {{ $ctrl.scale }})">
+  </card>
+</div>

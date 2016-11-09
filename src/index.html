@@ -14,7 +14,7 @@
           content="676933282906-ufr25fpd2rjkcotfhfm2j9vbehmd5dam.apps.googleusercontent.com">
   </head>
 
-  <body ng-app="cardinal">
+  <body ng-app="cardinal" container="column #top @stretch">
 
     <modal></modal>
 
@@ -22,10 +22,7 @@
       Cardinal
     </div>
 
-    <div class="page"
-         ng-attr-container="{{ vm.layout }}"
-         ui-view>
-    </div>
+    <ui-view class="page" container="column #top @stretch"></ui-view>
 
     <action-bar container="column #middle @left" context="games"></action-bar>
 

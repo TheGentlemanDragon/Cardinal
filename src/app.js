@@ -13,8 +13,6 @@ angular.module('cardinal', [
 .service('DataService', require('./shared/data.service.js'))
 .service('ModalService', require('./modal/modal.service.js'))
 
-.controller('TemplateController', require('./routes/templates/template.controller.js'))
-
 .directive('actionBar', require('./action-bar/action-bar.directive.js'))
 .directive('cnClickSelect', require('./shared/cn-click-select.directive.js'))
 .directive('modal', require('./modal/modal.directive.js'))
@@ -23,6 +21,7 @@ angular.module('cardinal', [
 
 .component('games', require('./routes/games/games.component.js'))
 .component('game', require('./routes/game/game.component.js'))
+.component('template_', require('./routes/template/template.component.js'))
 
 .component('card', require('./card/card.component.js'))
 .component('editor', require('./editor/editor.component.js'))
@@ -41,20 +40,22 @@ function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
 
   // Set routes
   $stateProvider
-    .state('games', {
+    .state({
+      name: 'games',
       url: '/games',
-      template: '<games></games>'
+      template: '<games container="column #top @stretch"></games>'
     })
-    .state('game', {
+    .state({
+      name: 'game',
       url: '/games/:gameId',
-      template: '<game></game>'
+      template: '<game container="column #top @stretch"></game>'
     })
-    .state('template', {
+    .state({
+      name: 'template',
       url: '/templates/:templateId',
-      templateUrl: 'routes/templates/template.html',
-      controller: 'TemplateController as vm',
+      template: '<template_ data="$resolve.data" container="row #left @stretch" flex></template_>',
       resolve: {
-        template: function (DataService, $stateParams) {
+        data: function (DataService, $stateParams) {
           return DataService('templates')
             .search({ _id: $stateParams.templateId })
             .$promise

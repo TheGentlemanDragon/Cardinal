@@ -1,32 +1,28 @@
-module.exports = TemplateController;
+class TemplateController {
 
-TemplateController.$inject = [ '$state', 'ActionBarService', 'template' ];
-
-function TemplateController ($state, ActionBarService, template) {
-  var vm = this;
-
-  vm.class = 'template';
-  vm.layout = 'row #top @stretch';
-  vm.scale = 2.5;
-  vm.template = template;
-
-  vm.selectElement = selectElement;
-
-  activate();
-
-  function activate() {
-    ActionBarService.context = '';
+  constructor($state, ActionBarService) {
+    this.$state = $state;
+    this.ABS = ActionBarService;
+    this.scale = 2.5;
   }
 
-  function selectElement($event) {
-    vm.element = vm.template.elements[$event.element.id];
+  $onInit() {
+    this.ABS.context = '';
+    this.template = this.data;
+  }
+
+  selectElement($event) {
+    this.element = this.data.elements[$event.element.id];
   }
 }
 
-
-
-
-
+module.exports = {
+  controller: TemplateController,
+  templateUrl: 'routes/template/template.html',
+  bindings: {
+    data: '<'
+  }
+};
 
 // function TemplateController ($state, $mdDialog, $mdSidenav, DataService) {
 //   var _ = require('lodash');

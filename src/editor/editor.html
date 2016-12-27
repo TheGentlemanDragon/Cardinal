@@ -9,7 +9,7 @@
 
 <!-- Elements -->
 
-<div  container="row #left @middle">
+<div container="row #left @middle" ng-if="$ctrl.template.elements.length">
   <label>Elements</label>
   <select ng-options="el as el.name for el in $ctrl.template.elements track by el.id"
           ng-model="$ctrl.element">
@@ -24,7 +24,7 @@
 
 <!-- Element Properties -->
 
-<div class="element-properties">
+<div class="element-properties" ng-if="$ctrl.element">
 
   <!-- Element Name -->
 

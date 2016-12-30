@@ -1,0 +1,2 @@
+{ "_id" : { "$oid" : "578c30794ef3d2181e000001" }, "userId" : "nando", "gameId" : "57749394f58cadbacaa19c79", "name" : "Test Template" }
+{ "_id" : { "$oid" : "578c6ee5025d33e70c000001" }, "userId" : "nando", "gameId" : "57749394f58cadbacaa19c79", "name" : "Action Card" }

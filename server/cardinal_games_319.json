@@ -1,0 +1,13 @@
+{ "_id" : { "$oid" : "577492f2f58cadbacaa19c6d" }, "name" : "Apples to Apples", "userId" : "nando" }
+{ "_id" : { "$oid" : "577492fcf58cadbacaa19c6e" }, "name" : "Ascension", "userId" : "nando" }
+{ "_id" : { "$oid" : "5774930af58cadbacaa19c6f" }, "name" : "Boss Monster", "userId" : "nando" }
+{ "_id" : { "$oid" : "57749328f58cadbacaa19c70" }, "name" : "Boss Monster 2", "userId" : "nando" }
+{ "_id" : { "$oid" : "57749334f58cadbacaa19c71" }, "name" : "Coup", "userId" : "nando" }
+{ "_id" : { "$oid" : "57749339f58cadbacaa19c72" }, "name" : "Dixit", "userId" : "nando" }
+{ "_id" : { "$oid" : "57749340f58cadbacaa19c73" }, "name" : "Get Lucky", "userId" : "nando" }
+{ "_id" : { "$oid" : "5774934af58cadbacaa19c74" }, "name" : "Innovation", "userId" : "nando" }
+{ "_id" : { "$oid" : "57749359f58cadbacaa19c75" }, "name" : "Machi Koro", "userId" : "nando" }
+{ "_id" : { "$oid" : "57749361f58cadbacaa19c76" }, "name" : "Monikers", "userId" : "nando" }
+{ "_id" : { "$oid" : "5774936ef58cadbacaa19c77" }, "name" : "Pandante", "userId" : "nando" }
+{ "_id" : { "$oid" : "57749390f58cadbacaa19c78" }, "name" : "Fluxx", "userId" : "nando" }
+{ "_id" : { "$oid" : "57749394f58cadbacaa19c79" }, "name" : "Yomi", "userId" : "nando" }

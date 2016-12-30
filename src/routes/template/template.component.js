@@ -9,10 +9,33 @@ class TemplateController {
   $onInit() {
     this.ABS.context = '';
     this.template = this.data;
+    this.element = this.data.elements[0];
   }
 
   selectElement($event) {
-    this.element = this.data.elements[$event.element.id];
+    let element;
+    let selectIndex;
+    let selectId;
+
+    // Gather all the 'element' tags
+    let elements = document
+      .elementsFromPoint($event.clientX, $event.clientY)
+      .filter(el => el.tagName === 'ELEMENT');
+
+    if (elements.length === 0) {
+      return;
+    }
+
+    // Find the element with class 'selected' and store the next index after it
+    // or store first index if none or last selected
+    selectIndex = elements.findIndex(el => el.className.includes('selected')) + 1;
+    selectIndex = (selectIndex < elements.length ? selectIndex : 0);
+
+    // Store the element.id of the element in the selectIndex
+    selectId = angular.element(elements[selectIndex]).scope().element.id;
+
+    // Set that id as selected
+    this.element = this.data.elements[selectId];
   }
 }
 

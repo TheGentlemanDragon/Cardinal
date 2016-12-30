@@ -8,7 +8,9 @@
   <card
       instance="$ctrl.template"
       is-empty="true"
-      on-select-element="$ctrl.selectElement($event)"
-      style="transform: scale({{ $ctrl.scale }}, {{ $ctrl.scale }})">
+      selected-element-id="$ctrl.element.id"
+      style="transform: scale({{ $ctrl.scale }}, {{ $ctrl.scale }})"
+      ng-click="$ctrl.selectElement($event)">
+      <!-- ^ on-select-element="$ctrl.selectElement($event)" -->
   </card>
 </div>

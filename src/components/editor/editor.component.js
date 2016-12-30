@@ -1,13 +1,14 @@
 class EditorController {
 
   constructor($interval, DataService) {
-     $interval(this.checkTemplate, 3000, null, null, this);
-     this.DataService = DataService;
+    $interval(this.checkTemplate, 3000, null, null, this);
+    this.DataService = DataService;
   }
 
   $onInit() {
     this.cachedTemplate = JSON.stringify(this.template);
-    this.element = this.template.elements[0];
+    this.element = (this.template.elements || [])[0];
+    this.mode = 'element';
     Object.defineProperty(this, 'style', {
       get: () => this.getStyle(this.template.elements[this.element.id]),
       set: (style) => this.applyStyle(style)
@@ -15,13 +16,13 @@ class EditorController {
   }
 
   addElement() {
-    let id = this.template.elements.length;
+    let elements = setDefault(this.template, 'elements', []);
     let element = {
-      id: id,
-      name: `element ${id + 1}`,
+      id: elements.length,
+      name: `element ${elements.length}`,
       style: ''
     };
-    this.template.elements.push(element);
+    elements.push(element);
     this.element = element;
   }
 
@@ -59,10 +60,10 @@ class EditorController {
 
 module.exports = {
   bindings: {
-      element: '<',
-      scale: '<',
-      template: '<'
+    element: '<',
+    scale: '<',
+    template: '<'
   },
   controller: EditorController,
-  templateUrl: './editor/editor.html'
+  templateUrl: './components/editor/editor.html'
 };

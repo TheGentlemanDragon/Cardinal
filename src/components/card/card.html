@@ -4,7 +4,7 @@
       editing: (element.id !== $ctrl.selectedElementId),
       selected: (element.id === $ctrl.selectedElementId)
     }"
-    ng-click="$ctrl.selectElement(element.id)"
     style="{{ element.style }}">
+    <!-- ^ ng-click="$ctrl.selectElement(element.id)" -->
   {{ element.name }}
 </element>

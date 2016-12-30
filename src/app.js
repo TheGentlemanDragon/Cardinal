@@ -9,13 +9,12 @@ angular.module('cardinal', [
 ])
 
 .service('AuthService', require('./shared/auth.service.js'))
-.service('ActionBarService', require('./action-bar/action-bar.service.js'))
+.service('ActionBarService', require('./components/action-bar/action-bar.service.js'))
 .service('DataService', require('./shared/data.service.js'))
-.service('ModalService', require('./modal/modal.service.js'))
+.service('ModalService', require('./components/modal/modal.service.js'))
 
-.directive('actionBar', require('./action-bar/action-bar.directive.js'))
 .directive('cnClickSelect', require('./shared/cn-click-select.directive.js'))
-.directive('modal', require('./modal/modal.directive.js'))
+.directive('modal', require('./components/modal/modal.directive.js'))
 
 // .directive('googleSignIn', require('./login/google-sign-in.directive.js'))
 
@@ -23,8 +22,9 @@ angular.module('cardinal', [
 .component('game', require('./routes/game/game.component.js'))
 .component('template_', require('./routes/template/template.component.js'))
 
-.component('card', require('./card/card.component.js'))
-.component('editor', require('./editor/editor.component.js'))
+.component('actionBar', require('./components/action-bar/action-bar.directive.js'))
+.component('card', require('./components/card/card.component.js'))
+.component('editor', require('./components/editor/editor.component.js'))
 
 .config([
   '$locationProvider', '$stateProvider', '$urlRouterProvider', Config
@@ -92,6 +92,14 @@ function Run ($rootScope, $state, AuthService, ModalService) {
 
 /* Global utilities */
 
+function setDefault (object, key, value) {
+  if (object[key] === undefined) {
+    object[key] = value;
+  }
+  return object[key];
+}
+
+window.setDefault = setDefault;
 // function generateUUID () {
 //   var d = new Date().getTime();
 //   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

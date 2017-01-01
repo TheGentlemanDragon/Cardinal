@@ -9,7 +9,7 @@ class TemplateController {
   $onInit() {
     this.ABS.context = '';
     this.template = this.data;
-    this.element = this.data.elements[0];
+    this.element = 'elements' in this.data ? this.data.elements[0] : null;
   }
 
   selectElement($event) {

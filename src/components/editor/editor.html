@@ -37,12 +37,16 @@
 
   <div container="row #spaced @middle">
     <button ng-click="$ctrl.addElement()">Add</button>
-    <button ng-click="$ctrl.deleteElement()">Delete</button>
+    <button ng-if="$ctrl.element"
+            ng-click="$ctrl.deleteElement()">
+      Delete
+    </button>
   </div>
 
   <!-- Element Name -->
 
-  <div container="column #top @left">
+  <div  container="column #top @left"
+        ng-if="$ctrl.element">
     <label>Name</label>
     <input  type="text"
             ng-model="$ctrl.element.name"
@@ -51,7 +55,8 @@
 
   <!-- Element Style -->
 
-  <div container="column #top @left">
+  <div  container="column #top @left"
+        ng-if="$ctrl.element">
     <label>Style</label>
     <textarea ng-model="$ctrl.style"></textarea>
   </div>

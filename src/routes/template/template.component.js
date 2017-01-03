@@ -8,8 +8,9 @@ class TemplateController {
 
   $onInit() {
     this.ABS.context = '';
-    this.template = this.data;
-    this.element = 'elements' in this.data ? this.data.elements[0] : null;
+    this.template = this.data.template;
+    this.cards = this.data.cards;
+    this.card = this.cards.length ? this.cards[0] : null;
   }
 
   selectElement($event) {
@@ -23,6 +24,7 @@ class TemplateController {
       .filter(el => el.tagName === 'ELEMENT');
 
     if (elements.length === 0) {
+      this.element = null;
       return;
     }
 
@@ -35,7 +37,7 @@ class TemplateController {
     selectId = angular.element(elements[selectIndex]).scope().element.id;
 
     // Set that id as selected
-    this.element = this.data.elements[selectId];
+    this.element = this.data.template.elements[selectId];
   }
 }
 

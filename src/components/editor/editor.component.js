@@ -7,7 +7,6 @@ class EditorController {
 
   $onInit() {
     this.cachedTemplate = JSON.stringify(this.template);
-    this.element = (this.template.elements || [])[0];
     this.mode = 'element';
     Object.defineProperty(this, 'style', {
       get: () => this.getStyle(this.template.elements[this.element.id]),
@@ -29,7 +28,7 @@ class EditorController {
   applyStyle(style) {
     let newStyle;
     try {
-      newStyle = style.split('\n').join('; ');
+      newStyle = style.split('\n').map(line => line.replace(' ', ': ')).join('; ');
     }
     catch (e) { }
     finally {
@@ -48,8 +47,14 @@ class EditorController {
     }
   }
 
+  deleteElement(element) {
+    let index = this.template.elements.indexOf(element);
+    this.template.elements.splice(index, 1);
+    this.element = null;
+  }
+
   getStyle(element) {
-    return (element.style || '').replace(/; /g, '\n');
+    return (element.style || '').replace(/; /g, '\n').replace(/: /g, ' ');
   }
 
   getElementKeys() {

@@ -55,11 +55,17 @@ function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
       url: '/templates/:templateId',
       template: '<template_ data="$resolve.data" container="row #left @stretch" flex></template_>',
       resolve: {
-        data: function (DataService, $stateParams) {
-          return DataService('templates')
+        data: function (DataService, $q, $stateParams) {
+          let cards = DataService('cards')
+            .search({ templateId: $stateParams.templateId })
+            .$promise;
+
+          let template = DataService('templates')
             .search({ _id: $stateParams.templateId })
             .$promise
             .then(response => response[0]);
+
+          return $q.all({ cards: cards, template: template });
         }
       }
     });

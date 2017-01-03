@@ -7,7 +7,7 @@ function cnClickSelect () {
   };
 
   function link(scope, element, attrs) {
-    element.parent().bind('click', clickSelect);
+    element.bind('click', clickSelect);
   }
 
   function clickSelect(event) {

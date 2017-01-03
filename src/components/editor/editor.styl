@@ -60,6 +60,11 @@ editor
     min-height 300px
     resize none
 
+  .hint
+    font-family 'Sans'
+    text-align center
+    margin 5px 0 10px
+
   .properties
     background-color $light-background
     // box-shadow inset 0px 8px 15px -8px rgba(0, 0, 0, 0.75)
@@ -72,10 +77,10 @@ editor
 
   .title
     border-bottom 1px solid rgba(255, 255, 255, 0.1)
-    text-align center
-    text-transform uppercase
     margin 10px 0 5px
     padding-bottom 10px
+    text-align center
+    text-transform uppercase
 
   .tabs
     background-color $light-background
@@ -85,6 +90,7 @@ editor
 
     div
       width 50%
+      user-select none
 
       &:first-child
         height 100%

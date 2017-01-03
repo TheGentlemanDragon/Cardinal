@@ -38,9 +38,17 @@
   <div container="row #spaced @middle">
     <button ng-click="$ctrl.addElement()">Add</button>
     <button ng-if="$ctrl.element"
-            ng-click="$ctrl.deleteElement()">
+            ng-click="$ctrl.deleteElement($ctrl.element)">
       Delete
     </button>
+  </div>
+
+  <!-- No Element Selected Hint -->
+
+  <div  class="hint"
+        ng-if="$ctrl.template.elements.length && !$ctrl.element">
+    Click an element in the<br />
+    card preview to select it.
   </div>
 
   <!-- Element Name -->

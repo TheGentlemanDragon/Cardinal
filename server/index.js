@@ -151,16 +151,14 @@ var templateSchema = {
   name: 'New Template',
   userId: null,
   gameId: '',
-  fields: [],
   elements: []
 };
 
 var cardSchema = {
-  _required: ['userId', 'templateId', 'deckId'],
+  _required: ['userId', 'templateId'],
   name: 'New Card',
   userId: null,
   templateId: '',
-  deckId: '',
   data: {}
 };
 

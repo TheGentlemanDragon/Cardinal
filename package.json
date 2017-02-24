@@ -6,7 +6,7 @@
     "serve": "node ./tasks/browser-sync.js",
     "vendor": "./tasks/vendor.sh",
     "js": "./node_modules/.bin/watchify src/app.js -o src/bundle.js --debug",
-    "dev": "node server & npm run js & npm run serve",
+    "dev": "node --inspect server & npm run js & npm run serve",
     "mock-db": "./tasks/sample-data.sh"
   },
   "repository": {

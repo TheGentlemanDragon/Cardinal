@@ -11,7 +11,7 @@
           cn-click-select>
 </div>
 
-<!-- Element / Data Tabs -->
+<!-- Tabs Buttons -->
 
 <div class="tabs" container="row #spaced @middle">
 
@@ -22,6 +22,7 @@
   </div>
 
   <div  container="row #center @middle"
+        ng-if="$ctrl.element"
         ng-class="{ 'tab-label': $ctrl.mode !== 'data' }"
         ng-click="$ctrl.mode = 'data'">
     Data
@@ -51,6 +52,14 @@
     card preview to select it.
   </div>
 
+  <!-- No Elements Exist Hint -->
+
+  <div  class="hint"
+        ng-if="!$ctrl.template.elements.length">
+    There are currently no elements for this<br />
+    template. Click the button to add one.
+  </div>
+
   <!-- Element Name -->
 
   <div  container="column #top @left"
@@ -67,6 +76,14 @@
         ng-if="$ctrl.element">
     <label>Style</label>
     <textarea ng-model="$ctrl.style"></textarea>
+  </div>
+</div>
+
+<!-- Data Tab -->
+
+<div class="properties" ng-if="$ctrl.mode === 'data'">
+  <div container="row #spaced @middle">
+    <button ng-click="$ctrl.addCard()">Add Card</button>
   </div>
 </div>
 

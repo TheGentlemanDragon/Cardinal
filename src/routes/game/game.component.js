@@ -14,7 +14,7 @@ class GameController {
     };
 
     this.DS(collection)
-      .search(query)
+      .query(query)
       .$promise
       .then(function (items) {
         ctrl.items = items;

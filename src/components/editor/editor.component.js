@@ -2,7 +2,7 @@ class EditorController {
 
   constructor($interval, DataService) {
     $interval(this.checkTemplate, 3000, null, null, this);
-    this.DataService = DataService;
+    this.DS = DataService;
   }
 
   $onInit() {
@@ -42,7 +42,7 @@ class EditorController {
     let template = JSON.stringify(context.template);
 
     if (!angular.equals(context.cachedTemplate, template)) {
-      context.DataService('templates').update({ id: context.template._id }, context.template);
+      context.DS('templates').update({ id: context.template._id }, context.template);
       context.cachedTemplate = template;
     }
   }

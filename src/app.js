@@ -57,13 +57,13 @@ function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
       resolve: {
         data: function (DataService, $q, $stateParams) {
           let cards = DataService('cards')
-            .search({ templateId: $stateParams.templateId })
+            .query({ templateId: $stateParams.templateId })
             .$promise;
 
           let template = DataService('templates')
-            .search({ _id: $stateParams.templateId })
+            .get({ id: $stateParams.templateId })
             .$promise
-            .then(response => response[0]);
+            .then(response => response);
 
           return $q.all({ cards: cards, template: template });
         }

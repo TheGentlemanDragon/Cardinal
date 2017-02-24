@@ -13,7 +13,7 @@ class GamesController {
 
     // Load all games
     this.DS(collection)
-      .search(query)
+      .query(query)
       .$promise
       .then(items => {
         ctrl.items = items;

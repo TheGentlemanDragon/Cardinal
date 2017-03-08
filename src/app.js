@@ -53,7 +53,11 @@ function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
     .state({
       name: 'template',
       url: '/templates/:templateId',
-      template: '<template_ data="$resolve.data" container="row #left @stretch" flex></template_>',
+      template: `
+        <template_
+          data="$resolve.data"
+          container="row #left @stretch" flex>
+        </template_>`,
       resolve: {
         data: function (DataService, $q, $stateParams) {
           let cards = DataService('cards')
@@ -62,14 +66,12 @@ function Config ($locationProvider, $stateProvider, $urlRouterProvider) {
 
           let template = DataService('templates')
             .get({ id: $stateParams.templateId })
-            .$promise
-            .then(response => response);
+            .$promise;
 
           return $q.all({ cards: cards, template: template });
         }
       }
     });
-
 
     $urlRouterProvider.otherwise('/games');
 }

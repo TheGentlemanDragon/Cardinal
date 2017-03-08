@@ -1,16 +1,28 @@
 class EditorController {
 
-  constructor($interval, DataService) {
-    $interval(this.checkTemplate, 3000, null, null, this);
+  constructor(DataService) {
     this.DS = DataService;
   }
 
   $onInit() {
-    this.cachedTemplate = JSON.stringify(this.template);
-    this.mode = 'element';
+    // ng-model-options config
+    this.updateOnBlur = { updateOn: 'blur' };
+
+    // Unpack some vars to save space
+    this.cards = this.data.cards;
+    this.template = this.data.template;
+    this.elements = this.template.elements;
+
     Object.defineProperty(this, 'style', {
-      get: () => this.getStyle(this.template.elements[this.element.id]),
+      get: () => this.getStyle(this.elements[this.element.id]),
       set: (style) => this.applyStyle(style)
+    });
+  }
+
+  addCard() {
+    let cards = this.DS('cards').save({
+      templateId: this.template._id,
+      data: new Array(this.elements.length)
     });
   }
 
@@ -33,24 +45,16 @@ class EditorController {
     catch (e) { }
     finally {
       if (newStyle) {
-        this.template.elements[this.element.id].style = newStyle;
+        this.elements[this.element.id].style = newStyle;
       }
     }
   }
 
-  checkTemplate(context) {
-    let template = JSON.stringify(context.template);
-
-    if (!angular.equals(context.cachedTemplate, template)) {
-      context.DS('templates').update({ id: context.template._id }, context.template);
-      context.cachedTemplate = template;
-    }
-  }
-
   deleteElement(element) {
-    let index = this.template.elements.indexOf(element);
-    this.template.elements.splice(index, 1);
+    let index = this.elements.indexOf(element);
+    this.elements.splice(index, 1);
     this.element = null;
+    this.template.$save();
   }
 
   getStyle(element) {
@@ -58,7 +62,7 @@ class EditorController {
   }
 
   getElementKeys() {
-    return this.template.elements.map(element => element.name);
+    return this.elements.map(element => element.name);
   }
 
 }
@@ -66,8 +70,9 @@ class EditorController {
 module.exports = {
   bindings: {
     element: '<',
-    scale: '<',
-    template: '<'
+    card: '<',
+    ui: '<',
+    data: '<',
   },
   controller: EditorController,
   templateUrl: './components/editor/editor.html'

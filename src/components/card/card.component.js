@@ -4,9 +4,6 @@ class CardController {
   }
 
   $onInit() {
-    if (this.isEmpty) {
-      this.elements = this.instance.elements;
-    }
   }
 
 }
@@ -15,8 +12,9 @@ module.exports = {
   controller: CardController,
   templateUrl: './components/card/card.html',
   bindings: {
+      template: '<',
       instance: '<',
-      isEmpty: '<',
+      mode: '<',
       selectedElementId: '<'
   }
 };

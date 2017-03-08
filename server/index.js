@@ -1,7 +1,6 @@
 var url = 'mongodb://localhost:27017/cardinal';
 
 var restify = require('restify');
-var mongo = require('mongodb').MongoClient.connect(url);
 var ObjectId = require('mongodb').ObjectId
 var helpers = require('./helpers.js');
 
@@ -9,18 +8,27 @@ var logRequest = helpers.logRequest;
 var applySchema = helpers.applySchema;
 var error = helpers.error;
 
-function authenticate (req, res, next) {
+var db;
+
+function authenticate(req, res, next) {
   if (!req.params.userId) {
     res.send(401, 'You must supply a \'userId\' to make a request.');
   }
   return next();
 }
 
-function transformId (req, res, next) {
+function transformId(req, res, next) {
   if (req.params._id) {
     req.params._id = new ObjectId(req.params._id);
   }
+  if (req.params.id) {
+    req.params.id = new ObjectId(req.params.id);
+  }
   return next();
+}
+
+function sendData(res, code) {
+  return payload => res.send(code, payload);
 }
 
 var server = restify.createServer();
@@ -41,138 +49,135 @@ server.use(logRequest);
 // );
 
 // Create set of REST CRUD functions based on mongo DB collection name
-function createHandlers(collectionName, schema) {
+function createHandlers(collectionName) {
+  let schema = schemas[collectionName];
+
+  function query(req, res, next) {
+    db.collection(collectionName)
+      .find(req.params)
+      .toArray()
+      // .then(docs => { console.log(docs); return docs; })
+      .then(sendData(res, 200))
+      .catch(error(res));
+    return next();
+  }
+
+  function post(req, res, next) {
+    var result = applySchema(req.params, schema);
+
+    if (result.error) {
+      res.send(400, result.error);
+      return next();
+    }
+
+    db.collection(collectionName)
+      .insert(req.params)
+      // .then(docs => { console.log(docs); return docs; })
+      .then(sendData(res, 201))
+      .catch(error(res));
+    return next();
+  }
+
+  function get(req, res, next) {
+    req.params._id = req.params.id;
+    delete req.params.id;
+
+    db.collection(collectionName)
+      .findOne(req.params)
+      // .then(docs => { console.log(docs); return docs; })
+      .then(sendData(res, 200))
+      .catch(error(res));
+    return next();
+  }
+
+  function update(req, res, next) {
+    var result = applySchema(req.params, schema);
+
+    if (result.error) {
+      res.send(400, result.error);
+      return next();
+    }
+
+    // Don't save the display id (string version of _id)
+    delete req.params.id;
+
+    db.collection(collectionName)
+      .findAndModify(
+        { _id: req.params._id }, // Query
+        [],                      // Sort Order
+        { '$set': req.params },  // Update
+        { upsert: true, new: true }
+      )
+      // .then(docs => { console.log(docs); return docs; })
+      .then(docs => res.send(200, docs.value))
+      .catch(error(res));
+    return next();
+  }
+
+  function del(req, res, next) {
+    db.collection(collectionName)
+      .remove({ _id: req.params.id })
+      // .then(docs => { console.log(docs); return docs; })
+      .then(sendData(res, 204))
+      .catch(error(res));
+    return next();
+  }
 
   // Get document array by query
-  server.post('/' + collectionName + '/search',
-    function (req, res, next) {
-      mongo.then( db =>
-        db.collection(collectionName)
-          .find(req.params)
-          .toArray()
-        )
-        .then( docs => res.send(200, docs) )
-        .catch(error(res));
-      return next();
-    }
-  );
+  server.get(`/${collectionName}`, query);
 
   // Create new document
-  server.post('/' + collectionName,
-    function (req, res, next) {
-
-      var result = applySchema(req.params, schema);
-
-      if (result.error) {
-        res.send(400, result.error);
-        return next();
-      }
-
-      mongo.then( db =>
-        db.collection(collectionName)
-          .insert(req.params)
-        )
-        .then( docs => res.send(201, docs) )
-        .catch(error(res));
-      return next();
-    }
-  );
+  server.post(`/${collectionName}`, post);
 
   // Get document by id
-  server.get('/' + collectionName + '/:id',
-    function (req, res, next) {
-      req.params._id = req.params.id;
-      delete req.params.id;
-
-      mongo.then( db =>
-        db.collection(collectionName)
-          .findOne(req.params)
-        )
-        .then( docs => res.send(200, docs) )
-        .catch(error(res));
-      return next();
-    }
-  );
+  server.get(`/${collectionName}/:id`, get);
 
   // Update document by id
-  server.post('/' + collectionName + '/:id',
-    function (req, res, next) {
-
-      var result = applySchema(req.params, schema);
-
-      if (result.error) {
-        res.send(400, result.error);
-        return next();
-      }
-
-      // Don't save the display id (string version of _id)
-      delete req.params.id;
-
-      mongo.then( db =>
-        db.collection(collectionName)
-          .findAndModify(
-            { _id: req.params._id }, // Query
-            [],                     // Sort Order
-            { '$set': req.params }, // Update
-            { upsert: true, new: true }
-          )
-        )
-        .then( docs => {
-          res.send(200, docs.value)
-        })
-        .catch(error(res));
-      return next();
-    }
-  );
+  server.post(`/${collectionName}/:id`, update);
 
   // Delete document by id
-  server.del('/' + collectionName + '/:id',
-    function (req, res, next) {
-
-      mongo.then( db =>
-        db.collection(collectionName)
-          .remove({ _id: req.params.id })
-        )
-        .then( docs => res.send(204, docs) )
-        .catch(error(res));
-      return next();
-    }
-  );
+  server.del(`/${collectionName}/:id`, del);
 }
 
-var gameSchema = {
-  _required: ['userId'],
-  name: 'New Game',
-  userId: null
+let schemas = {
+  cards: {
+    _required: ['userId', 'templateId'],
+    name: 'New Card',
+    userId: null,
+    templateId: '',
+    data: {}
+  },
+
+  decks: {
+    _required: ['userId'],
+    name: 'New Deck',
+    userId: null,
+    description: '',
+  },
+
+  games: {
+    _required: ['userId'],
+    name: 'New Game',
+    userId: null
+  },
+
+  templates: {
+    _required: ['userId', 'gameId'],
+    name: 'New Template',
+    userId: null,
+    gameId: '',
+    elements: []
+  }
 };
 
-var templateSchema = {
-  _required: ['userId', 'gameId'],
-  name: 'New Template',
-  userId: null,
-  gameId: '',
-  elements: []
-};
-
-var cardSchema = {
-  _required: ['userId', 'templateId'],
-  name: 'New Card',
-  userId: null,
-  templateId: '',
-  data: {}
-};
-
-var deckSchema = {
-  _required: ['userId'],
-  name: 'New Deck',
-  userId: null,
-  description: '',
-};
-
-createHandlers('games', gameSchema);
-createHandlers('templates', templateSchema);
-createHandlers('cards', cardSchema);
-createHandlers('decks', deckSchema);
+// Wait for db connection, then create handlers
+require('mongodb').MongoClient.connect(url).then(connection => {
+  db = connection;
+  createHandlers('games');
+  createHandlers('templates');
+  createHandlers('cards');
+  createHandlers('decks');
+});
 
 server.listen(8888, function() {
   console.log('%s listening at %s', server.name, server.url);

@@ -8,30 +8,34 @@
   <label>Name</label>
   <input  type="text"
           ng-model="$ctrl.template.name"
+          ng-change="$ctrl.template.$save()"
+          ng-model-options="$ctrl.updateOnBlur"
           cn-click-select>
 </div>
 
-<!-- Element / Data Tabs -->
+<!-- Tabs Buttons -->
 
 <div class="tabs" container="row #spaced @middle">
 
   <div  container="row #center @middle"
-        ng-class="{ 'tab-label': $ctrl.mode !== 'element' }"
-        ng-click="$ctrl.mode = 'element'">
+        ng-class="{ 'tab-label': $ctrl.ui.mode !== 'element' }"
+        ng-click="$ctrl.ui.mode = 'element'">
     Elements
   </div>
 
   <div  container="row #center @middle"
-        ng-class="{ 'tab-label': $ctrl.mode !== 'data' }"
-        ng-click="$ctrl.mode = 'data'">
-    Data
+        ng-class="{ 'tab-label': $ctrl.ui.mode !== 'preview' }"
+        ng-click="$ctrl.ui.mode = 'preview'">
+    Preview
   </div>
 
 </div>
 
+<!---------------------------->
 <!-- Element Properties Tab -->
+<!---------------------------->
 
-<div class="properties" ng-if="$ctrl.mode === 'element'">
+<div class="properties" ng-if="$ctrl.ui.mode === 'element'">
 
   <!-- Element Buttons -->
 
@@ -43,12 +47,20 @@
     </button>
   </div>
 
-  <!-- No Element Selected Hint -->
+  <!-- Hint - No Element Selected -->
 
   <div  class="hint"
-        ng-if="$ctrl.template.elements.length && !$ctrl.element">
+        ng-if="$ctrl.elements.length && !$ctrl.element">
     Click an element in the<br />
     card preview to select it.
+  </div>
+
+  <!-- Hint - No Elements Exist -->
+
+  <div  class="hint"
+        ng-if="!$ctrl.elements.length">
+    There are currently no elements for this<br />
+    template. Click the button to add one.
   </div>
 
   <!-- Element Name -->
@@ -58,6 +70,8 @@
     <label>Name</label>
     <input  type="text"
             ng-model="$ctrl.element.name"
+            ng-change="$ctrl.template.$save()"
+            ng-model-options="$ctrl.updateOnBlur"
             cn-click-select>
   </div>
 
@@ -66,18 +80,40 @@
   <div  container="column #top @left"
         ng-if="$ctrl.element">
     <label>Style</label>
-    <textarea ng-model="$ctrl.style"></textarea>
+    <textarea ng-model="$ctrl.style"
+              ng-change="$ctrl.template.$save()"
+              ng-model-options="$ctrl.updateOnBlur">
+    </textarea>
   </div>
+</div>
+
+<!-------------------->
+<!-- Card Data Tab  -->
+<!-------------------->
+
+<div class="properties" ng-if="$ctrl.ui.mode === 'preview'">
+  <div container="row #spaced @middle">
+    <button ng-click="$ctrl.addCard()">New Card</button>
+  </div>
+
+  <form name="cardForm">
+    <div  container="column #top @left"
+          ng-repeat="value in $ctrl.card.data track by $index">
+      <label>{{ $ctrl.elements[$index].name }}</label>
+      <input  type="text"
+              ng-model="$ctrl.card.data[$index]"
+              ng-blur="cardForm.$dirty && $ctrl.card.$save(); cardForm.$setPristine()">
+    </div>
+  </form>
 </div>
 
 <div flex></div>
 
-<!-- Live Preview Scale -->
+<!-- Card Preview Scale -->
 
 <div container="row #left @middle">
   <label>Scale</label>
   <input  type="range"
           min="1.5" max="3.5" step="0.01"
-          ng-model="$ctrl.scale"
-          ng-change="scale = $ctrl.scale">
+          ng-model="$ctrl.ui.scale">
 </div>

@@ -1,0 +1,164 @@
+
+/* Master Style */
+
+html
+  box-sizing border-box
+
+*, *:before, *:after
+  box-sizing inherit
+
+body
+  font-family 'Open Sans', 'Sans', sans-serif
+  margin 0
+  background-color #1565c0
+  background radial-gradient(circle at center center, #1565c0 10%, #0c407c 100%)
+
+
+
+#main
+  .app-title
+    color #ffffff
+    font-family 'Montserrat'
+    font-size 40px
+    padding 20px 55px
+    line-height 32px
+    text-align left
+    text-shadow 0px 3px 6px rgba(0, 0, 0, 0.6)
+
+.page-title
+  color #eeeeee
+  font-size 25px
+  padding 20px 0
+  text-shadow 0 0 6px rgba(0, 0, 0, 0.6)
+
+  & a
+    color lighten(#1565c0, 30%)
+    text-decoration-style dotted
+
+.page
+  height calc(100vh - 72px)
+  margin 0 100px
+
+.list
+  flex-wrap wrap
+  overflow-y scroll
+  margin 0 -30px
+  padding 5px 25px 30px
+
+
+
+::-webkit-scrollbar
+  width 10px
+  height 10px
+
+::-webkit-scrollbar-track
+  border-radius 10px
+  background rgba(0, 0, 0, 0)
+
+::-webkit-scrollbar-thumb
+  border-radius 10px
+  background rgba(0, 0, 0, 0.4)
+
+
+
+
+/* Layout */
+
+[container]
+  display flex
+
+[container^="row"]
+  flex-direction row
+
+[container^="column"]
+  flex-direction column
+
+[container~="#left"], [container~="#top"]
+  justify-content flex-start
+
+[container~="#center"], [container~="#middle"]
+  justify-content center
+
+[container~="#right"], [container~="#bottom"]
+  justify-content flex-end
+
+[container~="#spread"]
+  justify-content space-between
+
+[container~="#spaced"]
+  justify-content space-around
+
+[container~="@left"], [container~="@top"]
+  align-items flex-start
+
+[container~="@center"], [container~="@middle"]
+  align-items center
+
+[container~="@right"], [container~="@bottom"]
+  align-items flex-end
+
+[container~="@stretch"]
+  align-items stretch
+
+[container~="@baseline"]
+  align-items baseline
+
+[flex]
+  flex-grow 1
+
+
+
+/* Partials */
+
+button
+  align-items center
+  background 0 0
+  background-color #F68C3E;
+  border 0
+  border-radius 3px
+  box-sizing border-box
+  box-shadow 0 2px 5px 0 rgba(0, 0, 0, 0.26)
+  color rgb(255, 255, 255)
+  cursor pointer
+  display inline-block
+  font-size 14px
+  font-weight 500
+  line-height 36px
+  margin 6px 8px
+  min-height 36px
+  min-width 88px
+  outline 0
+  overflow hidden
+  padding 0 10px
+  position relative
+  text-align center
+  text-decoration none
+  text-transform uppercase
+  -webkit-user-select none
+  white-space nowrap
+
+.item
+  box-shadow 0 1px 3px 0 rgba(0, 0, 0, 0.3),
+             0 1px 1px 0 rgba(0, 0, 0, 0.24),
+             0 2px 1px -1px rgba(0, 0, 0, 0.22)
+  cursor pointer
+  font-size 20px
+  margin 8px
+  text-align center
+  transition box-shadow 0.2s, transform 0.2s
+  -webkit-user-select none
+
+  a&
+    color black
+    text-decoration-line none
+
+  &:hover
+    box-shadow 0 6px 6px -3px rgba(0, 0, 0, 0.3),
+               0 10px 14px 1px rgba(0, 0, 0, 0.24),
+               0 4px 18px 3px rgba(0, 0, 0, 0.22)
+
+.padded
+  padding 40px 100px
+
+.shadow16
+  box-shadow 0px 0px 16px rgba(0,0,0,0.6)

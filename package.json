@@ -1,0 +1,20 @@
+{
+  "name": "cardinal",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "https://github.com/TheNando/cardinal",
+  "author": "Nando Pena <fernando.pena@rackspace.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel serve app/index.html --open"
+  },
+  "dependencies": {
+    "@hyperapp/router": "^0.4.1",
+    "hyperapp": "^1.1.2",
+    "parcel-bundler": "^1.6.2"
+  },
+  "devDependencies": {
+    "babel-preset-stage-3": "^6.24.1",
+    "stylus": "^0.54.5"
+  }
+}

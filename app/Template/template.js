@@ -1,29 +1,25 @@
 import { h } from 'hyperapp'
-import Editor from '../Editor'
+import SideBar from './SideBar'
+import Card from '../Card'
 import './template.styl'
 
 const Template = ({ games }) => ({ match }) =>
-  <div class="page" container="column #top @stretch">
-    <div class="page-title">
-      Editor
-    </div>
+  <div container="row #left @stretch" flex>
 
-    <Editor container="column"
-            element="$ctrl.element"
-            card="$ctrl.card"
-            ui="$ctrl.ui"
-            data="$ctrl.data">
-    </Editor>
+    <SideBar />
 
-    <div container="row #center @middle" flex>
-      <card
+    {/* Page */}
+    <div class="" container="column #center @center" flex>
+
+      <Card
+          scale="2"
           template="$ctrl.data.template"
           instance="$ctrl.card"
           mode="$ctrl.ui.mode"
           selected-element-id="$ctrl.element.id"
-          style="transform: scale({{ $ctrl.ui.scale }}, {{ $ctrl.ui.scale }})"
           ng-click="$ctrl.selectElement($event)">
-      </card>
+      </Card>
+
     </div>
   </div>
 

@@ -27,32 +27,13 @@ const actions = {
   // up: value => state => ({ count: state.count + value }),
 }
 
-const pageClass = path => 'page ' + path.substr(1)
-
-const toTitleCase = str => str.charAt(0).toUpperCase() + str.substr(1)
-
-const toTitleLink = path => {
-  const [main, sub] = path.substr(1).split('/')
-  return sub
-    ? [<Link to={'/' + main}>{main}</Link>, <span> > {sub}</span>]
-    : main
-}
-
 const view = (state, actions) =>
-  <div id="main" container="column #top @stretch">
-
-    <div class="app-title">
-      Cardinal
-    </div>
-
-    <Switch>
-      <Route path="/" render={() => Redirect({ from:'/', to:'/games' })} />
-      <Route path="/games" render={Games(state)} />
-      <Route path="/games/:gameId" render={Templates(state)} />
-      <Route path="/templates/:templateId" render={Template(state)} />
-    </Switch>
-
-  </div>
+  <Switch>
+    <Route path="/" render={() => Redirect({ from:'/', to:'/games' })} />
+    <Route path="/games" render={Games(state)} />
+    <Route path="/games/:gameId" render={Templates(state)} />
+    <Route path="/templates/:templateId" render={Template(state)} />
+  </Switch>
 
 const main = app(state, actions, view, document.body)
 const unsubscribe = location.subscribe(main.location)

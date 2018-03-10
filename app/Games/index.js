@@ -1,2 +1,1 @@
-import Games from './games'
-export default Games
+export { Games, gamesActions } from './games'

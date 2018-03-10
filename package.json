@@ -6,15 +6,20 @@
   "author": "Nando Pena <fernando.pena@rackspace.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel serve app/index.html --open"
+    "start": "parcel serve app/index.html --open",
+    "build": "parcel build app/index.html"
   },
   "dependencies": {
     "@hyperapp/router": "^0.4.1",
+    "firebase": "^4.11.0",
     "hyperapp": "^1.1.2",
     "parcel-bundler": "^1.6.2"
   },
   "devDependencies": {
+    "@firebase/app-types": "^0.1.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-stage-3": "^6.24.1",
+    "babel-runtime": "^6.26.0",
     "stylus": "^0.54.5"
   }
 }

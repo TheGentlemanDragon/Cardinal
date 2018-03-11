@@ -1,1 +1,1 @@
-export { Games, gamesActions } from './games'
+export * from './games'

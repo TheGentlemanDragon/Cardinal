@@ -4,14 +4,13 @@ import { Firebase } from '../_services'
 import './games.styl'
 
 export const gamesActions = {
-  fetchGames: () => async (state, actions) => actions.setGames(await Firebase._col('games')),
-  setGames: value => state => ({ ...state, games: value })
+  fetchGames: () => async (state, actions) => actions.setGames(await Firebase.list('games')),
+  setGames: value => state => ({ ...state, games: value }),
 }
 
 export const Games = ({ games }, actions) => ({ location, match }) =>
-  <div
-      container="column #top @stretch" flex
-      oncreate={actions.fetchGames}>
+  <div  container="column #top @stretch" flex
+        oncreate={actions.fetchGames}>
 
     {/* App Title */}
     <div class="app-title">Cardinal</div>
@@ -26,10 +25,9 @@ export const Games = ({ games }, actions) => ({ location, match }) =>
       <div class="list" container="row #left @top">
       {
         [...games].sort((a, b) => a.name > b.name ? 1 : -1).map(item =>
-          <Link
-              class="item game-item"
-              container="column #center @center"
-              to={`games/${item.name}`}>
+          <Link class="item game-item"
+                container="column #center @center"
+                to={`games/${item.name}`}>
             {item.name}
           </Link>
         )

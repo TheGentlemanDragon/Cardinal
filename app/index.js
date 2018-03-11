@@ -8,26 +8,29 @@ import {
 } from '@hyperapp/router'
 
 import { Games, gamesActions } from './Games'
-
-import Templates from './Templates'
-import Template from './Template'
+import { Templates, templatesActions } from './Templates'
+import { Template, templateActions } from './Template'
 
 const state = {
   location: location.state,
-  games: []
+  games: [],
+  templates:[],
+  template: {},
 }
 
 const actions = {
   location: location.actions,
-  ...gamesActions
+  ...gamesActions,
+  ...templatesActions,
+  ...templateActions,
 }
 
 const view = (state, actions) =>
   <Switch>
     <Route path="/" render={() => Redirect({ from:'/', to:'/games' })} />
     <Route path="/games" render={Games(state, actions)} />
-    <Route path="/games/:gameId" render={Templates(state)} />
-    <Route path="/templates/:templateId" render={Template(state)} />
+    <Route path="/games/:gameId" render={Templates(state, actions)} />
+    <Route path="/templates/:templateId" render={Template(state, actions)} />
   </Switch>
 
 const main = app(state, actions, view, document.body)

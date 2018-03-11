@@ -1,2 +1,1 @@
-import Templates from './templates'
-export default Templates
+export * from './templates'

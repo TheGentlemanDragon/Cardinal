@@ -1,7 +1,7 @@
 import { h } from 'hyperapp'
 import { Firebase } from '../_services'
-import SideBar from './SideBar'
-import Card from '../Card'
+import { SideBar} from './SideBar'
+import { Card } from './Card'
 import './template.styl'
 
 export const templateActions = {
@@ -12,14 +12,12 @@ export const templateActions = {
 }
 
 export const Template = ({ template }, actions) => ({ match }) =>
-  <div  container="row #left @stretch" flex
-        oncreate={() => actions.fetchTemplate(match)}>
+  <div  key="template"
+        container="row #left @stretch" flex>
 
     <SideBar />
 
-    {/* Page */}
-    <div class="" container="column #center @center" flex>
-
+    <div container="column #center @center" flex>
       <Card
           scale="2"
           template="$ctrl.data.template"
@@ -28,6 +26,6 @@ export const Template = ({ template }, actions) => ({ match }) =>
           selected-element-id="$ctrl.element.id"
           ng-click="$ctrl.selectElement($event)">
       </Card>
-
     </div>
+
   </div>

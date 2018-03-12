@@ -26,12 +26,12 @@ const actions = {
 }
 
 const view = (state, actions) =>
-  <Switch>
+  <div container="row #left @stretch" flex>
     <Route path="/" render={() => Redirect({ from:'/', to:'/games' })} />
     <Route path="/games" render={Games(state, actions)} />
     <Route path="/games/:gameId" render={Templates(state, actions)} />
     <Route path="/templates/:templateId" render={Template(state, actions)} />
-  </Switch>
+  </div>
 
 const main = app(state, actions, view, document.body)
 const unsubscribe = location.subscribe(main.location)

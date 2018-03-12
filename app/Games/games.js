@@ -9,7 +9,8 @@ export const gamesActions = {
 }
 
 export const Games = ({ games }, actions) => ({ location, match }) =>
-  <div  container="column #top @stretch" flex
+  <div  key="games"
+        container="column #top @stretch" flex
         oncreate={actions.fetchGames}>
 
     {/* App Title */}

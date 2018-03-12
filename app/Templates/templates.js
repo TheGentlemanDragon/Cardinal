@@ -13,7 +13,8 @@ export const templatesActions = {
 }
 
 export const Templates = ({ templates }, actions) => ({ match }) =>
-  <div  container="column #top @stretch" flex
+  <div  key="templates"
+        container="column #top @stretch" flex
         oncreate={() => actions.fetchTemplates(match)}>
 
     {/* App Title */}

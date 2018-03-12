@@ -1,7 +1,7 @@
 import { h } from 'hyperapp'
 import './card.styl'
 
-const Card = ({scale}) =>
+export const Card = ({scale}) =>
   <div  class="card"
         style={
           {
@@ -18,5 +18,3 @@ const Card = ({scale}) =>
     {/* {{ $ctrl.mode === 'preview' ? $ctrl.instance.data[$index] : element.name }} */}
     </div>
   </div>
-
-export default Card

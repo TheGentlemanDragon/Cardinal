@@ -5,17 +5,21 @@ import { Card } from './Card'
 import './template.styl'
 
 export const templateActions = {
+  clearTemplate: () => (state, actions) => actions.setTemplate({}),
   fetchTemplate: (match) => async (state, actions) => {
-    actions.setTemplate({})
+    actions.setTemplate(await Firebase.doc('templates', match.params.templateId))
   },
-  setTemplate: value => state => ({ ...state, templates: value }),
+  setTemplate: value => state => ({ ...state, template: value }),
 }
 
 export const Template = ({ template }, actions) => ({ match }) =>
   <div  key="template"
-        container="row #left @stretch" flex>
+        container="row #left @stretch" flex
+        oncreate={() => actions.fetchTemplate(match)}
+        ondestroy={actions.clearTemplate}>
 
     <SideBar />
+
 
     <div container="column #center @center" flex>
       <Card

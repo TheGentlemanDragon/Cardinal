@@ -9,15 +9,30 @@ class _Firebase {
     this.collections = {}
   }
 
-  async list(collection) {
-    let col = this.collections[collection]
+  static documentWithRef (doc) {
+    return {
+      ...doc.data(),
+      $ref: doc.ref,
+    }
+  }
+
+  col(name) {
+    let col = this.collections[name]
 
     if (!col) {
-      col = this.collections[collection] = this.db.collection(collection)
+      col = this.collections[name] = this.db.collection(name)
     }
 
-    let snapshot = await col.get()
-    return snapshot.docs.map(doc => doc.data())
+    return col
+  }
+
+  async doc(collection, doc) {
+    return await this.col(collection).doc(doc).get().then(_Firebase.documentWithRef)
+  }
+
+  async list(collection) {
+    let snapshot = await this.col(collection).get()
+    return snapshot.docs.map(_Firebase.documentWithRef)
   }
 
   async query(collection, params) {
@@ -33,11 +48,7 @@ class _Firebase {
     }
 
     let snapshot = await result.get()
-    return snapshot.docs.map(doc => doc.data())
-  }
-
-  doc(collection, doc) {
-    return this.list(collection).doc(doc)
+    return snapshot.docs.map(_Firebase.documentWithRef)
   }
 }
 

@@ -4,9 +4,9 @@ import { Firebase } from '../_services'
 import './templates.styl'
 
 export const templatesActions = {
+  clearTemplates: () => (state, actions) => actions.setTemplates([]),
   fetchTemplates: (match) => async (state, actions) => {
     const query = { owner: 'nando', game: match.params.gameId }
-    actions.setTemplates([])
     actions.setTemplates(await Firebase.query('templates', query))
   },
   setTemplates: value => state => ({ ...state, templates: value }),
@@ -15,7 +15,8 @@ export const templatesActions = {
 export const Templates = ({ templates }, actions) => ({ match }) =>
   <div  key="templates"
         container="column #top @stretch" flex
-        oncreate={() => actions.fetchTemplates(match)}>
+        oncreate={() => actions.fetchTemplates(match)}
+        ondestroy={actions.clearTemplates}>
 
     {/* App Title */}
     <div class="app-title">Cardinal</div>
@@ -32,7 +33,7 @@ export const Templates = ({ templates }, actions) => ({ match }) =>
         [...templates].sort((a, b) => a.name > b.name ? 1 : -1).map(item =>
           <Link class="item template-item"
                 container="column #center @center"
-                to={`/templates/${item.name}`}>
+                to={`/templates/${item.$ref.id}`}>
             {item.name}
           </Link>
         )

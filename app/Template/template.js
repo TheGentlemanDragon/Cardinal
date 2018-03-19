@@ -1,16 +1,7 @@
 import { h } from 'hyperapp'
 import { Firebase } from '../_services'
-import { SideBar } from './'
-import { Card } from './Card'
+import { Card, SideBar } from './'
 import './template.styl'
-
-export const templateActions = {
-  clearTemplate: () => (state, actions) => actions.setTemplate({}),
-  fetchTemplate: (match) => async (state, actions) => {
-    actions.setTemplate(await Firebase.doc('templates', match.params.templateId))
-  },
-  setTemplate: value => state => ({ ...state, template: value }),
-}
 
 export const Template = (state, actions) => ({ match }) =>
   <div  key="template"
@@ -32,3 +23,15 @@ export const Template = (state, actions) => ({ match }) =>
     </div>
 
   </div>
+
+Template.state = {
+  template: {},
+}
+
+Template.actions = {
+  clearTemplate: () => (state, actions) => actions.setTemplate({}),
+  fetchTemplate: (match) => async (state, actions) => {
+    actions.setTemplate(await Firebase.doc('templates', match.params.templateId))
+  },
+  setTemplate: value => state => ({ ...state, template: value }),
+}

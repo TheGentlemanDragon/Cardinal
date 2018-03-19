@@ -7,23 +7,23 @@ import {
   Switch,
 } from '@hyperapp/router'
 
-import { Games, gamesActions } from './Games'
-import { Templates, templatesActions } from './Templates'
-import { SideBar, Template, templateActions } from './Template'
+import { Games } from './Games'
+import { Templates } from './Templates'
+import { SideBar, Template } from './Template'
 
 const state = {
   location: location.state,
-  games: [],
-  templates:[],
-  template: {},
+  ...Games.state,
+  ...Templates.state,
+  ...Template.state,
   ...SideBar.state,
 }
 
 const actions = {
   location: location.actions,
-  ...gamesActions,
-  ...templatesActions,
-  ...templateActions,
+  ...Games.actions,
+  ...Templates.actions,
+  ...Template.actions,
   ...SideBar.actions,
 }
 

@@ -3,15 +3,6 @@ import { Link } from '@hyperapp/router'
 import { Firebase } from '../_services'
 import './templates.styl'
 
-export const templatesActions = {
-  clearTemplates: () => (state, actions) => actions.setTemplates([]),
-  fetchTemplates: (match) => async (state, actions) => {
-    const query = { owner: 'nando', game: match.params.gameId }
-    actions.setTemplates(await Firebase.query('templates', query))
-  },
-  setTemplates: value => state => ({ ...state, templates: value }),
-}
-
 export const Templates = ({ templates }, actions) => ({ match }) =>
   <div  key="templates"
         container="column #top @stretch" flex
@@ -41,3 +32,16 @@ export const Templates = ({ templates }, actions) => ({ match }) =>
       </div>
     </div>
   </div>
+
+Templates.state = {
+  templates: [],
+}
+
+Templates.actions = {
+  clearTemplates: () => (state, actions) => actions.setTemplates([]),
+  fetchTemplates: (match) => async (state, actions) => {
+    const query = { owner: 'nando', game: match.params.gameId }
+    actions.setTemplates(await Firebase.query('templates', query))
+  },
+  setTemplates: value => state => ({ ...state, templates: value }),
+}

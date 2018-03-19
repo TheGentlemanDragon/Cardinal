@@ -3,11 +3,6 @@ import { Link } from '@hyperapp/router'
 import { Firebase } from '../_services'
 import './games.styl'
 
-export const gamesActions = {
-  fetchGames: () => async (state, actions) => actions.setGames(await Firebase.list('games')),
-  setGames: value => state => ({ ...state, games: value }),
-}
-
 export const Games = ({ games }, actions) => ({ location, match }) =>
   <div  key="games"
         container="column #top @stretch" flex
@@ -36,3 +31,12 @@ export const Games = ({ games }, actions) => ({ location, match }) =>
       </div>
     </div>
   </div>
+
+Games.state = {
+  games: [],
+}
+
+Games.actions = {
+  fetchGames: () => async (state, actions) => actions.setGames(await Firebase.list('games')),
+  setGames: value => state => ({ ...state, games: value }),
+}

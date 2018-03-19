@@ -9,10 +9,11 @@ import {
 
 import { Games } from './Games'
 import { Templates } from './Templates'
-import { SideBar, Template } from './Template'
+import { Editor, SideBar, Template } from './Template'
 
 const state = {
   location: location.state,
+  ...Editor.state,
   ...Games.state,
   ...Templates.state,
   ...Template.state,
@@ -21,6 +22,7 @@ const state = {
 
 const actions = {
   location: location.actions,
+  ...Editor.actions,
   ...Games.actions,
   ...Templates.actions,
   ...Template.actions,

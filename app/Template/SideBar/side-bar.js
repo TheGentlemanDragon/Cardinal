@@ -1,4 +1,5 @@
 import { h } from 'hyperapp'
+import { Editor } from '../'
 import './side-bar.styl'
 
 export const SideBar = () => (state, actions) =>
@@ -22,7 +23,7 @@ export const SideBar = () => (state, actions) =>
       </button>
     </div>
 
-    {state.tab === 'compose' ? <h2>Compose</h2> : <h2>Preview</h2>}
+    {state.tab === 'compose' ? <Editor />: <h2>Preview</h2>}
   </div>
 
 

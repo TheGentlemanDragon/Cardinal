@@ -1,15 +1,36 @@
 .side-bar
   background-color rgba(black, 50%)
-  position static
+  font-family 'Open Sans'
   max-width 272px
   min-width 272px
+  position static
   width 272px
 
 .bar-title
+  border-bottom 1px solid rgba(white, 20%)
   color #ffffff
-  border-bottom 1px solid rgba(white, 25%)
-  font-family 'Open Sans'
   font-size 40px
   line-height 32px
-  padding 25px 0
+  padding 20px 0
   text-align center
+
+.bar-tab
+  border-bottom 1px solid rgba(white, 25%)
+  height 42px
+
+  button
+    background-color inherit
+    border none
+    color #ffffff
+    font-family inherit
+    font-size 14px
+    height 100%
+    cursor pointer
+    user-select none
+    outline none
+
+
+    &.active
+      border-bottom 2px solid rgba(white, 75%)
+      margin-bottom -2px
+

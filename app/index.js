@@ -9,13 +9,14 @@ import {
 
 import { Games, gamesActions } from './Games'
 import { Templates, templatesActions } from './Templates'
-import { Template, templateActions } from './Template'
+import { SideBar, Template, templateActions } from './Template'
 
 const state = {
   location: location.state,
   games: [],
   templates:[],
   template: {},
+  ...SideBar.state,
 }
 
 const actions = {
@@ -23,6 +24,7 @@ const actions = {
   ...gamesActions,
   ...templatesActions,
   ...templateActions,
+  ...SideBar.actions,
 }
 
 const view = (state, actions) =>

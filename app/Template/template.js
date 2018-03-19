@@ -1,6 +1,6 @@
 import { h } from 'hyperapp'
 import { Firebase } from '../_services'
-import { SideBar} from './SideBar'
+import { SideBar } from './'
 import { Card } from './Card'
 import './template.styl'
 
@@ -12,14 +12,13 @@ export const templateActions = {
   setTemplate: value => state => ({ ...state, template: value }),
 }
 
-export const Template = ({ template }, actions) => ({ match }) =>
+export const Template = (state, actions) => ({ match }) =>
   <div  key="template"
         container="row #left @stretch" flex
         oncreate={() => actions.fetchTemplate(match)}
         ondestroy={actions.clearTemplate}>
 
     <SideBar />
-
 
     <div container="column #center @center" flex>
       <Card

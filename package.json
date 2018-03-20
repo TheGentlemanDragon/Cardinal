@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel serve app/index.html --open",
-    "build": "parcel build app/index.html"
+    "build": "parcel build app/index.html --public-url /"
   },
   "dependencies": {
     "@hyperapp/router": "^0.4.1",

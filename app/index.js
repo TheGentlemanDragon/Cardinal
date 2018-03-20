@@ -11,6 +11,9 @@ import { Games } from './Games'
 import { Templates } from './Templates'
 import { Editor, SideBar, Template } from './Template'
 
+// import static assets
+import './assets/*'
+
 const state = {
   location: location.state,
   ...Editor.state,

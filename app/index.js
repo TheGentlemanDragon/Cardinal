@@ -9,14 +9,14 @@ import {
 
 import { Games } from './Games'
 import { Templates } from './Templates'
-import { Editor, SideBar, Template } from './Template'
+import { Compose, SideBar, Template } from './Template'
 
 // import static assets
 import './assets/*'
 
 const state = {
   location: location.state,
-  ...Editor.state,
+  ...Compose.state,
   ...Games.state,
   ...Templates.state,
   ...Template.state,
@@ -25,7 +25,7 @@ const state = {
 
 const actions = {
   location: location.actions,
-  ...Editor.actions,
+  ...Compose.actions,
   ...Games.actions,
   ...Templates.actions,
   ...Template.actions,

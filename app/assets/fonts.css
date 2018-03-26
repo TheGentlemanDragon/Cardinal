@@ -1,28 +1,64 @@
 @font-face {
-    font-family: 'icomoon';
-    src:  url('./icomoon.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: 'icomoon';
+  src:  url('./icomoon.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 
-  [class^="icon-"], [class*=" icon-"] {
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: 'icomoon' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
 
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
 
-  .icon-add-solid:before {
-    content: "\e900";
-  }
-  .icon-cheveron-down:before {
-    content: "\e901";
-  }
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-lg {
+  font-size: 1.25em;
+}
+
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-add-outline:before {
+  content: "\e900";
+}
+.icon-checkmark:before {
+  content: "\e902";
+}
+.icon-cheveron-down:before {
+  content: "\e901";
+}
+.icon-edit-pencil:before {
+  content: "\e904";
+}
+.icon-trash:before {
+  content: "\e903";
+}
+.icon-view-hide:before {
+  content: "\e905";
+}
+.icon-view-show:before {
+  content: "\e906";
+}

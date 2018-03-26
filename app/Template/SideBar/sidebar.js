@@ -1,6 +1,6 @@
 import { h } from 'hyperapp'
 import { Compose } from '../'
-import './side-bar.styl'
+import './sidebar.styl'
 
 export const SideBar = () => (state, actions) =>
   <div key="sidebar" class="sidebar" container="column #top @stretch">

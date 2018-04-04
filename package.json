@@ -6,7 +6,7 @@
   "author": "Nando Pena <fernando.pena@rackspace.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel serve app/index.html --open",
+    "start": "parcel serve app/index.html",
     "build": "parcel build app/index.html --public-url /"
   },
   "dependencies": {
@@ -20,6 +20,12 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-stage-3": "^6.24.1",
     "babel-runtime": "^6.26.0",
+    "prettier": "1.11.1",
     "stylus": "^0.54.5"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
   }
 }

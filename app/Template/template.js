@@ -1,5 +1,5 @@
 import { h } from 'hyperapp'
-import { Firebase } from '../_services'
+import { Firebase } from '../services'
 import { Card, SideBar } from './'
 import './template.styl'
 

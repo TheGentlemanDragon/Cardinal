@@ -61,10 +61,17 @@ class _Firebase {
       .then(_Firebase.documentWithRef)
   }
 
-  // async list(collection) {
-  //   let snapshot = await this.col(collection).get()
-  //   return snapshot.docs.map(_Firebase.documentWithRef)
-  // }
+  /**
+   * Retrieve list of documents in collection
+   *
+   * @param {any} collection collection name
+   * @returns array of documents
+   * @memberof _Firebase
+   */
+  async list(collection) {
+    let snapshot = await this.col(collection).get()
+    return snapshot.docs.map(_Firebase.documentWithRef)
+  }
 
   /**
    * Query collection

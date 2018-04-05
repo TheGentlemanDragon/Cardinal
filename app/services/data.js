@@ -25,8 +25,54 @@ class _Firebase {
   static documentWithRef(doc) {
     return {
       ...doc.data(),
+      $id: doc.ref.id,
       $ref: doc.ref,
     }
+  }
+
+  /**
+   * x
+   *
+   * @static
+   * @param {any} map x
+   * @param {any} obj x
+   * @memberof _Firebase
+   */
+  static arrayToMapReducer(map, obj) {
+    return map.set(obj.$id, obj)
+  }
+
+  /**
+   * x
+   *
+   * @static
+   * @param {any} sortKey x
+   * @returns x
+   * @memberof _Firebase
+   */
+  static makeSortedValueMap(sortKey) {
+    const newMap = new Map()
+    newMap[Symbol.iterator] = function*() {
+      yield* [...this.values()].sort(
+        (a, b) => (a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1)
+      )
+    }
+    return newMap
+  }
+
+  /**
+   * x
+   *
+   * @static
+   * @returns x
+   * @memberof _Firebase
+   */
+  static makeValueMap() {
+    const newMap = new Map()
+    newMap[Symbol.iterator] = function*() {
+      yield* [...this.values()]
+    }
+    return newMap
   }
 
   /**
@@ -65,12 +111,16 @@ class _Firebase {
    * Retrieve list of documents in collection
    *
    * @param {any} collection collection name
-   * @returns array of documents
+   * @returns map of documents
    * @memberof _Firebase
    */
-  async list(collection) {
-    let snapshot = await this.col(collection).get()
-    return snapshot.docs.map(_Firebase.documentWithRef)
+  async list(collection, sortKey) {
+    let snapshot = await this.col(collection)
+      .orderBy(sortKey)
+      .get()
+    return snapshot.docs
+      .map(_Firebase.documentWithRef)
+      .reduce(_Firebase.arrayToMapReducer, _Firebase.makeValueMap())
   }
 
   /**
@@ -78,10 +128,10 @@ class _Firebase {
    *
    * @param {any} collection collection name
    * @param {any} params query params
-   * @returns array of documents
+   * @returns map of documents
    * @memberof _Firebase
    */
-  async query(collection, params) {
+  async query(collection, params, sortKey) {
     let result = this.collections[collection]
     if (!result) {
       result = this.collections[collection] = this.db.collection(collection)
@@ -90,11 +140,12 @@ class _Firebase {
     let keys = Object.keys(params)
     let key
     while ((key = keys.pop())) {
-      result = await result.where(key, '==', params[key])
+      result = result.where(key, '==', params[key])
     }
-
-    let snapshot = await result.get()
-    return snapshot.docs.map(_Firebase.documentWithRef)
+    let snapshot = await result.orderBy(sortKey).get()
+    return snapshot.docs
+      .map(_Firebase.documentWithRef)
+      .reduce(_Firebase.arrayToMapReducer, _Firebase.makeValueMap())
   }
 }
 

@@ -3,12 +3,12 @@ import { Link } from '@hyperapp/router'
 import { Firebase } from '../services'
 import './games.styl'
 
-export const Games = ({ games }, actions) => ({ location, match }) => (
+export const Games = ({ games }, { fetchGames }) => ({ location, match }) => (
   <div
     key="games"
     container="column #top @stretch"
     flex
-    oncreate={actions.fetchGames}
+    oncreate={() => fetchGames()}
   >
     {/* App Title */}
     <div class="app-title">Cardinal</div>
@@ -20,26 +20,27 @@ export const Games = ({ games }, actions) => ({ location, match }) => (
 
       {/* Games List */}
       <div class="list" container="row #left @top">
-        {[...games].sort((a, b) => (a.name > b.name ? 1 : -1)).map(item => (
-          <Link
-            class="item game-item"
-            container="column #center @center"
-            to={`games/${item.name}`}
-          >
-            {item.name}
-          </Link>
-        ))}
+        {games &&
+          [...games].map(item => (
+            <Link
+              class="item game-item"
+              container="column #center @center"
+              to={`games/${item.name}`}
+            >
+              {item.name}
+            </Link>
+          ))}
       </div>
     </div>
   </div>
 )
 
 Games.state = {
-  games: [],
+  games: null,
 }
 
 Games.actions = {
   fetchGames: () => async (state, { setGames }) =>
-    setGames(await Firebase.list('games')),
-  setGames: value => state => ({ ...state, games: value }),
+    setGames(await Firebase.list('games', 'name')),
+  setGames: games => state => ({ ...state, games }),
 }

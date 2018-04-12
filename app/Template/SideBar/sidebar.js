@@ -2,35 +2,36 @@ import { h } from 'hyperapp'
 import { Compose } from '../'
 import './sidebar.styl'
 
-export const SideBar = () => (state, actions) =>
+export const SideBar = () => ({ tab }, { setTab }) => (
   <div key="sidebar" class="sidebar" container="column #top @stretch">
-
     {/* Bar Title */}
     <div class="sidebar-title">Cardinal</div>
 
     {/* Tabs */}
     <div class="sidebar-tabs" container="row #spaced @middle">
       <button
-          class={state.tab === 'compose' && 'active'}
-          onclick={() => actions.setTab('compose')}>
+        class={tab === 'compose' && 'active'}
+        onclick={() => setTab('compose')}
+      >
         Compose
       </button>
 
       <button
-          class={state.tab === 'preview' && 'active'}
-          onclick={() => actions.setTab('preview')}>
+        class={tab === 'preview' && 'active'}
+        onclick={() => setTab('preview')}
+      >
         Preview
       </button>
     </div>
 
-    {state.tab === 'compose' ? <Compose />: <h2>Preview</h2>}
+    {tab === 'compose' ? <Compose /> : <h2>Preview</h2>}
   </div>
-
+)
 
 SideBar.state = {
   tab: 'compose',
 }
 
 SideBar.actions = {
-  setTab: value => state => ({ ...state, tab: value }),
+  setTab: tab => state => ({ ...state, tab }),
 }

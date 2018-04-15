@@ -1,5 +1,6 @@
 import { h, app } from 'hyperapp'
 import { Link, location, Redirect, Route, Switch } from '@hyperapp/router'
+import devtools from 'hyperapp-redux-devtools'
 
 import { Games } from './Games'
 import { Templates } from './Templates'
@@ -35,5 +36,5 @@ const view = (state, actions) => (
   </div>
 )
 
-const main = app(state, actions, view, document.body)
+const main = devtools(app)(state, actions, view, document.body)
 const unsubscribe = location.subscribe(main.location)

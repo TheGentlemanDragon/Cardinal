@@ -3,13 +3,16 @@ import { Link } from '@hyperapp/router'
 import { Firebase } from '../services'
 import './templates.styl'
 
-export const Templates = ({ templates }, actions) => ({ match }) => (
+export const Templates = (
+  { templates },
+  { fetchTemplates, clearTemplates }
+) => ({ match }) => (
   <div
     key="templates"
     container="column #top @stretch"
     flex
-    oncreate={() => actions.fetchTemplates(match)}
-    ondestroy={actions.clearTemplates}
+    oncreate={() => fetchTemplates(match)}
+    ondestroy={() => clearTemplates()}
   >
     {/* App Title */}
     <div class="app-title">Cardinal</div>
@@ -21,29 +24,30 @@ export const Templates = ({ templates }, actions) => ({ match }) => (
 
       {/* Templates List */}
       <div class="list" container="row #left @top">
-        {[...templates].sort((a, b) => (a.name > b.name ? 1 : -1)).map(item => (
-          <Link
-            class="item template-item"
-            container="column #center @center"
-            to={`/templates/${item.$ref.id}`}
-          >
-            {item.name}
-          </Link>
-        ))}
+        {templates &&
+          [...templates].map(item => (
+            <Link
+              class="item template-item"
+              container="column #center @center"
+              to={`/templates/${item.$ref.id}`}
+            >
+              {item.name}
+            </Link>
+          ))}
       </div>
     </div>
   </div>
 )
 
 Templates.state = {
-  templates: [],
+  templates: null,
 }
 
 Templates.actions = {
-  clearTemplates: () => (state, { setTemplates }) => setTemplates([]),
+  clearTemplates: () => (state, { setTemplates }) => setTemplates(null),
   fetchTemplates: match => async (state, { setTemplates }) => {
     const query = { owner: 'nando', game: match.params.gameId }
-    setTemplates(await Firebase.query('templates', query))
+    setTemplates(await Firebase.query('templates', query, 'name'))
   },
-  setTemplates: value => state => ({ ...state, templates: value }),
+  setTemplates: templates => state => ({ ...state, templates }),
 }

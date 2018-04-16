@@ -1,8 +1,7 @@
 import { h } from 'hyperapp'
-import { Firebase } from '../../services'
-import './compose.styl'
+import './Compose.styl'
 
-export const Compose = () => (
+export default () => (
   { elements },
   { addElement, deleteElement, mouseElement }
 ) => (
@@ -35,27 +34,3 @@ export const Compose = () => (
     </div>
   </div>
 )
-
-Compose.state = {}
-
-Compose.actions = {
-  addElement: () => async ({ elements, template }, { setTemplate }) => {
-    const newElement = { name: `element${elements.length + 1}` }
-    const updateData = { elements: [...elements, newElement] }
-    await template.$ref.update(updateData)
-
-    setTemplate({ ...template, ...updateData })
-  },
-  deleteElement: index => async ({ elements, template }, { setTemplate }) => {
-    const updateData = (elements.splice(index, 1), { elements })
-    await template.$ref.update(updateData)
-
-    setTemplate({ ...template, ...updateData })
-  },
-  mouseElement: ({ index, item, mouse }) => state => ({
-    ...state,
-    elements: Object.assign([...state.elements], {
-      [index]: { ...item, mouse: mouse },
-    }),
-  }),
-}

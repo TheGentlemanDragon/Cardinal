@@ -1,12 +1,10 @@
 import { h } from 'hyperapp'
 import { Link } from '@hyperapp/router'
-import { Firebase } from '../services'
-import './templates.styl'
+import './Templates.styl'
 
-export const Templates = (
-  { templates },
-  { fetchTemplates, clearTemplates }
-) => ({ match }) => (
+export default ({ templates }, { fetchTemplates, clearTemplates }) => ({
+  match,
+}) => (
   <div
     key="templates"
     container="column #top @stretch"
@@ -38,16 +36,3 @@ export const Templates = (
     </div>
   </div>
 )
-
-Templates.state = {
-  templates: null,
-}
-
-Templates.actions = {
-  clearTemplates: () => (state, { setTemplates }) => setTemplates(null),
-  fetchTemplates: match => async (state, { setTemplates }) => {
-    const query = { owner: 'nando', game: match.params.gameId }
-    setTemplates(await Firebase.query('templates', query, 'name'))
-  },
-  setTemplates: templates => state => ({ ...state, templates }),
-}

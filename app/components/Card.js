@@ -1,7 +1,7 @@
 import { h } from 'hyperapp'
-import './card.styl'
+import './Card.styl'
 
-export const Card = ({ scale }) => (
+export default ({ scale }) => (
   <div
     key="card"
     class="card"

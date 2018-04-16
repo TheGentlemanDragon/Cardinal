@@ -1,8 +1,8 @@
 import { h } from 'hyperapp'
-import { Compose } from '../'
-import './sidebar.styl'
+import Compose from './Compose'
+import './SideBar.styl'
 
-export const SideBar = () => ({ tab }, { setTab }) => (
+export default () => ({ tab }, { setTab }) => (
   <div key="sidebar" class="sidebar" container="column #top @stretch">
     {/* Bar Title */}
     <div class="sidebar-title">Cardinal</div>
@@ -27,11 +27,3 @@ export const SideBar = () => ({ tab }, { setTab }) => (
     {tab === 'compose' ? <Compose /> : <h2>Preview</h2>}
   </div>
 )
-
-SideBar.state = {
-  tab: 'compose',
-}
-
-SideBar.actions = {
-  setTab: tab => state => ({ ...state, tab }),
-}

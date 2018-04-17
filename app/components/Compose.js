@@ -1,10 +1,8 @@
 import { h } from 'hyperapp'
+import ComposeElement from './ComposeElement'
 import './Compose.styl'
 
-export default () => (
-  { elements },
-  { addElement, deleteElement, mouseElement }
-) => (
+export default () => ({ elements }, { addElement }) => (
   <div key="compose" class="compose-tab" container="column #top @stretch">
     <div class="compose-title" container="row #spread @center">
       <label>Elements</label>
@@ -17,19 +15,7 @@ export default () => (
     <div class="compose-elements" container="column #top @stretch">
       {elements.length &&
         elements.map((item, index) => (
-          <div
-            class="compose-element"
-            container="row #spread @center"
-            onmouseover={() => mouseElement({ index, item, mouse: true })}
-            onmouseleave={() => mouseElement({ index, item, mouse: false })}
-          >
-            <span flex>{item.name}</span>
-            {item.mouse && [
-              <i class="icon-edit-pencil" />,
-              <i class="icon-view-show" />,
-              <i class="icon-trash" onclick={() => deleteElement(index)} />,
-            ]}
-          </div>
+          <ComposeElement item={item} index={index} />
         ))}
     </div>
   </div>

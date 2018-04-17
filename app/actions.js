@@ -1,5 +1,8 @@
 import { Firebase } from './services/data'
 
+const iArray = (array, index, item) =>
+  Object.assign([...array], { [index]: { ...array[index], ...item } })
+
 export default {
   // Element
   addElement: () => async ({ elements, template }, { setTemplate }) => {
@@ -10,6 +13,12 @@ export default {
     setTemplate({ ...template, ...updateData })
   },
 
+  cancelElement: index => ({ elements, oElement }) => ({
+    editIndex: -1,
+    mouseIndex: -1,
+    elements: iArray(elements, index, oElement),
+  }),
+
   deleteElement: index => async ({ elements, template }, { setTemplate }) => {
     const updateData = (elements.splice(index, 1), { elements })
     await template.$ref.update(updateData)
@@ -17,39 +26,46 @@ export default {
     setTemplate({ ...template, ...updateData })
   },
 
-  mouseElement: ({ index, item, mouse }) => state => ({
-    ...state,
-    elements: Object.assign([...state.elements], {
-      [index]: { ...item, mouse: mouse },
-    }),
+  editElement: index => ({ elements }) => ({
+    editIndex: index,
+    oElement: elements[index],
+  }),
+
+  mouseElement: index => ({ mouseIndex: index }),
+
+  saveElement: index => ({ elements, template }) => {
+    const newState = { elements: elements }
+    template.$ref.update(newState)
+    return { ...newState, editIndex: -1, mouseIndex: -1 }
+  },
+
+  updateElement: ({ index, ...partial }) => ({ elements }) => ({
+    elements: iArray(elements, index, partial),
   }),
 
   // Games
-  fetchGames: () => async (state, { setGames }) =>
+  fetchGames: () => async (_, { setGames }) =>
     setGames(await Firebase.list('games', 'name')),
 
-  setGames: games => state => ({ ...state, games }),
+  setGames: games => ({ games }),
 
   // SideBar
-  setTab: tab => state => ({ ...state, tab }),
+  setTab: tab => ({ tab }),
 
   // Template
-  clearTemplate: () => (state, { setTemplate }) => setTemplate({}),
-
-  fetchTemplate: match => async (state, { setTemplate }) =>
+  fetchTemplate: match => async (_state, { setTemplate }) =>
     setTemplate(await Firebase.doc('templates', match.params.templateId)),
 
-  setTemplate: template => state => ({
-    ...state,
+  setTemplate: template => ({
     template: template,
     elements: template.elements || [],
   }),
 
   // Templates
-  clearTemplates: () => (state, { setTemplates }) => setTemplates(null),
-  fetchTemplates: match => async (state, { setTemplates }) => {
+  fetchTemplates: match => async (_, { setTemplates }) => {
     const query = { owner: 'nando', game: match.params.gameId }
     setTemplates(await Firebase.query('templates', query, 'name'))
   },
-  setTemplates: templates => state => ({ ...state, templates }),
+
+  setTemplates: templates => ({ templates }),
 }

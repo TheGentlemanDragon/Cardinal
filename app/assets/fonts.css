@@ -1,12 +1,12 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('./icomoon.woff') format('woff');
+  src: url('./icomoon.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
-
-[class^="icon-"], [class*=" icon-"] {
+[class^='icon-'],
+[class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
@@ -25,8 +25,8 @@
   font-size: 1.25em;
 }
 
-
-[class^="icon-"], [class*=" icon-"] {
+[class^='icon-'],
+[class*=' icon-'] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
@@ -42,23 +42,26 @@
 }
 
 .icon-add-outline:before {
-  content: "\e900";
+  content: '\e900';
 }
 .icon-checkmark:before {
-  content: "\e902";
+  content: '\e902';
 }
 .icon-cheveron-down:before {
-  content: "\e901";
+  content: '\e901';
+}
+.icon-close:before {
+  content: '\e907';
 }
 .icon-edit-pencil:before {
-  content: "\e904";
+  content: '\e904';
 }
 .icon-trash:before {
-  content: "\e903";
+  content: '\e903';
 }
 .icon-view-hide:before {
-  content: "\e905";
+  content: '\e905';
 }
 .icon-view-show:before {
-  content: "\e906";
+  content: '\e906';
 }

@@ -38,9 +38,7 @@ export default ({ index, item }) => (
             onkeyup={event =>
               updateElement({ index, name: event.target.value })
             }
-          >
-            {item.name}
-          </input>,
+          />,
           <i class="icon-checkmark" onclick={() => saveElement(index)} />,
           <i class="icon-close" onclick={() => cancelElement(index)} />,
         ]}

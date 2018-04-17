@@ -2,7 +2,7 @@ import { h } from 'hyperapp'
 import { Link } from '@hyperapp/router'
 import './Templates.styl'
 
-export default ({ templates }, { fetchTemplates, clearTemplates }) => ({
+export default ({ templates }, { fetchTemplates, setTemplates }) => ({
   match,
 }) => (
   <div
@@ -10,7 +10,7 @@ export default ({ templates }, { fetchTemplates, clearTemplates }) => ({
     container="column #top @stretch"
     flex
     oncreate={() => fetchTemplates(match)}
-    ondestroy={() => clearTemplates()}
+    ondestroy={() => setTemplates(null)}
   >
     {/* App Title */}
     <div class="app-title">Cardinal</div>

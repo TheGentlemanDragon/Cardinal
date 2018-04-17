@@ -3,13 +3,13 @@ import Card from '../components/Card'
 import SideBar from '../components/SideBar'
 import './Template.styl'
 
-export default (_, { clearTemplate, fetchTemplate }) => ({ match }) => (
+export default (_, { fetchTemplate, setTemplate }) => ({ match }) => (
   <div
     key="template"
     container="row #left @stretch"
     flex
     oncreate={() => fetchTemplate(match)}
-    ondestroy={() => clearTemplate()}
+    ondestroy={() => setTemplate({})}
   >
     <SideBar />
 

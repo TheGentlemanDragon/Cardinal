@@ -26,18 +26,20 @@ export default {
     setTemplate({ ...template, ...updateData })
   },
 
-  editElement: index => ({ elements }) => ({
-    editIndex: index,
-    oElement: elements[index],
+  editElement: editIndex => ({ elements }) => ({
+    editIndex,
+    oElement: elements[editIndex],
   }),
 
-  mouseElement: index => ({ mouseIndex: index }),
+  mouseElement: mouseIndex => ({ mouseIndex }),
 
   saveElement: index => ({ elements, template }) => {
     const newState = { elements: elements }
     template.$ref.update(newState)
     return { ...newState, editIndex: -1, mouseIndex: -1 }
   },
+
+  selectElement: selectedIndex => ({ selectedIndex }),
 
   updateElement: ({ index, ...partial }) => ({ elements }) => ({
     elements: iArray(elements, index, partial),
@@ -59,6 +61,7 @@ export default {
   setTemplate: template => ({
     template: template,
     elements: template.elements || [],
+    selectedIndex: template.elements.length && 0,
   }),
 
   // Templates

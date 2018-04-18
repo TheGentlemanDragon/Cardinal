@@ -50,6 +50,10 @@
 .icon-cheveron-down:before {
   content: '\e901';
 }
+.icon-cheveron-up:before {
+  content: '\e901';
+  transform: rotate(180deg);
+}
 .icon-close:before {
   content: '\e907';
 }

@@ -9,8 +9,8 @@ import Templates from './pages/Templates'
 // import static assets
 import './assets/*'
 
-import appState from './state'
-import appActions from './actions'
+import appState from './modules/state'
+import appActions from './modules/actions'
 
 appState.location = location.state
 appActions.location = location.actions

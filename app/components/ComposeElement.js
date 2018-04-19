@@ -20,6 +20,9 @@ export default ({ index, item }) => (
     onmouseleave={() => mouseElement(-1)}
     onclick={() => selectElement(index)}
   >
+    {/* Element Icon */}
+    <i class="element-type" />
+
     {/* Element Name */}
     <span flex>{item.name}</span>
 

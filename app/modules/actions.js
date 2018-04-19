@@ -39,7 +39,10 @@ export default {
     return { ...newState, editIndex: -1, mouseIndex: -1 }
   },
 
-  selectElement: selectedIndex => ({ selectedIndex }),
+  selectElement: selectedIndex => state => ({
+    selectedIndex,
+    element: state.elements[selectedIndex] || null,
+  }),
 
   updateElement: ({ index, ...partial }) => ({ elements }) => ({
     elements: iArray(elements, index, partial),
@@ -61,7 +64,8 @@ export default {
   setTemplate: template => ({
     template: template,
     elements: template.elements || [],
-    selectedIndex: template.elements.length && 0,
+    element: template.elements.length && template.elements[0],
+    selectedIndex: template.elements.length >= 0 ? 0 : -1,
   }),
 
   // Templates

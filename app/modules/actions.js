@@ -1,4 +1,4 @@
-import { Firebase } from './services/data'
+import { Firebase } from './data'
 
 const iArray = (array, index, item) =>
   Object.assign([...array], { [index]: { ...array[index], ...item } })

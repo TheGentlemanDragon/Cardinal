@@ -1,13 +1,17 @@
 import { h } from 'hyperapp'
-import { Properties } from '../modules/constants'
 import ComposeElement from './ComposeElement'
 import './Compose.styl'
 
-export default () => ({ element, elements }, { addElement }) => (
+export default () => (
+  { element, elements, selectedIndex },
+  { addElement, saveElement, updateElement }
+) => (
   <div key="compose" class="compose-tab" container="column #top @stretch">
     {/* Elements Section */}
     <div class="compose-title" container="row #spread @center">
-      <label>Elements</label>
+      <label flex>Elements</label>
+      <i class="icon-block clickable" onclick={() => {}} />
+      <i class="icon-save-disk clickable" onclick={() => saveElement()} />
       <i
         class="icon-add-outline icon-lg clickable"
         onclick={() => addElement()}
@@ -34,13 +38,17 @@ export default () => ({ element, elements }, { addElement }) => (
         {/* Element Name */}
         <div class="property-input" container="row #spread @center">
           <span>name</span>
-          <input type="text" value={element.name} />
+          <input
+            type="text"
+            value={element.name}
+            onblur={e => updateElement({ name: e.target.value })}
+          />
         </div>
 
         {/* Element Type */}
         <div class="property-input" container="row #spread @center">
           <span>type</span>
-          <select>
+          <select onchange={e => updateElement({ type: e.target.value })}>
             {['Text', 'Image'].map(opt => (
               <option selected={opt === element.type}>{opt}</option>
             ))}
@@ -51,21 +59,16 @@ export default () => ({ element, elements }, { addElement }) => (
         <div class="property-switch" container="row #left @center">
           <span>content</span>
 
-          <input
-            type="radio"
-            name="contentType"
-            id="static"
-            checked={element.contentType}
-          />
-          <label for="static">static</label>
-
-          <input
-            type="radio"
-            name="contentType"
-            id="dynamic"
-            checked={element.contentType}
-          />
-          <label for="dynamic">dynamic</label>
+          {['static', 'dynamic'].map(option => [
+            <input
+              type="radio"
+              id={option}
+              value={option}
+              checked={element.contentType === option}
+              onclick={e => updateElement({ contentType: e.target.value })}
+            />,
+            <label for={option}>{option}</label>,
+          ])}
         </div>
       </div>
     )}

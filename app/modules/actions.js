@@ -1,7 +1,7 @@
 import { Firebase } from './data'
 
-const iArray = (array, index, item) =>
-  Object.assign([...array], { [index]: { ...array[index], ...item } })
+// const iArray = (array, index, item) =>
+//   Object.assign([...array], { [index]: { ...array[index], ...item } })
 
 export default {
   // Element
@@ -13,12 +13,7 @@ export default {
     setTemplate({ ...template, ...updateData })
   },
 
-  // TODO: cancel reverts to unchanged copy of element
-  // cancelElement: index => ({ elements, oElement }) => ({
-  //   editIndex: -1,
-  //   mouseIndex: -1,
-  //   elements: iArray(elements, index, oElement),
-  // }),
+  backupElements: elements => ({ oElements: elements }),
 
   deleteElement: index => async ({ elements, template }, { setTemplate }) => {
     const updateData = (elements.splice(index, 1), { elements })
@@ -29,10 +24,7 @@ export default {
 
   mouseElement: mouseIndex => ({ mouseIndex }),
 
-  saveElement: () => ({ elements, template }) => {
-    const newState = { elements }
-    template.$ref.update(newState)
-  },
+  restoreElements: () => ({ oElements }) => ({ elements: oElements }),
 
   selectElement: selectedIndex => state => ({
     selectedIndex,
@@ -41,12 +33,14 @@ export default {
 
   updateElement: ({ ...partial }) => ({ elements, selectedIndex }) => {
     const element = { ...elements[selectedIndex], ...partial }
-    console.log(element)
     return {
       element,
       elements: Object.assign([...elements], { [selectedIndex]: element }),
     }
   },
+
+  // Elements
+  setElements: elements => ({ elements }),
 
   // Games
   fetchGames: () => async (_, { setGames }) =>
@@ -58,15 +52,22 @@ export default {
   setTab: tab => ({ tab }),
 
   // Template
-  fetchTemplate: match => async (_state, { setTemplate }) =>
-    setTemplate(await Firebase.doc('templates', match.params.templateId)),
+  fetchTemplate: match => async (
+    _,
+    { backupElements, setTemplate, setElements, selectElement }
+  ) => {
+    const template = await Firebase.doc('templates', match.params.templateId)
+    setTemplate(template)
+    setElements(template.elements)
+    backupElements(template.elements)
+    selectElement(0)
+  },
 
-  setTemplate: template => ({
-    template: template,
-    elements: template.elements || [],
-    element: template.elements.length && template.elements[0],
-    selectedIndex: template.elements.length >= 0 ? 0 : -1,
-  }),
+  saveTemplate: () => ({ elements, template }) => {
+    template.$ref.update({ elements })
+  },
+
+  setTemplate: template => ({ template }),
 
   // Templates
   fetchTemplates: match => async (_, { setTemplates }) => {

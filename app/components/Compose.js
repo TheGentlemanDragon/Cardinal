@@ -3,15 +3,15 @@ import ComposeElement from './ComposeElement'
 import './Compose.styl'
 
 export default () => (
-  { element, elements, selectedIndex },
-  { addElement, saveElement, updateElement }
+  { element, elements },
+  { addElement, restoreElements, saveTemplate, updateElement }
 ) => (
   <div key="compose" class="compose-tab" container="column #top @stretch">
     {/* Elements Section */}
     <div class="compose-title" container="row #spread @center">
       <label flex>Elements</label>
-      <i class="icon-block clickable" onclick={() => {}} />
-      <i class="icon-save-disk clickable" onclick={() => saveElement()} />
+      <i class="icon-block clickable" onclick={() => restoreElements()} />
+      <i class="icon-save-disk clickable" onclick={() => saveTemplate()} />
       <i
         class="icon-add-outline icon-lg clickable"
         onclick={() => addElement()}
@@ -32,10 +32,10 @@ export default () => (
       <i class="icon-cheveron-down icon-lg clickable" onclick={() => {}} />
     </div>
 
-    {/* Properties List */}
+    {/* Element Properties List */}
     {element && (
       <div class="compose-items" container="column #top @stretch">
-        {/* Element Name */}
+        {/* Name */}
         <div class="property-input" container="row #spread @center">
           <span>name</span>
           <input
@@ -45,7 +45,7 @@ export default () => (
           />
         </div>
 
-        {/* Element Type */}
+        {/* Type */}
         <div class="property-input" container="row #spread @center">
           <span>type</span>
           <select onchange={e => updateElement({ type: e.target.value })}>

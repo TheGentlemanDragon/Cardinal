@@ -13,11 +13,12 @@ export default {
     setTemplate({ ...template, ...updateData })
   },
 
-  cancelElement: index => ({ elements, oElement }) => ({
-    editIndex: -1,
-    mouseIndex: -1,
-    elements: iArray(elements, index, oElement),
-  }),
+  // TODO: cancel reverts to unchanged copy of element
+  // cancelElement: index => ({ elements, oElement }) => ({
+  //   editIndex: -1,
+  //   mouseIndex: -1,
+  //   elements: iArray(elements, index, oElement),
+  // }),
 
   deleteElement: index => async ({ elements, template }, { setTemplate }) => {
     const updateData = (elements.splice(index, 1), { elements })
@@ -26,17 +27,11 @@ export default {
     setTemplate({ ...template, ...updateData })
   },
 
-  editElement: editIndex => ({ elements }) => ({
-    editIndex,
-    oElement: elements[editIndex],
-  }),
-
   mouseElement: mouseIndex => ({ mouseIndex }),
 
-  saveElement: index => ({ elements, template }) => {
-    const newState = { elements: elements }
+  saveElement: () => ({ elements, template }) => {
+    const newState = { elements }
     template.$ref.update(newState)
-    return { ...newState, editIndex: -1, mouseIndex: -1 }
   },
 
   selectElement: selectedIndex => state => ({
@@ -44,9 +39,14 @@ export default {
     element: state.elements[selectedIndex] || null,
   }),
 
-  updateElement: ({ index, ...partial }) => ({ elements }) => ({
-    elements: iArray(elements, index, partial),
-  }),
+  updateElement: ({ ...partial }) => ({ elements, selectedIndex }) => {
+    const element = { ...elements[selectedIndex], ...partial }
+    console.log(element)
+    return {
+      element,
+      elements: Object.assign([...elements], { [selectedIndex]: element }),
+    }
+  },
 
   // Games
   fetchGames: () => async (_, { setGames }) =>

@@ -40,9 +40,16 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.icon-cheveron-up:before {
+  content: '\e901';
+  transform: rotate(180deg);
+}
 
 .icon-add-outline:before {
   content: '\e900';
+}
+.icon-block:before {
+  content: '\e908';
 }
 .icon-checkmark:before {
   content: '\e902';
@@ -50,15 +57,17 @@
 .icon-cheveron-down:before {
   content: '\e901';
 }
-.icon-cheveron-up:before {
-  content: '\e901';
-  transform: rotate(180deg);
-}
 .icon-close:before {
   content: '\e907';
 }
 .icon-edit-pencil:before {
   content: '\e904';
+}
+.icon-photo:before {
+  content: '\e909';
+}
+.icon-save-disk:before {
+  content: '\e90a';
 }
 .icon-trash:before {
   content: '\e903';

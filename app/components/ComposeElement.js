@@ -3,15 +3,7 @@ import './ComposeElement.styl'
 
 export default ({ index, item }) => (
   { editIndex, mouseIndex, selectedIndex },
-  {
-    cancelElement,
-    deleteElement,
-    // editElement,
-    mouseElement,
-    saveElement,
-    selectElement,
-    updateElement,
-  }
+  { deleteElement, mouseElement, selectElement }
 ) => (
   <div
     class={'compose-element ' + (index === selectedIndex && 'selected')}
@@ -28,22 +20,8 @@ export default ({ index, item }) => (
 
     {/* Mouse Over Buttons */}
     {index === mouseIndex && [
-      <i class="icon-edit-pencil" onclick={() => editElement(index)} />,
       <i class="icon-view-show" />,
       <i class="icon-trash" onclick={() => deleteElement(index)} />,
     ]}
-
-    {/*
-      // Edit Mode
-      <input
-        value={item.name}
-        oncreate={element => element.select() && element.focus()}
-        onkeyup={event =>
-          updateElement({ index, name: event.target.value })
-        }
-      />,
-      <i class="icon-checkmark" onclick={() => saveElement(index)} />,
-      <i class="icon-close" onclick={() => cancelElement(index)} />,
-    */}
   </div>
 )

@@ -2,6 +2,17 @@ import { Firebase } from './data'
 
 // const iArray = (array, index, item) =>
 //   Object.assign([...array], { [index]: { ...array[index], ...item } })
+const defaultElement = {
+  name: '',
+  contentType: '',
+  type: '',
+  style: {
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+  },
+}
 
 export default {
   // Element
@@ -28,7 +39,7 @@ export default {
 
   selectElement: selectedIndex => state => ({
     selectedIndex,
-    element: state.elements[selectedIndex] || null,
+    element: { ...defaultElement, ...state.elements[selectedIndex] },
   }),
 
   updateElement: ({ ...partial }) => ({ elements, selectedIndex }) => {

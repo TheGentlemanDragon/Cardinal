@@ -19,11 +19,9 @@ export default () => (
     </div>
 
     {/* Elements List */}
-    <div class="compose-items" container="column #top @stretch">
-      {elements.map((item, index) => (
-        <ComposeElement item={item} index={index} />
-      ))}
-    </div>
+    {elements.map((item, index) => (
+      <ComposeElement item={item} index={index} />
+    ))}
 
     {/* Properties Section */}
     <div class="compose-title" container="row #spread @center">
@@ -31,43 +29,40 @@ export default () => (
       <i class="icon-cheveron-down icon-lg clickable" onclick={() => {}} />
     </div>
 
-    {/* Properties List */}
-    <div class="compose-items" container="column #top @stretch">
-      {/* Name */}
-      <div class="property-input" container="row #spread @center">
-        <span>name</span>
+    {/* Name */}
+    <div class="compose-item property" container="row #spread @center">
+      <span>name</span>
+      <input
+        type="text"
+        value={element.name}
+        onblur={e => updateElement({ name: e.target.value })}
+      />
+    </div>
+
+    {/* Type */}
+    <div class="compose-item property" container="row #spread @center">
+      <span>type</span>
+      <select oninput={e => updateElement({ type: e.target.value })}>
+        {['Text', 'Image'].map(opt => (
+          <option selected={opt === element.type}>{opt}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* Content Type */}
+    <div class="compose-item property-switch" container="row #left @center">
+      <span>content</span>
+
+      {['static', 'dynamic'].map(option => [
         <input
-          type="text"
-          value={element.name}
-          onblur={e => updateElement({ name: e.target.value })}
-        />
-      </div>
-
-      {/* Type */}
-      <div class="property-input" container="row #spread @center">
-        <span>type</span>
-        <select onchange={e => updateElement({ type: e.target.value })}>
-          {['Text', 'Image'].map(opt => (
-            <option selected={opt === element.type}>{opt}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* Content Type */}
-      <div class="property-switch" container="row #left @center">
-        <span>content</span>
-
-        {['static', 'dynamic'].map(option => [
-          <input
-            type="radio"
-            id={option}
-            value={option}
-            checked={element.contentType === option}
-            onclick={e => updateElement({ contentType: e.target.value })}
-          />,
-          <label for={option}>{option}</label>,
-        ])}
-      </div>
+          type="radio"
+          id={option}
+          value={option}
+          checked={element.contentType === option}
+          onclick={e => updateElement({ contentType: e.target.value })}
+        />,
+        <label for={option}>{option}</label>,
+      ])}
     </div>
 
     {/* Style Section */}
@@ -77,16 +72,48 @@ export default () => (
     </div>
 
     {/* Style Items */}
-    <div class="compose-items" container="column #top @stretch">
-      {/* Name */}
-      <div class="property-input" container="row #spread @center">
-        <span>name</span>
-        <input
-          type="text"
-          value={element.name}
-          onblur={e => updateElement({ name: e.target.value })}
-        />
-      </div>
+    <div class="compose-item half-property" container="row #spread @center">
+      {/* Left */}
+      <span>x</span>
+      <input
+        type="number"
+        value={element.style && element.style.left}
+        oninput={e =>
+          updateElement({ style: { ...element.style, left: e.target.value } })
+        }
+      />
+
+      {/* Top */}
+      <span>y</span>
+      <input
+        type="number"
+        value={element.style && element.style.top}
+        oninput={e =>
+          updateElement({ style: { ...element.style, top: e.target.value } })
+        }
+      />
+    </div>
+
+    <div class="compose-item half-property" container="row #spread @center">
+      {/* Width */}
+      <span>w</span>
+      <input
+        type="number"
+        value={element.style && element.style.width}
+        oninput={e =>
+          updateElement({ style: { ...element.style, width: e.target.value } })
+        }
+      />
+
+      {/* Height */}
+      <span>h</span>
+      <input
+        type="number"
+        value={element.style && element.style.height}
+        oninput={e =>
+          updateElement({ style: { ...element.style, height: e.target.value } })
+        }
+      />
     </div>
   </div>
 )

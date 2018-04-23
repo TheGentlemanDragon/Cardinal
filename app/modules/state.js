@@ -1,7 +1,9 @@
 export default {
+  element: {},
   elements: [],
-  games: null,
+  games: [],
+  selectedIndex: -1,
   tab: 'compose',
   template: {},
-  templates: null,
+  templates: [],
 }

@@ -1,5 +1,6 @@
 import firebase from 'firebase'
 import 'firebase/firestore'
+import 'firebase/storage'
 import { options } from '../config'
 
 /**
@@ -11,6 +12,7 @@ class _Firebase {
   constructor() {
     firebase.initializeApp(options)
     this.db = firebase.firestore()
+    this.files = firebase.storage()
     this.collections = {}
   }
 

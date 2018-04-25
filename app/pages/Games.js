@@ -24,7 +24,7 @@ export default ({ games }, { fetchGames }) => ({ location, match }) => (
             <Link
               class="item game-item"
               container="column #center @center"
-              to={`games/${item.name}`}
+              to={`/games/${item.name}`}
             >
               {item.name}
             </Link>

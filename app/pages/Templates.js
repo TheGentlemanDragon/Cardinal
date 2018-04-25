@@ -18,7 +18,10 @@ export default ({ templates }, { fetchTemplates, setTemplates }) => ({
     {/* Page */}
     <div class="page" container="column #top @stretch">
       {/* Page Title */}
-      <div class="page-title">Games > gameId</div>
+      <div class="page-title">
+        <Link to={`/games/`}>Games</Link>
+      </div>
+      <span class="list-title">{match.params.gameId} > Templates</span>
 
       {/* Templates List */}
       <div class="list" container="row #left @top">

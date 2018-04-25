@@ -2,6 +2,7 @@ import { h, app } from 'hyperapp'
 import { Link, location, Redirect, Route, Switch } from '@hyperapp/router'
 import devtools from 'hyperapp-redux-devtools'
 
+import FileManager from './components/FileManager'
 import Games from './pages/Games'
 import Template from './pages/Template'
 import Templates from './pages/Templates'
@@ -17,6 +18,7 @@ appActions.location = location.actions
 
 const view = (state, actions) => (
   <div container="row #left @stretch" flex>
+    <FileManager />
     <Route path="/" render={() => Redirect({ from: '/', to: '/games' })} />
     <Route path="/games" render={Games(state, actions)} />
     <Route path="/games/:gameId" render={Templates(state, actions)} />

@@ -15,6 +15,15 @@ const defaultElement = {
 }
 
 export default {
+  fm: {
+    show: () => ({
+      visible: true,
+    }),
+    hide: () => ({
+      visible: false,
+    }),
+  },
+
   // Element
   addElement: () => async ({ elements, template }, { setTemplate }) => {
     const newElement = { name: `element${elements.length + 1}` }

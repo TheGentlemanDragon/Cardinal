@@ -6,36 +6,25 @@
   "author": "Nando Pena <fernando.pena@rackspace.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel serve app/index.html",
-    "build": "parcel build app/index.html --public-url /"
+    "build-css": "stylus src --out src",
+    "watch-css": "stylus --watch src --out src",
+    "start": "inferno-scripts start",
+    "build": "inferno-scripts build",
+    "test": "inferno-scripts test --env=jsdom",
+    "eject": "inferno-scripts eject"
   },
   "dependencies": {
-    "@hyperapp/router": "0.7.0",
     "@jaames/iro": "3.4.1",
     "firebase": "5.1.0",
-    "hyperapp": "1.2.6",
-    "parcel-bundler": "1.9.3"
+    "inferno": "5.6.1",
+    "inferno-context-api-store": "^2.0.1",
+    "inferno-router": "^5.6.1",
+    "inferno-scripts": "6.3.2"
   },
   "devDependencies": {
     "@firebase/app-types": "0.3.2",
-    "babel-plugin-transform-runtime": "6.23.0",
-    "babel-preset-stage-3": "6.24.1",
-    "babel-runtime": "6.26.0",
-    "hyperapp-redux-devtools": "1.1.6",
     "prettier": "1.13.6",
     "stylus": "0.54.5"
-  },
-  "babel": {
-    "presets": ["stage-3"],
-    "plugins": [
-      [
-        "transform-runtime",
-        {
-          "polyfill": false,
-          "regenerator": true
-        }
-      ]
-    ]
   },
   "prettier": {
     "semi": false,

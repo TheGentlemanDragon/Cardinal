@@ -2,13 +2,14 @@ import { h, app } from 'hyperapp'
 import { Link, location, Redirect, Route, Switch } from '@hyperapp/router'
 import devtools from 'hyperapp-redux-devtools'
 
-import FileManager from './components/FileManager'
+import AssetManager from './components/AssetManager'
 import Games from './pages/Games'
 import Template from './pages/Template'
 import Templates from './pages/Templates'
 
 // import static assets
-import './assets/*'
+import './assets/fonts.css'
+import './assets/styles.styl'
 
 import appState from './modules/state'
 import appActions from './modules/actions'
@@ -18,7 +19,7 @@ appActions.location = location.actions
 
 const view = (state, actions) => (
   <div container="row #left @stretch" flex>
-    <FileManager />
+    <AssetManager />
     <Route path="/" render={() => Redirect({ from: '/', to: '/games' })} />
     <Route path="/games" render={Games(state, actions)} />
     <Route path="/games/:gameId" render={Templates(state, actions)} />

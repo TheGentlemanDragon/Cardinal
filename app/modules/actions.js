@@ -15,13 +15,19 @@ const defaultElement = {
 }
 
 export default {
-  fm: {
-    show: () => ({
-      visible: true,
-    }),
+  assets: {
     hide: () => ({
       visible: false,
     }),
+
+    show: () => ({
+      visible: true,
+    }),
+
+    upload: file => async (state, actions) => {
+      console.log(file)
+      // const ref = Firebase.child(file)
+    },
   },
 
   // Element

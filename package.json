@@ -10,20 +10,32 @@
     "build": "parcel build app/index.html --public-url /"
   },
   "dependencies": {
-    "@hyperapp/router": "^0.7.0",
-    "@jaames/iro": "^3.4.1",
-    "firebase": "^4.11.0",
-    "hyperapp": "^1.2.5",
-    "parcel-bundler": "^1.6.2"
+    "@hyperapp/router": "0.7.0",
+    "@jaames/iro": "3.4.1",
+    "firebase": "5.1.0",
+    "hyperapp": "1.2.6",
+    "parcel-bundler": "1.9.3"
   },
   "devDependencies": {
-    "@firebase/app-types": "^0.1.2",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "babel-runtime": "^6.26.0",
-    "hyperapp-redux-devtools": "^1.1.6",
-    "prettier": "1.11.1",
-    "stylus": "^0.54.5"
+    "@firebase/app-types": "0.3.2",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-stage-3": "6.24.1",
+    "babel-runtime": "6.26.0",
+    "hyperapp-redux-devtools": "1.1.6",
+    "prettier": "1.13.6",
+    "stylus": "0.54.5"
+  },
+  "babel": {
+    "presets": ["stage-3"],
+    "plugins": [
+      [
+        "transform-runtime",
+        {
+          "polyfill": false,
+          "regenerator": true
+        }
+      ]
+    ]
   },
   "prettier": {
     "semi": false,

@@ -2,12 +2,12 @@ import { h } from 'hyperapp'
 import ComposeElement from './ComposeElement'
 import './Compose.styl'
 
-export default () => (
-  { element, elements, ...state },
-  { addElement, restoreElements, saveTemplate, updateElement, fm }
-) => (
-  Object.assign(fm, state.fm),
-  (
+export default () => (state, actions) => {
+  const { assets, element, elements } = state
+  const { addElement, restoreElements, saveTemplate, updateElement } = actions
+  Object.assign(assets, actions.assets)
+
+  return (
     <div key="compose" class="compose-tab" container="column #top @stretch">
       {/* Elements Section */}
       <div class="compose-title" container="row #spread @center">
@@ -70,8 +70,8 @@ export default () => (
       {element.type === 'Image' &&
         element.contentType === 'static' && (
           <div class="compose-item property" container="row #spread @center">
-            <button onclick={() => fm.show()}>Add File</button>
-            <select>{fm.files.map(opt => <option>{opt}</option>)}</select>
+            <button onclick={() => assets.show()}>Add File</button>
+            <select>{assets.files.map(opt => <option>{opt}</option>)}</select>
           </div>
         )}
 
@@ -131,4 +131,4 @@ export default () => (
       </div>
     </div>
   )
-)
+}

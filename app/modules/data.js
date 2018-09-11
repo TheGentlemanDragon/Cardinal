@@ -12,7 +12,8 @@ class _Firebase {
   constructor() {
     firebase.initializeApp(options)
     this.db = firebase.firestore()
-    this.files = firebase.storage()
+    this.db.settings({ timestampsInSnapshots: true })
+    this.storage = firebase.storage().ref()
     this.collections = {}
   }
 

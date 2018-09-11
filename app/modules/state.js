@@ -1,7 +1,7 @@
 export default {
   element: {},
   elements: [],
-  fm: {
+  assets: {
     visible: false,
     files: ['f1', 'f2'],
   },

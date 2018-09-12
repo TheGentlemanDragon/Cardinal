@@ -4,7 +4,7 @@ import { Link } from 'inferno-router'
 
 import { clearTemplates, fetchGames } from '../modules/actions'
 
-class Games extends Component {
+class GamesPage extends Component {
   componentDidMount() {
     if (!this.props.games.size) {
       this.props.fetchGames()
@@ -56,4 +56,4 @@ class Games extends Component {
 export default connect(
   store => ({ games: store.games, templates: store.templates }),
   { clearTemplates, fetchGames }
-)(Games)
+)(GamesPage)

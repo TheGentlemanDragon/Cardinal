@@ -1,115 +1,122 @@
 import { Firebase } from './data'
 
+const defaultElement = {
+  name: '',
+  contentType: '',
+  type: '',
+  style: {
+    top: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+  },
+}
+
 // // const iArray = (array, index, item) =>
 // //   Object.assign([...array], { [index]: { ...array[index], ...item } })
-// const defaultElement = {
-//   name: '',
-//   contentType: '',
-//   type: '',
-//   style: {
-//     top: 0,
-//     left: 0,
-//     width: 0,
-//     height: 0,
-//   },
-// }
 
-// export default {
-//   assets: {
-//     hide: () => ({
-//       visible: false,
-//     }),
+/* Elements */
 
-//     show: () => ({
-//       visible: true,
-//     }),
+async function addElement(store) {
+  const { elements, template } = store.getStoreState()
+  const newElement = { name: `element${elements.length + 1}` }
+  const updateData = { elements: [...elements, newElement] }
+  await template.$ref.update(updateData)
 
-//     upload: file => async (state, actions) => {
-//       console.log(file)
-//       // const ref = Firebase.child(file)
-//     },
-//   },
+  setTemplate(store, { ...template, ...updateData })
+}
 
-//   // Element
-//   addElement: () => async ({ elements, template }, { setTemplate }) => {
-//     const newElement = { name: `element${elements.length + 1}` }
-//     const updateData = { elements: [...elements, newElement] }
-//     await template.$ref.update(updateData)
+async function deleteElement(store, index) {
+  const { elements, template } = store.getStoreState()
+  const updateData = (elements.splice(index, 1), { elements })
+  await template.$ref.update(updateData)
 
-//     setTemplate({ ...template, ...updateData })
-//   },
+  setTemplate(store, { ...template, ...updateData })
+}
 
-//   backupElements: elements => ({ oElements: elements }),
+function restoreElements(store) {
+  const { oElements } = store.getStoreState()
+  store.updateStore({ elements: oElements })
+}
 
-//   deleteElement: index => async ({ elements, template }, { setTemplate }) => {
-//     const updateData = (elements.splice(index, 1), { elements })
-//     await template.$ref.update(updateData)
+function selectElement(store, selectedIndex) {
+  const { elements } = store.getStoreState()
+  store.updateStore({
+    selectedIndex,
+    element: { ...defaultElement, ...elements[selectedIndex] },
+  })
+}
 
-//     setTemplate({ ...template, ...updateData })
-//   },
+function updateElement(store, { ...partial }) {
+  const { elements, selectedIndex } = store.getStoreState()
+  const element = { ...elements[selectedIndex], ...partial }
+  store.updateStore({
+    element,
+    elements: Object.assign([...elements], { [selectedIndex]: element }),
+  })
+}
 
-//   mouseElement: mouseIndex => ({ mouseIndex }),
+/* Games */
 
-//   restoreElements: () => ({ oElements }) => ({ elements: oElements }),
-
-//   selectElement: selectedIndex => state => ({
-//     selectedIndex,
-//     element: { ...defaultElement, ...state.elements[selectedIndex] },
-//   }),
-
-//   updateElement: ({ ...partial }) => ({ elements, selectedIndex }) => {
-//     const element = { ...elements[selectedIndex], ...partial }
-//     return {
-//       element,
-//       elements: Object.assign([...elements], { [selectedIndex]: element }),
-//     }
-//   },
-
-//   // Elements
-//   setElements: elements => ({ elements }),
-
-//   // SideBar
-//   setTab: tab => ({ tab }),
-
-//   // Template
-//   fetchTemplate: match => async (
-//     _,
-//     { backupElements, setTemplate, setElements, selectElement }
-//   ) => {
-//     const template = await Firebase.doc('templates', match.params.templateId)
-//     setTemplate(template)
-//     setElements(template.elements)
-//     backupElements(template.elements)
-//     selectElement(0)
-//   },
-
-//   saveTemplate: () => ({ elements, template }) => {
-//     template.$ref.update({ elements })
-//   },
-
-//   setTemplate: template => ({ template }),
-
-//   // Templates
-//   fetchTemplates: match => async (_, { setTemplates }) => {
-//     const query = { owner: 'nando', game: match.params.gameId }
-//     setTemplates(await Firebase.query('templates', query, 'name'))
-//   },
-
-//   setTemplates: templates => ({ templates }),
-// }
-
-const fetchGames = async store => {
+async function fetchGames(store) {
   const games = await Firebase.list('games', 'name')
   store.updateStore({ games })
 }
 
-// Templates
-const clearTemplates = store => store.updateStore({ templates: [] })
+/* Templates */
 
-const fetchTemplates = async (store, match) => {
+function clearTemplates(store) {
+  store.updateStore({ templates: [] })
+}
+
+async function fetchTemplate(store, match) {
+  const template = await Firebase.doc('templates', match.params.templateId)
+  const elements = template.elements || []
+  store.updateStore({
+    oElements: { ...elements },
+    elements,
+    element: { ...defaultElement, ...elements[0] },
+    template,
+    selectedIndex: 0,
+  })
+}
+
+async function fetchTemplates(store, match) {
   const query = { owner: 'nando', game: match.params.gameId }
   const templates = await Firebase.query('templates', query, 'name')
   store.updateStore({ templates })
 }
 
-export { clearTemplates, fetchGames, fetchTemplates }
+function saveTemplate(store, elements, template) {
+  template.$ref.update({ elements })
+}
+
+function setTemplate(store, template) {
+  store.updateStore({ template })
+}
+
+function setTemplates(store, templates) {
+  store.updateStore({ templates })
+}
+
+/* SideBar */
+
+function setTab(store, tab) {
+  store.updateStore({ tab })
+}
+
+export {
+  addElement,
+  clearTemplates,
+  deleteElement,
+  fetchGames,
+  fetchTemplate,
+  fetchTemplates,
+  restoreElements,
+  saveTemplate,
+  selectElement,
+  setTab,
+  setTemplate,
+  setTemplates,
+  updateElement,
+}

@@ -1,12 +1,11 @@
 export default {
-  element: {},
-  elements: [],
   assets: {
-    visible: false,
     files: ['f1', 'f2'],
   },
+  element: {},
+  elements: [],
   games: [],
-  selectedIndex: -1,
+  scale: 2,
   tab: 'compose',
   template: {},
   templates: [],

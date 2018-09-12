@@ -4,7 +4,7 @@ import { Link } from 'inferno-router'
 
 import { fetchTemplates } from '../modules/actions'
 
-class Templates extends Component {
+class TemplatesPage extends Component {
   componentWillMount() {
     this.props.fetchTemplates(this.props.match)
   }
@@ -47,4 +47,4 @@ class Templates extends Component {
 export default connect(
   store => ({ templates: store.templates }),
   { fetchTemplates }
-)(Templates)
+)(TemplatesPage)

@@ -17,7 +17,7 @@ const Properties = ({ assets, element, updateElement }) => (
       <input
         type="text"
         value={element.name}
-        onFocusOut={linkEvent('name', updateElement)}
+        onInput={linkEvent('name', updateElement)}
       />
     </div>
 

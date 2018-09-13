@@ -21,8 +21,6 @@ async function addElement(store) {
   const { elements, template } = store.getStoreState()
   const newElement = { name: `element${elements.length + 1}` }
   const updateData = { elements: [...elements, newElement] }
-  await template.$ref.update(updateData)
-
   setTemplate(store, { ...template, ...updateData })
 }
 
@@ -36,7 +34,7 @@ async function deleteElement(store, index) {
 
 function restoreElements(store) {
   const { oElements } = store.getStoreState()
-  store.updateStore({ elements: oElements })
+  store.updateStore({ elements: JSON.parse(JSON.stringify(oElements)) })
 }
 
 function selectElement(store, selectedIndex) {
@@ -47,9 +45,24 @@ function selectElement(store, selectedIndex) {
   })
 }
 
-function updateElement(store, { ...partial }) {
+function updateElement(store, key, event) {
   const { elements, selectedIndex } = store.getStoreState()
-  const element = { ...elements[selectedIndex], ...partial }
+  const element = { ...elements[selectedIndex] }
+  const parts = key.split('.')
+
+  let part
+  let nested = element
+  while ((part = parts.shift())) {
+    if (!parts.length) {
+      break
+    }
+    if (!nested.hasOwnProperty(part)) {
+      nested[part] = {}
+    }
+    nested = nested[part]
+  }
+  nested[part] = event.target.value
+
   store.updateStore({
     element,
     elements: Object.assign([...elements], { [selectedIndex]: element }),
@@ -73,7 +86,7 @@ async function fetchTemplate(store, match) {
   const template = await Firebase.doc('templates', match.params.templateId)
   const elements = template.elements || []
   store.updateStore({
-    oElements: { ...elements },
+    oElements: JSON.parse(JSON.stringify(elements)),
     elements,
     element: { ...defaultElement, ...elements[0] },
     template,
@@ -87,12 +100,13 @@ async function fetchTemplates(store, match) {
   store.updateStore({ templates })
 }
 
-function saveTemplate(store, elements, template) {
+function saveTemplate(store) {
+  const { elements, template } = store.getStoreState()
   template.$ref.update({ elements })
 }
 
 function setTemplate(store, template) {
-  store.updateStore({ template })
+  store.updateStore({ template, elements: template.elements })
 }
 
 function setTemplates(store, templates) {
@@ -101,8 +115,12 @@ function setTemplates(store, templates) {
 
 /* SideBar */
 
-function setTab(store, tab) {
-  store.updateStore({ tab })
+function setTabCompose(store) {
+  store.updateStore({ tab: 'compose' })
+}
+
+function setTabPreview(store) {
+  store.updateStore({ tab: 'preview' })
 }
 
 export {
@@ -115,7 +133,8 @@ export {
   restoreElements,
   saveTemplate,
   selectElement,
-  setTab,
+  setTabCompose,
+  setTabPreview,
   setTemplate,
   setTemplates,
   updateElement,

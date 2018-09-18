@@ -123,6 +123,18 @@ function setTabPreview(store) {
   store.updateStore({ tab: 'preview' })
 }
 
+/* Assets Manager */
+
+function hideAssetManager(store) {
+  const { assets } = store.getStoreState()
+  store.updateStore({ assets: { ...assets, show: false } })
+}
+
+function showAssetManager(store) {
+  const { assets } = store.getStoreState()
+  store.updateStore({ assets: { ...assets, show: true } })
+}
+
 export {
   addElement,
   clearTemplates,
@@ -130,6 +142,7 @@ export {
   fetchGames,
   fetchTemplate,
   fetchTemplates,
+  hideAssetManager,
   restoreElements,
   saveTemplate,
   selectElement,
@@ -137,5 +150,6 @@ export {
   setTabPreview,
   setTemplate,
   setTemplates,
+  showAssetManager,
   updateElement,
 }

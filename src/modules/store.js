@@ -1,5 +1,6 @@
 export default {
   assets: {
+    show: false,
     files: ['f1', 'f2'],
   },
   element: {},

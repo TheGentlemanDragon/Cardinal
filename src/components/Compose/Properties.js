@@ -1,9 +1,15 @@
 import { linkEvent } from 'inferno'
 import { connect } from 'inferno-context-api-store'
 
-import { updateElement } from '../../modules/actions'
+import { showAssetManager, updateElement } from '../../modules/actions'
 
-const Properties = ({ assets, element, updateElement }) => (
+const selectedAssetManager = (showAssetManager, event) => {
+  if (event.target.value === 'showAM') {
+    showAssetManager()
+  }
+}
+
+const Properties = ({ assets, element, showAssetManager, updateElement }) => (
   <div class="compose-section">
     {/* Properties Section Title*/}
     <div class="compose-title" container="row #spread @center">
@@ -25,7 +31,11 @@ const Properties = ({ assets, element, updateElement }) => (
     <div class="compose-item property" container="row #spread @center">
       <span>type</span>
       <select onInput={linkEvent('type', updateElement)}>
-        {['Text', 'Image'].map(opt => <option value={opt}>{opt}</option>)}
+        {['Text', 'Image'].map(opt => (
+          <option value={opt} selected={opt === element.type}>
+            {opt}
+          </option>
+        ))}
       </select>
     </div>
 
@@ -33,25 +43,32 @@ const Properties = ({ assets, element, updateElement }) => (
     <div class="compose-item property-switch" container="row #left @center">
       <span>content</span>
 
-      {['static', 'dynamic'].map(option => [
+      {['static', 'dynamic'].map(opt => [
         <input
           type="radio"
-          id={option}
-          value={option}
-          checked={element.contentType === option}
+          id={opt}
+          value={opt}
+          checked={opt === element.contentType}
           onClick={linkEvent('contentType', updateElement)}
         />,
-        <label for={option}>{option}</label>,
+        <label for={opt}>{opt}</label>,
       ])}
     </div>
 
-    {element.type === 'Image' &&
-      element.contentType === 'static' && (
-        <div class="compose-item property" container="row #spread @center">
-          <button onClick={() => assets.show()}>Add File</button>
-          <select>{assets.files.map(opt => <option>{opt}</option>)}</select>
-        </div>
-      )}
+    {element.contentType === 'static' && (
+      <div class="compose-item property" container="row #spread @center">
+        {element.type === 'Image' && [
+          <span>image</span>,
+          <select onChange={linkEvent(showAssetManager, selectedAssetManager)}>
+            <option disabled>-Choose Image-</option>
+            {assets.files.map(opt => <option value={opt}>{opt}</option>)}
+            <option value="showAM">-Manage Files-</option>
+          </select>,
+        ]}
+
+        {element.type === 'Text' && [<span>label</span>, <input type="text" />]}
+      </div>
+    )}
   </div>
 )
 
@@ -60,5 +77,5 @@ export default connect(
     assets: store.assets,
     element: store.element,
   }),
-  { updateElement }
+  { showAssetManager, updateElement }
 )(Properties)

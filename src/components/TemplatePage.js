@@ -1,6 +1,7 @@
 import { Component } from 'inferno'
 import { connect } from 'inferno-context-api-store'
 
+import AssetManager from './AssetManager'
 import Card from './Card'
 import SideBar from './SideBar'
 import { fetchTemplate } from '../modules/actions'
@@ -18,6 +19,8 @@ class TemplatePage extends Component {
         <div container="column #center @center" flex>
           <Card />
         </div>
+
+        <AssetManager />
       </div>
     )
   }

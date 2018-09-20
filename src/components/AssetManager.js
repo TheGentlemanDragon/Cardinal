@@ -19,12 +19,7 @@ class AssetManager extends Component {
     }
 
     return (
-      <div
-        class="asset-manager-wrapper"
-        onClick={event =>
-          event.currentTarget === event.srcElement && hideAssetManager()
-        }
-      >
+      <div class="asset-manager-wrapper" onClick={hideAssetManager}>
         <div class="asset-manager" container="row #left @top">
           {files.map(item => (
             <div class="asset-tile">

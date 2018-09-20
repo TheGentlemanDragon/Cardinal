@@ -125,7 +125,11 @@ function setTabPreview(store) {
 
 /* Assets Manager */
 
-function hideAssetManager(store) {
+function hideAssetManager(store, event) {
+  if (event && event.currentTarget !== event.srcElement) {
+    return
+  }
+
   const { assets } = store.getStoreState()
   store.updateStore({ assets: { ...assets, show: false } })
 }

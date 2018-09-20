@@ -11,7 +11,7 @@ import './registerServiceWorker'
 import './App.css'
 
 const App = () => (
-  <Provider store={store}>
+  <Provider store={store} defer={100}>
     <BrowserRouter>
       <Switch>
         <Route path="/templates/:templateId" render={TemplatePage} />

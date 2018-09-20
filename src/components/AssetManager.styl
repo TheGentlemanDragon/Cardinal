@@ -1,4 +1,4 @@
-.file-manager-wrapper
+.asset-manager-wrapper
   align-items center
   background-color rgba(0, 0, 0, 0.5)
   display flex
@@ -14,18 +14,35 @@
   & + div
     filter blur(4px)
 
-.file-manager
+.asset-manager
   background-color white
   border-radius 10px
   box-shadow  0 11px 15px -7px rgba(0, 0, 0, 0.2),
               0 24px 38px 3px rgba(0, 0, 0, 0.14),
               0 9px 46px 8px rgba(0, 0, 0, 0.12)
   height 500px
-  padding 20px
-  width 400px
+  padding 30px 60px
+  width 700px
 
-.file-manager-drop
-  background-color rgba(0, 0, 0, 0.4)
+.asset-tile
   border-radius 10px
-  color rgb(255, 255, 255)
-  font-size 24px
+  height 120px
+  width 120px
+
+  .image-contianer
+    border-radius 10px
+    max-height 80px
+    overflow hidden
+
+    img
+      display block
+      width 100%
+
+.asset-tile + .asset-tile
+  margin-left 20px
+
+.asset-name
+  overflow hidden
+  white-space nowrap
+  margin 6px 0
+  text-overflow ellipsis

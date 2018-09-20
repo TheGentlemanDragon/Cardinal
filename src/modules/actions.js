@@ -135,10 +135,17 @@ function showAssetManager(store) {
   store.updateStore({ assets: { ...assets, show: true } })
 }
 
+async function fetchFiles(store, username) {
+  const { assets } = store.getStoreState()
+  const user = await Firebase.doc('users', username)
+  store.updateStore({ assets: { ...assets, files: user.assets || [] } })
+}
+
 export {
   addElement,
   clearTemplates,
   deleteElement,
+  fetchFiles,
   fetchGames,
   fetchTemplate,
   fetchTemplates,

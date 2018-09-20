@@ -61,7 +61,9 @@ const Properties = ({ assets, element, showAssetManager, updateElement }) => (
           <span>image</span>,
           <select onChange={linkEvent(showAssetManager, selectedAssetManager)}>
             <option disabled>-Choose Image-</option>
-            {assets.files.map(opt => <option value={opt}>{opt}</option>)}
+            {assets.files.map(opt => (
+              <option value={opt.name}>{opt.name}</option>
+            ))}
             <option value="showAM">-Manage Files-</option>
           </select>,
         ]}

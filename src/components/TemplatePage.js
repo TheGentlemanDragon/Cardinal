@@ -1,7 +1,7 @@
 import { Component } from 'inferno'
 import { connect } from 'inferno-context-api-store'
 
-import AssetManager from './AssetManager'
+import AssetsModal from './AssetsModal'
 import Card from './Card'
 import SideBar from './SideBar'
 import { fetchTemplate } from '../modules/actions'
@@ -20,7 +20,7 @@ class TemplatePage extends Component {
           <Card />
         </div>
 
-        <AssetManager />
+        <AssetsModal />
       </div>
     )
   }

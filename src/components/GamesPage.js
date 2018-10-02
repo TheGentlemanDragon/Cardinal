@@ -1,8 +1,9 @@
-import { Component } from 'inferno'
+import { Component, linkEvent } from 'inferno'
 import { connect } from 'inferno-context-api-store'
 import { Link } from 'inferno-router'
 
-import { clearTemplates, fetchGames } from '../modules/actions'
+import NewGameModal from './NewGameModal'
+import { clearTemplates, fetchGames, showModal } from '../modules/actions'
 
 class GamesPage extends Component {
   componentDidMount() {
@@ -22,7 +23,7 @@ class GamesPage extends Component {
   }
 
   render() {
-    const { games } = this.props
+    const { games, showModal } = this.props
 
     return (
       <div key="games" container="column #top @stretch" flex>
@@ -46,8 +47,18 @@ class GamesPage extends Component {
                 {item.name}
               </Link>
             ))}
+            <div
+              key="new-game"
+              class="item game-add"
+              container="column #center @center"
+              onClick={linkEvent('newGame', showModal)}
+            >
+              + Game
+            </div>
           </div>
         </div>
+
+        <NewGameModal />
       </div>
     )
   }
@@ -55,5 +66,5 @@ class GamesPage extends Component {
 
 export default connect(
   store => ({ games: store.games, templates: store.templates }),
-  { clearTemplates, fetchGames }
+  { clearTemplates, fetchGames, showModal }
 )(GamesPage)

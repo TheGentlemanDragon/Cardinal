@@ -1,11 +1,12 @@
 export default {
-  assets: {
-    show: false,
-    files: [],
-  },
+  assets: [],
   element: {},
   elements: [],
   games: [],
+  modals: {
+    newGame: false,
+    assets: false,
+  },
   scale: 2,
   tab: 'compose',
   template: {},

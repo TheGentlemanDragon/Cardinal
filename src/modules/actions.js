@@ -76,6 +76,29 @@ async function fetchGames(store) {
   store.updateStore({ games })
 }
 
+async function createGame(store, name) {
+  const games = await Firebase.col('games')
+  await games.add({ name, owner: 'nando' })
+  fetchGames(store)
+  hideModal(store, 'newGame')
+}
+
+/* Modals */
+
+function hideModal(store, name, event) {
+  if (event && event.currentTarget !== event.srcElement) {
+    return
+  }
+
+  const { modals } = store.getStoreState()
+  store.updateStore({ modals: { ...modals, [name]: false } })
+}
+
+function showModal(store, name) {
+  const { modals } = store.getStoreState()
+  store.updateStore({ modals: { ...modals, [name]: true } })
+}
+
 /* Templates */
 
 function clearTemplates(store) {
@@ -125,35 +148,21 @@ function setTabPreview(store) {
 
 /* Assets Manager */
 
-function hideAssetManager(store, event) {
-  if (event && event.currentTarget !== event.srcElement) {
-    return
-  }
-
-  const { assets } = store.getStoreState()
-  store.updateStore({ assets: { ...assets, show: false } })
-}
-
-function showAssetManager(store) {
-  const { assets } = store.getStoreState()
-  store.updateStore({ assets: { ...assets, show: true } })
-}
-
-async function fetchFiles(store, username) {
-  const { assets } = store.getStoreState()
-  const user = await Firebase.doc('users', username)
-  store.updateStore({ assets: { ...assets, files: user.assets || [] } })
+async function fetchAssets(store, username) {
+  const query = await Firebase.query('assets', { owner: 'nando' }, 'name')
+  store.updateStore({ assets: [...query.values()] || [] })
 }
 
 export {
   addElement,
   clearTemplates,
+  createGame,
   deleteElement,
-  fetchFiles,
+  fetchAssets,
   fetchGames,
   fetchTemplate,
   fetchTemplates,
-  hideAssetManager,
+  hideModal,
   restoreElements,
   saveTemplate,
   selectElement,
@@ -161,6 +170,6 @@ export {
   setTabPreview,
   setTemplate,
   setTemplates,
-  showAssetManager,
+  showModal,
   updateElement,
 }

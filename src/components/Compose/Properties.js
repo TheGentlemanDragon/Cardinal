@@ -1,15 +1,15 @@
 import { linkEvent } from 'inferno'
 import { connect } from 'inferno-context-api-store'
 
-import { showAssetManager, updateElement } from '../../modules/actions'
+import { showModal, updateElement } from '../../modules/actions'
 
-const selectedAssetManager = (showAssetManager, event) => {
+const selectedAssets = (showModal, event) => {
   if (event.target.value === 'showAM') {
-    showAssetManager()
+    showModal('assets')
   }
 }
 
-const Properties = ({ assets, element, showAssetManager, updateElement }) => (
+const Properties = ({ assets, element, showModal, updateElement }) => (
   <div class="compose-section">
     {/* Properties Section Title*/}
     <div class="compose-title" container="row #spread @center">
@@ -58,17 +58,15 @@ const Properties = ({ assets, element, showAssetManager, updateElement }) => (
     {element.contentType === 'static' && (
       <div class="compose-item property" container="row #spread @center">
         {element.type === 'Image' && [
-          <span>image</span>,
-          <select onChange={linkEvent(showAssetManager, selectedAssetManager)}>
+          <span />,
+          <select onChange={linkEvent(showModal, selectedAssets)}>
             <option disabled>-Choose Image-</option>
-            {assets.files.map(opt => (
-              <option value={opt.name}>{opt.name}</option>
-            ))}
+            {assets.map(opt => <option value={opt.name}>{opt.name}</option>)}
             <option value="showAM">-Manage Files-</option>
           </select>,
         ]}
 
-        {element.type === 'Text' && [<span>label</span>, <input type="text" />]}
+        {element.type === 'Text' && [<span />, <input type="text" />]}
       </div>
     )}
   </div>
@@ -79,5 +77,5 @@ export default connect(
     assets: store.assets,
     element: store.element,
   }),
-  { showAssetManager, updateElement }
+  { showModal, updateElement }
 )(Properties)

@@ -71,16 +71,20 @@ function updateElement(store, key, event) {
 
 /* Games */
 
-async function fetchGames(store) {
-  const games = await Firebase.list('games', 'name')
-  store.updateStore({ games })
-}
-
 async function createGame(store, name) {
   const games = await Firebase.col('games')
   await games.add({ name, owner: 'nando' })
   fetchGames(store)
   hideModal(store, 'newGame')
+}
+
+async function fetchGames(store) {
+  const games = await Firebase.list('games', 'name')
+  store.updateStore({ games })
+}
+
+function setGame(store, game) {
+  store.updateStore({ game })
 }
 
 /* Modals */
@@ -105,6 +109,13 @@ function clearTemplates(store) {
   store.updateStore({ templates: [] })
 }
 
+async function createTemplate(store, template) {
+  const templates = await Firebase.col('templates')
+  await templates.add({ ...template, elements: [], owner: 'nando' })
+  fetchTemplates(store, template.game)
+  hideModal(store, 'newTemplate')
+}
+
 async function fetchTemplate(store, match) {
   const template = await Firebase.doc('templates', match.params.templateId)
   const elements = template.elements || []
@@ -117,8 +128,8 @@ async function fetchTemplate(store, match) {
   })
 }
 
-async function fetchTemplates(store, match) {
-  const query = { owner: 'nando', game: match.params.gameId }
+async function fetchTemplates(store, game) {
+  const query = { owner: 'nando', game }
   const templates = await Firebase.query('templates', query, 'name')
   store.updateStore({ templates })
 }
@@ -157,6 +168,7 @@ export {
   addElement,
   clearTemplates,
   createGame,
+  createTemplate,
   deleteElement,
   fetchAssets,
   fetchGames,
@@ -166,6 +178,7 @@ export {
   restoreElements,
   saveTemplate,
   selectElement,
+  setGame,
   setTabCompose,
   setTabPreview,
   setTemplate,

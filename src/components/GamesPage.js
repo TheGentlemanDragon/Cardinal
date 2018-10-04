@@ -47,6 +47,8 @@ class GamesPage extends Component {
                 {item.name}
               </Link>
             ))}
+
+            {/* New Game */}
             <div
               key="new-game"
               class="item game-add"

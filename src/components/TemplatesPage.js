@@ -1,16 +1,19 @@
-import { Component } from 'inferno'
+import { Component, linkEvent } from 'inferno'
 import { connect } from 'inferno-context-api-store'
 import { Link } from 'inferno-router'
 
-import { fetchTemplates } from '../modules/actions'
+import NewTemplateModal from './NewTemplateModal'
+import { fetchTemplates, setGame, showModal } from '../modules/actions'
 
 class TemplatesPage extends Component {
   componentWillMount() {
-    this.props.fetchTemplates(this.props.match)
+    const game = this.props.match.params.gameId || ''
+    this.props.setGame(game)
+    this.props.fetchTemplates(game)
   }
 
   render() {
-    const { match, templates } = this.props
+    const { match, showModal, templates } = this.props
 
     return (
       <div key="templates" container="column #top @stretch" flex>
@@ -37,8 +40,20 @@ class TemplatesPage extends Component {
                 {item.name}
               </Link>
             ))}
+
+            {/* New Template */}
+            <div
+              key="new-template"
+              class="item template-add"
+              container="column #center @center"
+              onClick={linkEvent('newTemplate', showModal)}
+            >
+              + Template
+            </div>
           </div>
         </div>
+
+        <NewTemplateModal />
       </div>
     )
   }
@@ -46,5 +61,5 @@ class TemplatesPage extends Component {
 
 export default connect(
   store => ({ templates: store.templates }),
-  { fetchTemplates }
+  { fetchTemplates, setGame, showModal }
 )(TemplatesPage)

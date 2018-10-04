@@ -9,7 +9,7 @@ export default {
     newTemplate: false,
     assets: false,
   },
-  scale: 2,
+  scale: 1.8,
   tab: 'compose',
   template: {},
   templates: [],

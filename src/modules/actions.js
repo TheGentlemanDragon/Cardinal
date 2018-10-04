@@ -159,12 +159,21 @@ function setTabPreview(store) {
 
 /* Assets Manager */
 
-async function fetchAssets(store, username) {
+async function addAsset(store, url) {
+  const assets = await Firebase.col('assets')
+  const path = url.split('/').pop() || ''
+  const name = (path.match(/(.*\.\w+)/) || [])[0] || url
+  await assets.add({ name, url, owner: 'nando' })
+  fetchAssets(store)
+}
+
+async function fetchAssets(store) {
   const query = await Firebase.query('assets', { owner: 'nando' }, 'name')
   store.updateStore({ assets: [...query.values()] || [] })
 }
 
 export {
+  addAsset,
   addElement,
   clearTemplates,
   createGame,

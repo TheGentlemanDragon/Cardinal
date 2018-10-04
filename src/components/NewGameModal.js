@@ -42,7 +42,7 @@ class NewGameModal extends Component {
             onInput={linkEvent(this, this.setName)}
             onKeyDown={linkEvent(this, this.setName)}
           />
-          <div container="row #right @center">
+          <span container="row #right @center">
             <button onClick={linkEvent('newGame', hideModal)}>Cancel</button>
             <button
               class="primary"
@@ -50,7 +50,7 @@ class NewGameModal extends Component {
             >
               Create
             </button>
-          </div>
+          </span>
         </div>
       </div>
     )

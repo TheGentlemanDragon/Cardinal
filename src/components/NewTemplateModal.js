@@ -42,7 +42,7 @@ class NewTemplateModal extends Component {
             onInput={linkEvent(this, this.setName)}
             onKeyDown={linkEvent(this, this.setName)}
           />
-          <div container="row #right @center">
+          <span container="row #right @center">
             <button onClick={linkEvent('newTemplate', hideModal)}>
               Cancel
             </button>
@@ -55,7 +55,7 @@ class NewTemplateModal extends Component {
             >
               Create
             </button>
-          </div>
+          </span>
         </div>
       </div>
     )

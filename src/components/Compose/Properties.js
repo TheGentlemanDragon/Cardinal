@@ -3,12 +3,6 @@ import { connect } from 'inferno-context-api-store'
 
 import { showModal, updateElement } from '../../modules/actions'
 
-const selectedAssets = (showModal, event) => {
-  if (event.target.value === 'showAM') {
-    showModal('assets')
-  }
-}
-
 const Properties = ({ assets, element, showModal, updateElement }) => (
   <div class="compose-section">
     {/* Properties Section Title*/}
@@ -59,10 +53,16 @@ const Properties = ({ assets, element, showModal, updateElement }) => (
       <div class="compose-item property" container="row #spread @center">
         {element.type === 'Image' && [
           <span />,
-          <select onChange={linkEvent(showModal, selectedAssets)}>
+          <select onInput={linkEvent('content', updateElement)}>
             <option disabled>-Choose Image-</option>
-            {assets.map(opt => <option value={opt.name}>{opt.name}</option>)}
-            <option value="showAM">-Manage Files-</option>
+            {assets.map(opt => (
+              <option value={opt.name} selected={opt.name === element.content}>
+                {opt.name}
+              </option>
+            ))}
+            <option value="showAM" onClick={linkEvent('assets', showModal)}>
+              -Manage Files-
+            </option>
           </select>,
         ]}
 

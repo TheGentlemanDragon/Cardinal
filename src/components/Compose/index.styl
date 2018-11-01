@@ -48,33 +48,68 @@
   span, input
     width 25%
 
-.property-switch
-  height 36px
+.compose-element
+  background-color #204070
+  color darken(#ffffff, 20%)
+  cursor pointer
+  height 42px
+  padding 0
 
-  span
-    line-height 12px
-    padding-left 20px
-    margin-right 25px
-    width 90px
+  i
+    width 28px
 
-  label
-    background-color rgba(0, 0, 0, 0.3)
-    border-radius 10px 0 0 10px
-    cursor pointer
-    font-size 0.9rem
-    height 24px
-    line-height 24px
-    text-align center
-    width 65px
+    &.element-type
+      font-size 2rem
+      background-color rgba(0, 0, 0, 0.3)
+      height inherit
+      margin-right 15px
+      width 42px
+      line-height 2.7rem
+      text-align center
 
-  label:nth-of-type(2)
-    border-radius 0 10px 10px 0
-    width 85px
+    &.icon-text.element-type
+      font-size 1.4rem
 
-  input[type="radio"]
-    display none
+    &.icon-text.element-type:after
+      content ''
+      position absolute
+      width 1.75rem
+      height 1.75rem
+      border 3px solid darken(#ffffff, 20%)
+      border-radius 0.2rem
+      margin-top 0.45rem
+      margin-left -1.6rem
 
-  input[type="radio"]:checked + label
+    &.icon-text.element-type.dynamic:after
+      border-style dashed
+      border-width 4px
+
+    &.action
+      display none
+
+  &:hover i.action
+    display inline-block
+
+  input
+    background-color rgba(255, 255, 255, 0.8)
+    border-bottom solid 2px rgb(15, 70, 130)
+    border-radius 3px
+    border-style none
+    font-size 1rem
+    font-family "Open Sans"
+    line-height 20px
+    margin 1px 10px 0 -6px
+    padding 2px 6px
+    transition background-color 1s
+
+  &.selected
     background-color #daa520
     color rgb(34, 34, 34)
     font-weight 600
+
+    i.icon-text.element-type:after
+      border 3px solid rgb(34, 34, 34)
+
+    i.icon-text.element-type.dynamic:after
+      border-style dashed
+      border-width 4px

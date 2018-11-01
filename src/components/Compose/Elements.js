@@ -9,6 +9,11 @@ import {
   selectElement,
 } from '../../modules/actions'
 
+const TypeIcon = ({ type }) => {
+  const [style, classname] = (type || '').toLowerCase().split(' ')
+  return <i class={`icon-${classname} element-type ${style}`} />
+}
+
 const Elements = ({
   addElement,
   deleteElement,
@@ -22,9 +27,9 @@ const Elements = ({
     {/* Elements Section Title */}
     <div class="compose-title" container="row #spread @center">
       <label flex>Elements</label>
-      <i class="icon-block clickable" onClick={restoreElements} />
-      <i class="icon-save-disk clickable" onClick={saveTemplate} />
-      <i class="icon-add-outline icon-lg clickable" onClick={addElement} />
+      <i class="icon-restore clickable" onClick={restoreElements} />
+      <i class="icon-cloud-upload clickable" onClick={saveTemplate} />
+      <i class="icon-add-element clickable" onClick={addElement} />
     </div>
 
     {/* Elements List */}
@@ -35,15 +40,15 @@ const Elements = ({
         onClick={linkEvent(index, selectElement)}
       >
         {/* Element Icon */}
-        <i class="element-type" />
+        <TypeIcon type={item.type} />
 
         {/* Element Name */}
         <span flex>{item.name}</span>
 
         {/* Mouse Over Buttons */}
-        <i class="action icon-view-show" />
+        <i class="action icon-visible" />
         <i
-          class="action icon-trash"
+          class="action icon-delete"
           onClick={linkEvent(index, deleteElement)}
         />
       </div>

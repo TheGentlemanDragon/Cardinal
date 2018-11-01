@@ -10,6 +10,7 @@
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -22,7 +23,7 @@
 }
 
 .icon-lg {
-  font-size: 1.25em;
+  font-size: 1.5rem;
 }
 
 [class^='icon-'],
@@ -40,41 +41,67 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* icon-add_box */
+.icon-add-element:before {
+  content: '\e146';
+}
+
+/* icon-cloud_upload */
+.icon-cloud-upload:before {
+  content: '\e2c3';
+}
+
+/* icon-cloud_done */
+.icon-cloud-synced:before {
+  content: '\e2bf';
+}
+
+/* icon-delete */
+.icon-delete:before {
+  content: '\e872';
+}
+
+/* icon-title */
+.icon-text:before {
+  content: '\e264';
+}
+
+/* icon-restore */
+.icon-restore:before {
+  content: '\e8b3';
+}
+
+/* icon-photo */
+.icon-image.static:before {
+  content: '\e410';
+}
+
+/* icon-wallpaper */
+.icon-image.dynamic:before {
+  content: '\e1bc';
+}
+
+/* icon-keyboard_arrow_down */
+.icon-cheveron-down:before {
+  content: '\e313';
+}
 .icon-cheveron-up:before {
-  content: '\e901';
+  content: '\e313';
   transform: rotate(180deg);
 }
 
-.icon-add-outline:before {
-  content: '\e900';
+/* icon-visibility */
+.icon-visible:before {
+  content: '\e8f4';
 }
-.icon-block:before {
-  content: '\e908';
+
+/* icon-view_module */
+.icon-container:before {
+  content: '\e8f0';
 }
-.icon-checkmark:before {
-  content: '\e902';
-}
-.icon-cheveron-down:before {
-  content: '\e901';
-}
-.icon-close:before {
-  content: '\e907';
-}
-.icon-edit-pencil:before {
-  content: '\e904';
-}
-.icon-photo:before {
-  content: '\e909';
-}
-.icon-save-disk:before {
-  content: '\e90a';
-}
-.icon-trash:before {
-  content: '\e903';
-}
-.icon-view-hide:before {
-  content: '\e905';
-}
-.icon-view-show:before {
-  content: '\e906';
+
+/* icon-visibility_off */
+.icon-hidden:before {
+  content: '\e8f5';
 }

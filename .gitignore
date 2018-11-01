@@ -2,6 +2,7 @@
 /.vscode
 /build
 /dist
+/icons
 /node_modules
 config.js
 /src/**/*.css

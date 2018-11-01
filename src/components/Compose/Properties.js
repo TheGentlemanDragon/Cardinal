@@ -2,6 +2,7 @@ import { linkEvent } from 'inferno'
 import { connect } from 'inferno-context-api-store'
 
 import { showModal, updateElement } from '../../modules/actions'
+import { elementTypes } from '../../Constants'
 
 const Properties = ({ assets, element, showModal, updateElement }) => (
   <div class="compose-section">
@@ -25,7 +26,7 @@ const Properties = ({ assets, element, showModal, updateElement }) => (
     <div class="compose-item property" container="row #spread @center">
       <span>type</span>
       <select onInput={linkEvent('type', updateElement)}>
-        {['Text', 'Image'].map(opt => (
+        {elementTypes.map(opt => (
           <option value={opt} selected={opt === element.type}>
             {opt}
           </option>
@@ -34,25 +35,11 @@ const Properties = ({ assets, element, showModal, updateElement }) => (
     </div>
 
     {/* Content Type */}
-    <div class="compose-item property-switch" container="row #left @center">
-      <span>content</span>
-
-      {['static', 'dynamic'].map(opt => [
-        <input
-          type="radio"
-          id={opt}
-          value={opt}
-          checked={opt === element.contentType}
-          onClick={linkEvent('contentType', updateElement)}
-        />,
-        <label for={opt}>{opt}</label>,
-      ])}
-    </div>
-
-    {element.contentType === 'static' && (
+    {(element.type || '').startsWith('Static') && (
       <div class="compose-item property" container="row #spread @center">
-        {element.type === 'Image' && [
-          <span />,
+        <span>content</span>
+
+        {element.type === 'Static Image' && (
           <select onInput={linkEvent('content', updateElement)}>
             <option disabled>-Choose Image-</option>
             {assets.map(opt => (
@@ -63,10 +50,10 @@ const Properties = ({ assets, element, showModal, updateElement }) => (
             <option value="showAM" onClick={linkEvent('assets', showModal)}>
               -Manage Files-
             </option>
-          </select>,
-        ]}
+          </select>
+        )}
 
-        {element.type === 'Text' && [<span />, <input type="text" />]}
+        {element.type === 'Static Text' && <input type="text" />}
       </div>
     )}
   </div>

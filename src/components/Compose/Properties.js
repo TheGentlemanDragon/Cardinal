@@ -43,7 +43,7 @@ const Properties = ({ assets, element, showModal, updateElement }) => (
           <select onInput={linkEvent('content', updateElement)}>
             <option disabled>-Choose Image-</option>
             {assets.map(opt => (
-              <option value={opt.name} selected={opt.name === element.content}>
+              <option value={opt.url} selected={opt.url === element.content}>
                 {opt.name}
               </option>
             ))}

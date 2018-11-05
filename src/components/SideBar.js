@@ -2,6 +2,7 @@ import { connect } from 'inferno-context-api-store'
 import { Link } from 'inferno-router'
 
 import Compose from './Compose'
+import Preview from './Preview'
 import { setTabCompose, setTabPreview } from '../modules/actions'
 
 const SideBar = ({ tab, setTabCompose, setTabPreview }) => (
@@ -22,7 +23,7 @@ const SideBar = ({ tab, setTabCompose, setTabPreview }) => (
       </button>
     </div>
 
-    {tab === 'compose' ? <Compose /> : <h2>Preview</h2>}
+    {tab === 'compose' ? <Compose /> : <Preview />}
   </div>
 )
 

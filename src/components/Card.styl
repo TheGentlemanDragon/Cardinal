@@ -1,7 +1,7 @@
+$res = 100
+$highlight = rgb(255, 178, 0)
+
 .card
-  $res = 100
-  // $highlight = rgb(21, 101, 192)
-  $highlight = rgb(255, 178, 0)
   position relative
   height "calc(3.5px * %s)" % $res
   width "calc(2.5px * %s)" % $res
@@ -10,7 +10,6 @@
   box-shadow  0 11px 15px -7px rgba(0, 0, 0, 0.2),
               0 24px 38px 3px rgba(0, 0, 0, 0.14),
               0 9px 46px 8px rgba(0, 0, 0, 0.12)
-  z-index 100
 
   .element
     font-size 0.6rem
@@ -23,11 +22,9 @@
       color rgba(0, 0, 0, 0.4)
       cursor pointer
       outline 1px dashed rgba(0, 0, 0, 0.4)
-      z-index 10
 
     &.selected
       animation pulse 0.6s infinite alternate
-      z-index 1
 
     @keyframes pulse
       0%
@@ -35,3 +32,15 @@
 
       100%
         box-shadow: 0 0 0 1px alpha($highlight, 0.7)
+
+.card.preview .element
+  white-space unset
+
+.card.preview:after
+  content ''
+  position absolute
+  height "calc(3.5px * %s)" % $res
+  width "calc(2.5px * %s)" % $res
+  border-radius "calc(0.13px * %s)" % $res
+  border 1px solid rgba(255, 0, 0, 0.3)
+  z-index 1001

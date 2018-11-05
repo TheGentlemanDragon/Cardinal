@@ -1,5 +1,6 @@
 export default {
   assets: [],
+  cards: [],
   game: null,
   element: {},
   elements: [],

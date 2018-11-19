@@ -10,7 +10,12 @@ export default {
     newTemplate: false,
     assets: false,
   },
-  scale: 1.8,
+  preview: {
+    staticContent: false,
+    dynamicContent: false,
+    cardId: '',
+    scale: 1.8,
+  },
   tab: 'compose',
   template: {},
   templates: [],

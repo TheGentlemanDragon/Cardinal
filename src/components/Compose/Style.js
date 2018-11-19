@@ -12,37 +12,41 @@ const Style = ({ element, updateElement }) => (
     </div>
 
     {/* Style Items */}
-    <div class="compose-item half-property" container="row #spread @center">
+    <div class="compose-item property" container="row #spread @center">
       {/* Left */}
-      <span>x</span>
+      <span class="half-width">x</span>
       <input
         type="number"
+        class="half-width"
         value={element.style && element.style.left}
         onInput={linkEvent('style.left', updateElement)}
       />
 
       {/* Top */}
-      <span>y</span>
+      <span class="half-width">y</span>
       <input
         type="number"
+        class="half-width"
         value={element.style && element.style.top}
         onInput={linkEvent('style.top', updateElement)}
       />
     </div>
 
-    <div class="compose-item half-property" container="row #spread @center">
+    <div class="compose-item property" container="row #spread @center">
       {/* Width */}
-      <span>w</span>
+      <span class="half-width">w</span>
       <input
         type="number"
+        class="half-width"
         value={element.style && element.style.width}
         onInput={linkEvent('style.width', updateElement)}
       />
 
       {/* Height */}
-      <span>h</span>
+      <span class="half-width">h</span>
       <input
         type="number"
+        class="half-width"
         value={element.style && element.style.height}
         onInput={linkEvent('style.height', updateElement)}
       />

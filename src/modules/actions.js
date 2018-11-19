@@ -15,6 +15,19 @@ const defaultElement = {
 // // const iArray = (array, index, item) =>
 // //   Object.assign([...array], { [index]: { ...array[index], ...item } })
 
+function setProperty(store, path, event) {
+  const [key, property] = path.split('.')
+  const data = store.getStoreState()[key]
+  const { value } = event.target
+  store.updateStore({ [key]: { ...data, [property]: value } })
+}
+
+function toggleProperty(store, path) {
+  const [key, property] = path.split('.')
+  const data = store.getStoreState()[key]
+  store.updateStore({ [key]: { ...data, [property]: !data[property] } })
+}
+
 /* Elements */
 
 async function addElement(store) {
@@ -153,8 +166,8 @@ function setTabCompose(store) {
   store.updateStore({ tab: 'compose' })
 }
 
-function setTabPreview(store) {
-  store.updateStore({ tab: 'preview' })
+function setTabPopulate(store) {
+  store.updateStore({ tab: 'populate' })
 }
 
 /* Assets Manager */
@@ -188,10 +201,12 @@ export {
   saveTemplate,
   selectElement,
   setGame,
+  setProperty,
   setTabCompose,
-  setTabPreview,
+  setTabPopulate,
   setTemplate,
   setTemplates,
   showModal,
+  toggleProperty,
   updateElement,
 }

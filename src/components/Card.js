@@ -25,24 +25,41 @@ const calculateStyle = (element, index, isPreview = false) => {
   return style
 }
 
-const ComposeElement = ({ element, index, isSelected, selectElement }) => (
-  <div
-    class={`element ${isSelected ? 'selected' : 'compose'}`}
-    style={calculateStyle(element, index)}
-    onClick={linkEvent(index, selectElement)}
-  >
-    {element.name}
-  </div>
-)
+const ComposeElement = ({
+  element,
+  index,
+  isCompose,
+  isPreview,
+  isSelected,
+  selectElement,
+}) => {
+  let classes = 'element'
+  classes += isCompose && isSelected ? ' selected' : ''
+  classes += isCompose && !isSelected ? ' compose' : ''
 
-const PreviewElement = ({ data, element, index }) => (
-  <div class="element" style={calculateStyle(element, index, true)}>
-    {element.type.includes('Text') && element.content}
-  </div>
-)
+  return (
+    <div
+      class={classes}
+      style={calculateStyle(element, index, !isCompose || isPreview)}
+      onClick={isCompose && linkEvent(index, selectElement)}
+    >
+      {!isCompose || isPreview
+        ? element.type.includes('Text') && element.content
+        : element.name}
+    </div>
+  )
+}
 
-const Card = ({ elements, scale, selectedIndex, selectElement, tab }) => {
+const Card = ({
+  elements,
+  preview,
+  scale,
+  selectedIndex,
+  selectElement,
+  tab,
+}) => {
   const isCompose = tab === 'compose'
+  const { staticContent, dynamicContent } = preview
   return (
     <div
       key="card"
@@ -51,13 +68,19 @@ const Card = ({ elements, scale, selectedIndex, selectElement, tab }) => {
     >
       {elements.map((element, index) => {
         const isSelected = index === selectedIndex
-        const props = { element, index, isSelected, selectElement }
+        const isPreview =
+          (element.type.startsWith('Static') && staticContent) ||
+          (element.type.startsWith('Dynamic') && dynamicContent)
+        const props = {
+          element,
+          index,
+          isCompose,
+          isPreview,
+          isSelected,
+          selectElement,
+        }
 
-        return isCompose ? (
-          <ComposeElement {...props} />
-        ) : (
-          <PreviewElement {...props} />
-        )
+        return <ComposeElement {...props} />
       })}
     </div>
   )
@@ -65,10 +88,10 @@ const Card = ({ elements, scale, selectedIndex, selectElement, tab }) => {
 
 export default connect(
   store => ({
-    cards: store.cards,
     elements: store.elements,
+    preview: store.preview,
     selectedIndex: store.selectedIndex,
-    scale: store.scale,
+    scale: store.preview.scale,
     tab: store.tab,
   }),
   { selectElement }

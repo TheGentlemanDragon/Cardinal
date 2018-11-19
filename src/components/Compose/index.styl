@@ -18,7 +18,7 @@
   background-color #204070
   color darken(#ffffff, 20%)
 
-.property, .half-property
+.property
   border-bottom 1px #04264e solid
   height 36px
 
@@ -40,13 +40,32 @@
     padding 0 10px
     width 60%
 
+  input[type="checkbox"]
+    margin 0
+    padding 0
+    width 0
+
+    &:before
+      background-color rgba(#ffffff, 20%)
+      border-left 36px solid darken(#ffffff, 20%)
+      content ''
+      cursor pointer
+      height 36px
+      margin-left -72px
+      position absolute
+      width 72px
+
+    &[value=true]:before
+      background-color rgba(#daa520, 20%)
+      border-left none
+      border-right 36px solid #daa520
+
   input[type="number"]
     text-align right
     width 30%
 
-.half-property
-  span, input
-    width 25%
+  input[type="range"]
+    margin-right 10px
 
 .compose-element
   background-color #204070

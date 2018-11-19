@@ -2,10 +2,10 @@ import { connect } from 'inferno-context-api-store'
 import { Link } from 'inferno-router'
 
 import Compose from './Compose'
-import Preview from './Preview'
-import { setTabCompose, setTabPreview } from '../modules/actions'
+import Populate from './Populate'
+import { setTabCompose, setTabPopulate } from '../modules/actions'
 
-const SideBar = ({ tab, setTabCompose, setTabPreview }) => (
+const SideBar = ({ tab, setTabCompose, setTabPopulate }) => (
   <div key="sidebar" class="sidebar" container="column #top @stretch">
     {/* Bar Title */}
     <Link class="sidebar-title" to={`/games/`}>
@@ -18,16 +18,16 @@ const SideBar = ({ tab, setTabCompose, setTabPreview }) => (
         Compose
       </button>
 
-      <button class={tab === 'preview' && 'active'} onClick={setTabPreview}>
-        Preview
+      <button class={tab === 'populate' && 'active'} onClick={setTabPopulate}>
+        Populate
       </button>
     </div>
 
-    {tab === 'compose' ? <Compose /> : <Preview />}
+    {tab === 'compose' ? <Compose /> : <Populate />}
   </div>
 )
 
 export default connect(
   store => ({ tab: store.tab }),
-  { setTabCompose, setTabPreview }
+  { setTabCompose, setTabPopulate }
 )(SideBar)

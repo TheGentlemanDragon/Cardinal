@@ -8,15 +8,15 @@ const Preview = ({ preview, setProperty, toggleProperty }) => {
   const { dynamicContent, scale, staticContent } = preview
   // , , cardId,
   return (
-    <div class="compose-section">
+    <div class="sidebar-section">
       {/* Preview Section Title*/}
-      <div class="compose-title" container="row #spread @center">
+      <div class="sidebar-section-title" container="row #spread @center">
         <label>Preview</label>
         <i class="icon-cheveron-down icon-lg clickable" onClick={() => {}} />
       </div>
 
       {/* Static Content */}
-      <div class="compose-item property " container="row #spread @center">
+      <div class="sidebar-item property " container="row #spread @center">
         <span class="two-thirds-width">static content</span>
         <input
           type="checkbox"
@@ -27,7 +27,7 @@ const Preview = ({ preview, setProperty, toggleProperty }) => {
       </div>
 
       {/* Dynamic Content */}
-      <div class="compose-item property " container="row #spread @center">
+      <div class="sidebar-item property " container="row #spread @center">
         <span class="two-thirds-width">dynamic content</span>
         <input
           type="checkbox"
@@ -38,7 +38,7 @@ const Preview = ({ preview, setProperty, toggleProperty }) => {
       </div>
 
       {/* Scale */}
-      <div class="compose-item property " container="row #spread @center">
+      <div class="sidebar-item property " container="row #spread @center">
         <span class="one-third-width">scale</span>
         <input
           type="range"

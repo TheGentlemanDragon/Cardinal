@@ -5,15 +5,15 @@ import { showModal, updateElement } from '../../modules/actions'
 import { elementTypes } from '../../Constants'
 
 const Properties = ({ assets, element, showModal, updateElement }) => (
-  <div class="compose-section">
+  <div class="sidebar-section">
     {/* Properties Section Title*/}
-    <div class="compose-title" container="row #spread @center">
+    <div class="sidebar-section-title" container="row #spread @center">
       <label>Properties</label>
       <i class="icon-cheveron-down icon-lg clickable" onClick={() => {}} />
     </div>
 
     {/* Name */}
-    <div class="compose-item property" container="row #spread @center">
+    <div class="sidebar-item property" container="row #spread @center">
       <span>name</span>
       <input
         type="text"
@@ -23,7 +23,7 @@ const Properties = ({ assets, element, showModal, updateElement }) => (
     </div>
 
     {/* Type */}
-    <div class="compose-item property" container="row #spread @center">
+    <div class="sidebar-item property" container="row #spread @center">
       <span>type</span>
       <select onInput={linkEvent('type', updateElement)}>
         {elementTypes.map(opt => (
@@ -36,7 +36,7 @@ const Properties = ({ assets, element, showModal, updateElement }) => (
 
     {/* Content Type */}
     {(element.type || '').startsWith('Static') && (
-      <div class="compose-item property" container="row #spread @center">
+      <div class="sidebar-item property" container="row #spread @center">
         <span>content</span>
 
         {element.type === 'Static Image' && (

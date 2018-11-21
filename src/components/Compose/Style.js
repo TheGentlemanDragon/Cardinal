@@ -4,15 +4,15 @@ import { connect } from 'inferno-context-api-store'
 import { updateElement } from '../../modules/actions'
 
 const Style = ({ element, updateElement }) => (
-  <div class="compose-section">
+  <div class="sidebar-section">
     {/* Style Section Title */}
-    <div class="compose-title" container="row #spread @center">
+    <div class="sidebar-section-title" container="row #spread @center">
       <label>Style</label>
       <i class="icon-cheveron-down icon-lg clickable" onClick={() => {}} />
     </div>
 
     {/* Style Items */}
-    <div class="compose-item property" container="row #spread @center">
+    <div class="sidebar-item property" container="row #spread @center">
       {/* Left */}
       <span class="half-width">x</span>
       <input
@@ -32,7 +32,7 @@ const Style = ({ element, updateElement }) => (
       />
     </div>
 
-    <div class="compose-item property" container="row #spread @center">
+    <div class="sidebar-item property" container="row #spread @center">
       {/* Width */}
       <span class="half-width">w</span>
       <input

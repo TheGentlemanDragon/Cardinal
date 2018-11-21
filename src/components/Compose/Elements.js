@@ -23,9 +23,9 @@ const Elements = ({
   selectedIndex,
   selectElement,
 }) => (
-  <div class="compose-section">
+  <div class="sidebar-section">
     {/* Elements Section Title */}
-    <div class="compose-title" container="row #spread @center">
+    <div class="sidebar-section-title" container="row #spread @center">
       <label flex>Elements</label>
       <i class="icon-restore clickable" onClick={restoreElements} />
       <i class="icon-cloud-upload clickable" onClick={saveTemplate} />
@@ -33,9 +33,17 @@ const Elements = ({
     </div>
 
     {/* Elements List */}
+    {!elements.length && (
+      <div class="compose-element" container="row #middle @center">
+        Click &nbsp;<i class="icon-add-element" /> to add an element
+      </div>
+    )}
+
     {elements.map((item, index) => (
       <div
-        class={'compose-element ' + (index === selectedIndex && 'selected')}
+        class={
+          'compose-element clickable ' + (index === selectedIndex && 'selected')
+        }
         container="row #spread @center"
         onClick={linkEvent(index, selectElement)}
       >

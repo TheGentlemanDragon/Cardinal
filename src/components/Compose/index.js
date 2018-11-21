@@ -4,7 +4,7 @@ import Preview from './Preview'
 import Style from './Style'
 
 const Compose = () => (
-  <div key="compose" class="compose-tab" container="column #top @stretch">
+  <div key="compose" class="sidebar-tab" container="column #top @stretch">
     <Elements />
     <Properties />
     <Style />

@@ -28,6 +28,51 @@ function toggleProperty(store, path) {
   store.updateStore({ [key]: { ...data, [property]: !data[property] } })
 }
 
+/* Cards */
+async function createCard(store) {
+  const $cards = await Firebase.col('instances')
+  const { cards, template } = store.getStoreState()
+  const newCard = {
+    name: `card${cards.length + 1}`,
+    template: template.name,
+    templateRef: template.$ref,
+    ownerRef: template.ownerRef,
+    data: {},
+  }
+  template.elements.forEach(item => {
+    if (item.type.startsWith('Static')) {
+      return
+    }
+    newCard.data[item.name] = ''
+  })
+  await $cards.add(newCard)
+  store.updateStore({ cards: [...cards, newCard] })
+}
+
+function updateCard(store, key, event) {
+  const { cards, selectedIndex } = store.getStoreState()
+  const card = { ...cards[selectedIndex] }
+  const parts = key.split('.')
+
+  let part
+  let nested = card
+  while ((part = parts.shift())) {
+    if (!parts.length) {
+      break
+    }
+    if (!nested.hasOwnProperty(part)) {
+      nested[part] = {}
+    }
+    nested = nested[part]
+  }
+  nested[part] = event.target.value
+
+  store.updateStore({
+    card,
+    cards: Object.assign([...cards], { [selectedIndex]: card }),
+  })
+}
+
 /* Elements */
 
 async function addElement(store) {
@@ -189,6 +234,7 @@ export {
   addAsset,
   addElement,
   clearTemplates,
+  createCard,
   createGame,
   createTemplate,
   deleteElement,
@@ -208,5 +254,6 @@ export {
   setTemplates,
   showModal,
   toggleProperty,
+  updateCard,
   updateElement,
 }

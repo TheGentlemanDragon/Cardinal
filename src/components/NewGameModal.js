@@ -45,5 +45,5 @@ NewGameModal.defaultHooks = {
   },
 }
 
-const map = ({ modal = '' }) => ({ modal })
+const map = ({ modal }) => ({ modal })
 export default mapStatesToProps(NewGameModal, map)

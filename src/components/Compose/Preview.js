@@ -1,12 +1,8 @@
-import { linkEvent } from 'inferno'
-import { connect } from 'inferno-context-api-store'
+import { mapStatesToProps } from 'inferno-fluxible'
 
-import { setProperty, toggleProperty } from '../../modules/actions'
-import {} from '../../Constants'
-
-const Preview = ({ preview, setProperty, toggleProperty }) => {
-  const { dynamicContent, scale, staticContent } = preview
-  // , , cardId,
+const Preview = ({ preview, scale }) => {
+  const previewDynamic = preview.includes('dynamic')
+  const previewStatic = preview.includes('static')
   return (
     <div class="sidebar-section">
       {/* Preview Section Title*/}
@@ -21,8 +17,8 @@ const Preview = ({ preview, setProperty, toggleProperty }) => {
         <input
           type="checkbox"
           class="one-third-width"
-          value={staticContent}
-          onInput={linkEvent('preview.staticContent', toggleProperty)}
+          value={previewStatic}
+          // TODO: onInput={linkEvent('preview.staticContent', toggleProperty)}
         />
       </div>
 
@@ -32,8 +28,8 @@ const Preview = ({ preview, setProperty, toggleProperty }) => {
         <input
           type="checkbox"
           class="one-third-width"
-          value={dynamicContent}
-          onInput={linkEvent('preview.dynamicContent', toggleProperty)}
+          value={previewDynamic}
+          // TODO: onInput={linkEvent('preview.dynamicContent', toggleProperty)}
         />
       </div>
 
@@ -47,14 +43,12 @@ const Preview = ({ preview, setProperty, toggleProperty }) => {
           min={0.5}
           max={2.5}
           step={0.1}
-          onInput={linkEvent('preview.scale', setProperty)}
+          // TODO: onInput={linkEvent('preview.scale', setProperty)}
         />
       </div>
     </div>
   )
 }
 
-export default connect(
-  store => ({ preview: store.preview }),
-  { setProperty, toggleProperty }
-)(Preview)
+const map = ({ preview, scale }) => ({ preview, scale })
+export default mapStatesToProps(Preview, map)

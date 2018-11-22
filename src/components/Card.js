@@ -1,7 +1,4 @@
-import { linkEvent } from 'inferno'
-import { connect } from 'inferno-context-api-store'
-
-import { selectElement } from '../modules/actions'
+import { mapStatesToProps } from 'inferno-fluxible'
 
 const calculateStyle = (element, index, isPreview = false) => {
   if (!element.style) {
@@ -31,7 +28,6 @@ const ComposeElement = ({
   isCompose,
   isPreview,
   isSelected,
-  selectElement,
 }) => {
   let classes = 'element'
   classes += isCompose && isSelected ? ' selected' : ''
@@ -41,7 +37,7 @@ const ComposeElement = ({
     <div
       class={classes}
       style={calculateStyle(element, index, !isCompose || isPreview)}
-      onClick={isCompose && linkEvent(index, selectElement)}
+      // TODO: onClick={isCompose && linkEvent(index, selectElement)}
     >
       {!isCompose || isPreview
         ? element.type.includes('Text') && element.content
@@ -50,49 +46,35 @@ const ComposeElement = ({
   )
 }
 
-const Card = ({
+const Card = ({ elements, mode, preview, scale, selected }) => (
+  <div
+    key="card"
+    class={`card` + (mode === 'compose' ? '' : ' preview')}
+    style={{ transform: `scale(${scale})` }}
+  >
+    {elements.map((element, index) => {
+      const isSelected = index === selected
+      const isPreview =
+        (element.type.startsWith('Static') && preview.includes('static')) ||
+        (element.type.startsWith('Dynamic') && preview.includes('dynamic'))
+      const props = {
+        element,
+        index,
+        isCompose: mode === 'compose',
+        isPreview,
+        isSelected,
+      }
+
+      return <ComposeElement {...props} />
+    })}
+  </div>
+)
+
+const map = ({ elements, mode, preview, scale, selected }) => ({
   elements,
+  mode,
   preview,
   scale,
-  selectedIndex,
-  selectElement,
-  tab,
-}) => {
-  const isCompose = tab === 'compose'
-  const { staticContent, dynamicContent } = preview
-  return (
-    <div
-      key="card"
-      class={`card` + (isCompose ? '' : ' preview')}
-      style={{ transform: `scale(${scale})` }}
-    >
-      {elements.map((element, index) => {
-        const isSelected = index === selectedIndex
-        const isPreview =
-          (element.type.startsWith('Static') && staticContent) ||
-          (element.type.startsWith('Dynamic') && dynamicContent)
-        const props = {
-          element,
-          index,
-          isCompose,
-          isPreview,
-          isSelected,
-          selectElement,
-        }
-
-        return <ComposeElement {...props} />
-      })}
-    </div>
-  )
-}
-
-export default connect(
-  store => ({
-    elements: store.elements,
-    preview: store.preview,
-    selectedIndex: store.selectedIndex,
-    scale: store.preview.scale,
-    tab: store.tab,
-  }),
-  { selectElement }
-)(Card)
+  selected,
+})
+export default mapStatesToProps(Card, map)

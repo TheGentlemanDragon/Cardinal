@@ -1,51 +1,35 @@
-import { linkEvent } from 'inferno'
-import { connect } from 'inferno-context-api-store'
-
-import {
-  addElement,
-  deleteElement,
-  restoreElements,
-  saveTemplate,
-  selectElement,
-} from '../../modules/actions'
+import { mapStatesToProps } from 'inferno-fluxible'
 
 const TypeIcon = ({ type }) => {
   const [style, classname] = (type || '').toLowerCase().split(' ')
   return <i class={`icon-${classname} element-type ${style}`} />
 }
 
-const Elements = ({
-  addElement,
-  deleteElement,
-  elements,
-  restoreElements,
-  saveTemplate,
-  selectedIndex,
-  selectElement,
-}) => (
+const Elements = ({ elements, selected }) => (
   <div class="sidebar-section">
     {/* Elements Section Title */}
     <div class="sidebar-section-title" container="row #spread @center">
       <label flex>Elements</label>
-      <i class="icon-restore clickable" onClick={restoreElements} />
-      <i class="icon-cloud-upload clickable" onClick={saveTemplate} />
-      <i class="icon-add-element clickable" onClick={addElement} />
+      {/* TODO: <i class="icon-restore clickable" onClick={restoreElements} /> */}
+      {/* TODO: <i class="icon-cloud-upload clickable" onClick={saveTemplate} /> */}
+      {/* TODO: <i class="icon-add-element clickable" onClick={addElement} /> */}
     </div>
 
     {/* Elements List */}
     {!elements.length && (
       <div class="compose-element" container="row #middle @center">
-        Click &nbsp;<i class="icon-add-element" /> to add an element
+        Click &nbsp;
+        <i class="icon-add-element" /> to add an element
       </div>
     )}
 
     {elements.map((item, index) => (
       <div
         class={
-          'compose-element clickable ' + (index === selectedIndex && 'selected')
+          'compose-element clickable ' + (index === selected && 'selected')
         }
         container="row #spread @center"
-        onClick={linkEvent(index, selectElement)}
+        // TODO: onClick={linkEvent(index, selectElement)}
       >
         {/* Element Icon */}
         <TypeIcon type={item.type} />
@@ -57,23 +41,12 @@ const Elements = ({
         <i class="action icon-visible" />
         <i
           class="action icon-delete"
-          onClick={linkEvent(index, deleteElement)}
+          // TODO: onClick={linkEvent(index, deleteElement)}
         />
       </div>
     ))}
   </div>
 )
 
-export default connect(
-  store => ({
-    elements: store.elements,
-    selectedIndex: store.selectedIndex,
-  }),
-  {
-    addElement,
-    deleteElement,
-    restoreElements,
-    saveTemplate,
-    selectElement,
-  }
-)(Elements)
+const map = ({ elements, selected }) => ({ elements, selected })
+export default mapStatesToProps(Elements, map)

@@ -5,7 +5,7 @@ import { Link } from 'inferno-router'
 import NewGameModal from './NewGameModal'
 
 const getGames = () =>
-  emitEvent('fetchState', {
+  emitEvent('fetchCollection', {
     collection: 'games',
     sortKey: 'name',
   })
@@ -67,5 +67,5 @@ GamesPage.defaultHooks = {
   },
 }
 
-const map = ({ games = new Map() }) => ({ games })
+const map = ({ games }) => ({ games })
 export default mapStatesToProps(GamesPage, map)

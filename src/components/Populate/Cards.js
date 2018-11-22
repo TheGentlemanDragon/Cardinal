@@ -1,9 +1,6 @@
-import { linkEvent } from 'inferno'
-import { connect } from 'inferno-context-api-store'
+import { mapStatesToProps } from 'inferno-fluxible'
 
-import { createCard, updateCard } from '../../modules/actions'
-
-const Cards = ({ createCard, cardId, cards }) => {
+const Cards = ({ cardId, cards }) => {
   const card = cards[cardId]
   return (
     <div class="sidebar-section">
@@ -11,13 +8,17 @@ const Cards = ({ createCard, cardId, cards }) => {
       <div class="sidebar-section-title" container="row #spread @center">
         <label flex>Cards</label>
 
-        <i class="icon-add-element clickable" onClick={createCard} />
+        <i
+          class="icon-add-element clickable"
+          // TODO: onClick={createCard}
+        />
       </div>
 
       {/* Cards List */}
       {!cards.length && (
         <div class="compose-element" container="row #middle @center">
-          Click &nbsp;<i class="icon-add-element" /> to add a card
+          Click &nbsp;
+          <i class="icon-add-element" /> to add a card
         </div>
       )}
       {cards.map((card, index) => (
@@ -34,7 +35,7 @@ const Cards = ({ createCard, cardId, cards }) => {
           <input
             type="text"
             value={card.name}
-            onInput={linkEvent('name', updateCard)}
+            // TODO: onInput={linkEvent('name', updateCard)}
           />
         </div>
       )}
@@ -42,13 +43,5 @@ const Cards = ({ createCard, cardId, cards }) => {
   )
 }
 
-export default connect(
-  store => ({
-    cardId: store.preview.cardId,
-    cards: store.cards,
-  }),
-  {
-    createCard,
-    updateCard,
-  }
-)(Cards)
+const map = ({ cardId, cards }) => ({ cardId, cards })
+export default mapStatesToProps(Cards, map)

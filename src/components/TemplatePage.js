@@ -1,32 +1,27 @@
-import { Component } from 'inferno'
-import { connect } from 'inferno-context-api-store'
+import { emitEvent } from 'fluxible-js'
 
-import AssetsModal from './AssetsModal'
+// import AssetsModal from './AssetsModal'
 import Card from './Card'
 import SideBar from './SideBar'
-import { fetchTemplate } from '../modules/actions'
 
-class TemplatePage extends Component {
-  componentDidMount() {
-    this.props.fetchTemplate(this.props.match)
-  }
+const getTemplate = id => emitEvent('fetchTemplate', id)
 
-  render() {
-    return (
-      <div key="template" container="row #left @stretch" flex>
-        <SideBar />
+const TemplatePage = () => (
+  <div key="template" container="row #left @stretch" flex>
+    <SideBar />
 
-        <div container="column #center @center" flex>
-          <Card />
-        </div>
+    <div container="column #center @center" flex>
+      <Card />
+    </div>
 
-        <AssetsModal />
-      </div>
-    )
-  }
+    {/* TODO: <AssetsModal /> */}
+  </div>
+)
+
+TemplatePage.defaultHooks = {
+  onComponentWillMount(props) {
+    getTemplate(props.match.params.templateId)
+  },
 }
 
-export default connect(
-  store => ({}),
-  { fetchTemplate }
-)(TemplatePage)
+export default TemplatePage

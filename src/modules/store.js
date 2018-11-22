@@ -1,20 +1,18 @@
 import { initializeStore } from 'fluxible-js'
 
 initializeStore({
-  assets: null,
-  cards: null,
-  element: null,
-  elements: null,
-  game: null,
-  games: null,
-  modal: '',
-  preview: {
-    staticContent: false,
-    dynamicContent: false,
+  initialStore: {
+    assets: null,
     cardId: '',
+    cards: [],
+    element: {},
+    elements: [],
+    games: new Map(),
+    modal: '',
+    mode: 'compose',
+    preview: [],
     scale: 1.8,
+    selected: 0,
+    templates: new Map(),
   },
-  tab: 'compose',
-  template: null,
-  templates: null,
 })

@@ -5,13 +5,13 @@ import { Link } from 'inferno-router'
 import NewTemplateModal from './NewTemplateModal'
 
 const getGames = () =>
-  emitEvent('fetchState', {
+  emitEvent('fetchCollection', {
     collection: 'games',
     sortKey: 'name',
   })
 
 const getTemplates = game =>
-  emitEvent('queryState', {
+  emitEvent('fetchQuery', {
     collection: 'templates',
     query: { game },
     sortKey: 'name',
@@ -80,8 +80,5 @@ TemplatesPage.defaultHooks = {
   },
 }
 
-const map = ({ games = new Map(), templates = new Map() }) => ({
-  games,
-  templates,
-})
+const map = ({ games, templates }) => ({ games, templates })
 export default mapStatesToProps(TemplatesPage, map)

@@ -1,65 +1,49 @@
-import { Component, linkEvent } from 'inferno'
-import { connect } from 'inferno-context-api-store'
+import { emitEvent } from 'fluxible-js'
+import { mapStatesToProps } from 'inferno-fluxible'
 
-import { createGame, hideModal } from '../modules/actions'
-
-class NewGameModal extends Component {
-  constructor() {
-    super()
-    this.state = { name: '' }
-  }
-
-  setName(instance, event) {
-    if (event.type !== 'keydown') {
-      instance.setState({ name: event.target.value })
-      return
-    }
-
-    if (event.key === 'Enter') {
-      createGame(instance.state.name)
-    } else if (event.key === 'Escape') {
-      instance.setState({ name: '' })
-    }
-  }
-
-  render() {
-    const { createGame, hideModal, isDisplayed } = this.props
-
-    if (!isDisplayed) {
-      return <span />
-    }
-
-    return (
-      <div class="modal-wrapper" onClick={linkEvent('newGame', hideModal)}>
-        <div class="modal-content" container="column #left @stretch">
-          <h1>New Game</h1>
-
-          <label>Name</label>
-          <input
-            type="text"
-            autoFocus={true}
-            value={this.state.name}
-            onInput={linkEvent(this, this.setName)}
-            onKeyDown={linkEvent(this, this.setName)}
-          />
-          <span container="row #right @center">
-            <button onClick={linkEvent('newGame', hideModal)}>Cancel</button>
-            <button
-              class="primary"
-              onClick={linkEvent(this.state.name, createGame)}
-            >
-              Create
-            </button>
-          </span>
-        </div>
-      </div>
-    )
+const createGame = ({ key, type }) => {
+  if (key === 'Enter' || type === 'click') {
+    const name = document.querySelector('div.modal-content input').value
+    emitEvent('createGame', name)
   }
 }
 
-export default connect(
-  store => ({
-    isDisplayed: store.modals.newGame,
-  }),
-  { createGame, hideModal }
-)(NewGameModal)
+const hideModal = event => {
+  // Event bubbles; only hide when element with onclick is clicked
+  if (!event.currentTarget.isEqualNode(event.target)) {
+    return
+  }
+  emitEvent('setState', { modal: '' })
+}
+
+const NewGameModal = ({ modal }) =>
+  modal !== 'newGame' ? (
+    <span />
+  ) : (
+    <div class="modal-wrapper" onClick={hideModal}>
+      <div class="modal-content" container="column #left @stretch">
+        <h1>New Game</h1>
+
+        <label>Name</label>
+        <input type="text" onKeyDown={createGame} />
+        <span container="row #right @center">
+          <button onClick={hideModal}>Cancel</button>
+          <button class="primary" onClick={createGame}>
+            Create
+          </button>
+        </span>
+      </div>
+    </div>
+  )
+
+NewGameModal.defaultHooks = {
+  onComponentDidUpdate(_, newProps) {
+    // Focus input on modal display
+    if (newProps.modal) {
+      document.querySelector('div.modal-content input').focus()
+    }
+  },
+}
+
+const map = ({ modal = '' }) => ({ modal })
+export default mapStatesToProps(NewGameModal, map)

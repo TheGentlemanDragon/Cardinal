@@ -1,15 +1,13 @@
-export default {
-  assets: [],
-  cards: [],
+import { initializeStore } from 'fluxible-js'
+
+initializeStore({
+  assets: null,
+  cards: null,
+  element: null,
+  elements: null,
   game: null,
-  element: {},
-  elements: [],
-  games: [],
-  modals: {
-    newGame: false,
-    newTemplate: false,
-    assets: false,
-  },
+  games: null,
+  modal: '',
   preview: {
     staticContent: false,
     dynamicContent: false,
@@ -17,6 +15,6 @@ export default {
     scale: 1.8,
   },
   tab: 'compose',
-  template: {},
-  templates: [],
-}
+  template: null,
+  templates: null,
+})

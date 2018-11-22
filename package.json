@@ -14,21 +14,29 @@
     "eject": "inferno-scripts eject"
   },
   "dependencies": {
-    "@jaames/iro": "3.4.1",
-    "firebase": "5.1.0",
-    "inferno": "5.6.1",
-    "inferno-context-api-store": "^2.0.1",
-    "inferno-router": "^5.6.1",
-    "inferno-scripts": "6.3.2"
+    "@jaames/iro": "3.5.3",
+    "firebase": "5.5.9",
+    "fluxible-js": "3.4.2",
+    "inferno": "6.2.1",
+    "inferno-fluxible": "3.0.0",
+    "inferno-router": "6.2.1",
+    "inferno-scripts": "7.0.2",
+    "redefine-statics-js": "2.0.1"
   },
   "devDependencies": {
     "@firebase/app-types": "0.3.2",
-    "prettier": "1.13.6",
+    "prettier": "1.15.2",
     "stylus": "0.54.5"
   },
   "prettier": {
     "semi": false,
     "singleQuote": true,
     "trailingComma": "es5"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

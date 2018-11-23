@@ -26,7 +26,7 @@ const NewTemplateModal = ({ modal }) =>
 
         <label>Name</label>
         <input type="text" onKeyDown={createTemplate} />
-        <span container="row #right @center">
+        <span class="modal-footer" container="row #right @center">
           <button onClick={hideModal}>Cancel</button>
           <button class="primary" onClick={createTemplate}>
             Create

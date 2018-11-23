@@ -1,6 +1,19 @@
+import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
+import { emitEvent } from 'fluxible-js'
 
 import { elementTypes } from '../../Constants'
+
+const updateElement = (key, event) => {
+  const { value } = event.target
+
+  if (value === 'showModal') {
+    emitEvent('setState', { modal: 'assets', value })
+    emitEvent('resetElement')
+  } else {
+    emitEvent('updateElement', { key, value })
+  }
+}
 
 const Properties = ({ assets, element }) => (
   <div class="sidebar-section">
@@ -16,16 +29,14 @@ const Properties = ({ assets, element }) => (
       <input
         type="text"
         value={element.name}
-        // TODO: onInput={linkEvent('name', updateElement)}
+        onInput={linkEvent('name', updateElement)}
       />
     </div>
 
     {/* Type */}
     <div class="sidebar-item property" container="row #spread @center">
       <span>type</span>
-      <select
-      // TODO: onInput={linkEvent('type', updateElement)}
-      >
+      <select onInput={linkEvent('type', updateElement)}>
         {elementTypes.map(opt => (
           <option value={opt} selected={opt === element.type}>
             {opt}
@@ -40,21 +51,14 @@ const Properties = ({ assets, element }) => (
         <span>content</span>
 
         {element.type === 'Static Image' && (
-          <select
-          // TODO: onInput={linkEvent('content', updateElement)}
-          >
+          <select onChange={linkEvent('content', updateElement)}>
             <option disabled>-Choose Image-</option>
-            {assets.map(opt => (
+            {[...assets].map(opt => (
               <option value={opt.url} selected={opt.url === element.content}>
                 {opt.name}
               </option>
             ))}
-            <option
-              value="showAM"
-              // TODO: onClick={linkEvent('assets', showModal)}
-            >
-              -Manage Files-
-            </option>
+            <option value="showModal">-Manage Files-</option>
           </select>
         )}
 

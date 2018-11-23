@@ -1,4 +1,9 @@
+import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
+import { emitEvent } from 'fluxible-js'
+
+const updateElement = (key, event) =>
+  emitEvent('updateElement', { key, value: event.target.value })
 
 const Style = ({ element }) => (
   <div class="sidebar-section">
@@ -16,7 +21,7 @@ const Style = ({ element }) => (
         type="number"
         class="half-width"
         value={element.style && element.style.left}
-        // TODO: onInput={linkEvent('style.left', updateElement)}
+        onInput={linkEvent('style.left', updateElement)}
       />
 
       {/* Top */}
@@ -25,7 +30,7 @@ const Style = ({ element }) => (
         type="number"
         class="half-width"
         value={element.style && element.style.top}
-        // TODO: onInput={linkEvent('style.top', updateElement)}
+        onInput={linkEvent('style.top', updateElement)}
       />
     </div>
 
@@ -36,7 +41,7 @@ const Style = ({ element }) => (
         type="number"
         class="half-width"
         value={element.style && element.style.width}
-        // TODO: onInput={linkEvent('style.width', updateElement)}
+        onInput={linkEvent('style.width', updateElement)}
       />
 
       {/* Height */}
@@ -45,7 +50,7 @@ const Style = ({ element }) => (
         type="number"
         class="half-width"
         value={element.style && element.style.height}
-        // TODO: onInput={linkEvent('style.height', updateElement)}
+        onInput={linkEvent('style.height', updateElement)}
       />
     </div>
   </div>

@@ -1,6 +1,6 @@
 import { emitEvent } from 'fluxible-js'
 
-// import AssetsModal from './AssetsModal'
+import AssetsModal from './AssetsModal'
 import Card from './Card'
 import SideBar from './SideBar'
 
@@ -14,7 +14,7 @@ const TemplatePage = () => (
       <Card />
     </div>
 
-    {/* TODO: <AssetsModal /> */}
+    <AssetsModal />
   </div>
 )
 

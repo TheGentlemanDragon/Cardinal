@@ -26,7 +26,7 @@ const NewGameModal = ({ modal }) =>
 
         <label>Name</label>
         <input type="text" onKeyDown={createGame} />
-        <span container="row #right @center">
+        <span class="modal-footer" container="row #right @center">
           <button onClick={hideModal}>Cancel</button>
           <button class="primary" onClick={createGame}>
             Create

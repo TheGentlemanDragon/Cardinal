@@ -15,16 +15,21 @@ const defaultElement = {
 
 /* Generic Events */
 
-addEvent('setState', partial => {
-  updateStore(partial)
-})
+// addEvent('setPath', ({ path, value }) => {
+//   debugger
+//   const [key, property] = path.split('.')
+//   const data = getStore()[key]
+//   updateStore({ [key]: { ...data, [property]: value } })
+// })
+
+addEvent('setState', partial => updateStore(partial))
 
 addEvent('fetchCollection', async ({ collection, sortKey, ...rest }) => {
   const data = await Firebase.list(collection, sortKey)
   updateStore({ [collection]: data, ...rest })
 })
 
-addEvent('fetchQuery', async ({ collection, query, sortKey, ...rest }) => {
+addEvent('fetchQuery', async ({ collection, query = {}, sortKey, ...rest }) => {
   query.owner = 'nando'
   const data = await Firebase.query(collection, query, sortKey)
   const newState = { [collection]: data, ...rest }
@@ -35,6 +40,16 @@ addEvent('fetchQuery', async ({ collection, query, sortKey, ...rest }) => {
 //   const data = await Firebase.doc(collection, id)
 //   updateStore({ [state]: data })
 // })
+
+/* Assets Manager */
+
+addEvent('addAsset', async url => {
+  const assets = await Firebase.col('assets')
+  const path = url.split('/').pop() || ''
+  const name = (path.match(/(.*\.\w+)/) || [])[0] || url
+  await assets.add({ name, url, owner: 'nando' })
+  emitEvent('fetchQuery', { collection: 'assets', sortKey: 'name' })
+})
 
 /* Game Events */
 
@@ -75,5 +90,42 @@ addEvent('fetchTemplate', async id => {
     oElements: JSON.parse(JSON.stringify(elements)),
     elements,
     element: { ...defaultElement, ...elements[0] },
+  })
+})
+
+/* Element Events */
+
+addEvent('resetElement', () => {
+  const { element } = getStore()
+  updateStore({ element })
+})
+
+addEvent('selectElement', selected => {
+  const { elements } = getStore()
+  const element = elements[selected]
+  updateStore({ element, selected })
+})
+
+addEvent('updateElement', ({ key, value }) => {
+  const { elements, selected } = getStore()
+  const element = { ...elements[selected] }
+  const parts = key.split('.')
+
+  let part
+  let nested = element
+  while ((part = parts.shift())) {
+    if (!parts.length) {
+      break
+    }
+    if (!nested.hasOwnProperty(part)) {
+      nested[part] = {}
+    }
+    nested = nested[part]
+  }
+  nested[part] = value
+
+  updateStore({
+    element,
+    elements: Object.assign([...elements], { [selected]: element }),
   })
 })

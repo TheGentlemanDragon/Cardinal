@@ -1,4 +1,8 @@
+import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
+import { emitEvent } from 'fluxible-js'
+
+const selectElement = index => emitEvent('selectElement', index)
 
 const calculateStyle = (element, index, isPreview = false) => {
   if (!element.style) {
@@ -29,7 +33,7 @@ const ComposeElement = ({
   isPreview,
   isSelected,
 }) => {
-  let classes = 'element'
+  let classes = 'element clickable'
   classes += isCompose && isSelected ? ' selected' : ''
   classes += isCompose && !isSelected ? ' compose' : ''
 
@@ -37,7 +41,7 @@ const ComposeElement = ({
     <div
       class={classes}
       style={calculateStyle(element, index, !isCompose || isPreview)}
-      // TODO: onClick={isCompose && linkEvent(index, selectElement)}
+      onClick={isCompose && linkEvent(index, selectElement)}
     >
       {!isCompose || isPreview
         ? element.type.includes('Text') && element.content

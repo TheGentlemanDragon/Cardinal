@@ -1,4 +1,8 @@
+import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
+import { emitEvent } from 'fluxible-js'
+
+const selectElement = index => emitEvent('selectElement', index)
 
 const TypeIcon = ({ type }) => {
   const [style, classname] = (type || '').toLowerCase().split(' ')
@@ -29,7 +33,7 @@ const Elements = ({ elements, selected }) => (
           'compose-element clickable ' + (index === selected && 'selected')
         }
         container="row #spread @center"
-        // TODO: onClick={linkEvent(index, selectElement)}
+        onClick={linkEvent(index, selectElement)}
       >
         {/* Element Icon */}
         <TypeIcon type={item.type} />

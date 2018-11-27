@@ -2,21 +2,35 @@ import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
+const addElement = () => emitEvent('addElement')
+
+const deleteElement = index => emitEvent('deleteElement', index)
+
+const resetElements = () => emitEvent('resetElements')
+
 const selectElement = index => emitEvent('selectElement', index)
 
-const TypeIcon = ({ type }) => {
-  const [style, classname] = (type || '').toLowerCase().split(' ')
+const saveTemplate = () => emitEvent('saveTemplate')
+
+const TypeIcon = ({ type = '' }) => {
+  const [style, classname] = type.toLowerCase().split(' ')
   return <i class={`icon-${classname} element-type ${style}`} />
 }
 
-const Elements = ({ elements, selected }) => (
+const Elements = ({ elements, modified, selected }) => (
   <div class="sidebar-section">
     {/* Elements Section Title */}
     <div class="sidebar-section-title" container="row #spread @center">
       <label flex>Elements</label>
-      {/* TODO: <i class="icon-restore clickable" onClick={restoreElements} /> */}
-      {/* TODO: <i class="icon-cloud-upload clickable" onClick={saveTemplate} /> */}
-      {/* TODO: <i class="icon-add-element clickable" onClick={addElement} /> */}
+      <i
+        class={'icon-restore clickable' + (!modified ? ' clean' : '')}
+        onClick={resetElements}
+      />
+      <i
+        class={'icon-cloud-upload clickable' + (!modified ? ' clean' : '')}
+        onClick={saveTemplate}
+      />
+      <i class="icon-add-element clickable" onClick={addElement} />
     </div>
 
     {/* Elements List */}
@@ -45,12 +59,16 @@ const Elements = ({ elements, selected }) => (
         <i class="action icon-visible" />
         <i
           class="action icon-delete"
-          // TODO: onClick={linkEvent(index, deleteElement)}
+          onClick={linkEvent(index, deleteElement)}
         />
       </div>
     ))}
   </div>
 )
 
-const map = ({ elements, selected }) => ({ elements, selected })
+const map = ({ elements, modified, selected }) => ({
+  elements,
+  modified,
+  selected,
+})
 export default mapStatesToProps(Elements, map)

@@ -3,15 +3,16 @@ import { Firebase } from './data'
 
 const defaultElement = {
   name: '',
-  contentType: '',
-  type: '',
+  type: 'Dynamic Text',
   style: {
     top: 0,
     left: 0,
-    width: 0,
-    height: 0,
+    width: 50,
+    height: 15,
   },
 }
+
+const differ = (e1, e2) => JSON.stringify(e1) !== JSON.stringify(e2)
 
 /* Generic Events */
 
@@ -90,14 +91,53 @@ addEvent('fetchTemplate', async id => {
     oElements: JSON.parse(JSON.stringify(elements)),
     elements,
     element: { ...defaultElement, ...elements[0] },
+    template,
   })
+})
+
+addEvent('saveTemplate', async () => {
+  const { elements, template } = getStore()
+  await template.$ref.update({ elements })
+  updateStore({ modified: false })
 })
 
 /* Element Events */
 
+addEvent('addElement', async index => {
+  const { elements } = getStore()
+  const element = {
+    ...defaultElement,
+    name: `element${elements.length + 1}`,
+  }
+  elements.push(element)
+
+  updateStore({ element, elements, modified: true })
+})
+
+addEvent('deleteElement', async index => {
+  const { elements } = getStore()
+  elements.splice(index, 1)
+
+  updateStore({
+    element: elements[0],
+    elements,
+    modified: true,
+    selected: 0,
+  })
+})
+
 addEvent('resetElement', () => {
   const { element } = getStore()
   updateStore({ element })
+})
+
+addEvent('resetElements', () => {
+  const { oElements: elements, selected } = getStore()
+  updateStore({
+    elements,
+    element: elements[selected],
+    modified: false,
+  })
 })
 
 addEvent('selectElement', selected => {
@@ -107,8 +147,8 @@ addEvent('selectElement', selected => {
 })
 
 addEvent('updateElement', ({ key, value }) => {
-  const { elements, selected } = getStore()
-  const element = { ...elements[selected] }
+  const { oElements, elements, selected } = getStore()
+  const element = elements[selected]
   const parts = key.split('.')
 
   let part
@@ -126,6 +166,7 @@ addEvent('updateElement', ({ key, value }) => {
 
   updateStore({
     element,
-    elements: Object.assign([...elements], { [selected]: element }),
+    elements,
+    modified: differ(oElements, elements),
   })
 })

@@ -14,14 +14,26 @@ const defaultElement = {
 
 const differ = (e1, e2) => JSON.stringify(e1) !== JSON.stringify(e2)
 
-/* Generic Events */
+const setDeep = (obj, key, value) => {
+  const parts = key.split('.')
 
-// addEvent('setPath', ({ path, value }) => {
-//   debugger
-//   const [key, property] = path.split('.')
-//   const data = getStore()[key]
-//   updateStore({ [key]: { ...data, [property]: value } })
-// })
+  let part
+  let nested = obj
+  while ((part = parts.shift())) {
+    if (!parts.length) {
+      break
+    }
+    if (!nested.hasOwnProperty(part)) {
+      nested[part] = {}
+    }
+    nested = nested[part]
+  }
+  nested[part] = value
+
+  return obj
+}
+
+/* Generic Events */
 
 addEvent('setState', partial => updateStore(partial))
 
@@ -37,6 +49,13 @@ addEvent('fetchQuery', async ({ collection, query = {}, sortKey, ...rest }) => {
   updateStore(newState)
 })
 
+// addEvent('setPath', ({ path, value }) => {
+//   debugger
+//   const [key, property] = path.split('.')
+//   const data = getStore()[key]
+//   updateStore({ [key]: { ...data, [property]: value } })
+// })
+
 // addEvent('fetchDoc', async ({ collection, state, id }) => {
 //   const data = await Firebase.doc(collection, id)
 //   updateStore({ [state]: data })
@@ -50,6 +69,38 @@ addEvent('addAsset', async url => {
   const name = (path.match(/(.*\.\w+)/) || [])[0] || url
   await assets.add({ name, url, owner: 'nando' })
   emitEvent('fetchQuery', { collection: 'assets', sortKey: 'name' })
+})
+
+/* Card Events */
+
+addEvent('createCard', async () => {
+  const $cards = await Firebase.col('instances')
+  const { cards, template } = getStore()
+  const newCard = {
+    name: `card${cards.length + 1}`,
+    template: template.name,
+    templateRef: template.$ref,
+    ownerRef: template.ownerRef,
+    data: {},
+  }
+  template.elements.forEach(item => {
+    if (item.type.startsWith('Static')) {
+      return
+    }
+    newCard.data[item.name] = ''
+  })
+  await $cards.add(newCard)
+  updateStore({ cards: [...cards, newCard] })
+})
+
+addEvent('updateCard', (key, value) => {
+  const { cards, selectedIndex } = getStore()
+  const card = setDeep(cards[selectedIndex], key, value)
+
+  updateStore({
+    card,
+    cards: Object.assign([...cards], { [selectedIndex]: card }),
+  })
 })
 
 /* Game Events */
@@ -148,21 +199,7 @@ addEvent('selectElement', selected => {
 
 addEvent('updateElement', ({ key, value }) => {
   const { oElements, elements, selected } = getStore()
-  const element = elements[selected]
-  const parts = key.split('.')
-
-  let part
-  let nested = element
-  while ((part = parts.shift())) {
-    if (!parts.length) {
-      break
-    }
-    if (!nested.hasOwnProperty(part)) {
-      nested[part] = {}
-    }
-    nested = nested[part]
-  }
-  nested[part] = value
+  const element = setDeep(elements[selected], key, value)
 
   updateStore({
     element,

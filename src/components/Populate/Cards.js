@@ -1,17 +1,24 @@
+import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
+import { emitEvent } from 'fluxible-js'
+
+const createCard = () => emitEvent('createCard')
+
+const updateCard = (event, key) => {
+  const { value } = event.target
+  emitEvent('createCard', { key, value })
+}
 
 const Cards = ({ cardId, cards }) => {
   const card = cards[cardId]
+
   return (
     <div class="sidebar-section">
       {/* Cards Section Title */}
       <div class="sidebar-section-title" container="row #spread @center">
         <label flex>Cards</label>
 
-        <i
-          class="icon-add-element clickable"
-          // TODO: onClick={createCard}
-        />
+        <i class="icon-add-element clickable" onClick={createCard} />
       </div>
 
       {/* Cards List */}
@@ -35,7 +42,7 @@ const Cards = ({ cardId, cards }) => {
           <input
             type="text"
             value={card.name}
-            // TODO: onInput={linkEvent('name', updateCard)}
+            onInput={linkEvent('name', updateCard)}
           />
         </div>
       )}

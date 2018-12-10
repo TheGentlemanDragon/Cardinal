@@ -4,8 +4,6 @@ import AssetsModal from './AssetsModal'
 import Card from './Card'
 import SideBar from './SideBar'
 
-const getTemplate = id => emitEvent('fetchTemplate', id)
-
 const TemplatePage = () => (
   <div key="template" container="row #left @stretch" flex>
     <SideBar />
@@ -20,7 +18,7 @@ const TemplatePage = () => (
 
 TemplatePage.defaultHooks = {
   onComponentWillMount(props) {
-    getTemplate(props.match.params.templateId)
+    emitEvent('fetchTemplate', props.match.params.templateId)
   },
 }
 

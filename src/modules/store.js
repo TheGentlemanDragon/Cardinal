@@ -3,13 +3,14 @@ import { initializeStore } from 'fluxible-js'
 initializeStore({
   initialStore: {
     assets: null,
+    card: null,
     cardId: '',
-    cards: [],
+    cards: new Map(),
     element: null,
     elements: [],
     games: new Map(),
     modal: '',
-    mode: 'compose',
+    mode: 'populate',
     modified: false,
     preview: [],
     scale: 1.8,

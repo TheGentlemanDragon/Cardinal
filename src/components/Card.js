@@ -15,7 +15,7 @@ const calculateStyle = (element, index, isPreview = false) => {
     left: element.style.left + 'px',
     top: element.style.top + 'px',
     width: element.style.width + 'px',
-    zIndex: 1000 - index,
+    'z-index': 1000 - index,
   }
 
   if (isPreview && element.type.includes('Image')) {
@@ -32,6 +32,7 @@ const ComposeElement = ({
   isCompose,
   isPreview,
   isSelected,
+  value,
 }) => {
   let classes = 'element clickable'
   classes += isCompose && isSelected ? ' selected' : ''
@@ -44,37 +45,49 @@ const ComposeElement = ({
       onClick={isCompose && linkEvent(index, selectElement)}
     >
       {!isCompose || isPreview
-        ? element.type.includes('Text') && element.content
+        ? element.type.includes('Text') && value
         : element.name}
     </div>
   )
 }
 
-const Card = ({ elements, mode, preview, scale, selected }) => (
-  <div
-    key="card"
-    class={`card` + (mode === 'compose' ? '' : ' preview')}
-    style={{ transform: `scale(${scale})` }}
-  >
-    {elements.map((element, index) => {
-      const isSelected = index === selected
-      const isPreview =
-        (element.type.startsWith('Static') && preview.includes('static')) ||
-        (element.type.startsWith('Dynamic') && preview.includes('dynamic'))
-      const props = {
-        element,
-        index,
-        isCompose: mode === 'compose',
-        isPreview,
-        isSelected,
-      }
+const Card = ({ card, elements, mode, preview, scale, selected }) => {
+  return (
+    <div
+      key="card"
+      class={`card` + (mode === 'compose' ? '' : ' preview')}
+      style={{ transform: `scale(${scale})` }}
+    >
+      {elements.map((element, index) => {
+        const isSelected = index === selected
+        const isStatic = element.type.startsWith('Static')
+        const isDynamic = element.type.startsWith('Dynamic')
+        const isPreview =
+          (isStatic && preview.includes('static')) ||
+          (isDynamic && preview.includes('dynamic'))
+        const value = isStatic
+          ? element.content
+          : card
+          ? card.data[element.name]
+          : ''
+        const props = {
+          key: 'card-field-' + element.name,
+          element,
+          index,
+          isCompose: mode === 'compose',
+          isPreview,
+          isSelected,
+          value,
+        }
 
-      return <ComposeElement {...props} />
-    })}
-  </div>
-)
+        return <ComposeElement {...props} />
+      })}
+    </div>
+  )
+}
 
-const map = ({ elements, mode, preview, scale, selected }) => ({
+const map = ({ card, elements, mode, preview, scale, selected }) => ({
+  card,
   elements,
   mode,
   preview,

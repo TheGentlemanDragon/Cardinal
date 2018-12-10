@@ -74,33 +74,27 @@ addEvent('addAsset', async url => {
 /* Card Events */
 
 addEvent('createCard', async () => {
-  const $cards = await Firebase.col('instances')
   const { cards, template } = getStore()
   const newCard = {
-    name: `card${cards.length + 1}`,
+    name: `card${cards.size + 1}`,
     template: template.name,
     templateRef: template.$ref,
     ownerRef: template.ownerRef,
     data: {},
   }
-  template.elements.forEach(item => {
-    if (item.type.startsWith('Static')) {
-      return
-    }
-    newCard.data[item.name] = ''
-  })
+
+  const $cards = await Firebase.col('cards')
   await $cards.add(newCard)
-  updateStore({ cards: [...cards, newCard] })
+
+  const query = { templateRef: template.$ref }
+  const newCards = await Firebase.query('cards', query, 'name')
+  updateStore({ cards: newCards })
 })
 
-addEvent('updateCard', (key, value) => {
-  const { cards, selectedIndex } = getStore()
-  const card = setDeep(cards[selectedIndex], key, value)
-
-  updateStore({
-    card,
-    cards: Object.assign([...cards], { [selectedIndex]: card }),
-  })
+addEvent('updateCard', ({ key, value }) => {
+  const { cards, card } = getStore()
+  card.data[key] = value
+  updateStore({ card, cards })
 })
 
 /* Game Events */
@@ -137,11 +131,17 @@ addEvent('createTemplate', async name => {
 
 addEvent('fetchTemplate', async id => {
   const template = await Firebase.doc('templates', id)
+  const query = { templateRef: template.$ref }
+  const cards = await Firebase.query('cards', query, 'name')
+  const card = cards.values().next().value
   const elements = template.elements || []
   updateStore({
-    oElements: JSON.parse(JSON.stringify(elements)),
+    card,
+    cards,
+    cardId: card.$id,
     elements,
     element: { ...defaultElement, ...elements[0] },
+    oElements: JSON.parse(JSON.stringify(elements)),
     template,
   })
 })

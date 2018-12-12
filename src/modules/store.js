@@ -10,7 +10,7 @@ initializeStore({
     elements: [],
     games: new Map(),
     modal: '',
-    mode: 'populate',
+    mode: 'compose',
     modified: false,
     preview: [],
     scale: 1.8,

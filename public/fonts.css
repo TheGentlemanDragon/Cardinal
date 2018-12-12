@@ -87,6 +87,7 @@
   content: '\e313';
 }
 .icon-cheveron-up:before {
+  display: inline-block;
   content: '\e313';
   transform: rotate(180deg);
 }

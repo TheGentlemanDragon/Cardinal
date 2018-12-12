@@ -2,18 +2,14 @@ import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
+import PropertyGroup from '../SideBar/PropertyGroup'
+
 const updateElement = (key, event) =>
   emitEvent('updateElement', { key, value: event.target.value })
 
 const Style = ({ element }) =>
   element && (
-    <div class="sidebar-section">
-      {/* Style Section Title */}
-      <div class="sidebar-section-title" container="row #spread @center">
-        <label>Style</label>
-        <i class="icon-cheveron-down icon-lg clickable" onClick={() => {}} />
-      </div>
-
+    <PropertyGroup label="Style">
       {/* Style Items */}
       <div class="sidebar-item property" container="row #spread @center">
         {/* Left */}
@@ -54,7 +50,7 @@ const Style = ({ element }) =>
           onInput={linkEvent('style.height', updateElement)}
         />
       </div>
-    </div>
+    </PropertyGroup>
   )
 
 const map = ({ element }) => ({ element })

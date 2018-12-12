@@ -2,8 +2,8 @@ import { emitEvent } from 'fluxible-js'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { Link } from 'inferno-router'
 
-import Compose from './Compose'
-import Populate from './Populate'
+import Compose from '../Compose'
+import Populate from '../Populate'
 
 const setCompose = () => emitEvent('setState', { mode: 'compose' })
 const setPopulate = () => emitEvent('setState', { mode: 'populate' })

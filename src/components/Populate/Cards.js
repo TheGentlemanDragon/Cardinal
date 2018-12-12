@@ -9,11 +9,12 @@ const updateCard = (key, event) => {
   emitEvent('updateCard', { key, value })
 }
 
-const Field = ({ card, element }) =>
+const Field = ({ card, element, id }) =>
   !element.type.startsWith('Static') ? (
     <div class="sidebar-item property" container="row #spread @center">
-      <span>{element.name}</span>
+      <label for={id}>{element.name}</label>
       <input
+        id={id}
         type="text"
         value={card.data[element.name]}
         onInput={linkEvent(element.name, updateCard)}
@@ -58,9 +59,10 @@ const Cards = ({ card, cards, elements }) => (
           <label flex>Fields</label>
         </div>
         {/* Name */}
-        {elements.map(element => (
-          <Field key={`field-${element.name}`} card={card} element={element} />
-        ))}
+        {elements.map(element => {
+          const id = `field-${element.name}`
+          return <Field key={id} id={id} card={card} element={element} />
+        })}
       </div>
     ) : null}
   </>

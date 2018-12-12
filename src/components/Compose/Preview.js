@@ -2,6 +2,8 @@ import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
+import PropertyGroup from '../SideBar/PropertyGroup'
+
 const toggleValue = (preview, value) => {
   if (preview.includes(value)) {
     preview = preview.filter(item => item !== value)
@@ -24,13 +26,7 @@ const setScale = event => {
 }
 
 const Preview = ({ preview, scale }) => (
-  <div class="sidebar-section">
-    {/* Preview Section Title*/}
-    <div class="sidebar-section-title" container="row #spread @center">
-      <label>Preview</label>
-      <i class="icon-cheveron-down icon-lg clickable" onClick={() => {}} />
-    </div>
-
+  <PropertyGroup label="Preview">
     {/* Static Content */}
     <div class="sidebar-item property " container="row #spread @center">
       <span class="two-thirds-width">static content</span>
@@ -66,7 +62,7 @@ const Preview = ({ preview, scale }) => (
         onInput={setScale}
       />
     </div>
-  </div>
+  </PropertyGroup>
 )
 
 const map = ({ preview, scale }) => ({ preview, scale })

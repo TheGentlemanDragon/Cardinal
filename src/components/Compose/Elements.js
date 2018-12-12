@@ -2,6 +2,8 @@ import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
+import PropertyGroup from '../SideBar/PropertyGroup'
+
 const addElement = () => emitEvent('addElement')
 
 const deleteElement = index => emitEvent('deleteElement', index)
@@ -18,21 +20,21 @@ const TypeIcon = ({ type = '' }) => {
 }
 
 const Elements = ({ elements, modified, selected }) => (
-  <div class="sidebar-section">
-    {/* Elements Section Title */}
-    <div class="sidebar-section-title" container="row #spread @center">
-      <label flex>Elements</label>
+  <PropertyGroup
+    label="Elements"
+    collapsable={false}
+    actions={[
       <i
         class={'icon-restore clickable' + (!modified ? ' clean' : '')}
         onClick={resetElements}
-      />
+      />,
       <i
         class={'icon-cloud-upload clickable' + (!modified ? ' clean' : '')}
         onClick={saveTemplate}
-      />
-      <i class="icon-add-element clickable" onClick={addElement} />
-    </div>
-
+      />,
+      <i class="icon-add-element clickable" onClick={addElement} />,
+    ]}
+  >
     {/* Elements List */}
     {!elements.length && (
       <div class="compose-element" container="row #middle @center">
@@ -63,7 +65,7 @@ const Elements = ({ elements, modified, selected }) => (
         />
       </div>
     ))}
-  </div>
+  </PropertyGroup>
 )
 
 const map = ({ elements, modified, selected }) => ({

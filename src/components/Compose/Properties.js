@@ -3,7 +3,10 @@ import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
 import { elementTypes } from '../../Constants'
+import ImageAssetProperty from '../SideBar/ImageAssetProperty'
 import PropertyGroup from '../SideBar/PropertyGroup'
+import SelectProperty from '../SideBar/SelectProperty'
+import TextProperty from '../SideBar/TextProperty'
 
 const updateElement = (key, event) => {
   const { value } = event.target
@@ -20,46 +23,33 @@ const Properties = ({ assets, element }) =>
   element && (
     <PropertyGroup label="Properties">
       {/* Name */}
-      <div class="sidebar-item property" container="row #spread @center">
-        <span>name</span>
-        <input
-          type="text"
-          value={element.name}
-          onInput={linkEvent('name', updateElement)}
-        />
-      </div>
+      <TextProperty
+        label="name"
+        value={element.name}
+        onUpdate={linkEvent('name', updateElement)}
+      />
 
       {/* Type */}
-      <div class="sidebar-item property" container="row #spread @center">
-        <span>type</span>
-        <select onInput={linkEvent('type', updateElement)}>
-          {elementTypes.map(opt => (
-            <option value={opt} selected={opt === element.type}>
-              {opt}
-            </option>
-          ))}
-        </select>
-      </div>
+      <SelectProperty
+        label="type"
+        value={element.type}
+        options={elementTypes}
+        onUpdate={linkEvent('type', updateElement)}
+      />
 
-      {/* Content Type */}
-      {element.type.startsWith('Static') && (
-        <div class="sidebar-item property" container="row #spread @center">
-          <span>content</span>
+      {/* Static Image Type */}
+      {element.type === 'Static Image' && (
+        <ImageAssetProperty
+          label="content"
+          value={element.content}
+          options={[...assets]}
+          onUpdate={linkEvent('content', updateElement)}
+        />
+      )}
 
-          {element.type === 'Static Image' && (
-            <select onChange={linkEvent('content', updateElement)}>
-              <option disabled>-Choose Image-</option>
-              {[...assets].map(opt => (
-                <option value={opt.url} selected={opt.url === element.content}>
-                  {opt.name}
-                </option>
-              ))}
-              <option value="showModal">-Manage Files-</option>
-            </select>
-          )}
-
-          {element.type === 'Static Text' && <input type="text" />}
-        </div>
+      {/* Static Text Type */}
+      {element.type === 'Static Text' && (
+        <TextProperty label="content" value={''} onUpdate={() => null} />
       )}
     </PropertyGroup>
   )

@@ -11,7 +11,7 @@ const updateCard = (key, event) => {
 
 const Field = ({ card, element, id }) =>
   !element.type.startsWith('Static') ? (
-    <div class="sidebar-item property" container="row #spread @center">
+    <div class="sidebar-property" container="row #spread @center">
       <label for={id}>{element.name}</label>
       <input
         id={id}
@@ -34,7 +34,7 @@ const Cards = ({ card, cards, elements }) => (
 
       {/* Cards List */}
       {!cards.size && (
-        <div class="compose-element" container="row #middle @center">
+        <div class="sidebar-list-item" container="row #middle @center">
           Click &nbsp;
           <i class="icon-add-element" /> to add a card
         </div>
@@ -44,11 +44,11 @@ const Cards = ({ card, cards, elements }) => (
         .map((card, index) => (
           <div
             key={`card-${card.name}`}
-            class="compose-element"
+            class="sidebar-list-item"
             container="row #spread @center"
           >
             {/* Card Name */}
-            <span flex>{card.name}</span>
+            <label flex>{card.name}</label>
           </div>
         ))}
     </div>

@@ -2,6 +2,7 @@ import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
+import DimensionProperty from '../SideBar/DimensionProperty'
 import PropertyGroup from '../SideBar/PropertyGroup'
 
 const updateElement = (key, event) =>
@@ -11,43 +12,35 @@ const Style = ({ element }) =>
   element && (
     <PropertyGroup label="Style">
       {/* Style Items */}
-      <div class="sidebar-item property" container="row #spread @center">
+      <div container="row #spread @center">
         {/* Left */}
-        <span class="half-width">x</span>
-        <input
-          type="number"
-          class="half-width"
+        <DimensionProperty
+          label="x"
           value={element.style && element.style.left}
-          onInput={linkEvent('style.left', updateElement)}
+          onUpdate={linkEvent('style.left', updateElement)}
         />
 
         {/* Top */}
-        <span class="half-width">y</span>
-        <input
-          type="number"
-          class="half-width"
+        <DimensionProperty
+          label="y"
           value={element.style && element.style.top}
-          onInput={linkEvent('style.top', updateElement)}
+          onUpdate={linkEvent('style.top', updateElement)}
         />
       </div>
 
-      <div class="sidebar-item property" container="row #spread @center">
+      <div container="row #spread @center">
         {/* Width */}
-        <span class="half-width">w</span>
-        <input
-          type="number"
-          class="half-width"
+        <DimensionProperty
+          label="w"
           value={element.style && element.style.width}
-          onInput={linkEvent('style.width', updateElement)}
+          onUpdate={linkEvent('style.width', updateElement)}
         />
 
         {/* Height */}
-        <span class="half-width">h</span>
-        <input
-          type="number"
-          class="half-width"
+        <DimensionProperty
+          label="h"
           value={element.style && element.style.height}
-          onInput={linkEvent('style.height', updateElement)}
+          onUpdate={linkEvent('style.height', updateElement)}
         />
       </div>
     </PropertyGroup>

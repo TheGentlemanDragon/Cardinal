@@ -3,6 +3,7 @@ import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
 import PropertyGroup from '../SideBar/PropertyGroup'
+import ToggleProperty from '../SideBar/ToggleProperty'
 
 const toggleValue = (preview, value) => {
   if (preview.includes(value)) {
@@ -28,36 +29,28 @@ const setScale = event => {
 const Preview = ({ preview, scale }) => (
   <PropertyGroup label="Preview">
     {/* Static Content */}
-    <div class="sidebar-item property " container="row #spread @center">
-      <span class="two-thirds-width">static content</span>
-      <input
-        type="checkbox"
-        class="one-third-width"
-        value={preview.includes('static')}
-        onInput={linkEvent(preview, toggleStatic)}
-      />
-    </div>
+    <ToggleProperty
+      label={'static'}
+      value={preview.includes('static')}
+      onUpdate={linkEvent(preview, toggleStatic)}
+    />
 
     {/* Dynamic Content */}
-    <div class="sidebar-item property " container="row #spread @center">
-      <span class="two-thirds-width">dynamic content</span>
-      <input
-        type="checkbox"
-        class="one-third-width"
-        value={preview.includes('dynamic')}
-        onInput={linkEvent(preview, toggleDynamic)}
-      />
-    </div>
+    <ToggleProperty
+      label={'dynamic'}
+      value={preview.includes('dynamic')}
+      onUpdate={linkEvent(preview, toggleDynamic)}
+    />
 
     {/* Scale */}
-    <div class="sidebar-item property " container="row #spread @center">
-      <span class="one-third-width">scale</span>
+    <div class="sidebar-property " container="row #spread @center">
+      <label class="one-third-width">scale</label>
       <input
         type="range"
         class="two-thirds-width"
         value={scale}
         min={0.5}
-        max={2.5}
+        max={3.5}
         step={0.1}
         onInput={setScale}
       />

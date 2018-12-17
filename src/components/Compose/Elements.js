@@ -37,7 +37,7 @@ const Elements = ({ elements, modified, selected }) => (
   >
     {/* Elements List */}
     {!elements.length && (
-      <div class="compose-element" container="row #middle @center">
+      <div class="sidebar-list-item" container="row #middle @center">
         Click &nbsp;
         <i class="icon-add-element" /> to add an element
       </div>
@@ -46,7 +46,7 @@ const Elements = ({ elements, modified, selected }) => (
     {elements.map((item, index) => (
       <div
         class={
-          'compose-element clickable ' + (index === selected && 'selected')
+          'sidebar-list-item clickable ' + (index === selected && 'selected')
         }
         container="row #spread @center"
         onClick={linkEvent(index, selectElement)}

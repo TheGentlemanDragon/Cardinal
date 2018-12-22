@@ -35,7 +35,9 @@ const setDeep = (obj, key, value) => {
 
 /* Generic Events */
 
-addEvent('setState', partial => updateStore(partial))
+addEvent('setState', partial => {
+  updateStore(partial)
+})
 
 addEvent('fetchCollection', async ({ collection, sortKey, ...rest }) => {
   const data = await Firebase.list(collection, sortKey)
@@ -92,9 +94,13 @@ addEvent('createCard', async () => {
 })
 
 addEvent('updateCard', ({ key, value }) => {
-  const { cards, card } = getStore()
+  const { cards, card, oCardData, modified: origModified } = getStore()
   card.data[key] = value
-  updateStore({ card, cards })
+  const modified = {
+    elements: origModified.elements,
+    card: differ(oCardData, card.data),
+  }
+  updateStore({ card, cards, modified })
 })
 
 /* Game Events */
@@ -135,12 +141,13 @@ addEvent('fetchTemplate', async id => {
   const cards = await Firebase.query('cards', query, 'name')
   const card = cards.values().next().value
   const elements = template.elements || []
+
   updateStore({
     card,
     cards,
-    cardId: card.$id,
     elements,
     element: { ...defaultElement, ...elements[0] },
+    oCardData: JSON.parse(JSON.stringify(card.data)),
     oElements: JSON.parse(JSON.stringify(elements)),
     template,
   })
@@ -148,31 +155,33 @@ addEvent('fetchTemplate', async id => {
 
 addEvent('saveTemplate', async () => {
   const { elements, template } = getStore()
+  const modified = { elements: false, card: false }
   await template.$ref.update({ elements })
-  updateStore({ modified: false })
+  updateStore({ modified })
 })
 
 /* Element Events */
 
 addEvent('addElement', async index => {
   const { elements } = getStore()
+  const modified = { elements: true, card: false }
   const element = {
     ...defaultElement,
     name: `element${elements.length + 1}`,
   }
   elements.push(element)
-
-  updateStore({ element, elements, modified: true })
+  updateStore({ element, elements, modified })
 })
 
 addEvent('deleteElement', async index => {
   const { elements } = getStore()
+  const modified = { elements: true, card: false }
   elements.splice(index, 1)
 
   updateStore({
     element: elements[0],
     elements,
-    modified: true,
+    modified,
     selected: 0,
   })
 })
@@ -184,10 +193,12 @@ addEvent('resetElement', () => {
 
 addEvent('resetElements', () => {
   const { oElements: elements, selected } = getStore()
+  const modified = { elements: false, card: false }
+
   updateStore({
     elements,
     element: elements[selected],
-    modified: false,
+    modified,
   })
 })
 
@@ -200,10 +211,11 @@ addEvent('selectElement', selected => {
 addEvent('updateElement', ({ key, value }) => {
   const { oElements, elements, selected } = getStore()
   const element = setDeep(elements[selected], key, value)
+  const modified = { elements: differ(oElements, elements), card: false }
 
   updateStore({
     element,
     elements,
-    modified: differ(oElements, elements),
+    modified,
   })
 })

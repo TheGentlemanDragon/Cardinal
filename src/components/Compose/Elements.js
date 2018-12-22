@@ -70,7 +70,7 @@ const Elements = ({ elements, modified, selected }) => (
 
 const map = ({ elements, modified, selected }) => ({
   elements,
-  modified,
+  modified: modified.elements,
   selected,
 })
 export default mapStatesToProps(Elements, map)

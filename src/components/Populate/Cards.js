@@ -2,7 +2,15 @@ import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
+import PropertyGroup from '../SideBar/PropertyGroup'
+
 const createCard = () => emitEvent('createCard')
+
+const resetCard = () => emitEvent('resetCard')
+
+const saveCard = () => emitEvent('saveCard')
+
+const selectCard = card => emitEvent('setState', { card })
 
 const updateCard = (key, event) => {
   const { value } = event.target
@@ -22,7 +30,7 @@ const Field = ({ card, element, id }) =>
     </div>
   ) : null
 
-const Cards = ({ card, cards, elements }) => (
+const Cards = ({ card, cards, elements, modified }) => (
   <>
     <div class="sidebar-section">
       {/* Cards Section Title */}
@@ -41,32 +49,49 @@ const Cards = ({ card, cards, elements }) => (
       )}
       {[...cards]
         .sort((a, b) => (a.name < b.name ? -1 : 1))
-        .map((card, index) => (
+        .map(item => (
           <div
-            key={`card-${card.name}`}
-            class="sidebar-list-item"
+            key={`card-${item.name}`}
+            class={
+              'sidebar-list-item clickable' + (item === card ? ' selected' : '')
+            }
             container="row #spread @center"
+            onClick={linkEvent(item, selectCard)}
           >
             {/* Card Name */}
-            <label flex>{card.name}</label>
+            <label flex>{item.name}</label>
           </div>
         ))}
     </div>
     {card && elements.length ? (
-      <div class="sidebar-section">
-        {/* Fields Section Title */}
-        <div class="sidebar-section-title" container="row #spread @center">
-          <label flex>Fields</label>
-        </div>
+      <PropertyGroup
+        label="Fields"
+        collapsable={false}
+        actions={[
+          <i
+            class={'icon-restore clickable' + (!modified ? ' clean' : '')}
+            onClick={resetCard}
+          />,
+          <i
+            class={'icon-cloud-upload clickable' + (!modified ? ' clean' : '')}
+            onClick={saveCard}
+          />,
+        ]}
+      >
         {/* Name */}
         {elements.map(element => {
           const id = `field-${element.name}`
           return <Field key={id} id={id} card={card} element={element} />
         })}
-      </div>
+      </PropertyGroup>
     ) : null}
   </>
 )
 
-const map = ({ card, cards, elements }) => ({ card, cards, elements })
+const map = ({ card, cards, elements, modified }) => ({
+  card,
+  cards,
+  elements,
+  modified: modified.card,
+})
 export default mapStatesToProps(Cards, map)

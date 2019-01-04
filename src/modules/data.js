@@ -3,18 +3,24 @@ import 'firebase/firestore'
 import 'firebase/storage'
 import { options } from './config'
 
+firebase.initializeApp(options)
+
 /**
  * Encapsulates Firebase functionality
  *
- * @class _Firebase
+ * @class Firebase
  */
-class _Firebase {
+class FirebaseFactory {
   constructor() {
-    firebase.initializeApp(options)
     this.db = firebase.firestore()
     this.db.settings({ timestampsInSnapshots: true })
-    this.storage = firebase.storage().ref()
     this.collections = {}
+    this.owner = null
+    this.storage = firebase.storage().ref()
+  }
+
+  setOwner(owner) {
+    this.owner = owner
   }
 
   /**
@@ -23,7 +29,7 @@ class _Firebase {
    * @static
    * @param {any} doc document id
    * @returns document
-   * @memberof _Firebase
+   * @memberof FirebaseFactory
    */
   static documentWithRef(doc) {
     return {
@@ -39,11 +45,11 @@ class _Firebase {
    * @static
    * @param {any} map x
    * @param {any} obj x
-   * @memberof _Firebase
+   * @memberof FirebaseFactory
    */
-  static arrayToMapReducer(map, obj) {
-    return map.set(obj.$id, obj)
-  }
+  // static arrayToMapReducer(map, obj) {
+  //   return map.set(obj.$id, obj)
+  // }
 
   /**
    * x
@@ -51,47 +57,43 @@ class _Firebase {
    * @static
    * @param {any} sortKey x
    * @returns x
-   * @memberof _Firebase
+   * @memberof FirebaseFactory
    */
-  static makeSortedValueMap(sortKey) {
-    const newMap = new Map()
-    newMap[Symbol.iterator] = function*() {
-      yield* [...this.values()].sort(
-        (a, b) => (a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1)
-      )
-    }
-    return newMap
-  }
+  // static makeSortedValueMap(sortKey) {
+  //   const newMap = new Map()
+  //   newMap[Symbol.iterator] = function*() {
+  //     yield* [...this.values()].sort((a, b) =>
+  //       a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1
+  //     )
+  //   }
+  //   return newMap
+  // }
 
   /**
    * x
    *
    * @static
    * @returns x
-   * @memberof _Firebase
+   * @memberof FirebaseFactory
    */
-  static makeValueMap() {
-    const newMap = new Map()
-    newMap[Symbol.iterator] = function*() {
-      yield* [...this.values()]
-    }
-    return newMap
-  }
+  // static makeValueMap() {
+  //   const newMap = new Map()
+  //   newMap[Symbol.iterator] = function*() {
+  //     yield* [...this.values()]
+  //   }
+  //   return newMap
+  // }
 
   /**
-   * Retrieve collection
+   * Retrieve collectionzen
    *
    * @param {any} name collection name
    * @returns collection
-   * @memberof _Firebase
+   * @memberof FirebaseFactory
    */
   col(name) {
     let col = this.collections[name]
-
-    if (!col) {
-      col = this.collections[name] = this.db.collection(name)
-    }
-
+    col = col || this.db.collection(name)
     return col
   }
 
@@ -101,13 +103,13 @@ class _Firebase {
    * @param {any} collection collection name
    * @param {any} doc document id
    * @returns document
-   * @memberof _Firebase
+   * @memberof FirebaseFactory
    */
   async doc(collection, doc) {
-    return await this.col(collection)
+    const docRef = await this.col(collection)
       .doc(doc)
       .get()
-      .then(_Firebase.documentWithRef)
+    return FirebaseFactory.documentWithRef(docRef)
   }
 
   /**
@@ -115,15 +117,14 @@ class _Firebase {
    *
    * @param {any} collection collection name
    * @returns map of documents
-   * @memberof _Firebase
+   * @memberof FirebaseFactory
    */
   async list(collection, sortKey) {
-    let snapshot = await this.col(collection)
+    const snapshot = await this.col(collection)
+      .where('owner', '==', this.owner)
       .orderBy(sortKey)
       .get()
-    return snapshot.docs
-      .map(_Firebase.documentWithRef)
-      .reduce(_Firebase.arrayToMapReducer, _Firebase.makeValueMap())
+    return snapshot.docs.map(FirebaseFactory.documentWithRef)
   }
 
   /**
@@ -132,23 +133,27 @@ class _Firebase {
    * @param {any} collection collection name
    * @param {any} params query params
    * @returns map of documents
-   * @memberof _Firebase
+   * @memberof FirebaseFactory
    */
   async query(collection, params, sortKey) {
-    let result = this.collections[collection]
-    if (!result) {
-      result = this.collections[collection] = this.db.collection(collection)
-    }
-
+    let query = this.col(collection).where('owner', '==', this.owner)
     let keys = Object.keys(params)
     let key
     while ((key = keys.pop())) {
-      result = result.where(key, '==', params[key])
+      let value = params[key]
+
+      // TODO: Remove this when verified unneeded
+      // if (key === 'ref') {
+      //   key = value.key + 'Ref'
+      //   collection = value.key + 's'
+      //   value = (await this.doc(collection, value.id)).ref
+      // }
+
+      query = query.where(key, '==', value)
     }
-    let snapshot = await result.orderBy(sortKey).get()
-    return snapshot.docs
-      .map(_Firebase.documentWithRef)
-      .reduce(_Firebase.arrayToMapReducer, _Firebase.makeValueMap())
+
+    let snapshot = await query.orderBy(sortKey).get()
+    return snapshot.docs.map(FirebaseFactory.documentWithRef)
   }
 }
 
@@ -164,6 +169,6 @@ class Storage {
 
 const Cache = {}
 
-const Firebase = new _Firebase()
+const Firebase = new FirebaseFactory()
 
 export { Firebase, Storage, Cache }

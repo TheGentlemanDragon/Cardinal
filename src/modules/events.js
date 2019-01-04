@@ -1,37 +1,6 @@
 import { addEvent, emitEvent, getStore, updateStore } from 'fluxible-js'
 import { Firebase } from './data'
-
-const defaultElement = {
-  name: '',
-  type: 'Dynamic Text',
-  style: {
-    top: 0,
-    left: 0,
-    width: 50,
-    height: 15,
-  },
-}
-
-const differ = (e1, e2) => JSON.stringify(e1) !== JSON.stringify(e2)
-
-const setDeep = (obj, key, value) => {
-  const parts = key.split('.')
-
-  let part
-  let nested = obj
-  while ((part = parts.shift())) {
-    if (!parts.length) {
-      break
-    }
-    if (!nested.hasOwnProperty(part)) {
-      nested[part] = {}
-    }
-    nested = nested[part]
-  }
-  nested[part] = value
-
-  return obj
-}
+import { newElement, setDeep } from './utils'
 
 /* Generic Events */
 
@@ -45,10 +14,27 @@ addEvent('fetchCollection', async ({ collection, sortKey, ...rest }) => {
 })
 
 addEvent('fetchQuery', async ({ collection, query = {}, sortKey, ...rest }) => {
-  query.owner = 'nando'
   const data = await Firebase.query(collection, query, sortKey)
   const newState = { [collection]: data, ...rest }
   updateStore(newState)
+})
+
+/* Page Events */
+
+addEvent('initGamesPage', async () => {
+  updateStore({ games: await Firebase.list('games', 'name') })
+})
+
+addEvent('initTemplatesPage', async ({ gameId }) => {
+  const game = await Firebase.doc('games', gameId)
+  const query = { gameRef: game.$ref }
+  const templates = await Firebase.query('templates', query, 'name')
+  updateStore({ game, templates })
+})
+
+addEvent('initTemplatePage', async ({ templateId }) => {
+  const template = await Firebase.doc('templates', templateId)
+  updateStore({ elements: template.elements || [], template })
 })
 
 // addEvent('setPath', ({ path, value }) => {
@@ -94,95 +80,67 @@ addEvent('createCard', async () => {
 })
 
 addEvent('updateCard', ({ key, value }) => {
-  const { cards, card, oCardData, modified: origModified } = getStore()
+  const { cards, card } = getStore()
   card.data[key] = value
-  const modified = {
-    elements: origModified.elements,
-    card: differ(oCardData, card.data),
-  }
-  updateStore({ card, cards, modified })
+  updateStore({ card, cards })
 })
 
 /* Game Events */
 
 addEvent('createGame', async name => {
-  const game = { name, owner: 'nando' }
-  const collection = await Firebase.col('games')
-  await collection.add(game)
-
-  emitEvent('fetchCollection', {
-    collection: 'games',
-    sortKey: 'name',
-    modal: '',
-  })
+  await Firebase.col('games').add({ name, owner: 'nando' })
+  updateStore({ games: await Firebase.list('games', 'name') })
 })
 
 /* Template Events */
 
-addEvent('createTemplate', async name => {
-  const { game, games } = getStore()
-  const gameRef = Array.from(games.values()).find(item => item.name === game)
-    .$ref
-  const template = { name, game, gameRef, elements: [], owner: 'nando' }
-  const collection = await Firebase.col('templates')
-  await collection.add(template)
-
-  emitEvent('fetchQuery', {
-    collection: 'templates',
-    query: { game },
-    sortKey: 'name',
-    modal: '',
-  })
-})
-
-addEvent('fetchTemplate', async id => {
-  const template = await Firebase.doc('templates', id)
-  const query = { templateRef: template.$ref }
-  const cards = await Firebase.query('cards', query, 'name')
-  const card = cards.values().next().value
-  const elements = template.elements || []
+addEvent('createTemplate', async ({ gameRef, name }) => {
+  const template = { name, gameRef, owner: 'nando' }
+  await Firebase.col('templates').add(template)
 
   updateStore({
-    card,
-    cards,
-    elements,
-    element: { ...defaultElement, ...elements[0] },
-    oCardData: JSON.parse(JSON.stringify(card.data)),
-    oElements: JSON.parse(JSON.stringify(elements)),
-    template,
+    templates: await Firebase.query('templates', { gameRef }, 'name'),
   })
 })
+
+// addEvent('fetchTemplate', async id => {
+//   const template = await Firebase.doc('templates', id)
+//   const query = { templateRef: template.$ref }
+//   const cards = await Firebase.query('cards', query, 'name')
+//   const card = cards.values().next().value
+//   const elements = template.elements || []
+
+//   updateStore({
+//     card,
+//     cards,
+//     elements,
+//     element: { ...defaultElement, ...elements[0] },
+//     oCardData: JSON.parse(JSON.stringify(card.data)),
+//     oElements: JSON.parse(JSON.stringify(elements)),
+//     template,
+//   })
+// })
 
 addEvent('saveTemplate', async () => {
   const { elements, template } = getStore()
-  const modified = { elements: false, card: false }
   await template.$ref.update({ elements })
-  updateStore({ modified })
+  updateStore({ template: { ...template, elements } })
 })
 
 /* Element Events */
 
-addEvent('addElement', async index => {
+addEvent('addElement', async () => {
   const { elements } = getStore()
-  const modified = { elements: true, card: false }
-  const element = {
-    ...defaultElement,
-    name: `element${elements.length + 1}`,
-  }
-  elements.push(element)
-  updateStore({ element, elements, modified })
+  updateStore({ elements: [...elements, newElement(elements.length + 1)] })
 })
 
 addEvent('deleteElement', async index => {
-  const { elements } = getStore()
-  const modified = { elements: true, card: false }
-  elements.splice(index, 1)
+  const { elements, templatePage } = getStore()
+  const remove = elements[index]
 
   updateStore({
-    element: elements[0],
-    elements,
-    modified,
-    selected: 0,
+    elements: elements.filter(item => item !== remove),
+    templatePage: { ...templatePage, elementIndex: 0 },
   })
 })
 
@@ -192,30 +150,17 @@ addEvent('resetElement', () => {
 })
 
 addEvent('resetElements', () => {
-  const { oElements: elements, selected } = getStore()
-  const modified = { elements: false, card: false }
-
-  updateStore({
-    elements,
-    element: elements[selected],
-    modified,
-  })
+  const { template } = getStore()
+  updateStore({ elements: template.elements || [] })
 })
 
-addEvent('selectElement', selected => {
-  const { elements } = getStore()
-  const element = elements[selected]
-  updateStore({ element, selected })
+addEvent('selectElement', elementIndex => {
+  const { templatePage } = getStore()
+  updateStore({ templatePage: { ...templatePage, elementIndex } })
 })
 
 addEvent('updateElement', ({ key, value }) => {
-  const { oElements, elements, selected } = getStore()
+  const { elements, selected } = getStore()
   const element = setDeep(elements[selected], key, value)
-  const modified = { elements: differ(oElements, elements), card: false }
-
-  updateStore({
-    element,
-    elements,
-    modified,
-  })
+  updateStore({ element, elements })
 })

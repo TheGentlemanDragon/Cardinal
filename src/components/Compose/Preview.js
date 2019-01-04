@@ -1,5 +1,4 @@
-import { linkEvent } from 'inferno'
-import { mapStatesToProps } from 'inferno-fluxible'
+import { Component, linkEvent } from 'inferno'
 import { emitEvent } from 'fluxible-js'
 
 import PropertyGroup from '../SideBar/PropertyGroup'
@@ -26,37 +25,45 @@ const setScale = event => {
   emitEvent('setState', { scale: event.target.value })
 }
 
-const Preview = ({ preview, scale }) => (
-  <PropertyGroup label="Preview">
-    {/* Static Content */}
-    <ToggleProperty
-      label={'static'}
-      value={preview.includes('static')}
-      onUpdate={linkEvent(preview, toggleStatic)}
-    />
+// TODO: Update scale and preview toggles correctly
+class Preview extends Component {
+  render() {
+    const {
+      props: { preview, scale },
+    } = this
 
-    {/* Dynamic Content */}
-    <ToggleProperty
-      label={'dynamic'}
-      value={preview.includes('dynamic')}
-      onUpdate={linkEvent(preview, toggleDynamic)}
-    />
+    return (
+      <PropertyGroup label="Preview">
+        {/* Static Content */}
+        <ToggleProperty
+          label={'static'}
+          value={preview.includes('static')}
+          onUpdate={linkEvent(preview, toggleStatic)}
+        />
 
-    {/* Scale */}
-    <div class="sidebar-property " container="row #spread @center">
-      <label class="one-third-width">scale</label>
-      <input
-        type="range"
-        class="two-thirds-width"
-        value={scale}
-        min={0.5}
-        max={3.5}
-        step={0.1}
-        onInput={setScale}
-      />
-    </div>
-  </PropertyGroup>
-)
+        {/* Dynamic Content */}
+        <ToggleProperty
+          label={'dynamic'}
+          value={preview.includes('dynamic')}
+          onUpdate={linkEvent(preview, toggleDynamic)}
+        />
 
-const map = ({ preview, scale }) => ({ preview, scale })
-export default mapStatesToProps(Preview, map)
+        {/* Scale */}
+        <div class="sidebar-property " container="row #spread @center">
+          <label class="one-third-width">scale</label>
+          <input
+            type="range"
+            class="two-thirds-width"
+            value={scale}
+            min={0.5}
+            max={3.5}
+            step={0.1}
+            onInput={setScale}
+          />
+        </div>
+      </PropertyGroup>
+    )
+  }
+}
+
+export default Preview

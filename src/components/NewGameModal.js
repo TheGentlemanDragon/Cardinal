@@ -1,49 +1,70 @@
 import { emitEvent } from 'fluxible-js'
-import { mapStatesToProps } from 'inferno-fluxible'
+import { Component } from 'inferno'
 
-const createGame = ({ key, type }) => {
-  if (key === 'Enter' || type === 'click') {
-    const name = document.querySelector('div.modal-content input').value
-    emitEvent('createGame', name)
+class NewGameModal extends Component {
+  input = null
+
+  state = {
+    show: false,
   }
-}
 
-const hideModal = event => {
-  // Event bubbles; only hide when element with onclick is clicked
-  if (!event.currentTarget.isEqualNode(event.target)) {
-    return
+  componentDidMount() {
+    this.input = document.querySelector('div.modal-content input')
   }
-  emitEvent('setState', { modal: '' })
-}
 
-const NewGameModal = ({ modal }) =>
-  modal !== 'newGame' ? (
-    <span />
-  ) : (
-    <div class="modal-wrapper" onClick={hideModal}>
-      <div class="modal-content" container="column #left @stretch">
-        <h1>New Game</h1>
+  componentDidUpdate() {
+    this.input.focus()
+  }
 
-        <label>Name</label>
-        <input type="text" onKeyDown={createGame} />
-        <span class="modal-footer" container="row #right @center">
-          <button onClick={hideModal}>Cancel</button>
-          <button class="primary" onClick={createGame}>
-            Create
-          </button>
-        </span>
-      </div>
-    </div>
-  )
-
-NewGameModal.defaultHooks = {
-  onComponentDidUpdate(_, newProps) {
-    // Focus input on modal display
-    if (newProps.modal) {
-      document.querySelector('div.modal-content input').focus()
+  hide = event => {
+    // Event bubbles; only hide when element with onclick is clicked
+    if (!event.currentTarget.isEqualNode(event.target)) {
+      return
     }
-  },
+    this.setState({ show: false })
+  }
+
+  show = () => this.setState({ show: true })
+
+  submit = ({ key, type }) => {
+    if (key === 'Enter' || type === 'click') {
+      const name = this.input.value
+      emitEvent('createGame', name)
+      this.setState({ show: false })
+    }
+  }
+
+  render() {
+    const { hide, show, submit } = this
+    const style = { visibility: this.state.show ? 'visible' : 'hidden' }
+
+    return (
+      <>
+        <div
+          key="new-game"
+          class="item game-add"
+          container="column #center @center"
+          onClick={show}
+        >
+          + Game
+        </div>
+        <div class="modal-wrapper" style={style} onClick={hide}>
+          <div class="modal-content" container="column #left @stretch">
+            <h1>New Game</h1>
+
+            <label>Name</label>
+            <input type="text" onKeyDown={submit} />
+            <span class="modal-footer" container="row #right @center">
+              <button onClick={hide}>Cancel</button>
+              <button class="primary" onClick={submit}>
+                Create
+              </button>
+            </span>
+          </div>
+        </div>
+      </>
+    )
+  }
 }
 
-const map = ({ modal }) => ({ modal })
-export default mapStatesToProps(NewGameModal, map)
+export default NewGameModal

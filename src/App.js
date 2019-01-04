@@ -4,6 +4,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'inferno-router'
 import GamesPage from './components/GamesPage'
 import TemplatePage from './components/TemplatePage'
 import TemplatesPage from './components/TemplatesPage'
+import { Firebase } from './modules/data'
 
 import './modules/store'
 import './modules/events'
@@ -20,5 +21,11 @@ const App = () => (
     </Switch>
   </BrowserRouter>
 )
+
+App.defaultHooks = {
+  async onComponentWillMount() {
+    Firebase.setOwner('nando')
+  },
+}
 
 export default App

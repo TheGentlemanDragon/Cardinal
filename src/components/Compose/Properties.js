@@ -1,5 +1,4 @@
 import { linkEvent } from 'inferno'
-import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
 import { elementTypes } from '../../Constants'
@@ -19,8 +18,9 @@ const updateElement = (key, event) => {
   }
 }
 
-const Properties = ({ assets, element }) =>
-  element && (
+// TODO: Fix property updates
+const Properties = ({ element, onUpdate }) =>
+  element.name && (
     <PropertyGroup label="Properties">
       {/* Name */}
       <TextProperty
@@ -42,7 +42,6 @@ const Properties = ({ assets, element }) =>
         <ImageAssetProperty
           label="content"
           value={element.content}
-          options={[...assets]}
           onUpdate={linkEvent('content', updateElement)}
         />
       )}
@@ -54,5 +53,4 @@ const Properties = ({ assets, element }) =>
     </PropertyGroup>
   )
 
-const map = ({ assets, element }) => ({ assets, element })
-export default mapStatesToProps(Properties, map)
+export default Properties

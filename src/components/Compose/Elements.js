@@ -1,5 +1,4 @@
 import { linkEvent } from 'inferno'
-import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
 import PropertyGroup from '../SideBar/PropertyGroup'
@@ -8,43 +7,45 @@ const addElement = () => emitEvent('addElement')
 
 const deleteElement = index => emitEvent('deleteElement', index)
 
-const resetElements = () => emitEvent('resetElements')
-
-const selectElement = index => emitEvent('selectElement', index)
+const resetElement = () => emitEvent('resetElements')
 
 const saveTemplate = () => emitEvent('saveTemplate')
+
+const selectElement = index => emitEvent('selectElement', index)
 
 const TypeIcon = ({ type = '' }) => {
   const [style, classname] = type.toLowerCase().split(' ')
   return <i class={`icon-${classname} element-type ${style}`} />
 }
 
-const Elements = ({ elements, modified, selected }) => (
+const Elements = ({ index: selected, items, modified }) => (
   <PropertyGroup
     label="Elements"
     collapsable={false}
     actions={[
       <i
         class={'icon-restore clickable' + (!modified ? ' clean' : '')}
-        onClick={resetElements}
+        onClick={modified && resetElement}
       />,
       <i
         class={'icon-cloud-upload clickable' + (!modified ? ' clean' : '')}
-        onClick={saveTemplate}
+        onClick={modified && saveTemplate}
       />,
       <i class="icon-add-element clickable" onClick={addElement} />,
     ]}
   >
-    {/* Elements List */}
-    {!elements.length && (
+    {/* No Elements List */}
+    {!items.length && (
       <div class="sidebar-list-item" container="row #middle @center">
         Click &nbsp;
         <i class="icon-add-element" /> to add an element
       </div>
     )}
 
-    {elements.map((item, index) => (
+    {/* Elements List */}
+    {items.map((item, index) => (
       <div
+        key={`element-list-item-${index}`}
         class={
           'sidebar-list-item clickable ' + (index === selected && 'selected')
         }
@@ -68,9 +69,4 @@ const Elements = ({ elements, modified, selected }) => (
   </PropertyGroup>
 )
 
-const map = ({ elements, modified, selected }) => ({
-  elements,
-  modified: modified.elements,
-  selected,
-})
-export default mapStatesToProps(Elements, map)
+export default Elements

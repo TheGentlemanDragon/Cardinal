@@ -3,20 +3,17 @@ import { initializeStore } from 'fluxible-js'
 initializeStore({
   initialStore: {
     assets: null,
-    card: null,
-    cards: new Map(),
-    element: null,
+    card: {},
+    cards: [],
     elements: [],
-    games: new Map(),
-    modal: '',
-    mode: 'populate',
-    modified: {
-      elements: false,
-      cards: false,
+    game: {},
+    games: [],
+    template: {},
+    templates: [],
+    templatePage: {
+      elementIndex: 0,
+      preview: [],
+      scale: 1.8,
     },
-    preview: [],
-    scale: 1.8,
-    selected: 0,
-    templates: new Map(),
   },
 })

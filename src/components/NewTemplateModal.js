@@ -1,49 +1,71 @@
 import { emitEvent } from 'fluxible-js'
-import { mapStatesToProps } from 'inferno-fluxible'
+import { Component } from 'inferno'
 
-const createTemplate = ({ key, type }) => {
-  if (key === 'Enter' || type === 'click') {
-    const name = document.querySelector('div.modal-content input').value
-    emitEvent('createTemplate', name)
+class NewTemplateModal extends Component {
+  input = null
+
+  state = {
+    show: false,
   }
-}
 
-const hideModal = event => {
-  // Event bubbles; only hide when element with onclick is clicked
-  if (!event.currentTarget.isEqualNode(event.target)) {
-    return
+  componentDidMount() {
+    this.input = document.querySelector('div.modal-content input')
   }
-  emitEvent('setState', { modal: '' })
-}
 
-const NewTemplateModal = ({ modal }) =>
-  modal !== 'newTemplate' ? (
-    <span />
-  ) : (
-    <div class="modal-wrapper" onClick={hideModal}>
-      <div class="modal-content" container="column #left @stretch">
-        <h1>New Template</h1>
+  componentDidUpdate() {
+    this.input.focus()
+  }
 
-        <label>Name</label>
-        <input type="text" onKeyDown={createTemplate} />
-        <span class="modal-footer" container="row #right @center">
-          <button onClick={hideModal}>Cancel</button>
-          <button class="primary" onClick={createTemplate}>
-            Create
-          </button>
-        </span>
-      </div>
-    </div>
-  )
-
-NewTemplateModal.defaultHooks = {
-  onComponentDidUpdate(_, newProps) {
-    // Focus input on modal display
-    if (newProps.modal) {
-      document.querySelector('div.modal-content input').focus()
+  hide = event => {
+    // Event bubbles; only hide when element with onclick is clicked
+    if (!event.currentTarget.isEqualNode(event.target)) {
+      return
     }
-  },
+    this.setState({ show: false })
+  }
+
+  show = () => this.setState({ show: true })
+
+  submit = ({ key, type }) => {
+    if (key === 'Enter' || type === 'click') {
+      const name = this.input.value
+      const { gameRef } = this.props
+      emitEvent('createTemplate', { gameRef, name })
+      this.setState({ show: false })
+    }
+  }
+
+  render() {
+    const { hide, show, submit } = this
+    const style = { visibility: this.state.show ? 'visible' : 'hidden' }
+
+    return (
+      <>
+        <div
+          key="new-template"
+          class="item template-add"
+          container="column #center @center"
+          onClick={show}
+        >
+          + Template
+        </div>
+        <div class="modal-wrapper" style={style} onClick={hide}>
+          <div class="modal-content" container="column #left @stretch">
+            <h1>New Template</h1>
+
+            <label>Name</label>
+            <input type="text" onKeyDown={submit} />
+            <span class="modal-footer" container="row #right @center">
+              <button onClick={hide}>Cancel</button>
+              <button class="primary" onClick={submit}>
+                Create
+              </button>
+            </span>
+          </div>
+        </div>
+      </>
+    )
+  }
 }
 
-const map = ({ modal }) => ({ modal })
-export default mapStatesToProps(NewTemplateModal, map)
+export default NewTemplateModal

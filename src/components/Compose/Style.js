@@ -1,10 +1,10 @@
 import { linkEvent } from 'inferno'
-import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
 import DimensionProperty from '../SideBar/DimensionProperty'
 import PropertyGroup from '../SideBar/PropertyGroup'
 
+// TODO: Fix property update
 const updateElement = (key, event) =>
   emitEvent('updateElement', { key, value: event.target.value })
 
@@ -46,5 +46,4 @@ const Style = ({ element }) =>
     </PropertyGroup>
   )
 
-const map = ({ element }) => ({ element })
-export default mapStatesToProps(Style, map)
+export default Style

@@ -31,7 +31,7 @@ export const setDeep = (obj, key, value) => {
   }
   nested[part] = value
 
-  return obj
+  return { ...obj }
 }
 
 export const newElement = index => ({

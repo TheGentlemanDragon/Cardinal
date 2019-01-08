@@ -33,8 +33,15 @@ addEvent('initTemplatesPage', async ({ gameId }) => {
 })
 
 addEvent('initTemplatePage', async ({ templateId }) => {
+  const { templatePage } = getStore()
   const template = await Firebase.doc('templates', templateId)
-  updateStore({ elements: template.elements || [], template })
+  const elements = template.elements || []
+  templatePage.prevElements = JSON.parse(JSON.stringify(elements))
+  updateStore({
+    elements,
+    template,
+    templatePage,
+  })
 })
 
 // addEvent('setPath', ({ path, value }) => {
@@ -122,9 +129,16 @@ addEvent('createTemplate', async ({ gameRef, name }) => {
 // })
 
 addEvent('saveTemplate', async () => {
-  const { elements, template } = getStore()
+  const { elements, template, templatePage } = getStore()
   await template.$ref.update({ elements })
-  updateStore({ template: { ...template, elements } })
+  updateStore({
+    template: setDeep(template, 'elements', elements),
+    templatePage: setDeep(
+      templatePage,
+      'prevElements',
+      JSON.parse(JSON.stringify(elements))
+    ),
+  })
 })
 
 /* Element Events */
@@ -150,8 +164,8 @@ addEvent('resetElement', () => {
 })
 
 addEvent('resetElements', () => {
-  const { template } = getStore()
-  updateStore({ elements: template.elements || [] })
+  const { templatePage } = getStore()
+  updateStore({ elements: templatePage.prevElements })
 })
 
 addEvent('selectElement', elementIndex => {
@@ -160,7 +174,10 @@ addEvent('selectElement', elementIndex => {
 })
 
 addEvent('updateElement', ({ key, value }) => {
-  const { elements, selected } = getStore()
-  const element = setDeep(elements[selected], key, value)
-  updateStore({ element, elements })
+  const {
+    elements,
+    templatePage: { elementIndex },
+  } = getStore()
+  elements[elementIndex] = setDeep(elements[elementIndex], key, value)
+  updateStore({ elements })
 })

@@ -19,7 +19,7 @@ const updateElement = (key, event) => {
 }
 
 // TODO: Fix property updates
-const Properties = ({ element, onUpdate }) =>
+const Properties = ({ element }) =>
   element.name && (
     <PropertyGroup label="Properties">
       {/* Name */}

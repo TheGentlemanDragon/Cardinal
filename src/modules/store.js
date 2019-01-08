@@ -12,6 +12,7 @@ initializeStore({
     templates: [],
     templatePage: {
       elementIndex: 0,
+      prevElements: [],
       preview: [],
       scale: 1.8,
     },

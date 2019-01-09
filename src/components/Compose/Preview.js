@@ -10,7 +10,7 @@ const toggleValue = (preview, value) => {
   } else {
     preview.push(value)
   }
-  emitEvent('setState', { preview })
+  emitEvent('applyState', { templatePage: { preview } })
 }
 
 const toggleDynamic = preview => {
@@ -22,10 +22,9 @@ const toggleStatic = preview => {
 }
 
 const setScale = event => {
-  emitEvent('setState', { scale: event.target.value })
+  emitEvent('applyState', { templatePage: { scale: event.target.value } })
 }
 
-// TODO: Update scale and preview toggles correctly
 class Preview extends Component {
   render() {
     const {

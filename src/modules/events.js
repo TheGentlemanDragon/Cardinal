@@ -4,6 +4,12 @@ import { newElement, setDeep } from './utils'
 
 /* Generic Events */
 
+addEvent('applyState', partial => {
+  const parentKey = Object.keys(partial)[0]
+  const parent = getStore()[parentKey]
+  updateStore({ [parentKey]: { ...parent, ...partial[parentKey] } })
+})
+
 addEvent('setState', partial => {
   updateStore(partial)
 })

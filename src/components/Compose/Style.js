@@ -4,7 +4,6 @@ import { emitEvent } from 'fluxible-js'
 import DimensionProperty from '../SideBar/DimensionProperty'
 import PropertyGroup from '../SideBar/PropertyGroup'
 
-// TODO: Fix property update
 const updateElement = (key, event) =>
   emitEvent('updateElement', { key, value: event.target.value })
 

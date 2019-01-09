@@ -18,7 +18,6 @@ const updateElement = (key, event) => {
   }
 }
 
-// TODO: Fix property updates
 const Properties = ({ element }) =>
   element.name && (
     <PropertyGroup label="Properties">
@@ -48,7 +47,11 @@ const Properties = ({ element }) =>
 
       {/* Static Text Type */}
       {element.type === 'Static Text' && (
-        <TextProperty label="content" value={''} onUpdate={() => null} />
+        <TextProperty
+          label="content"
+          value={element.content}
+          onUpdate={linkEvent('content', updateElement)}
+        />
       )}
     </PropertyGroup>
   )

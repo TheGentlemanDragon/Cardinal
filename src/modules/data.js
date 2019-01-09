@@ -141,14 +141,6 @@ class FirebaseFactory {
     let key
     while ((key = keys.pop())) {
       let value = params[key]
-
-      // TODO: Remove this when verified unneeded
-      // if (key === 'ref') {
-      //   key = value.key + 'Ref'
-      //   collection = value.key + 's'
-      //   value = (await this.doc(collection, value.id)).ref
-      // }
-
       query = query.where(key, '==', value)
     }
 

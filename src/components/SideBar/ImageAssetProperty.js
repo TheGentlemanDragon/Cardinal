@@ -1,20 +1,22 @@
-// import AssetsModal from '../AssetsModal'
+import { mapStatesToProps } from 'inferno-fluxible'
+import AssetsModal from '../AssetsModal'
 
-const ImageAssetProperty = ({ label, value, options, onUpdate }) => (
+const ImageAssetProperty = ({ label, value, assets, onUpdate }) => (
   <div class="sidebar-property" container="row #spread @center">
-    <span>{label}</span>
+    <label>{label}</label>
     <select onChange={onUpdate}>
       <option disabled>-Choose Image-</option>
-      {/* TODO: {options.map(opt => (
+      {assets.map(opt => (
         <option value={opt.url} selected={opt.url === value}>
           {opt.name}
         </option>
-      ))} */}
+      ))}
       <option value="showModal">-Manage Files-</option>
     </select>
 
-    {/* TODO: <AssetsModal /> */}
+    <AssetsModal />
   </div>
 )
 
-export default ImageAssetProperty
+const map = ({ assets }) => ({ assets })
+export default mapStatesToProps(ImageAssetProperty, map)

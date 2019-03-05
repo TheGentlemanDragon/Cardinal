@@ -2,7 +2,7 @@ import { initializeStore } from 'fluxible-js'
 
 initializeStore({
   initialStore: {
-    assets: null,
+    assets: [],
     card: {},
     cards: [],
     elements: [],

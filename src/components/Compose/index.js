@@ -25,10 +25,8 @@ class Compose extends Component {
   }
 }
 
-const map = ({ cards, elements, template, templatePage }) => ({
-  cards,
+const map = ({ elements, templatePage }) => ({
   elements,
-  template,
   templatePage,
 })
 

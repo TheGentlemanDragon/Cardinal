@@ -41,9 +41,12 @@ addEvent('initTemplatesPage', async ({ gameId }) => {
 addEvent('initTemplatePage', async ({ templateId }) => {
   const { templatePage } = getStore()
   const template = await Firebase.doc('templates', templateId)
+  const templateRef = template.$ref
+  const cards = await Firebase.query('cards', { templateRef }, 'name')
   const elements = template.elements || []
   templatePage.prevElements = JSON.parse(JSON.stringify(elements))
   updateStore({
+    cards,
     elements,
     template,
     templatePage,

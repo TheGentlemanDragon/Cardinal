@@ -50,13 +50,15 @@ class Cards extends Component {
             <i class="icon-add-element clickable" onClick={createCard} />
           </div>
 
-          {/* Cards List */}
-          {!cards.size && (
+          {/* No Cards */}
+          {!cards.length && (
             <div class="sidebar-list-item" container="row #middle @center">
               Click &nbsp;
               <i class="icon-add-element" /> to add a card
             </div>
           )}
+
+          {/* Cards List */}
           {cards.map(item => (
             <div
               key={`card-${item.name}`}

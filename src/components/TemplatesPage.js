@@ -14,8 +14,8 @@ const TemplatesPage = ({ game, templates }) => (
       {/* Page Title */}
       <div class="page-title">
         <Link to={`/games/`}>Games</Link>
+        <span class="list-title"> > {game.name} > Templates</span>
       </div>
-      <span class="list-title">{game.name} > Templates</span>
 
       {/* Templates List */}
       <div class="list" container="row #left @top">
@@ -32,6 +32,10 @@ const TemplatesPage = ({ game, templates }) => (
 
         {/* New Template Button and Modal*/}
         <NewTemplateModal gameRef={game.$ref} />
+      </div>
+
+      <div class="page-title">
+        <Link to={'/assets/' + game.$id}>Assets</Link>
       </div>
     </div>
   </div>

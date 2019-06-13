@@ -10,6 +10,7 @@ html
   font-family inherit
 
 body, html, main
+  color #eee
   height 100%
   margin 0
   width 100%
@@ -23,26 +24,67 @@ body
 main
   display flex
 
+a
+  color lighten(#1565c0, 30%)
+  text-decoration none
+
+.link-button
+  background-color transparent
+  border none
+  color lighten(#1565c0, 30%)
+  cursor pointer
+  display inline
+  font-size inherit
+  margin 0
+  padding 0
+
+.link-buttonhover,
+.link-buttonfocus
+  text-decoration none
+
 label
   user-select none
 
+table
+  border-collapse collapse
+  border-spacing 0
+  table-layout fixed
+  width 100%
+
+thead tr
+  background-color #e0e0e0
+
+tbody tr
+  background-color #fff
+
+tr
+  border 1px solid #cbcbcb
+
+th, td
+  color #777
+  overflow hidden
+  padding 0.4rem 0.8rem
+  text-overflow ellipsis
+  white-space nowrap
+
+th
+  color #333
+
 .app-title
-  color #ffffff
+  color #fff
   font-size 40px
   padding 25px 58.5px
   line-height 32px
   text-shadow 0px 3px 6px rgba(0, 0, 0, 0.6)
 
 .page-title, .list-title
-  color #eeeeee
   font-size 25px
   padding-bottom 10px
   text-shadow 0 0 6px rgba(0, 0, 0, 0.6)
 
-  & a
-    display inline-block
-    color lighten(#1565c0, 30%)
-    text-decoration-style dotted
+  span
+    flex-grow 1
+    text-align center
 
 .list-title
   font-size 20px

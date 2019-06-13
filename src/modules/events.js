@@ -27,6 +27,15 @@ addEvent('fetchQuery', async ({ collection, query = {}, sortKey, ...rest }) => {
 
 /* Page Events */
 
+addEvent('initAssetsPage', async ({ gameId }) => {
+  const [assets, game] = await Promise.all([
+    Firebase.query('assets', {}, 'name'),
+    Firebase.doc('games', gameId),
+  ])
+  const files = await Firebase.listFiles(gameId)
+  updateStore({ assets, game })
+})
+
 addEvent('initGamesPage', async () => {
   updateStore({ games: await Firebase.list('games', 'name') })
 })
@@ -73,6 +82,10 @@ addEvent('addAsset', async url => {
   const name = (path.match(/(.*\.\w+)/) || [])[0] || url
   await assets.add({ name, url, owner: 'nando' })
   emitEvent('fetchQuery', { collection: 'assets', sortKey: 'name' })
+})
+
+addEvent('uploadAsset', async ({ id, files }) => {
+  await Firebase.upload(id, files[0])
 })
 
 /* Card Events */

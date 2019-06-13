@@ -16,7 +16,8 @@ class FirebaseFactory {
     this.db.settings({ timestampsInSnapshots: true })
     this.collections = {}
     this.owner = null
-    this.storage = firebase.storage().ref()
+    this.storage = firebase.storage()
+    this.fb = firebase
   }
 
   setOwner(owner) {
@@ -38,51 +39,6 @@ class FirebaseFactory {
       $ref: doc.ref,
     }
   }
-
-  /**
-   * x
-   *
-   * @static
-   * @param {any} map x
-   * @param {any} obj x
-   * @memberof FirebaseFactory
-   */
-  // static arrayToMapReducer(map, obj) {
-  //   return map.set(obj.$id, obj)
-  // }
-
-  /**
-   * x
-   *
-   * @static
-   * @param {any} sortKey x
-   * @returns x
-   * @memberof FirebaseFactory
-   */
-  // static makeSortedValueMap(sortKey) {
-  //   const newMap = new Map()
-  //   newMap[Symbol.iterator] = function*() {
-  //     yield* [...this.values()].sort((a, b) =>
-  //       a[sortKey].toLowerCase() > b[sortKey].toLowerCase() ? 1 : -1
-  //     )
-  //   }
-  //   return newMap
-  // }
-
-  /**
-   * x
-   *
-   * @static
-   * @returns x
-   * @memberof FirebaseFactory
-   */
-  // static makeValueMap() {
-  //   const newMap = new Map()
-  //   newMap[Symbol.iterator] = function*() {
-  //     yield* [...this.values()]
-  //   }
-  //   return newMap
-  // }
 
   /**
    * Retrieve collectionzen
@@ -146,6 +102,24 @@ class FirebaseFactory {
 
     let snapshot = await query.orderBy(sortKey).get()
     return snapshot.docs.map(FirebaseFactory.documentWithRef)
+  }
+
+  /**
+   * Query collection
+   *
+   * @param {string} id game id to associate asset with
+   * @param {File} file file to upload
+   * @memberof FirebaseFactory
+   */
+  async upload(id, file) {
+    const ref = this.storage.ref(`${id}/`)
+    // TODO: Store reference in database
+    return ref.child(file.name).put(file)
+  }
+
+  async listFiles(id) {
+    // TODO: Query references from database
+    return []
   }
 }
 

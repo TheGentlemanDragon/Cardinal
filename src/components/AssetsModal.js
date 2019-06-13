@@ -2,6 +2,8 @@ import { Component, linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
+/* TODO: Thumbnailify https://jsfiddle.net/wunderbart/hnj5vrf0/ */
+
 class AssetsModal extends Component {
   constructor() {
     super()

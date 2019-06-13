@@ -36,9 +36,8 @@ class Cards extends Component {
   }
 
   render() {
-    const card = false
     const { modified } = this.state
-    const { cards, elements } = this.props
+    const { card, cards, elements } = this.props
 
     return (
       <>
@@ -103,7 +102,8 @@ class Cards extends Component {
   }
 }
 
-const map = ({ cards, elements }) => ({
+const map = ({ card, cards, elements }) => ({
+  card,
   cards,
   elements,
 })

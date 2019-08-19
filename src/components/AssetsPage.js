@@ -3,15 +3,10 @@ import { mapStatesToProps } from 'inferno-fluxible'
 import { Link } from 'inferno-router'
 import { emitEvent } from 'fluxible-js'
 
-// const uploadAsset = id => event =>
-//   emitEvent('uploadAsset', { files: event.target.files, id })
-
-// const MidTrunc = ({ value }) => {
-//   return [
-//     <span class="trunc-front">{value}</span>,
-//     <span class="trunc-back">{value}</span>,
-//   ]
-// }
+const toThumb = url => {
+  const ext = url.substring(url.lastIndexOf('.'))
+  return url.replace(ext, 't' + ext)
+}
 
 class AssetsPage extends Component {
   constructor() {
@@ -20,7 +15,8 @@ class AssetsPage extends Component {
   }
 
   componentWillMount() {
-    emitEvent('fetchQuery', { collection: 'assets', sortKey: 'name' })
+    const { gameId } = this.props.match.params
+    emitEvent('initAssetsPage', { gameId })
   }
 
   add(instance) {
@@ -47,8 +43,8 @@ class AssetsPage extends Component {
   }
 
   render() {
-    const { add, hidePanel, showAdd, showDetails, filterText } = this
-    const { assets, game, match } = this.props
+    const { hidePanel, showAdd } = this
+    const { assets = [] } = this.props
     const { panelMode, filter } = this.state
     const articleFlex = panelMode === 'hidden' ? 'center' : 'spread'
 
@@ -91,19 +87,33 @@ class AssetsPage extends Component {
               {assets.length > 0 && (
                 <section class="assets-list" flex container="row #left @top">
                   {[...assets]
-                    .filter(item => !filter || item.name.includes(filter))
+                    .filter(
+                      item => !filter || item.description.includes(filter)
+                    )
                     .map(item => (
                       <div class="asset-tile">
-                        <div class="image-contianer">
-                          <img src={item.url} alt={item.name} />
+                        <div class="image-container">
+                          <img
+                            src={toThumb(item.link)}
+                            alt={item.description}
+                          />
                         </div>
-                        <div class="asset-name">{item.name}</div>
+                        <div class="asset-name">{item.description}</div>
                       </div>
                     ))}
                 </section>
               )}
 
-              {panelMode === 'add' && <aside>Here is the new side panel</aside>}
+              {panelMode === 'add' && (
+                <aside class="modal-content" container="column #left @stretch">
+                  <label>Imgur Album ID</label>
+                  <input type="text" autoFocus />
+                  <span class="modal-footer" container="row #right @center">
+                    <button onClick={linkEvent(this, hidePanel)}>Cancel</button>
+                    <button class="primary">Save</button>
+                  </span>
+                </aside>
+              )}
             </article>
           </main>
         </div>
@@ -112,12 +122,7 @@ class AssetsPage extends Component {
   }
 }
 
-AssetsPage.defaultHooks = {
-  onComponentDidMount(domNode, props) {
-    const { gameId } = props.match.params
-    emitEvent('initAssetsPage', { gameId })
-  },
-}
+AssetsPage.defaultHooks = {}
 
 const map = ({ assets, game, modal }) => ({ assets, game, modal })
 export default mapStatesToProps(AssetsPage, map)

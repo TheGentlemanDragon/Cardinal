@@ -81,7 +81,7 @@ class AssetsModal extends Component {
               .filter(item => !filter || item.name.includes(filter))
               .map(item => (
                 <div class="asset-tile">
-                  <div class="image-contianer">
+                  <div class="image-container">
                     <img src={item.url} alt={item.name} />
                   </div>
                   <div class="asset-name">{item.name}</div>

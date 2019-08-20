@@ -2,16 +2,16 @@ import { Component, linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { Link } from 'inferno-router'
 import { emitEvent } from 'fluxible-js'
-
-const toThumb = url => {
-  const ext = url.substring(url.lastIndexOf('.'))
-  return url.replace(ext, 't' + ext)
-}
+import { hasChanged, setState, toThumb } from '../modules/utils'
 
 class AssetsPage extends Component {
   constructor() {
     super()
-    this.state = { filter: '', panelMode: 'hidden' }
+    this.state = {
+      albumId: '',
+      filter: '',
+      panelMode: 'hidden',
+    }
   }
 
   componentWillMount() {
@@ -19,11 +19,10 @@ class AssetsPage extends Component {
     emitEvent('initAssetsPage', { gameId })
   }
 
-  add(instance) {
-    const { value } = document.querySelector('[placeholder="Asset URL"]')
-    emitEvent('addAsset', value)
-    instance.setState({ filter: '' })
-    instance.toggleMode(instance)
+  componentDidUpdate(lastProps) {
+    if (hasChanged(this.props, lastProps, 'game')) {
+      this.setState({ albumId: this.props.game.images })
+    }
   }
 
   hidePanel(instance) {
@@ -38,14 +37,15 @@ class AssetsPage extends Component {
     instance.setState({ panelMode: 'details' })
   }
 
-  filterText(instance, event) {
-    instance.setState({ filter: event.target.value })
+  updateAlbumId(instance) {
+    emitEvent('updateGame', { images: instance.state.albumId || '' })
+    instance.setState({ panelMode: 'hidden' })
   }
 
   render() {
-    const { hidePanel, showAdd } = this
-    const { assets = [] } = this.props
-    const { panelMode, filter } = this.state
+    const { hidePanel, showAdd, updateAlbumId } = this
+    const { assets = [], game } = this.props
+    const { albumId, filter, panelMode } = this.state
     const articleFlex = panelMode === 'hidden' ? 'center' : 'spread'
 
     return (
@@ -62,7 +62,11 @@ class AssetsPage extends Component {
           <main class="activity" container="column #left @stretch">
             <header container="row #spaced @middle">
               <h1 flex>Assets Manager</h1>
-              <input type="text" placeholder="Search Assets" />
+              <input
+                type="text"
+                placeholder="Search Assets"
+                onInput={linkEvent(this, setState('filter'))}
+              />
               <button class="edge-button" onClick={linkEvent(this, showAdd)}>
                 +
               </button>
@@ -107,10 +111,21 @@ class AssetsPage extends Component {
               {panelMode === 'add' && (
                 <aside class="modal-content" container="column #left @stretch">
                   <label>Imgur Album ID</label>
-                  <input type="text" autoFocus />
+                  <input
+                    type="text"
+                    autoFocus
+                    value={albumId}
+                    onInput={linkEvent(this, setState('albumId'))}
+                  />
                   <span class="modal-footer" container="row #right @center">
                     <button onClick={linkEvent(this, hidePanel)}>Cancel</button>
-                    <button class="primary">Save</button>
+                    <button
+                      class="primary"
+                      disabled={albumId === game.images}
+                      onClick={linkEvent(this, updateAlbumId)}
+                    >
+                      Save
+                    </button>
                   </span>
                 </aside>
               )}

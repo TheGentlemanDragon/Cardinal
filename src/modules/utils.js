@@ -15,6 +15,13 @@ export const composeCards = (elements, cards) => {
 
 export const differ = (e1, e2) => JSON.stringify(e1) !== JSON.stringify(e2)
 
+export const hasChanged = (obj1, obj2, key) => obj1 && obj1[key] !== obj2[key]
+
+export const newElement = index => ({
+  ...defaultElement,
+  name: `element${index}`,
+})
+
 export const setDeep = (obj, key, value) => {
   const parts = key.split('.')
 
@@ -34,7 +41,10 @@ export const setDeep = (obj, key, value) => {
   return { ...obj }
 }
 
-export const newElement = index => ({
-  ...defaultElement,
-  name: `element${index}`,
-})
+export const setState = key => (instance, event) =>
+  instance.setState({ [key]: event.target.value })
+
+export const toThumb = url => {
+  const ext = url.substring(url.lastIndexOf('.'))
+  return url.replace(ext, 't' + ext)
+}

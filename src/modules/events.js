@@ -176,6 +176,14 @@ addEvent('createGame', async name => {
   updateStore({ games: await Firebase.list('games', 'name') })
 })
 
+addEvent('updateGame', async data => {
+  console.log('Event: updateGame')
+
+  const { game } = store
+  await game.$ref.update(data)
+  window.location.reload()
+})
+
 /* Template Events */
 
 addEvent('createTemplate', async ({ gameRef, name }) => {

@@ -1,4 +1,4 @@
-import { addEvent, emitEvent, getStore, updateStore } from 'fluxible-js'
+import { addEvent, emitEvent, store, updateStore } from 'fluxible-js'
 import { Firebase } from './data'
 import { newElement, setDeep } from './utils'
 
@@ -16,7 +16,7 @@ addEvent('applyState', partial => {
   console.log('Event: applyState')
 
   const parentKey = Object.keys(partial)[0]
-  const parent = getStore()[parentKey]
+  const parent = store[parentKey]
   updateStore({ [parentKey]: { ...parent, ...partial[parentKey] } })
 })
 
@@ -77,7 +77,7 @@ addEvent('initTemplatePage', async ({ templateId }) => {
   console.log('Event: initTemplatePage')
 
   let assets
-  const { templatePage } = getStore()
+  const { templatePage } = store
   const template = await Firebase.doc('templates', templateId)
   const templateRef = template.$ref
   const cards = await Firebase.query('cards', { templateRef }, 'name')
@@ -108,7 +108,7 @@ addEvent('initTemplatePage', async ({ templateId }) => {
 
 //   debugger
 //   const [key, property] = path.split('.')
-//   const data = getStore()[key]
+//   const data = store[key]
 //   updateStore({ [key]: { ...data, [property]: value } })
 // })
 
@@ -142,7 +142,7 @@ addEvent('uploadAsset', async ({ id, files }) => {
 addEvent('createCard', async () => {
   console.log('Event: createCard')
 
-  const { cards, template } = getStore()
+  const { cards, template } = store
   const newCard = {
     name: `card${cards.size + 1}`,
     template: template.name,
@@ -162,7 +162,7 @@ addEvent('createCard', async () => {
 addEvent('updateCard', ({ key, value }) => {
   console.log('Event: updateCard')
 
-  const { cards, card } = getStore()
+  const { cards, card } = store
   card.data[key] = value
   updateStore({ card, cards })
 })
@@ -212,7 +212,7 @@ addEvent('createTemplate', async ({ gameRef, name }) => {
 addEvent('saveTemplate', async () => {
   console.log('Event: saveTemplate')
 
-  const { elements, template, templatePage } = getStore()
+  const { elements, template, templatePage } = store
   await template.$ref.update({ elements })
   updateStore({
     template: setDeep(template, 'elements', elements),
@@ -229,14 +229,14 @@ addEvent('saveTemplate', async () => {
 addEvent('addElement', async () => {
   console.log('Event: addElement')
 
-  const { elements } = getStore()
+  const { elements } = store
   updateStore({ elements: [...elements, newElement(elements.length + 1)] })
 })
 
 addEvent('deleteElement', async index => {
   console.log('Event: deleteElement')
 
-  const { elements, templatePage } = getStore()
+  const { elements, templatePage } = store
   const remove = elements[index]
 
   updateStore({
@@ -248,21 +248,21 @@ addEvent('deleteElement', async index => {
 addEvent('resetElement', () => {
   console.log('Event: resetElement')
 
-  const { element } = getStore()
+  const { element } = store
   updateStore({ element })
 })
 
 addEvent('resetElements', () => {
   console.log('Event: resetElements')
 
-  const { templatePage } = getStore()
+  const { templatePage } = store
   updateStore({ elements: templatePage.prevElements })
 })
 
 addEvent('selectElement', elementIndex => {
   console.log('Event: selectElement')
 
-  const { templatePage } = getStore()
+  const { templatePage } = store
   updateStore({ templatePage: { ...templatePage, elementIndex } })
 })
 
@@ -272,7 +272,7 @@ addEvent('updateElement', ({ key, value }) => {
   const {
     elements,
     templatePage: { elementIndex },
-  } = getStore()
+  } = store
   elements[elementIndex] = setDeep(elements[elementIndex], key, value)
   updateStore({ elements })
 })

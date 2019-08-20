@@ -14,19 +14,19 @@
     "eject": "inferno-scripts eject"
   },
   "dependencies": {
-    "@jaames/iro": "3.5.3",
-    "firebase": "5.5.9",
-    "fluxible-js": "3.4.2",
-    "inferno": "6.2.1",
-    "inferno-fluxible": "3.0.0",
-    "inferno-router": "6.2.1",
-    "inferno-scripts": "7.0.2",
-    "redefine-statics-js": "2.0.1"
+    "@jaames/iro": "^4.5.1",
+    "firebase": "^6.4.0",
+    "fluxible-js": "^4.4.2",
+    "inferno": "^7.3.0",
+    "inferno-fluxible": "^3.1.10",
+    "inferno-router": "^7.3.0",
+    "inferno-scripts": "^7.0.4",
+    "redefine-statics-js": "^2.0.2"
   },
   "devDependencies": {
-    "@firebase/app-types": "0.3.2",
-    "prettier": "1.15.2",
-    "stylus": "0.54.5"
+    "@firebase/app-types": "^0.4.3",
+    "prettier": "^1.18.2",
+    "stylus": "^0.54.5"
   },
   "prettier": {
     "semi": false,

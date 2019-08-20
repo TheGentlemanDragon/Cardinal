@@ -13,7 +13,6 @@ firebase.initializeApp(options)
 class FirebaseFactory {
   constructor() {
     this.db = firebase.firestore()
-    this.db.settings({ timestampsInSnapshots: true })
     this.collections = {}
     this.owner = null
     this.storage = firebase.storage()

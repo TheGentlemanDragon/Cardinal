@@ -9,6 +9,20 @@ const defaultElement = {
   },
 }
 
+const imgurAlbum = id => `https://api.imgur.com/3/album/${id}/images`
+
+const imgurOptions = {
+  method: 'GET',
+  headers: new Headers({
+    Authorization: 'Client-ID ' + localStorage.getItem('imgurClientId'),
+  }),
+}
+
+export const addUnique = (arrayIn, item) => {
+  const array = arrayIn || []
+  return array.includes(item) ? array : [...array, item]
+}
+
 export const composeCards = (elements, cards) => {
   return []
 }
@@ -21,6 +35,25 @@ export const newElement = index => ({
   ...defaultElement,
   name: `element${index}`,
 })
+
+export const prepAssets = async game => {
+  const assets = []
+
+  if (game.images) {
+    const response = await fetch(imgurAlbum(game.images), imgurOptions)
+    const json = await response.json()
+    assets.push.apply(assets, json.data)
+  }
+
+  if (game.fonts) {
+    assets.push.apply(
+      assets,
+      game.fonts.map(description => ({ description, type: 'font' }))
+    )
+  }
+
+  return assets
+}
 
 export const setDeep = (obj, key, value) => {
   const parts = key.split('.')

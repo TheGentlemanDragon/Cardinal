@@ -2,7 +2,11 @@ import { Component, linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { Link } from 'inferno-router'
 import { emitEvent } from 'fluxible-js'
-import { hasChanged, setState, toThumb } from '../modules/utils'
+import { addUnique, hasChanged, setState, toThumb } from '../modules/utils'
+
+// TODO: Replace this with a local image
+const fontImage =
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFRCozFfeuf_EUY5RnH_mPo-tCbq_xDgvmV2GLZfEqAY6ez_u5MA&s'
 
 class AssetsPage extends Component {
   constructor() {
@@ -10,6 +14,7 @@ class AssetsPage extends Component {
     this.state = {
       albumId: '',
       filter: '',
+      fontName: '',
       panelMode: 'hidden',
     }
   }
@@ -22,6 +27,14 @@ class AssetsPage extends Component {
   componentDidUpdate(lastProps) {
     if (hasChanged(this.props, lastProps, 'game')) {
       this.setState({ albumId: this.props.game.images })
+    }
+  }
+
+  addFont(game) {
+    return function(instance) {
+      const fonts = addUnique(game.fonts, instance.state.fontName)
+      emitEvent('updateGame', { fonts })
+      instance.setState({ panelMode: 'hidden', fontName: '' })
     }
   }
 
@@ -43,9 +56,9 @@ class AssetsPage extends Component {
   }
 
   render() {
-    const { hidePanel, showAdd, updateAlbumId } = this
+    const { addFont, hidePanel, showAdd, updateAlbumId } = this
     const { assets = [], game } = this.props
-    const { albumId, filter, panelMode } = this.state
+    const { albumId, fontName, filter, panelMode } = this.state
     const articleFlex = panelMode === 'hidden' ? 'center' : 'spread'
 
     return (
@@ -67,9 +80,19 @@ class AssetsPage extends Component {
                 placeholder="Search Assets"
                 onInput={linkEvent(this, setState('filter'))}
               />
-              <button class="edge-button" onClick={linkEvent(this, showAdd)}>
-                +
-              </button>
+
+              {panelMode === 'add' ? (
+                <button
+                  class="edge-button"
+                  onClick={linkEvent(this, hidePanel)}
+                >
+                  x
+                </button>
+              ) : (
+                <button class="edge-button" onClick={linkEvent(this, showAdd)}>
+                  +
+                </button>
+              )}
             </header>
 
             <article flex container={`row #${articleFlex} @top`}>
@@ -98,7 +121,11 @@ class AssetsPage extends Component {
                       <div class="asset-tile">
                         <div class="image-container">
                           <img
-                            src={toThumb(item.link)}
+                            src={
+                              item.type !== 'font'
+                                ? toThumb(item.link)
+                                : fontImage
+                            }
                             alt={item.description}
                           />
                         </div>
@@ -108,26 +135,54 @@ class AssetsPage extends Component {
                 </section>
               )}
 
+              {/* Add Panel */}
               {panelMode === 'add' && (
-                <aside class="modal-content" container="column #left @stretch">
-                  <label>Imgur Album ID</label>
-                  <input
-                    type="text"
-                    autoFocus
-                    value={albumId}
-                    onInput={linkEvent(this, setState('albumId'))}
-                  />
-                  <span class="modal-footer" container="row #right @center">
-                    <button onClick={linkEvent(this, hidePanel)}>Cancel</button>
-                    <button
-                      class="primary"
-                      disabled={albumId === game.images}
-                      onClick={linkEvent(this, updateAlbumId)}
-                    >
-                      Save
-                    </button>
-                  </span>
-                </aside>
+                <div container="column #left @stretch">
+                  {/* Imgur Album */}
+                  <aside
+                    class="modal-content"
+                    container="column #left @stretch"
+                  >
+                    <label>Imgur Album ID</label>
+                    <input
+                      type="text"
+                      autoFocus
+                      value={albumId}
+                      onInput={linkEvent(this, setState('albumId'))}
+                    />
+                    <span class="modal-footer" container="row #right @center">
+                      <button
+                        class="primary"
+                        disabled={albumId === game.images}
+                        onClick={linkEvent(this, updateAlbumId)}
+                      >
+                        Save
+                      </button>
+                    </span>
+                  </aside>
+
+                  {/* Fonts */}
+                  <aside
+                    class="modal-content"
+                    container="column #left @stretch"
+                  >
+                    <label>Add a Font</label>
+                    <input
+                      type="text"
+                      value={fontName}
+                      onInput={linkEvent(this, setState('fontName'))}
+                    />
+                    <span class="modal-footer" container="row #right @center">
+                      <button
+                        class="primary"
+                        disabled={fontName === ''}
+                        onClick={linkEvent(this, addFont(game))}
+                      >
+                        Add
+                      </button>
+                    </span>
+                  </aside>
+                </div>
               )}
             </article>
           </main>

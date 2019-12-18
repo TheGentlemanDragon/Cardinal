@@ -6,11 +6,13 @@ const ImageAssetProperty = ({ label, value, assets, onUpdate }) => (
     <label>{label}</label>
     <select onChange={onUpdate}>
       <option disabled>-Choose Image-</option>
-      {assets.map(opt => (
-        <option value={opt.link} selected={opt.link === value}>
-          {opt.description}
-        </option>
-      ))}
+      {assets
+        .filter(opt => opt.type.startsWith('image'))
+        .map(opt => (
+          <option value={opt.link} selected={opt.link === value}>
+            {opt.description}
+          </option>
+        ))}
       {/* <option value="showModal">-Manage Files-</option> */}
     </select>
 

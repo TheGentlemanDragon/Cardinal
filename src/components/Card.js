@@ -2,8 +2,6 @@ import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
-const selectElement = index => emitEvent('selectElement', index)
-
 const calculateStyle = (element, index, isPreview = false) => {
   if (!element.style) {
     return {}
@@ -26,6 +24,34 @@ const calculateStyle = (element, index, isPreview = false) => {
   return style
 }
 
+const pointInRect = point => rect =>
+  rect.left <= point.x &&
+  rect.right >= point.x &&
+  rect.top <= point.y &&
+  rect.bottom >= point.y
+
+/** Iterate through target children, selecting next element at click event */
+const selectElement = (index, event) => {
+  const { currentTarget: card, x, y } = event
+
+  // Shift elements to back
+  const originalElements = Array.from(card.children)
+  const elements = [
+    ...originalElements.slice(index + 1),
+    ...originalElements.slice(0, index + 1),
+  ]
+
+  // Get the first clicked on item from shifted array
+  const clickedOn = pointInRect({ x, y })
+  const clickedElement = elements.find(item =>
+    clickedOn(item.getBoundingClientRect())
+  )
+
+  // Select that item by its index in original array
+  const nextIndex = originalElements.indexOf(clickedElement)
+  emitEvent('selectElement', nextIndex)
+}
+
 const ComposeElement = ({
   element,
   index,
@@ -42,7 +68,6 @@ const ComposeElement = ({
     <div
       class={classes}
       style={calculateStyle(element, index, !isCompose || isPreview)}
-      onClick={isCompose && linkEvent(index, selectElement)}
     >
       {!isCompose || isPreview
         ? element.type.includes('Text') && value
@@ -57,29 +82,29 @@ const Card = ({ card, elements, mode, templatePage }) => {
   const staticPreview = preview.includes('static')
   const dynamicPreview = preview.includes('dynamic')
   const data = card.data || {}
+  const isCompose = mode === 'compose'
 
   return (
     <div
-      class={`card` + (mode === 'compose' ? '' : ' preview')}
+      class={`card` + (isCompose ? '' : ' preview')}
       style={{ transform: `scale(${scale})` }}
+      onClick={isCompose && linkEvent(elementIndex, selectElement)}
     >
       {elements.map((element, index) => {
         const isSelected = index === elementIndex
-        const isStatic = element.type.startsWith('Static')
-        const isDynamic = element.type.startsWith('Dynamic')
-        const isPreview =
-          (isStatic && staticPreview) || (isDynamic && dynamicPreview)
+        const isStatic = element.type.startsWith('Static') && staticPreview
+        const isDynamic = element.type.startsWith('Dynamic') && dynamicPreview
         const value = isStatic ? element.content : data[element.name] || ''
         const props = {
           key: 'card-field-' + element.name,
           element,
           index,
-          isCompose: mode === 'compose',
-          isPreview,
+          isCompose,
+          isPreview: isStatic || isDynamic,
           isSelected,
           value,
         }
-        return <ComposeElement key={'card-field-' + element.name} {...props} />
+        return <ComposeElement {...props} />
       })}
     </div>
   )

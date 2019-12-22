@@ -202,6 +202,26 @@ addEvent('deleteElement', async index => {
   })
 })
 
+addEvent('moveElementDown', async index => {
+  const { elements } = store
+  ;[elements[index], elements[index + 1]] = [
+    elements[index + 1],
+    elements[index],
+  ]
+
+  updateStore({ elements })
+})
+
+addEvent('moveElementUp', async index => {
+  const { elements } = store
+  ;[elements[index], elements[index - 1]] = [
+    elements[index - 1],
+    elements[index],
+  ]
+
+  updateStore({ elements })
+})
+
 addEvent('resetElement', () => {
   const { element } = store
   updateStore({ element })

@@ -7,6 +7,10 @@ const addElement = () => emitEvent('addElement')
 
 const deleteElement = index => emitEvent('deleteElement', index)
 
+const moveElementDown = index => emitEvent('moveElementDown', index)
+
+const moveElementUp = index => emitEvent('moveElementUp', index)
+
 const resetElement = () => emitEvent('resetElements')
 
 const saveTemplate = () => emitEvent('saveTemplate')
@@ -59,11 +63,29 @@ const Elements = ({ index: selected, items, modified }) => (
         <span flex>{item.name}</span>
 
         {/* Mouse Over Buttons */}
-        <i class="action icon-visible" />
+
+        {/* Move up */}
+        {index !== 0 && (
+          <i
+            class="action icon-cheveron-up"
+            onClick={linkEvent(index, moveElementUp)}
+          />
+        )}
+
+        {/* Move down */}
+        {index !== items.length - 1 && (
+          <i
+            class="action icon-cheveron-down"
+            onClick={linkEvent(index, moveElementDown)}
+          />
+        )}
+
+        {/* Delete */}
         <i
           class="action icon-delete"
           onClick={linkEvent(index, deleteElement)}
         />
+        {/* <i class="action icon-visible" /> */}
       </div>
     ))}
   </PropertyGroup>

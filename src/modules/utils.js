@@ -29,6 +29,9 @@ export const composeCards = (elements, cards) => {
 
 export const differ = (e1, e2) => JSON.stringify(e1) !== JSON.stringify(e2)
 
+export const getFonts = assets =>
+  assets.filter(item => item.type === 'font').map(item => item.description)
+
 export const hasChanged = (obj1, obj2, key) => obj1 && obj1[key] !== obj2[key]
 
 export const newElement = index => ({
@@ -53,6 +56,14 @@ export const prepAssets = async game => {
   }
 
   return assets
+}
+
+export const safeParse = jsonString => {
+  try {
+    return JSON.parse(jsonString)
+  } catch {
+    return {}
+  }
 }
 
 export const setDeep = (obj, key, value) => {

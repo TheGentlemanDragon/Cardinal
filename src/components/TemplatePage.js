@@ -6,6 +6,7 @@ import { Link } from 'inferno-router'
 import Card from './Card'
 import Compose from './Compose'
 import Populate from './Populate'
+import { getFonts } from '../modules/utils'
 
 class TemplatePage extends Component {
   state = {
@@ -21,6 +22,7 @@ class TemplatePage extends Component {
 
   render() {
     const { index } = this.state
+    const fonts = getFonts(this.props.assets)
 
     return (
       <div key="template" container="row #left @stretch" flex>
@@ -48,11 +50,17 @@ class TemplatePage extends Component {
           </div>
 
           <div class="sidebar-tab" container="column #top @stretch">
-            {index === 0 ? <Compose /> : <Populate />}
+            {index === 0 ? <Compose {...this.props} /> : <Populate />}
           </div>
         </div>
 
         <div container="column #center @center" flex>
+          {fonts.map(item => (
+            <style>
+              @import url(
+              {`https://fonts.googleapis.com/css?family=${item}`});
+            </style>
+          ))}
           <Card mode={index === 0 ? 'compose' : 'populate'} />
         </div>
       </div>
@@ -60,5 +68,10 @@ class TemplatePage extends Component {
   }
 }
 
-const map = ({ templatePage }) => ({ templatePage })
+const map = ({ assets, elements, templatePage }) => ({
+  assets,
+  elements,
+  templatePage,
+})
+
 export default mapStatesToProps(TemplatePage, map)

@@ -1,24 +1,41 @@
 import { linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
+import { safeParse } from '../modules/utils'
 
 const calculateStyle = (element, index, isPreview = false) => {
   if (!element.style) {
     return {}
   }
 
+  const elementStyle = element.style || {}
+
+  const elementType = element.type || ''
+
+  const customStyle = safeParse(elementStyle.css)
+
   const style = {
-    ...element.style,
-    height: element.style.height + 'px',
-    left: element.style.left + 'px',
-    top: element.style.top + 'px',
-    width: element.style.width + 'px',
+    ...elementStyle,
+    height: elementStyle.height + 'px',
+    left: elementStyle.left + 'px',
+    top: elementStyle.top + 'px',
+    width: elementStyle.width + 'px',
     'z-index': 1000 - index,
+    ...(isPreview && customStyle),
   }
 
-  if (isPreview && element.type.includes('Image')) {
+  if (isPreview && elementType.includes('Text')) {
+    style['font-family'] = elementStyle.font
+  }
+
+  if (isPreview && elementType.includes('Image')) {
     style['background'] = `center no-repeat url("${element.content}")`
     style['background-size'] = `${style.width} ${style.height}`
+  }
+
+  if (!isPreview) {
+    style['line-height'] = style.height
+    style['text-align'] = 'center'
   }
 
   return style

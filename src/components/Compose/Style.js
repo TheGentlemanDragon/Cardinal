@@ -3,11 +3,17 @@ import { emitEvent } from 'fluxible-js'
 
 import DimensionProperty from '../SideBar/DimensionProperty'
 import PropertyGroup from '../SideBar/PropertyGroup'
+import SelectProperty from '../SideBar/SelectProperty'
+import TextAreaProperty from '../SideBar/TextAreaProperty'
 
 const updateElement = (key, event) =>
   emitEvent('updateElement', { key, value: event.target.value })
 
-const Style = ({ element }) =>
+const isText = element => (element.type || '').includes(' Text')
+
+const showFonts = (element, fonts) => fonts && isText(element)
+
+const Style = ({ element, fonts }) =>
   element && (
     <PropertyGroup label="Style">
       {/* Style Items */}
@@ -42,6 +48,23 @@ const Style = ({ element }) =>
           onUpdate={linkEvent('style.height', updateElement)}
         />
       </div>
+
+      {/* Font */}
+      {showFonts(element, fonts) && (
+        <SelectProperty
+          label="font"
+          value={element.style && element.style.font}
+          options={fonts}
+          onUpdate={linkEvent('style.font', updateElement)}
+        />
+      )}
+
+      {/* Custom CSS */}
+      <TextAreaProperty
+        label="css"
+        value={element.style && element.style.css}
+        onUpdate={linkEvent('style.css', updateElement)}
+      />
     </PropertyGroup>
   )
 

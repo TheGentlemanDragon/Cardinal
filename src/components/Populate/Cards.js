@@ -18,17 +18,17 @@ const updateCard = (key, event) => {
 }
 
 const Field = ({ card, element, id }) =>
-  !element.type.startsWith('Static') ? (
+  !element.type.startsWith('Static') && (
     <div class="sidebar-property" container="row #spread @center">
       <label for={id}>{element.name}</label>
       <input
         id={id}
         type="text"
-        value={card.data[element.name]}
+        value={(card.data || {})[element.name]}
         onInput={linkEvent(element.name, updateCard)}
       />
     </div>
-  ) : null
+  )
 
 class Cards extends Component {
   state = {

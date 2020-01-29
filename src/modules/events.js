@@ -109,10 +109,10 @@ addEvent('uploadAsset', async ({ id, files }) => {
 addEvent('createCard', async () => {
   const { cards, template } = store
   const newCard = {
-    name: `card${cards.size + 1}`,
+    name: `card${cards.length + 1}`,
     template: template.name,
     templateRef: template.$ref,
-    ownerRef: template.ownerRef,
+    owner: template.owner,
     data: {},
   }
 

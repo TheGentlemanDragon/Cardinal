@@ -3,41 +3,63 @@ import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 
 import PropertyGroup from '../SideBar/PropertyGroup'
+import { clone, differ, getTargetValue } from '../../modules/utils'
 
 const createCard = () => emitEvent('createCard')
 
-const resetCard = () => emitEvent('resetCard')
-
-const saveCard = () => emitEvent('saveCard')
-
-const selectCard = card => emitEvent('setState', { card })
-
-const updateCard = (key, event) => {
-  const { value } = event.target
-  emitEvent('updateCard', { key, value })
+const saveCardData = (instance, data) => () => {
+  instance.setState({ data: clone(data) })
+  emitEvent('saveCard', data)
 }
 
-const Field = ({ card, element, id }) =>
+const selectCard = instance => card => {
+  instance.setState({ data: clone(card.data) })
+  emitEvent('setState', { card })
+}
+
+const updateData = instance => (key, event) => {
+  const { data } = instance.state
+  data[key] = getTargetValue(event)
+  instance.setState({ data: clone(data) })
+}
+
+const resetData = (instance, data) => () =>
+  instance.setState({ data: clone(data) })
+
+const Field = ({ data = {}, element, key, updateData }) =>
   !element.type.startsWith('Static') && (
     <div class="sidebar-property" container="row #spread @center">
-      <label for={id}>{element.name}</label>
+      <label for={key}>{element.name}</label>
       <input
-        id={id}
+        id={key}
         type="text"
-        value={(card.data || {})[element.name]}
-        onInput={linkEvent(element.name, updateCard)}
+        value={data[element.name]}
+        onInput={linkEvent(element.name, updateData)}
       />
     </div>
   )
 
 class Cards extends Component {
   state = {
-    modified: false,
+    data: undefined,
+  }
+
+  // card will not be loaded on mount; set originalData state once loaded
+  componentDidUpdate() {
+    if (this.state.data || !this.props.card) {
+      return
+    }
+
+    this.setState({ data: clone(this.props.card.data) })
   }
 
   render() {
-    const { modified } = this.state
-    const { card, cards, elements } = this.props
+    const {
+      props: { card, cards, elements },
+      state: { data },
+    } = this
+
+    const modified = card && differ(data, card.data)
 
     return (
       <>
@@ -66,34 +88,43 @@ class Cards extends Component {
                 (item === card ? ' selected' : '')
               }
               container="row #spread @center"
-              onClick={linkEvent(item, selectCard)}
+              onClick={linkEvent(item, selectCard(this))}
             >
               {/* Card Name */}
               <label flex>{item.name}</label>
             </div>
           ))}
         </div>
+
         {card && elements.length ? (
+          // Fields List
           <PropertyGroup
             label="Fields"
             collapsable={false}
             actions={[
               <i
                 class={'icon-restore clickable' + (!modified ? ' clean' : '')}
-                onClick={resetCard}
+                onClick={modified && resetData(this, card.data)}
               />,
               <i
                 class={
                   'icon-cloud-upload clickable' + (!modified ? ' clean' : '')
                 }
-                onClick={saveCard}
+                onClick={modified && saveCardData(this, data)}
               />,
             ]}
           >
             {/* Name */}
             {elements.map(element => {
               const id = `field-${element.name}`
-              return <Field key={id} id={id} card={card} element={element} />
+              return (
+                <Field
+                  key={id}
+                  data={data}
+                  element={element}
+                  updateData={updateData(this)}
+                />
+              )
             })}
           </PropertyGroup>
         ) : null}

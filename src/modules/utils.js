@@ -23,14 +23,25 @@ export const addUnique = (arrayIn, item) => {
   return array.includes(item) ? array : [...array, item]
 }
 
-export const composeCards = (elements, cards) => {
-  return []
-}
+// /** Returns a function which executes all functions with the given arguments */
+// export const broadcast = callbacks => (...args) =>
+//   callbacks.forEach(fn => fn(...args))
+
+// export const chain = callbacks => (...args) => {
+//   let cb
+//   while (((cb = callbacks.pop()), cb)) {
+//     cb(...args)
+//   }
+// }
+
+export const clone = (obj = {}) => JSON.parse(JSON.stringify(obj))
 
 export const differ = (e1, e2) => JSON.stringify(e1) !== JSON.stringify(e2)
 
 export const getFonts = assets =>
   assets.filter(item => item.type === 'font').map(item => item.description)
+
+export const getTargetValue = event => event.target.value
 
 export const hasChanged = (obj1, obj2, key) => obj1 && obj1[key] !== obj2[key]
 
@@ -92,3 +103,6 @@ export const toThumb = url => {
   const ext = url.substring(url.lastIndexOf('.'))
   return url.replace(ext, 't' + ext)
 }
+
+/** Execute callback with target.value from event */
+// export const withTargetValue = cb => evt => cb(evt.target.value)

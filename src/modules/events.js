@@ -9,7 +9,17 @@ import { newElement, prepAssets, setDeep } from './utils'
 
 const addEvent = (name, fn) =>
   _addEvent(name, (...args) => {
-    console.log(`Event: ${name}`)
+    console.info({
+      event: name,
+      ...args.reduce((a, o) => {
+        if (typeof o === 'object') {
+          Object.assign(a, o)
+        } else {
+          a.arg = o
+        }
+        return a
+      }, {}),
+    })
     return fn(...args)
   })
 
@@ -21,9 +31,7 @@ addEvent('applyState', partial => {
   updateStore({ [parentKey]: { ...parent, ...partial[parentKey] } })
 })
 
-addEvent('setState', partial => {
-  updateStore(partial)
-})
+addEvent('setState', partial => updateStore(partial))
 
 addEvent('fetchCollection', async ({ collection, sortKey, ...rest }) => {
   const data = await Firebase.list(collection, sortKey)
@@ -70,6 +78,7 @@ addEvent('initTemplatePage', async ({ templateId }) => {
 
   updateStore({
     assets,
+    card: cards[0] || {},
     cards,
     elements,
     game,
@@ -124,10 +133,11 @@ addEvent('createCard', async () => {
   updateStore({ cards: newCards })
 })
 
-addEvent('updateCard', ({ key, value }) => {
-  const { cards, card } = store
-  card.data[key] = value
-  updateStore({ card, cards })
+addEvent('saveCard', async data => {
+  const { card } = store
+  card.data = data // Update local card data
+  await card.$ref.update({ data }) // Update remote card data
+  updateStore({ card })
 })
 
 /* Game Events */

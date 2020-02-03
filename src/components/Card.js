@@ -94,7 +94,7 @@ const ComposeElement = ({
 }
 
 // TODO: Simplify card component
-const Card = ({ card, elements, mode, templatePage }) => {
+const Card = ({ card = {}, elements, mode, templatePage }) => {
   const { elementIndex, preview, scale } = templatePage
   const staticPreview = preview.includes('static')
   const dynamicPreview = preview.includes('dynamic')

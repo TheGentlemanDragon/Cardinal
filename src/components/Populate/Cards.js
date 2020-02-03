@@ -44,13 +44,18 @@ class Cards extends Component {
     data: undefined,
   }
 
-  // card will not be loaded on mount; set originalData state once loaded
-  componentDidUpdate() {
-    if (this.state.data || !this.props.card) {
-      return
+  setInitialData(data, card) {
+    if (!data && card) {
+      this.setState({ data: clone(this.props.card.data) })
     }
+  }
 
-    this.setState({ data: clone(this.props.card.data) })
+  // Card may not be loaded on mount; set originalData state once loaded
+  componentDidMount() {
+    this.setInitialData(this.state.data, this.props.card)
+  }
+  componentDidUpdate() {
+    this.setInitialData(this.state.data, this.props.card)
   }
 
   render() {

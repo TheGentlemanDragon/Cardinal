@@ -5,7 +5,7 @@ import {
   updateStore,
 } from 'fluxible-js'
 import { Firebase } from './data'
-import { newElement, prepAssets, setDeep } from './utils'
+import { fetchSheet, newElement, prepAssets, setDeep } from './utils'
 
 const addEvent = (name, fn) =>
   _addEvent(name, (...args) => {
@@ -68,7 +68,10 @@ addEvent('initTemplatePage', async ({ templateId }) => {
   const { templatePage } = store
   const template = await Firebase.doc('templates', templateId)
   const templateRef = template.$ref
-  const cards = await Firebase.query('cards', { templateRef }, 'name')
+  const { sheet } = template
+  const cards = await (sheet
+    ? fetchSheet(sheet.id, sheet.name)
+    : Firebase.query('cards', { templateRef }, 'name'))
   const elements = template.elements || []
   templatePage.prevElements = JSON.parse(JSON.stringify(elements))
 

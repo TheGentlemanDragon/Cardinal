@@ -18,6 +18,19 @@ const imgurOptions = {
   }),
 }
 
+const parseData = text => {
+  const start = text.indexOf('{')
+  const end = text.lastIndexOf('}') + 1
+  const { cols, rows } = JSON.parse(text.substring(start, end)).table
+  const keys = cols.map(item => item.label)
+  return rows.map(({ c: row }, i) => ({
+    name: `card-${i.toString().padStart(2, '0')}`,
+    data: Object.fromEntries(
+      row.map((item, j) => [keys[j], item ? item.v : ''])
+    ),
+  }))
+}
+
 export const addUnique = (arrayIn, item) => {
   const array = arrayIn || []
   return array.includes(item) ? array : [...array, item]
@@ -37,6 +50,18 @@ export const addUnique = (arrayIn, item) => {
 export const clone = (obj = {}) => JSON.parse(JSON.stringify(obj))
 
 export const differ = (e1, e2) => JSON.stringify(e1) !== JSON.stringify(e2)
+
+export const fetchSheet = async (id, name) => {
+  const response = await fetch(
+    `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&sheet=${name}`
+  )
+
+  if (response.ok) {
+    return parseData(await response.text())
+  } else {
+    return Promise.reject(response.status)
+  }
+}
 
 export const getFonts = assets =>
   assets.filter(item => item.type === 'font').map(item => item.description)

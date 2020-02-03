@@ -3,7 +3,14 @@ import { mapStatesToProps } from 'inferno-fluxible'
 import { emitEvent } from 'fluxible-js'
 import { safeParse } from '../modules/utils'
 
-const calculateStyle = (element, index, isPreview = false) => {
+const toImgurUrl = id => `https://i.imgur.com/${id}.png`
+
+const getImgurUrl = (assets, name) => {
+  const asset = assets.find(item => item.description === name)
+  return asset ? toImgurUrl(asset.id) : ''
+}
+
+const calculateStyle = (element, index, imgurUrl, isPreview = false) => {
   if (!element.style) {
     return {}
   }
@@ -29,8 +36,10 @@ const calculateStyle = (element, index, isPreview = false) => {
   }
 
   if (isPreview && elementType.includes('Image')) {
-    style['background'] = `center no-repeat url("${element.content}")`
-    style['background-size'] = `${style.width} ${style.height}`
+    const url = imgurUrl || element.content
+    const align = 'center center'
+    const size = `${style.width} ${style.height}`
+    style['background'] = `url("${url}") ${align} / ${size} no-repeat`
   }
 
   if (!isPreview) {
@@ -71,6 +80,7 @@ const selectElement = (index, event) => {
 
 const ComposeElement = ({
   element,
+  imgurUrl,
   index,
   isCompose,
   isPreview,
@@ -84,7 +94,7 @@ const ComposeElement = ({
   return (
     <div
       class={classes}
-      style={calculateStyle(element, index, !isCompose || isPreview)}
+      style={calculateStyle(element, index, imgurUrl, !isCompose || isPreview)}
     >
       {!isCompose || isPreview
         ? element.type.includes('Text') && value
@@ -94,12 +104,12 @@ const ComposeElement = ({
 }
 
 // TODO: Simplify card component
-const Card = ({ card = {}, elements, mode, templatePage }) => {
+const Card = ({ assets, card = {}, elements, mode, templatePage }) => {
   const { elementIndex, preview, scale } = templatePage
-  const staticPreview = preview.includes('static')
-  const dynamicPreview = preview.includes('dynamic')
-  const data = card.data || {}
   const isCompose = mode === 'compose'
+  const staticPreview = preview.includes('static')
+  const dynamicPreview = preview.includes('dynamic') || !isCompose
+  const data = card.data || {}
 
   return (
     <div
@@ -111,10 +121,12 @@ const Card = ({ card = {}, elements, mode, templatePage }) => {
         const isSelected = index === elementIndex
         const isStatic = element.type.startsWith('Static') && staticPreview
         const isDynamic = element.type.startsWith('Dynamic') && dynamicPreview
+        const isImage = element.type.includes('Image')
         const value = isStatic ? element.content : data[element.name] || ''
         const props = {
           key: 'card-field-' + element.name,
           element,
+          imgurUrl: isDynamic && isImage ? getImgurUrl(assets, value) : '',
           index,
           isCompose,
           isPreview: isStatic || isDynamic,
@@ -127,7 +139,8 @@ const Card = ({ card = {}, elements, mode, templatePage }) => {
   )
 }
 
-const map = ({ card, elements, templatePage }) => ({
+const map = ({ assets, card, elements, templatePage }) => ({
+  assets,
   card,
   elements,
   templatePage,

@@ -3,9 +3,9 @@ import { Component, linkEvent } from 'inferno'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { Link } from 'inferno-router'
 
-import Card from './Card'
-import Compose from './Compose'
-import Populate from './Populate'
+import Card from '../components/Card'
+import Compose from '../components/Compose'
+import Populate from '../components/Populate'
 import { getFonts } from '../modules/utils'
 
 class TemplatePage extends Component {

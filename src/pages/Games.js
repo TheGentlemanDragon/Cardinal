@@ -2,7 +2,7 @@ import { emitEvent } from 'fluxible-js'
 import { mapStatesToProps } from 'inferno-fluxible'
 import { Link } from 'inferno-router'
 
-import NewGameModal from './NewGameModal'
+import NewGameModal from '../components/NewGameModal'
 
 const GamesPage = ({ games }) => (
   <div key="games" container="column #top @stretch" flex>

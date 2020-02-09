@@ -2,15 +2,16 @@ $res = 100
 $highlight = rgb(255, 178, 0)
 
 .card
-  color #000
-  position relative
-  height "calc(3.5px * %s)" % $res
-  width "calc(2.5px * %s)" % $res
   background-color #ffffff
   border-radius "calc(0.13px * %s)" % $res
   box-shadow  0 11px 15px -7px rgba(0, 0, 0, 0.2),
               0 24px 38px 3px rgba(0, 0, 0, 0.14),
               0 9px 46px 8px rgba(0, 0, 0, 0.12)
+  color #000
+  height "calc(3.5px * %s)" % $res
+  overflow hidden
+  position relative
+  width "calc(2.5px * %s)" % $res
 
   .element
     font-size 0.6rem
@@ -28,19 +29,22 @@ $highlight = rgb(255, 178, 0)
 
     @keyframes pulse
       0%
+        background-color alpha($highlight, 0.2)
         box-shadow 0 0 0 3px alpha($highlight, 0.2)
 
       100%
+        background-color alpha($highlight, 0.7)
         box-shadow 0 0 0 1px alpha($highlight, 0.7)
 
 .card.preview .element
   white-space unset
 
-.card.preview:after
-  content ''
-  position absolute
-  height "calc(3.5px * %s)" % $res
-  width "calc(2.5px * %s)" % $res
-  border-radius "calc(0.13px * %s)" % $res
-  border 1px solid rgba(255, 0, 0, 0.3)
-  z-index 1001
+/* Red Bleed Outline */
+// .card.preview:after
+//   content ''
+//   position absolute
+//   height "calc(3.5px * %s)" % $res
+//   width "calc(2.5px * %s)" % $res
+//   border-radius "calc(0.13px * %s)" % $res
+//   border 1px solid rgba(255, 0, 0, 0.3)
+//   z-index 1001

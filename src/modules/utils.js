@@ -31,6 +31,8 @@ const parseData = text => {
   }))
 }
 
+const toImgurUrl = id => `https://i.imgur.com/${id}.png`
+
 export const addUnique = (arrayIn, item) => {
   const array = arrayIn || []
   return array.includes(item) ? array : [...array, item]
@@ -46,6 +48,47 @@ export const addUnique = (arrayIn, item) => {
 //     cb(...args)
 //   }
 // }
+
+export const calculateStyle = (element, index, imgurUrl, isPreview = false) => {
+  if (!element.style) {
+    return {}
+  }
+
+  const elementStyle = element.style || {}
+
+  const elementType = element.type || ''
+
+  const customStyle = safeParse(elementStyle.css)
+
+  const style = {
+    ...elementStyle,
+    height: elementStyle.height + 'px',
+    left: elementStyle.left + 'px',
+    top: elementStyle.top + 'px',
+    width: elementStyle.width + 'px',
+    'z-index': 1000 - index,
+    ...(isPreview && customStyle),
+  }
+
+  if (isPreview && elementType.includes('Text')) {
+    style['font-family'] = elementStyle.font
+    style['white-space'] = 'pre-wrap'
+  }
+
+  if (isPreview && elementType.includes('Image')) {
+    const url = imgurUrl || element.content
+    const align = 'center center'
+    const size = `${style.width} ${style.height}`
+    style['background'] = `url("${url}") ${align} / ${size} no-repeat`
+  }
+
+  if (!isPreview) {
+    style['line-height'] = style.height
+    style['text-align'] = 'center'
+  }
+
+  return style
+}
 
 export const clone = (obj = {}) => JSON.parse(JSON.stringify(obj))
 
@@ -66,6 +109,11 @@ export const fetchSheet = async (id, name) => {
 export const getFonts = assets =>
   assets.filter(item => item.type === 'font').map(item => item.description)
 
+export const getImgurUrl = (assets, name) => {
+  const asset = assets.find(item => item.description === name)
+  return asset ? toImgurUrl(asset.id) : ''
+}
+
 export const getTargetValue = event => event.target.value
 
 export const hasChanged = (obj1, obj2, key) => obj1 && obj1[key] !== obj2[key]
@@ -74,6 +122,12 @@ export const newElement = index => ({
   ...defaultElement,
   name: `element${index}`,
 })
+
+export const pointInRect = point => rect =>
+  rect.left <= point.x &&
+  rect.right >= point.x &&
+  rect.top <= point.y &&
+  rect.bottom >= point.y
 
 export const prepAssets = async game => {
   const assets = []

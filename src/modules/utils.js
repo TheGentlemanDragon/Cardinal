@@ -9,6 +9,20 @@ const defaultElement = {
   },
 }
 
+const asTagSpan = content => {
+  let style
+  let tag
+  let tagCode
+  let text
+
+  if (content.startsWith('[')) {
+    ;[tagCode, text] = content.substr(1, content.length - 2).split('|')
+    ;[tag, style] = tagCode.split(':')
+  }
+
+  return <span class={tag === 's' ? style : ''}>{text || content}</span>
+}
+
 const imgurAlbum = id => `https://api.imgur.com/3/album/${id}/images`
 
 const imgurOptions = {
@@ -145,8 +159,23 @@ export const prepAssets = async game => {
     )
   }
 
+  if (game.tags) {
+    assets.tags = game.tags
+    assets.tags
+      .filter(tag => tag.type === 'style')
+      .forEach(tag => {
+        const style = document.createElement('style')
+        style.type = 'text/css'
+        style.innerHTML = tag.value
+        document.getElementsByTagName('head')[0].appendChild(style)
+      })
+  }
+
   return assets
 }
+
+export const renderTags = content =>
+  content.split(/(\[[^\]]*\])/g).map(asTagSpan)
 
 export const safeParse = jsonString => {
   try {

@@ -1,5 +1,5 @@
 import { mapStatesToProps } from 'inferno-fluxible'
-import { calculateStyle, getImgurUrl } from '../modules/utils'
+import { calculateStyle, getImgurUrl, renderTags } from '../modules/utils'
 
 const CardElement = ({
   assets,
@@ -19,7 +19,12 @@ const CardElement = ({
   const isSelected = index === elementIndex
   const isPreview = isStatic || isDynamic
 
-  const value = isStatic ? content : card.data[name] || ''
+  let value = isStatic ? content : card.data[name] || ''
+
+  if (value.includes('[')) {
+    value = renderTags(value)
+  }
+
   const imgurUrl = type.includes('Image') ? getImgurUrl(assets, value) : ''
 
   let classes = 'element clickable'

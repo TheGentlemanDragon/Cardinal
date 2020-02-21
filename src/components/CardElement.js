@@ -22,7 +22,7 @@ const CardElement = ({
   let value = isStatic ? content : card.data[name] || ''
 
   if (value.includes('[')) {
-    value = renderTags(value)
+    value = renderTags(value, assets.tags)
   }
 
   const imgurUrl = type.includes('Image') ? getImgurUrl(assets, value) : ''

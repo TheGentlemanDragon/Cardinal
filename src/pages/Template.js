@@ -5,6 +5,7 @@ import { Link } from 'inferno-router'
 
 import Card from '../components/Card'
 import Compose from '../components/Compose'
+import Tags from '../components/Tags'
 import Populate from '../components/Populate'
 import { getFonts } from '../modules/utils'
 
@@ -45,12 +46,21 @@ class TemplatePage extends Component {
               class={index === 1 ? 'active' : ''}
               onClick={linkEvent(1, this.setIndex)}
             >
+              Tags
+            </button>
+
+            <button
+              class={index === 2 ? 'active' : ''}
+              onClick={linkEvent(2, this.setIndex)}
+            >
               Populate
             </button>
           </div>
 
           <div class="sidebar-tab" container="column #top @stretch">
-            {index === 0 ? <Compose {...this.props} /> : <Populate />}
+            {index === 0 && <Compose {...this.props} />}
+            {index === 1 && <Tags />}
+            {index === 2 && <Populate />}
           </div>
         </div>
 

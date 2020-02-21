@@ -9,18 +9,32 @@ const defaultElement = {
   },
 }
 
-const asTagSpan = content => {
+const asTagSpan = tags => content => {
+  let name
   let style
   let tag
   let tagCode
   let text
+  let value
 
   if (content.startsWith('[')) {
     ;[tagCode, text] = content.substr(1, content.length - 2).split('|')
-    ;[tag, style] = tagCode.split(':')
+    ;[tag, name] = tagCode.split(':')
   }
 
-  return <span class={tag === 's' ? style : ''}>{text || content}</span>
+  if (tag) {
+    const foundTag = tags.find(tag => tag.name === name) || {}
+    style = foundTag.style
+    value = foundTag.value
+  }
+
+  return tag === 's' ? (
+    <span style={style}>{text}</span>
+  ) : tag === 'i' ? (
+    <img src={value} alt={name} style={style} />
+  ) : (
+    <span>{content}</span>
+  )
 }
 
 const imgurAlbum = id => `https://api.imgur.com/3/album/${id}/images`
@@ -161,21 +175,13 @@ export const prepAssets = async game => {
 
   if (game.tags) {
     assets.tags = game.tags
-    assets.tags
-      .filter(tag => tag.type === 'style')
-      .forEach(tag => {
-        const style = document.createElement('style')
-        style.type = 'text/css'
-        style.innerHTML = tag.value
-        document.getElementsByTagName('head')[0].appendChild(style)
-      })
   }
 
   return assets
 }
 
-export const renderTags = content =>
-  content.split(/(\[[^\]]*\])/g).map(asTagSpan)
+export const renderTags = (content, tags) =>
+  content.split(/(\[[^\]]*\])/g).map(asTagSpan(tags))
 
 export const safeParse = jsonString => {
   try {

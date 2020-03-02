@@ -52,7 +52,7 @@ const parseData = text => {
   const { cols, rows } = JSON.parse(text.substring(start, end)).table
   const keys = cols.map(item => item.label)
   return rows.map(({ c: row }, i) => ({
-    name: `card-${i.toString().padStart(2, '0')}`,
+    name: row[keys.findIndex(item => /name/i.test(item))].v,
     data: Object.fromEntries(
       row.map((item, j) => [keys[j], item ? item.v : ''])
     ),

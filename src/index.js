@@ -1,5 +1,4 @@
-import { render } from 'inferno'
-import App from './App'
-import './App.styl'
+import './style';
+import App from './components/app';
 
-render(<App />, document.getElementById('app'))
+export default App;

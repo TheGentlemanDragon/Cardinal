@@ -6,27 +6,49 @@
   "author": "Nando Pena <fernando.pena@rackspace.com>",
   "license": "MIT",
   "scripts": {
-    "build-css": "stylus src --out src",
-    "watch-css": "stylus --watch src --out src",
-    "start": "inferno-scripts start",
-    "build": "inferno-scripts build",
-    "test": "inferno-scripts test --env=jsdom",
-    "eject": "inferno-scripts eject"
+    "start": "per-env",
+    "start:production": "npm run -s serve",
+    "start:development": "npm run -s dev",
+    "build": "preact build",
+    "serve": "preact build && sirv build --cors --single",
+    "dev": "preact watch",
+    "lint": "eslint src",
+    "test": "jest"
+  },
+  "eslintConfig": {
+    "extends": "preact",
+    "ignorePatterns": [
+      "build/"
+    ]
   },
   "dependencies": {
     "@jaames/iro": "^4.5.1",
     "firebase": "^6.4.0",
-    "fluxible-js": "^4.4.2",
-    "inferno": "^7.3.0",
-    "inferno-fluxible": "^3.1.10",
-    "inferno-router": "^7.3.0",
-    "inferno-scripts": "^7.0.4",
-    "redefine-statics-js": "^2.0.2"
+    "preact": "^10.3.2",
+    "preact-render-to-string": "^5.1.4",
+    "preact-router": "^3.2.1"
   },
   "devDependencies": {
     "@firebase/app-types": "^0.4.3",
+    "enzyme-adapter-preact-pure": "^2.0.0",
+    "enzyme": "^3.10.0",
+    "eslint-config-preact": "^1.1.0",
+    "eslint": "^6.0.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest-preset-preact": "^1.0.0",
+    "jest": "^24.9.0",
+    "per-env": "^1.0.2",
+    "preact-cli": "^3.0.0-rc.6",
+    "preact-render-spy": "^1.2.1",
     "prettier": "^1.18.2",
-    "stylus": "^0.54.5"
+    "sirv-cli": "^0.4.5"
+  },
+  "jest": {
+    "preset": "jest-preset-preact",
+    "setupFiles": [
+      "<rootDir>/tests/__mocks__/browserMocks.js",
+      "<rootDir>/tests/__mocks__/setupTests.js"
+    ]
   },
   "prettier": {
     "semi": false,

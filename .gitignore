@@ -1,8 +1,5 @@
-/.cache
 /.vscode
+/*.log
 /build
-/dist
-/icons
-/node_modules
 config.js
-/src/**/*.css
+node_modules

@@ -1,0 +1,27 @@
+.itemList {
+  box-sizing: border-box;
+  list-style-type: none;
+  margin: 3vw 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.itemList li {
+  background-color: black;
+  display: inline-block;
+  height: 10vw;
+  width: 18vw;
+  margin: 0 0.2vw;
+}
+
+.title {
+  font-size: 1.5vw;
+  font-weight: bold;
+  line-height: 1.3vw;
+  vertical-align: bottom;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+}

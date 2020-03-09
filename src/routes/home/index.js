@@ -1,11 +1,18 @@
-import { h } from 'preact';
-import style from './style';
+import { h } from 'preact'
+import ItemList from '../../components/ItemList'
+import GameItem from '../../components/GameItem'
+// import style from './style.css'
 
-const Home = () => (
-	<div class={style.home}>
-		<h1>Home</h1>
-		<p>This is the Home component.</p>
-	</div>
-);
+function Home() {
+  return (
+    <>
+      <ItemList
+        title="Games"
+        items={['game1', 'game2', 'game3', 'game4', 'game5', 'game6']}
+        ItemComponent={GameItem}
+      />
+    </>
+  )
+}
 
-export default Home;
+export default Home

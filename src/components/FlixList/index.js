@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import s from './style.css'
 
-/** Component used to render an item in an ItemList
+/** Component used to render an item in an FlixList
  * @callback ItemComponent
  * @param {Object} value value list item represents
  */
@@ -11,9 +11,9 @@ import s from './style.css'
  *  @arg {Object[]} items               array of items to list
  *  @arg {ItemComponent} ItemComponent  component to render list item
  */
-function ItemList({ title, items, ItemComponent }) {
+function FlixList({ title, items, ItemComponent }) {
   return (
-    <section class={s.itemList}>
+    <section class={s.FlixList}>
       <h2 class={s.title}>{title}</h2>
 
       {/* Games List */}
@@ -26,4 +26,4 @@ function ItemList({ title, items, ItemComponent }) {
   )
 }
 
-export default ItemList
+export default FlixList

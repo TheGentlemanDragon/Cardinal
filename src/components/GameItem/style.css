@@ -1,0 +1,25 @@
+li.gameItem {
+  background-color: var(--clr-card-bg);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+  color: var(--clr-text-dark);
+  cursor: pointer;
+  display: flex;
+  flex: 1;
+  height: 8rem;
+  list-style: none;
+  margin: 0 0 1.2rem;
+}
+
+li.gameItem:hover dt {
+  text-decoration: underline;
+}
+
+.gameItem figure {
+  align-items: center;
+  border: var(--border-light);
+  display: flex;
+  justify-content: center;
+  margin: 1rem 2rem 1rem 1rem;
+  min-width: 10rem;
+}

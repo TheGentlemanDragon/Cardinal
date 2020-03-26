@@ -1,0 +1,6 @@
+.gameList {
+  display: flex;
+  flex-direction: column;
+  margin: 5rem auto;
+  max-width: 1140px;
+}

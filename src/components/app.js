@@ -5,7 +5,7 @@ import { Router } from 'preact-router'
 import Home from 'routes/home'
 // import Profile from '../routes/profile'
 
-import s from './app.css'
+import s from './global.css'
 
 export default function App() {
   return (

@@ -8,7 +8,7 @@ function Home() {
 
   return (
     <>
-      <GameList title="Games" items={games} />
+      <GameList title="Games" games={games} />
     </>
   )
 }

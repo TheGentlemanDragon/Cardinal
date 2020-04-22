@@ -1,22 +1,32 @@
 import { h } from 'preact'
-import { useCallback } from 'preact/hooks'
+
+import { GameItemDetails } from 'components'
+import { noop } from 'lib/functional'
 import s from './style.css'
 
-function GameItem({ item }) {
-  const click = useCallback(() => null, [])
-
+function GameItem({ game, isOpen, toggle }) {
   return (
-    <li class={s.gameItem} onClick={click}>
-      <figure>Preview</figure>
-      <dl>
-        <dt>{item.name}</dt>
-        <dd>{item.description}</dd>
-      </dl>
-      <menu>
-        <menuitem></menuitem>
-      </menu>
-    </li>
+    <>
+      <div class={s.GameItem} onClick={toggle}>
+        <figure>Preview</figure>
+        <dl>
+          <dt>{game.name}</dt>
+          <dd>{game.description}</dd>
+        </dl>
+        <menu>
+          <menuitem />
+        </menu>
+      </div>
+
+      {isOpen && <GameItemDetails game={game} />}
+    </>
   )
+}
+
+GameItem.defaultProps = {
+  game: {},
+  isOpen: false,
+  toggle: noop,
 }
 
 export default GameItem

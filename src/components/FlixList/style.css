@@ -6,18 +6,9 @@
   white-space: nowrap;
 }
 
-.FlixList li {
-  cursor: pointer;
-}
-
-.title {
+.FlixList h2 {
   font-size: 1.5vw;
   font-weight: bold;
   line-height: 1.3vw;
   vertical-align: bottom;
-}
-
-.list {
-  margin: 0;
-  padding: 0;
 }

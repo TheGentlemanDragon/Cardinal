@@ -7,22 +7,14 @@ import s from './style.css'
  */
 
 /** Lists the items in a row
- *  @arg {string} title                 title of list to display
- *  @arg {Object[]} items               array of items to list
- *  @arg {ItemComponent} ItemComponent  component to render list item
+ *  @arg {string} title title of list to display
  */
-function FlixList({ title, items, ItemComponent }) {
+function FlixList({ title, children }) {
   return (
-    <section class={s.FlixList}>
-      <h2 class={s.title}>{title}</h2>
-
-      {/* Games List */}
-      <ul class={s.list}>
-        {items.map(item => (
-          <ItemComponent value={item} />
-        ))}
-      </ul>
-    </section>
+    <div class={s.FlixList}>
+      <h2>{title}</h2>
+      <div>{children}</div>
+    </div>
   )
 }
 

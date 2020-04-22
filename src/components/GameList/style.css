@@ -1,6 +1,4 @@
-.gameList {
-  display: flex;
-  flex-direction: column;
-  margin: 5rem auto;
-  max-width: 1140px;
+.GameList {
+  margin: 5rem auto 2rem;
+  max-width: 800px;
 }

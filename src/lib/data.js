@@ -1,9 +1,5 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/storage'
-import { options } from './config'
-
-firebase.initializeApp(options)
+import Firestore from 'firebase-firestore-lite'
+import config from './config'
 
 /**
  * Encapsulates Firebase functionality
@@ -12,11 +8,9 @@ firebase.initializeApp(options)
  */
 class FirebaseFactory {
   constructor() {
-    this.db = firebase.firestore()
+    this.db = new Firestore(config)
     this.collections = {}
     this.owner = null
-    this.storage = firebase.storage()
-    this.fb = firebase
   }
 
   setOwner(owner) {
@@ -31,11 +25,13 @@ class FirebaseFactory {
    * @returns document
    * @memberof FirebaseFactory
    */
-  static documentWithRef(doc) {
-    return {
-      ...doc.data(),
-      $id: doc.ref.id,
-      $ref: doc.ref,
+  static documentWithRef(ref) {
+    return function(doc) {
+      return {
+        ...doc,
+        $id: doc.__meta__.id,
+        $ref: ref,
+      }
     }
   }
 
@@ -48,24 +44,24 @@ class FirebaseFactory {
    */
   col(name) {
     let col = this.collections[name]
-    col = col || this.db.collection(name)
+    col = col || this.db.reference(name)
     return col
   }
 
-  /**
-   * Retrieve document from collection
-   *
-   * @param {any} collection collection name
-   * @param {any} doc document id
-   * @returns document
-   * @memberof FirebaseFactory
-   */
-  async doc(collection, doc) {
-    const docRef = await this.col(collection)
-      .doc(doc)
-      .get()
-    return FirebaseFactory.documentWithRef(docRef)
-  }
+  // /**
+  //  * Retrieve document from collection
+  //  *
+  //  * @param {any} collection collection name
+  //  * @param {any} doc document id
+  //  * @returns document
+  //  * @memberof FirebaseFactory
+  //  */
+  // async doc(collection, doc) {
+  //   const docRef = await this.col(collection)
+  //     .doc(doc)
+  //     .get()
+  //   return FirebaseFactory.documentWithRef(docRef)
+  // }
 
   /**
    * Retrieve list of documents in collection
@@ -75,51 +71,53 @@ class FirebaseFactory {
    * @memberof FirebaseFactory
    */
   async list(collection, sortKey) {
-    const snapshot = await this.col(collection)
+    const ref = this.col(collection)
+    const snapshot = await ref
+      .query()
       .where('owner', '==', this.owner)
       .orderBy(sortKey)
-      .get()
-    return snapshot.docs.map(FirebaseFactory.documentWithRef)
+      .run()
+    return snapshot.map(FirebaseFactory.documentWithRef(ref))
   }
 
-  /**
-   * Query collection
-   *
-   * @param {any} collection collection name
-   * @param {any} params query params
-   * @returns map of documents
-   * @memberof FirebaseFactory
-   */
-  async query(collection, params, sortKey) {
-    let query = this.col(collection).where('owner', '==', this.owner)
-    let keys = Object.keys(params)
-    let key
-    while ((key = keys.pop())) {
-      let value = params[key]
-      query = query.where(key, '==', value)
-    }
+  // /**
+  //  * Query collection
+  //  *
+  //  * @param {any} collection collection name
+  //  * @param {any} params query params
+  //  * @returns map of documents
+  //  * @memberof FirebaseFactory
+  //  */
+  // async query(collection, params, sortKey) {
+  //   let query = this.col(collection).where('owner', '==', this.owner)
+  //   let keys = Object.keys(params)
+  //   let key
+  //   while ((key = keys.pop())) {
+  //     let value = params[key]
+  //     query = query.where(key, '==', value)
+  //   }
 
-    let snapshot = await query.orderBy(sortKey).get()
-    return snapshot.docs.map(FirebaseFactory.documentWithRef)
-  }
+  //   let snapshot = await query.orderBy(sortKey).get()
+  //   return snapshot.docs.map(FirebaseFactory.documentWithRef)
+  // }
 
-  /**
-   * Query collection
-   *
-   * @param {string} id game id to associate asset with
-   * @param {File} file file to upload
-   * @memberof FirebaseFactory
-   */
-  async upload(id, file) {
-    const ref = this.storage.ref(`${id}/`)
-    // TODO: Store reference in database
-    return ref.child(file.name).put(file)
-  }
+  // /**
+  //  * Query collection
+  //  *
+  //  * @param {string} id game id to associate asset with
+  //  * @param {File} file file to upload
+  //  * @memberof FirebaseFactory
+  //  */
+  // async upload(id, file) {
+  //   const ref = this.storage.ref(`${id}/`)
+  //   // TODO: Store reference in database
+  //   return ref.child(file.name).put(file)
+  // }
 
-  async listFiles(id) {
-    // TODO: Query references from database
-    return []
-  }
+  // async listFiles(id) {
+  //   // TODO: Query references from database
+  //   return []
+  // }
 }
 
 class Storage {

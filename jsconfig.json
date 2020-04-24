@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "es2018"
+  },
+  "include": ["src/**/*"]
+}

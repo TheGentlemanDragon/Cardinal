@@ -1,9 +1,9 @@
 import { h } from 'preact'
 import { Router } from 'preact-router'
+import Match from 'preact-router/match'
 
-// Code-splitting is automated for routes
 import Home from 'routes/home'
-// import Profile from '../routes/profile'
+import Game from 'routes/game'
 
 import g from './global.css'
 
@@ -11,12 +11,14 @@ export default function App() {
   return (
     <div id="app">
       {/* App Title */}
-      <h1 class={g.title}>Cardinal</h1>
+      <Match path="/">
+        {({ matches }) => matches && <h1 class={g.title}>Cardinal</h1>}
+      </Match>
 
       <Router>
         <Home path="/" />
-        {/* <Profile path="/profile/" user="me" />
-        <Profile path="/profile/:user" /> */}
+        <Game path="/:gameId" />
+        {/* <Profile path="/profile/:user" /> */}
       </Router>
     </div>
   )

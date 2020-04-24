@@ -1,13 +1,12 @@
 import { h } from 'preact'
 
-import { GameItemDetails } from 'components'
-import { noop } from 'lib/functional'
+import { goToUrl } from 'lib/functional'
 import s from './style.css'
 
-function GameItem({ game, isOpen, toggle }) {
+function GameItem({ game }) {
   return (
     <>
-      <div class={s.GameItem} onClick={toggle}>
+      <div class={s.GameItem} onClick={goToUrl(`/${game.$id}`)}>
         <figure>Preview</figure>
         <dl>
           <dt>{game.name}</dt>
@@ -17,16 +16,12 @@ function GameItem({ game, isOpen, toggle }) {
           <menuitem />
         </menu>
       </div>
-
-      {isOpen && <GameItemDetails game={game} />}
     </>
   )
 }
 
 GameItem.defaultProps = {
   game: {},
-  isOpen: false,
-  toggle: noop,
 }
 
 export default GameItem

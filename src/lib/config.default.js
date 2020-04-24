@@ -1,5 +1,5 @@
 // fill in values and rename file to 'config.js'
-export const options = {
+export default {
   apiKey: '',
   authDomain: '',
   databaseURL: '',

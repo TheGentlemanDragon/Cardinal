@@ -5,13 +5,13 @@ import { Router } from 'preact-router'
 import Home from 'routes/home'
 // import Profile from '../routes/profile'
 
-import s from './global.css'
+import g from './global.css'
 
 export default function App() {
   return (
     <div id="app">
       {/* App Title */}
-      <h1 class={s.title}>Cardinal</h1>
+      <h1 class={g.title}>Cardinal</h1>
 
       <Router>
         <Home path="/" />

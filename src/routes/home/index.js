@@ -1,7 +1,7 @@
 import { h } from 'preact'
-import useGames from 'hooks/useGames'
 
 import GameList from 'components/GameList'
+import useGames from 'hooks/useGames'
 
 function Home() {
   const games = useGames()

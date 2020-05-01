@@ -1,9 +1,9 @@
-.GameItemDetails {
+.TemplateList {
+  composes: page from '../global.css';
 }
 
-.TemplateList {
+.List {
   display: flex;
-  margin: 0.7rem 0 1.4rem;
 }
 
 .TemplateItem,
@@ -22,7 +22,7 @@
 }
 
 .TemplateItem + .TemplateItem {
-  margin-left: 0.5rem;
+  margin-left: 1rem;
 }
 
 .TemplateItem:hover,

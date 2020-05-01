@@ -1,6 +1,8 @@
 import { h } from 'preact'
 import PropTypes from 'proptypes'
 
+import TemplateList from 'components/TemplateList'
+
 /**
  * Some documented component
  *
@@ -13,12 +15,16 @@ import PropTypes from 'proptypes'
  *   <Game gameId={gameId} />
  * )
  */
-function Game({ gameId }) {
-  return <div>Game Page ({gameId})</div>
+function GamePage({ gameId }) {
+  return (
+    <>
+      <TemplateList gameId={gameId} />
+    </>
+  )
 }
 
-Game.propTypes = {
+GamePage.propTypes = {
   gameId: PropTypes.string.isRequired,
 }
 
-export default Game
+export default GamePage

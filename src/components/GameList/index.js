@@ -1,30 +1,26 @@
 import { h } from 'preact'
-import { useState } from 'preact/hooks'
+// import PropTypes from 'proptypes'
 
 import GameItem from 'components/GameItem'
+import useGames from 'hooks/useGames'
 import s from './style.css'
 
-/** List games for the main page
- *  @arg {Object[]} games array of items to list
- */
-function GameList({ games }) {
-  const [openIndex, setOpenIndex] = useState(-1)
-
-  const openDetails = index => () =>
-    setOpenIndex(index === openIndex ? -1 : index)
+/** List games for the main page */
+function GameList() {
+  const games = useGames()
 
   return (
     <div class={s.GameList}>
+      <h2>Games</h2>
+
       {/* Games List */}
-      {games.map((game, index) => (
-        <GameItem
-          game={game}
-          isOpen={index === openIndex}
-          toggle={openDetails(index)}
-        />
+      {games.map(game => (
+        <GameItem game={game} />
       ))}
     </div>
   )
 }
+
+// GameList.propTypes = {}
 
 export default GameList

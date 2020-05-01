@@ -3,22 +3,22 @@ import { Firebase } from 'lib/data'
 
 const cached = {}
 
-export default function useTemplates(game, invalidate = false) {
+export default function useTemplates(gameId, invalidate = false) {
   const [data, setData] = useState([])
 
   useEffect(
     () =>
       (async function() {
-        if (!cached[game.$id] || invalidate) {
-          cached[game.$id] = await Firebase.query(
+        if (!cached[gameId] || invalidate) {
+          cached[gameId] = await Firebase.query(
             'templates',
-            { gameRef: game.$ref },
+            { gameRef: `/games/${gameId}` },
             'name'
           )
         }
-        setData(await cached[game.$id])
+        setData(await cached[gameId])
       })(),
-    [game, invalidate]
+    [gameId, invalidate]
   )
 
   return data

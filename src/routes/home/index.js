@@ -1,16 +1,9 @@
 import { h } from 'preact'
 
 import GameList from 'components/GameList'
-import useGames from 'hooks/useGames'
 
-function Home() {
-  const games = useGames()
-
-  return (
-    <>
-      <GameList title="Games" games={games} />
-    </>
-  )
+function HomePage() {
+  return <GameList />
 }
 
-export default Home
+export default HomePage

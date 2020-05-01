@@ -1,6 +1,5 @@
-import GameItemDetails from './GameItemDetails'
-import FlixList from './FlixList'
 import GameItem from './GameItem'
 import GameList from './GameList'
+import TemplateList from './TemplateList'
 
-export { FlixList, GameItem, GameItemDetails, GameList }
+export { GameItem, GameList, TemplateList }

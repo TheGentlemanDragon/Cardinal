@@ -1,6 +1,8 @@
 import Firestore from 'firebase-firestore-lite'
 import config from './config'
 
+const rxRef = /.*Ref$/
+
 /**
  * Encapsulates Firebase functionality
  *
@@ -21,17 +23,15 @@ class FirebaseFactory {
    * Format document, retrieving data and assigning reference
    *
    * @static
-   * @param {any} doc document id
+   * @param {any} prefix
    * @returns document
    * @memberof FirebaseFactory
    */
-  static documentWithRef(ref) {
-    return function(doc) {
-      return {
-        ...doc,
-        $id: doc.__meta__.id,
-        $ref: ref,
-      }
+  static documentWithRef(doc) {
+    return {
+      ...doc,
+      $id: doc.__meta__.id,
+      $ref: doc.__meta__.path,
     }
   }
 
@@ -71,35 +71,42 @@ class FirebaseFactory {
    * @memberof FirebaseFactory
    */
   async list(collection, sortKey) {
-    const ref = this.col(collection)
-    const snapshot = await ref
+    const snapshot = await this.col(collection)
       .query()
       .where('owner', '==', this.owner)
       .orderBy(sortKey)
       .run()
-    return snapshot.map(FirebaseFactory.documentWithRef(ref))
+    return snapshot.map(FirebaseFactory.documentWithRef)
   }
 
-  // /**
-  //  * Query collection
-  //  *
-  //  * @param {any} collection collection name
-  //  * @param {any} params query params
-  //  * @returns map of documents
-  //  * @memberof FirebaseFactory
-  //  */
-  // async query(collection, params, sortKey) {
-  //   let query = this.col(collection).where('owner', '==', this.owner)
-  //   let keys = Object.keys(params)
-  //   let key
-  //   while ((key = keys.pop())) {
-  //     let value = params[key]
-  //     query = query.where(key, '==', value)
-  //   }
+  /**
+   * Query collection
+   *
+   * @param {any} collection collection name
+   * @param {any} params query params
+   * @returns map of documents
+   * @memberof FirebaseFactory
+   */
+  async query(collection, params, sortKey) {
+    let query = await this.col(collection)
+      .query()
+      .where('owner', '==', this.owner)
 
-  //   let snapshot = await query.orderBy(sortKey).get()
-  //   return snapshot.docs.map(FirebaseFactory.documentWithRef)
-  // }
+    let keys = Object.keys(params)
+    let key
+    while ((key = keys.pop())) {
+      let value
+      if (rxRef.test(key)) {
+        value = this.db.reference(params[key])
+      } else {
+        value = params[key]
+      }
+      query = query.where(key, '==', value)
+    }
+
+    let snapshot = await query.orderBy(sortKey).run()
+    return snapshot.map(FirebaseFactory.documentWithRef)
+  }
 
   // /**
   //  * Query collection

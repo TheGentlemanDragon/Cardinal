@@ -1,4 +1,3 @@
 .GameList {
-  margin: 5rem auto 2rem;
-  max-width: 800px;
+  composes: page from '../global.css';
 }

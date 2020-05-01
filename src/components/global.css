@@ -26,6 +26,11 @@ body {
   height: 100%;
 }
 
+.page {
+  margin: 5rem auto 2rem;
+  max-width: 800px;
+}
+
 .title {
   color: #fff;
   font-size: 2rem;

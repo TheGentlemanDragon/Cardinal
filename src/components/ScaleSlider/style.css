@@ -1,0 +1,5 @@
+.ScaleSlider {
+  position: absolute;
+  bottom: var(--g-padding-vertical);
+  left: var(--g-padding-horizontal);
+}

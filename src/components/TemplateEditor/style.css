@@ -1,0 +1,6 @@
+.TemplateEditor {
+  composes: flexFull from '../global.css';
+
+  align-items: center;
+  justify-content: center;
+}

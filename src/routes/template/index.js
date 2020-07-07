@@ -1,6 +1,8 @@
 import { h } from 'preact'
 import PropTypes from 'proptypes'
 
+import TemplateEditor from 'components/TemplateEditor'
+
 /**
  * Some documented component
  *
@@ -14,7 +16,7 @@ import PropTypes from 'proptypes'
  * )
  */
 function TemplatePage({ templateId }) {
-  return <>Template</>
+  return <TemplateEditor />
 }
 
 TemplatePage.propTypes = {

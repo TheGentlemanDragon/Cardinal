@@ -14,6 +14,12 @@ export function goToUrl(url) {
   }
 }
 
+export function withEventTargetValue(cb) {
+  return function(event) {
+    return cb(event.target.value)
+  }
+}
+
 export function withToggle(setState, initialState) {
   return function() {
     setState(!initialState)

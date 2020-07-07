@@ -16,7 +16,7 @@ function TemplateList({ gameId }) {
           <a
             key={`templates-list-${template.$id}`}
             class={s.TemplateItem}
-            href={`/template/${template.$id}`}
+            href={`/templates/${template.$id}`}
           >
             {template.name}
           </a>

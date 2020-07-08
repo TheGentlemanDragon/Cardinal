@@ -50,8 +50,9 @@ body {
 
 .flexFull {
   display: flex;
-  height: calc(100vh - 2 * var(--g-padding-vertical) - 2rem);
+  height: calc(100vh - 2 * var(--g-padding-vertical));
   width: calc(100vw - 2 * var(--g-padding-horizontal));
+  margin-top: -2rem;
 }
 
 .page {

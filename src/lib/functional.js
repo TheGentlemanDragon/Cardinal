@@ -1,6 +1,13 @@
 import { route } from 'preact-router'
 
-export function noop() {}
+export function debounce(fn, delay) {
+  let timeout
+
+  return (...args) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => fn(...args), delay)
+  }
+}
 
 /**
  * Open url string in current window
@@ -13,6 +20,8 @@ export function goToUrl(url) {
     route(url)
   }
 }
+
+export function noop() {}
 
 export function withEventTargetValue(cb) {
   return function(event) {

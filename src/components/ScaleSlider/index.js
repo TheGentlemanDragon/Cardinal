@@ -1,14 +1,13 @@
 import { h } from 'preact'
-import { useContext } from 'preact/hooks'
 // import PropTypes from 'proptypes'
 
-import EditorContext from 'contexts/EditorContext'
+import { useEditorContext } from 'contexts/EditorContext'
 import { withEventTargetValue } from 'lib/functional'
 import s from './style.css'
 
 /** List games for the main page */
 function ScaleSlider() {
-  const editor = useContext(EditorContext)
+  const { scale, set } = useEditorContext()
 
   return (
     <div class={s.ScaleSlider}>
@@ -19,8 +18,8 @@ function ScaleSlider() {
         min="1"
         max="3"
         step="0.05"
-        value={editor.scale}
-        onInput={withEventTargetValue(editor.setScale)}
+        value={scale}
+        onInput={withEventTargetValue(set.scale)}
       />
     </div>
   )

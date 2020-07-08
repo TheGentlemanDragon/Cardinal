@@ -1,14 +1,13 @@
 import { h } from 'preact'
-import { useContext } from 'preact/hooks'
 
-import EditorContext from 'contexts/EditorContext'
+import { useEditorContext } from 'contexts/EditorContext'
 import s from './style.css'
 
 function EditorCard({ elements = [] }) {
-  const editor = useContext(EditorContext)
+  const { scale } = useEditorContext()
 
   return (
-    <div class={s.EditorCard} style={{ transform: `scale(${editor.scale})` }}>
+    <div class={s.EditorCard} style={{ transform: `scale(${scale})` }}>
       {/* {elements.map((element, index) => (
         <CardElement
           key={`card-field-${element.name}`}

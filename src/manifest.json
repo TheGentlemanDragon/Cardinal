@@ -1,6 +1,6 @@
 {
-  "name": "preact-example",
-  "short_name": "preact-example",
+  "name": "Cardinal",
+  "short_name": "cardinal",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",

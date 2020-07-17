@@ -51,7 +51,7 @@ function EditorPage({ gameId, templateId }) {
         />
         <Select
           labelKey="name"
-          name="Templates"
+          name="Template"
           options={templates}
           value={template.name}
           onSelect={item => openEditorTemplate(game, item)}

@@ -1,9 +1,10 @@
 import { h } from 'preact'
+import PropTypes from 'proptypes'
 
 import { useEditorContext } from 'contexts/EditorContext'
 import s from './style.css'
 
-function EditorCard({ elements = [] }) {
+function EditorCard({ template = {} }) {
   const { scale } = useEditorContext()
 
   return (
@@ -21,6 +22,8 @@ function EditorCard({ elements = [] }) {
   )
 }
 
-EditorCard.defaultProps = {}
+EditorCard.proptypes = {
+  template: PropTypes.object.isRequired,
+}
 
 export default EditorCard

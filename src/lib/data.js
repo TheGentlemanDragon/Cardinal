@@ -2,6 +2,15 @@ import Firestore from 'firebase-firestore-lite'
 import config from './config'
 
 const rxRef = /.*Ref$/
+const DEBUG = false
+
+function hashRef(obj) {
+  return typeof obj !== 'object'
+    ? obj
+    : Object.keys(obj)
+        .sort()
+        .map(key => key + ':' + hashRef(obj[key]))
+}
 
 /**
  * Encapsulates Firebase functionality
@@ -13,6 +22,12 @@ class FirebaseFactory {
     this.db = new Firestore(config)
     this.collections = {}
     this.owner = null
+    this.cache = {
+      col: {},
+      doc: {},
+      list: {},
+      query: {},
+    }
   }
 
   setOwner(owner) {
@@ -31,8 +46,25 @@ class FirebaseFactory {
     return {
       ...doc,
       $id: doc.__meta__.id,
-      $ref: doc.__meta__.path,
+      $ref: doc.__meta__.path.slice(1),
     }
+  }
+
+  tryCache(method, key, invalidate = false) {
+    if (invalidate) {
+      DEBUG && console.info(`Invalidating Cache [${method}] ${key}`)
+      delete this.cache[method][key]
+      return null
+    }
+
+    DEBUG && console.info(`Fetching from Cache [${method}] ${key}`)
+    return this.cache[method][key] || null
+  }
+
+  updateCache(method, key, value) {
+    DEBUG && console.info(`Updating Cache [${method}] ${key}`)
+    this.cache[method][key] = value
+    return value
   }
 
   /**
@@ -48,20 +80,25 @@ class FirebaseFactory {
     return col
   }
 
-  // /**
-  //  * Retrieve document from collection
-  //  *
-  //  * @param {any} collection collection name
-  //  * @param {any} doc document id
-  //  * @returns document
-  //  * @memberof FirebaseFactory
-  //  */
-  // async doc(collection, doc) {
-  //   const docRef = await this.col(collection)
-  //     .doc(doc)
-  //     .get()
-  //   return FirebaseFactory.documentWithRef(docRef)
-  // }
+  /**
+   * Retrieve document from collection
+   *
+   * @param {any} collection collection name
+   * @param {any} doc document id
+   * @returns document
+   * @memberof FirebaseFactory
+   */
+  async doc(collection, doc, invalidate = false) {
+    const key = `${collection}/${doc}`
+    const cached = this.tryCache('doc', key, invalidate)
+
+    if (cached) {
+      return cached
+    }
+
+    const docRef = await this.col(key, invalidate).get()
+    return this.updateCache('doc', key, FirebaseFactory.documentWithRef(docRef))
+  }
 
   /**
    * Retrieve list of documents in collection
@@ -70,13 +107,24 @@ class FirebaseFactory {
    * @returns map of documents
    * @memberof FirebaseFactory
    */
-  async list(collection, sortKey) {
-    const snapshot = await this.col(collection)
+  async list(collection, sortKey, invalidate = false) {
+    const key = `${collection}?sort:${sortKey}`
+    const cached = this.tryCache('list', key, invalidate)
+
+    if (cached) {
+      return cached
+    }
+
+    const snapshot = await this.col(collection, invalidate)
       .query()
       .where('owner', '==', this.owner)
       .orderBy(sortKey)
       .run()
-    return snapshot.map(FirebaseFactory.documentWithRef)
+    return this.updateCache(
+      'list',
+      key,
+      snapshot.map(FirebaseFactory.documentWithRef)
+    )
   }
 
   /**
@@ -87,7 +135,14 @@ class FirebaseFactory {
    * @returns map of documents
    * @memberof FirebaseFactory
    */
-  async query(collection, params, sortKey) {
+  async query(collection, params, sortKey, invalidate = false) {
+    const cacheKey = `${collection}?${hashRef(params)}&sort:${sortKey}`
+    const cached = this.tryCache('query', cacheKey, invalidate)
+
+    if (cached) {
+      return cached
+    }
+
     let query = await this.col(collection)
       .query()
       .where('owner', '==', this.owner)
@@ -105,7 +160,11 @@ class FirebaseFactory {
     }
 
     let snapshot = await query.orderBy(sortKey).run()
-    return snapshot.map(FirebaseFactory.documentWithRef)
+    return this.updateCache(
+      'query',
+      cacheKey,
+      snapshot.map(FirebaseFactory.documentWithRef)
+    )
   }
 
   // /**

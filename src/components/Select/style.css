@@ -1,0 +1,78 @@
+.Select {
+  composes: inputContainer from '../global.css';
+}
+
+.Select label {
+  text-shadow: var(--text-shadow-sm);
+}
+
+.Select .Input {
+  background-color: var(--clr-input);
+  border-radius: var(--radius-md);
+  color: var(--clr-text-dark);
+  cursor: pointer;
+  height: var(--input-height);
+  min-width: var(--input-min-width);
+  padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+  user-select: none;
+}
+
+.CaretUp,
+.CaretDown {
+  background-image: url(../../assets/icons/caret-down.png);
+  cursor: pointer;
+  height: 16px;
+  margin-left: -26px;
+  margin-top: 1px;
+  pointer-events: none;
+  transition: linear 0.15s transform;
+  width: 16px;
+}
+
+.CaretUp {
+  transform: rotate(180deg);
+}
+
+.Menu,
+.MenuClosed {
+  background-color: var(--clr-input);
+  border-radius: var(--radius-md);
+  bottom: 0;
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: var(--input-padding-vertical) 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.Menu {
+  bottom: calc(var(--input-height) + var(--input-padding-vertical));
+  height: unset;
+  opacity: 1;
+  transition: bottom 0.5s, opacity 0.5s;
+  z-index: unset;
+}
+
+.Menu > div {
+  align-items: center;
+  display: flex;
+  height: var(--input-height);
+  justify-content: flex-start;
+  padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+}
+
+.Menu > div:not(.Selected) {
+  color: var(--clr-text-dark);
+  opacity: 0.6;
+}
+
+.Menu > div:hover {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.Selected {
+  background-color: var(--clr-input-bg-hover);
+  color: var(--clr-text-light);
+}

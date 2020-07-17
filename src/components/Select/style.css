@@ -12,9 +12,13 @@
   color: var(--clr-text-dark);
   cursor: pointer;
   height: var(--input-height);
-  min-width: var(--input-min-width);
+  overflow: hidden;
   padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+  padding-right: 1.6rem;
+  text-overflow: ellipsis;
   user-select: none;
+  white-space: nowrap;
+  width: var(--input-min-width);
 }
 
 .CaretUp,
@@ -62,7 +66,7 @@
   padding: var(--input-padding-vertical) var(--input-padding-horizontal);
 }
 
-.Menu > div:not(.Selected) {
+.Menu > div {
   color: var(--clr-text-dark);
   opacity: 0.6;
 }
@@ -70,9 +74,4 @@
 .Menu > div:hover {
   cursor: pointer;
   opacity: 1;
-}
-
-.Selected {
-  background-color: var(--clr-input-bg-hover);
-  color: var(--clr-text-light);
 }

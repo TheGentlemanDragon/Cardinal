@@ -1,0 +1,18 @@
+.EditorPage {
+  composes: fullPage from '../../global.css';
+
+  align-items: center;
+  justify-content: center;
+}
+
+.BottomMenu {
+  display: flex;
+  position: absolute;
+  bottom: var(--g-padding-vertical);
+  left: var(--g-padding-horizontal);
+  width: calc(100vw - 2 * var(--g-padding-horizontal));
+}
+
+.BottomMenu > div + div {
+  margin-left: var(--g-large-margin);
+}

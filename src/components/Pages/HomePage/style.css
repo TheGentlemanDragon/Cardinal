@@ -1,0 +1,3 @@
+.HomePage {
+  composes: page from '../../global.css';
+}

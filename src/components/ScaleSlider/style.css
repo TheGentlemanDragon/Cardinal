@@ -1,7 +1,9 @@
 .ScaleSlider {
-  bottom: var(--g-padding-vertical);
-  left: var(--g-padding-horizontal);
-  position: absolute;
+  composes: inputContainer from '../global.css';
+}
+
+.ScaleSlider label {
+  text-shadow: var(--text-shadow-sm);
 }
 
 .ScaleSlider input[type='range'] {
@@ -17,7 +19,7 @@
 .ScaleSlider input[type='range']::-webkit-slider-runnable-track {
   background-color: #333;
   border-radius: 2px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--box-shadow-sm);
   cursor: pointer;
   height: 0.25rem;
   width: 100%;
@@ -27,7 +29,7 @@
   -webkit-appearance: none;
   background: #ffffff;
   border-radius: 0.5rem;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--box-shadow-sm);
   cursor: pointer;
   height: 1rem;
   margin-top: -6px;

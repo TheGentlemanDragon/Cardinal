@@ -1,7 +1,8 @@
 import { h } from 'preact'
+import { useState, useEffect } from 'preact/hooks'
 import PropTypes from 'proptypes'
 
-import { useTemplates } from 'hooks'
+import { Firebase } from 'lib/data'
 import s from './style.css'
 
 /**
@@ -17,7 +18,18 @@ import s from './style.css'
  * )
  */
 function TemplatesPage({ gameId }) {
-  const templates = useTemplates(gameId) || []
+  const [templates, setTemplates] = useState([])
+
+  useEffect(() => {
+    ;(async () => {
+      const _templates = await Firebase.query(
+        'templates',
+        { gameRef: `/games/${gameId}` },
+        'name'
+      )
+      setTemplates(_templates)
+    })()
+  }, [gameId])
 
   return (
     <div class={s.TemplatesPage}>

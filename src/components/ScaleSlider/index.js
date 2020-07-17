@@ -11,6 +11,7 @@ function ScaleSlider() {
 
   return (
     <div class={s.ScaleSlider}>
+      <label>Scale</label>
       <input
         type="range"
         id="cardScale"

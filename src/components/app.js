@@ -2,9 +2,7 @@ import { h } from 'preact'
 import { Router } from 'preact-router'
 // import Match from 'preact-router/match'
 
-import HomePage from 'routes/home'
-import GamePage from 'routes/game'
-import TemplatePage from 'routes/template'
+import { HomePage, TemplatesPage, EditorPage } from 'components/Pages'
 
 import g from './global.css'
 
@@ -20,8 +18,8 @@ export default function App() {
 
       <Router>
         <HomePage path="/" />
-        <GamePage path="/games/:gameId" />
-        <TemplatePage path="/templates/:templateId" />
+        <TemplatesPage path="/games/:gameId" />
+        <EditorPage path="/games/:gameId/templates/:templateId" />
         {/* <Profile path="/profile/:user" /> */}
       </Router>
     </div>

@@ -3,6 +3,7 @@
   --g-margin-sm: 0.5rem;
   --g-margin-md: 1rem;
   --g-margin-lg: 2rem;
+  --g-padding-page-top: 4rem;
   --g-padding-vertical: 1.1rem;
   --g-padding-horizontal: 4%;
   --radius-sm: 0.2rem;
@@ -116,7 +117,7 @@ a.item:hover {
 
 .page {
   margin: var(--g-padding-vertical) auto;
-  padding: 32px calc((100vw - 800px) / 2);
+  padding: var(--g-padding-page-top) calc((100vw - 800px) / 2) 32px;
 }
 
 .title {

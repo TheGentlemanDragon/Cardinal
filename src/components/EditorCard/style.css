@@ -6,7 +6,7 @@
   height: calc(3.5px * var(--res));
   overflow: hidden;
   margin-bottom: calc(var(--input-height) + var(--g-padding-vertical));
-  margin-left: 13rem;
+  margin-left: 18rem;
   position: relative;
   width: calc(2.5px * var(--res));
 }

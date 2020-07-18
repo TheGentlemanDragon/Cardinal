@@ -17,7 +17,7 @@ function ScaleSlider() {
         id="cardScale"
         name="cardScale"
         min="1"
-        max="3"
+        max="4"
         step="0.05"
         value={scale}
         onInput={withEventTargetValue(set.scale)}

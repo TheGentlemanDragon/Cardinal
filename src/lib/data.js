@@ -9,7 +9,7 @@ function hashRef(obj) {
     ? obj
     : Object.keys(obj)
         .sort()
-        .map(key => key + ':' + hashRef(obj[key]))
+        .map((key) => key + ':' + hashRef(obj[key]))
 }
 
 /**
@@ -188,11 +188,15 @@ class FirebaseFactory {
 
 class Storage {
   static set(key, obj) {
-    localStorage.setItem(key, JSON.stringify(obj))
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(key, JSON.stringify(obj))
+    }
   }
 
   static get(key) {
-    return JSON.parse(localStorage.getItem(key))
+    if (typeof window !== 'undefined') {
+      return JSON.parse(window.localStorage.getItem(key))
+    }
   }
 }
 

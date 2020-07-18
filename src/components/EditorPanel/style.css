@@ -1,0 +1,14 @@
+.EditorPanel {
+  background-color: var(--clr-bg-dark);
+  border-radius: var(--radius-md);
+  left: var(--g-padding-horizontal);
+  position: absolute;
+  width: 13rem;
+  padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
+  margin-left: 2rem;
+}
+
+.AddElement {
+  display: flex;
+  justify-content: space-evenly;
+}

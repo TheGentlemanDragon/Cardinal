@@ -14,5 +14,5 @@
 }
 
 .BottomMenu > div + div {
-  margin-left: var(--g-large-margin);
+  margin-left: var(--g-margin-lg);
 }

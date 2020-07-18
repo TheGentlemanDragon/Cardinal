@@ -2,7 +2,13 @@ import { h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import PropTypes from 'proptypes'
 
-import { EditorCard, FlexSeparator, ScaleSlider, Select } from 'components'
+import {
+  EditorCard,
+  EditorPanel,
+  FlexSeparator,
+  ScaleSlider,
+  Select,
+} from 'components'
 import { withEditorContext } from 'contexts'
 import { openEditorTemplate } from 'lib/actions'
 import { Firebase } from 'lib/data'
@@ -39,6 +45,7 @@ function EditorPage({ gameId, templateId }) {
 
   return (
     <div class={s.EditorPage}>
+      <EditorPanel />
       <EditorCard template={template} />
 
       <div class={s.BottomMenu}>

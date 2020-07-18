@@ -1,7 +1,8 @@
 :root {
   /* Sizes */
-  --g-margin: 1rem;
-  --g-large-margin: 2rem;
+  --g-margin-sm: 0.5rem;
+  --g-margin-md: 1rem;
+  --g-margin-lg: 2rem;
   --g-padding-vertical: 1.1rem;
   --g-padding-horizontal: 4%;
   --radius-sm: 0.2rem;
@@ -14,12 +15,15 @@
   --panel-padding-horizontal: 0.8rem;
 
   /* Colors */
-  --clr-bg-card: rgba(250, 250, 250, 0.9);
+  --clr-white: rgba(250, 250, 250, 0.9);
+
+  --clr-bg-card: var(--clr-white);
   --clr-bg-dark: rgba(24, 24, 24, 0.5);
   --clr-text-dark: rgba(24, 24, 24, 0.9);
   --clr-text-light: rgba(32, 32, 32, 0.9);
-  --clr-input: rgba(250, 250, 250, 0.9);
+  --clr-input: var(--clr-white);
   --clr-input-bg-hover: rgb(12, 64, 124, 0.6);
+  --clr-svg-fill: var(--clr-white);
   /* rgb(18, 73, 136, 0.4); */
 
   /* Complex */
@@ -65,6 +69,7 @@ h2,
 h3,
 h4,
 h5 {
+  margin-bottom: var(--g-margin-sm);
   margin-top: 0;
 }
 
@@ -88,7 +93,7 @@ h5 {
 }
 
 .inputContainer label {
-  margin-right: var(--g-margin);
+  margin-right: var(--g-margin-md);
 }
 
 .item {

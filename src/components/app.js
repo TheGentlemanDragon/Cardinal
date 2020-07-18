@@ -5,7 +5,6 @@ import { Router } from 'preact-router'
 import { HomePage, TemplatesPage, EditorPage } from 'components/Pages'
 
 import g from './global.css'
-import './fonts.css'
 
 export default function App() {
   return (

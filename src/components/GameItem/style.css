@@ -1,5 +1,5 @@
 .GameItem {
-  background-color: var(--clr-card-bg);
+  background-color: var(--clr-bg-card);
   border-radius: var(--radius-sm);
   box-shadow: var(--box-shadow-md);
   color: var(--clr-text-dark);

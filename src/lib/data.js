@@ -1,15 +1,19 @@
-import Firestore from 'firebase-firestore-lite'
+import { Database } from 'firebase-firestore-lite'
+import Auth from 'firebase-auth-lite'
+
 import config from './config'
 
 const rxRef = /.*Ref$/
 const DEBUG = false
+
+const auth = new Auth({ apiKey: config.apiKey })
 
 function hashRef(obj) {
   return typeof obj !== 'object'
     ? obj
     : Object.keys(obj)
         .sort()
-        .map((key) => key + ':' + hashRef(obj[key]))
+        .map(key => key + ':' + hashRef(obj[key]))
 }
 
 /**
@@ -19,11 +23,10 @@ function hashRef(obj) {
  */
 class FirebaseFactory {
   constructor() {
-    this.db = new Firestore(config)
-    this.collections = {}
+    this.db = new Database({ projectId: config.projectId, auth })
     this.owner = null
     this.cache = {
-      col: {},
+      collection: {},
       doc: {},
       list: {},
       query: {},
@@ -42,11 +45,12 @@ class FirebaseFactory {
    * @returns document
    * @memberof FirebaseFactory
    */
-  static documentWithRef(doc) {
+  static docWithMeta(doc, ref) {
     return {
       ...doc,
       $id: doc.__meta__.id,
-      $ref: doc.__meta__.path.slice(1),
+      $path: doc.__meta__.path.slice(1),
+      $ref: ref,
     }
   }
 
@@ -74,10 +78,15 @@ class FirebaseFactory {
    * @returns collection
    * @memberof FirebaseFactory
    */
-  col(name) {
-    let col = this.collections[name]
-    col = col || this.db.reference(name)
-    return col
+  col(name, invalidate = false) {
+    const cached = this.tryCache('collection', name, invalidate)
+
+    if (cached) {
+      return cached
+    }
+
+    const colRef = this.db.ref(name)
+    return this.updateCache('collection', name, colRef)
   }
 
   /**
@@ -88,16 +97,21 @@ class FirebaseFactory {
    * @returns document
    * @memberof FirebaseFactory
    */
-  async doc(collection, doc, invalidate = false) {
-    const key = `${collection}/${doc}`
+  async doc(collection, name, invalidate = false) {
+    const key = `${collection}/${name}`
     const cached = this.tryCache('doc', key, invalidate)
 
     if (cached) {
       return cached
     }
 
-    const docRef = await this.col(key, invalidate).get()
-    return this.updateCache('doc', key, FirebaseFactory.documentWithRef(docRef))
+    const docRef = this.col(key, invalidate)
+    const doc = await docRef.get()
+    return this.updateCache(
+      'doc',
+      key,
+      FirebaseFactory.docWithMeta(doc, docRef)
+    )
   }
 
   /**
@@ -116,14 +130,15 @@ class FirebaseFactory {
     }
 
     const snapshot = await this.col(collection, invalidate)
-      .query()
-      .where('owner', '==', this.owner)
-      .orderBy(sortKey)
+      .query({
+        where: [['owner', '==', this.owner]],
+        orderBy: sortKey,
+      })
       .run()
     return this.updateCache(
       'list',
       key,
-      snapshot.map(FirebaseFactory.documentWithRef)
+      snapshot.map(FirebaseFactory.docWithMeta)
     )
   }
 
@@ -143,27 +158,30 @@ class FirebaseFactory {
       return cached
     }
 
-    let query = await this.col(collection)
-      .query()
-      .where('owner', '==', this.owner)
+    const filter = {
+      where: [['owner', '==', this.owner]],
+      orderBy: sortKey,
+    }
 
     let keys = Object.keys(params)
     let key
     while ((key = keys.pop())) {
       let value
       if (rxRef.test(key)) {
-        value = this.db.reference(params[key])
+        value = this.db.ref(params[key])
       } else {
         value = params[key]
       }
-      query = query.where(key, '==', value)
+      filter.where.push([key, '==', value])
     }
 
-    let snapshot = await query.orderBy(sortKey).run()
+    let snapshot = await this.col(collection)
+      .query(filter)
+      .run()
     return this.updateCache(
       'query',
       cacheKey,
-      snapshot.map(FirebaseFactory.documentWithRef)
+      snapshot.map(FirebaseFactory.docWithMeta)
     )
   }
 

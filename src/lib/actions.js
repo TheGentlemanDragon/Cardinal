@@ -3,6 +3,7 @@ import { route } from 'preact-router'
 import { Firebase } from 'lib/data'
 
 export async function openEditorTemplate(game, template) {
+  // If no template selected, pick the first one
   if (game && !template) {
     const templates = await Firebase.query(
       'templates',
@@ -12,5 +13,5 @@ export async function openEditorTemplate(game, template) {
     template = templates[0]
   }
 
-  route(`/${game.$ref}/${template.$ref}`, true)
+  route(`/${game.$path}/${template.$path}`, true)
 }

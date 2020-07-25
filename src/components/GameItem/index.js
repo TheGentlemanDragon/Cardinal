@@ -6,7 +6,7 @@ import s from './style.css'
 function GameItem({ game }) {
   return (
     <>
-      <div class={s.GameItem} onClick={goToUrl(game.$ref)}>
+      <div class={s.GameItem} onClick={goToUrl(game.$path)}>
         <figure>Preview</figure>
         <dl>
           <dt>{game.name}</dt>

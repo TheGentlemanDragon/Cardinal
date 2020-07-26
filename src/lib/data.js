@@ -45,12 +45,11 @@ class FirebaseFactory {
    * @returns document
    * @memberof FirebaseFactory
    */
-  static docWithMeta(doc, ref) {
+  static docWithMeta(doc) {
     return {
       ...doc,
       $id: doc.__meta__.id,
       $path: doc.__meta__.path.slice(1),
-      $ref: ref,
     }
   }
 
@@ -105,13 +104,8 @@ class FirebaseFactory {
       return cached
     }
 
-    const docRef = this.col(key, invalidate)
-    const doc = await docRef.get()
-    return this.updateCache(
-      'doc',
-      key,
-      FirebaseFactory.docWithMeta(doc, docRef)
-    )
+    const doc = await this.col(key, invalidate).get()
+    return this.updateCache('doc', key, FirebaseFactory.docWithMeta(doc))
   }
 
   /**
@@ -167,6 +161,7 @@ class FirebaseFactory {
     let key
     while ((key = keys.pop())) {
       let value
+      // Query expects and actual ref and not just a string
       if (rxRef.test(key)) {
         value = this.db.ref(params[key])
       } else {
@@ -183,6 +178,10 @@ class FirebaseFactory {
       cacheKey,
       snapshot.map(FirebaseFactory.docWithMeta)
     )
+  }
+
+  async update(object, value) {
+    return Firebase.db.ref(object.$path).update(value)
   }
 
   // /**

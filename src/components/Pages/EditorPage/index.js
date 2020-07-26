@@ -29,23 +29,42 @@ import s from './style.css'
 function EditorPage({ gameId, templateId }) {
   const [games, setGames] = useState([])
   const [templates, setTemplates] = useState([])
+  const [template, setTemplate] = useState({})
+
   const game = games.find(item => item.$id === gameId) || {}
-  const template = templates.find(item => item.$id === templateId) || {}
+
+  // If template name changes
+  // const updateTemplates = async () => {
+  //   const _templates = await Firebase.query(
+  //     'templates',
+  //     { gameRef: `/games/${gameId}` },
+  //     'name',
+  //     true
+  //   )
+  //   setTemplates(_templates)
+  // }
+
+  const updateTemplate = async () => {
+    const _template = await Firebase.doc('templates', templateId, true)
+    setTemplate(_template)
+  }
 
   useEffect(() => {
     ;(async () => {
-      const [_games, _templates] = await Promise.all([
+      const [_games, _templates, _template] = await Promise.all([
         Firebase.list('games', 'name'),
         Firebase.query('templates', { gameRef: `/games/${gameId}` }, 'name'),
+        Firebase.doc('templates', templateId, true),
       ])
       setGames(_games)
       setTemplates(_templates)
+      setTemplate(_template)
     })()
   }, [gameId, templateId])
 
   return (
     <div class={s.EditorPage}>
-      <EditorPanel />
+      <EditorPanel template={template} onUpdate={updateTemplate} />
       <EditorCard template={template} />
 
       <div class={s.BottomMenu}>

@@ -1,5 +1,16 @@
 import { route } from 'preact-router'
 
+function pointInRect(point) {
+  return function(rect) {
+    return (
+      rect.left <= point.x &&
+      rect.right >= point.x &&
+      rect.top <= point.y &&
+      rect.bottom >= point.y
+    )
+  }
+}
+
 export function debounce(fn, delay) {
   let timeout
 
@@ -7,11 +18,6 @@ export function debounce(fn, delay) {
     clearTimeout(timeout)
     timeout = setTimeout(() => fn(...args), delay)
   }
-}
-
-/** Return copy of array with specified index moved to last position */
-export function indexToBack(ary = [], index = 0) {
-  return ary.length ? [...ary.filter((_, i) => i !== index), ary[index]] : []
 }
 
 /**
@@ -41,6 +47,27 @@ export function renderStyle(element = {}, baseStyle) {
     },
     { ...baseStyle }
   )
+}
+
+export function selectElement(index, event, fn) {
+  const { currentTarget: card, x, y } = event
+
+  // Shift elements to back
+  const originalElements = Array.from(card.children)
+  const elements = [
+    ...originalElements.slice(index + 1),
+    ...originalElements.slice(0, index + 1),
+  ]
+
+  // Get the first clicked on item from shifted array
+  const clickedOn = pointInRect({ x, y })
+  const clickedElement = elements.find(item =>
+    clickedOn(item.getBoundingClientRect())
+  )
+
+  // Select that item by its index in original array
+  const nextIndex = originalElements.indexOf(clickedElement)
+  fn(nextIndex)
 }
 
 export function withEventTargetValue(cb) {

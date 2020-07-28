@@ -1,6 +1,6 @@
 import { h } from 'preact'
 
-import { goToUrl } from 'lib/functional'
+import { goToUrl } from 'lib/utils'
 import s from './style.css'
 
 function GameItem({ game }) {

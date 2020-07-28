@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import PropTypes from 'proptypes'
 
-import { noop } from 'lib/functional'
+import { noop } from 'lib/utils'
 import s from './style.css'
 
 const typeMap = {

@@ -9,6 +9,11 @@ export function debounce(fn, delay) {
   }
 }
 
+/** Return copy of array with specified index moved to last position */
+export function indexToBack(ary = [], index = 0) {
+  return ary.length ? [...ary.filter((_, i) => i !== index), ary[index]] : []
+}
+
 /**
  * Open url string in current window
  *
@@ -22,6 +27,21 @@ export function goToUrl(url) {
 }
 
 export function noop() {}
+
+export function renderStyle(element = {}, baseStyle) {
+  if (!element.style) {
+    return {}
+  }
+
+  return Object.keys(element.style).reduce(
+    (result, key) => {
+      const item = element.style[key]
+      result[key] = `${item.value}${item.unit || ''}`
+      return result
+    },
+    { ...baseStyle }
+  )
+}
 
 export function withEventTargetValue(cb) {
   return function(event) {

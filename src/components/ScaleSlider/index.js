@@ -2,7 +2,7 @@ import { h } from 'preact'
 // import PropTypes from 'proptypes'
 
 import { useEditorContext } from 'contexts/EditorContext'
-import { withEventTargetValue } from 'lib/functional'
+import { withEventTargetValue } from 'lib/utils'
 import s from './style.css'
 
 /** List games for the main page */

@@ -1,7 +1,7 @@
 import { createContext } from 'preact'
 import { useContext, useState } from 'preact/hooks'
 
-import { debounce } from 'lib/functional'
+import { debounce } from 'lib/utils'
 
 const writeToStorage = debounce((cacheKey, key, newVal) => {
   if (typeof window !== 'undefined') {
@@ -12,7 +12,7 @@ const writeToStorage = debounce((cacheKey, key, newVal) => {
 }, 250)
 
 function makeUseContext(context) {
-  return function () {
+  return function() {
     return useContext(context)
   }
 }
@@ -26,7 +26,7 @@ function populateContext(values, cacheKey) {
 
       const [value, setValue] = useState(values[key])
       result[key] = value
-      result.set[key] = (newVal) => {
+      result.set[key] = newVal => {
         if (cacheKey) {
           writeToStorage(cacheKey, key, newVal)
         }
@@ -52,8 +52,8 @@ export function useContextEx(defaults, cacheKey) {
   const Context = createContext({})
   const keyedUseContext = makeUseContext(Context)
 
-  const withContext = (Component) => {
-    return function (props) {
+  const withContext = Component => {
+    return function(props) {
       return (
         <Context.Provider value={populateContext(values, cacheKey)}>
           <Component {...props} />

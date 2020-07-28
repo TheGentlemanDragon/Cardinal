@@ -4,11 +4,24 @@
   box-shadow: var(--box-shadow-lg);
   color: #000;
   height: calc(3.5px * var(--res));
-  overflow: hidden;
   margin-bottom: calc(var(--input-height) + var(--g-padding-vertical));
   margin-left: 18rem;
   position: relative;
   width: calc(2.5px * var(--res));
+}
+
+.EditorElement {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  user-select: none;
+}
+
+.SelectedElement {
+  border: 1px dotted var(--clr-accent);
+  border-radius: var(--radius-sm);
 }
 
 /*

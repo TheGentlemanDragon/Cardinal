@@ -4,7 +4,7 @@ import { Firebase } from 'lib/data'
 
 const defaultElement = {
   style: {
-    height: { unit: 'px', value: 100 },
+    height: { unit: 'px', value: 30 },
     width: { unit: 'px', value: 100 },
   },
 }
@@ -24,11 +24,12 @@ export async function openEditorTemplate(game, template) {
 }
 
 export function addElement(template, type, callback) {
+  const name = `element${template.elements?.length || 0}`
   Firebase.update(template, {
-    elements: [...(template.elements || []), { ...defaultElement, type }],
+    elements: [...(template.elements || []), { ...defaultElement, name, type }],
   })
 
   // TODO: Fix this hack
-  // Update promise doesn't resolve; assume it will then make callback
+  // `update` promise doesn't resolve; assume it will then make callback
   setTimeout(callback, 300)
 }

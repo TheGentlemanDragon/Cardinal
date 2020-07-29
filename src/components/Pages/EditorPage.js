@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import PropTypes from 'proptypes'
+import { css } from 'linaria'
 
 import {
   EditorCard,
@@ -12,7 +13,34 @@ import {
 import { withEditorContext } from 'contexts'
 import { openEditorTemplate } from 'lib/actions'
 import { Firebase } from 'lib/data'
-import s from './style.css'
+
+const mainCss = css`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+
+  align-items: center;
+  justify-content: center;
+`
+
+const bottomMenuCss = css`
+  display: flex;
+  position: absolute;
+  bottom: var(--g-padding-vertical);
+  left: var(--g-padding-horizontal);
+  width: calc(100vw - 2 * var(--g-padding-horizontal));
+
+  & > div + div {
+    margin-left: var(--g-margin-lg);
+  }
+`
+
+EditorPage.propTypes = {
+  templateId: PropTypes.string.isRequired,
+}
 
 /**
  * Some documented component
@@ -26,7 +54,7 @@ import s from './style.css'
  *   <EditorPage templateId={templateId} />
  * )
  */
-function EditorPage({ gameId, templateId }) {
+export function EditorPage({ gameId, templateId }) {
   const [games, setGames] = useState([])
   const [templates, setTemplates] = useState([])
   const [template, setTemplate] = useState({})
@@ -63,11 +91,11 @@ function EditorPage({ gameId, templateId }) {
   }, [gameId, templateId])
 
   return (
-    <div class={s.EditorPage}>
+    <div class={mainCss}>
       <EditorPanel template={template} onUpdate={updateTemplate} />
       <EditorCard template={template} />
 
-      <div class={s.BottomMenu}>
+      <div class={bottomMenuCss}>
         <Select
           labelKey="name"
           name="Game"
@@ -88,9 +116,3 @@ function EditorPage({ gameId, templateId }) {
     </div>
   )
 }
-
-EditorPage.propTypes = {
-  templateId: PropTypes.string.isRequired,
-}
-
-export default withEditorContext(EditorPage, true)

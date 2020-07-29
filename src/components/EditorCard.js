@@ -1,13 +1,37 @@
 import { h } from 'preact'
 import PropTypes from 'proptypes'
+import { css } from 'linaria'
 
 import { ElementModifier } from 'components'
 import { useEditorContext } from 'contexts/EditorContext'
 import { useGlobalBlur } from 'hooks'
 import { renderStyle, selectElement } from 'lib/utils'
-import s from './style.css'
 
-function EditorCard({ template = {} }) {
+const mainCss = css`
+  background-color: #ffffff;
+  border-radius: calc(0.13px * var(--res));
+  box-shadow: var(--box-shadow-lg);
+  height: calc(3.5px * var(--res));
+  margin-bottom: calc(var(--input-height) + var(--g-padding-vertical));
+  margin-left: 18rem;
+  position: relative;
+  width: calc(2.5px * var(--res));
+`
+
+const elementCss = css`
+  align-items: center;
+  color: #888;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  user-select: none;
+`
+
+EditorCard.proptypes = {
+  template: PropTypes.object.isRequired,
+}
+
+export function EditorCard({ template = {} }) {
   const { scale, elementIndex, set } = useEditorContext()
 
   const { elements = [] } = template
@@ -18,7 +42,7 @@ function EditorCard({ template = {} }) {
   return (
     <div
       ref={blurRef}
-      class={s.EditorCard}
+      class={mainCss}
       id="EditorCard"
       style={{ transform: `scale(${scale})` }}
       onClick={selectElement(elementIndex, set.elementIndex)}
@@ -28,7 +52,7 @@ function EditorCard({ template = {} }) {
       {elements.map(element => (
         <div
           key={element.name}
-          class={`element ${s.EditorElement}`}
+          class={`element ${elementCss}`}
           style={renderStyle(element)}
         >
           {element.name}
@@ -37,9 +61,3 @@ function EditorCard({ template = {} }) {
     </div>
   )
 }
-
-EditorCard.proptypes = {
-  template: PropTypes.object.isRequired,
-}
-
-export default EditorCard

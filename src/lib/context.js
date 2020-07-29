@@ -2,13 +2,12 @@ import { createContext } from 'preact'
 import { useContext, useState } from 'preact/hooks'
 
 import { debounce } from 'lib/utils'
+import { Storage } from 'lib/data'
 
 const writeToStorage = debounce((cacheKey, key, newVal) => {
-  if (typeof window !== 'undefined') {
-    const stored = JSON.parse(window.localStorage.getItem(cacheKey)) || {}
-    stored[key] = newVal
-    window.localStorage.setItem(cacheKey, JSON.stringify(stored))
-  }
+  const stored = Storage.get(cacheKey) || {}
+  stored[key] = newVal
+  Storage.set(cacheKey, stored)
 }, 250)
 
 function makeUseContext(context) {
@@ -42,10 +41,10 @@ export function useContextEx(defaults, cacheKey) {
   const cached = {}
 
   // Persist value to localStorage if cacheKey is provided
-  if (cacheKey && typeof window !== 'undefined') {
+  if (cacheKey) {
     cacheKey = cacheKey[0].toUpperCase() + cacheKey.slice(1).toLowerCase()
     cacheKey += 'Context'
-    Object.assign(cached, JSON.parse(window.localStorage.getItem(cacheKey)))
+    Object.assign(cached, Storage.get(cacheKey))
   }
 
   const values = { ...defaults, ...cached }

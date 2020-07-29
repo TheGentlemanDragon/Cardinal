@@ -1,6 +1,7 @@
 /.vscode
 /*.log
 /build
+/.linaria-cache
 config.js
 node_modules
 size-plugin.json

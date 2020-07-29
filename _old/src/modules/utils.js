@@ -42,7 +42,7 @@ const imgurAlbum = id => `https://api.imgur.com/3/album/${id}/images`
 const imgurOptions = {
   method: 'GET',
   headers: new Headers({
-    Authorization: 'Client-ID ' + localStorage.getItem('imgurClientId'),
+    // Authorization: 'Client-ID ' + localStorage.getItem('imgurClientId'),
   }),
 }
 

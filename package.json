@@ -9,7 +9,7 @@
     "start": "per-env",
     "start:production": "npm run -s serve",
     "start:development": "npm run -s dev",
-    "build": "preact build",
+    "build": "preact build --no-prerender",
     "serve": "preact build && sirv build --cors --single",
     "dev": "preact watch",
     "lint": "eslint src",
@@ -25,11 +25,13 @@
     "@jaames/iro": "^4.5.1",
     "firebase-auth-lite": "^0.8.5",
     "firebase-firestore-lite": "^10.0.0-beta.9",
+    "linaria": "^1.3.3",
     "preact": "^10.3.2",
     "preact-render-to-string": "^5.1.4",
     "preact-router": "^3.2.1"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.10.4",
     "enzyme": "^3.10.0",
     "enzyme-adapter-preact-pure": "^2.0.0",
     "eslint": "^6.0.1",

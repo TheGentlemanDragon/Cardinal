@@ -203,17 +203,20 @@ class FirebaseFactory {
   // }
 }
 
+// Shim for server-side rendering and test
+let storage = { getItem: () => {}, setItem: () => {} }
+
+if (window && window.localStorage && typeof window.localStorage === 'object') {
+  storage = window.localStorage
+}
+
 class Storage {
   static set(key, obj) {
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem(key, JSON.stringify(obj))
-    }
+    storage.setItem(key, JSON.stringify(obj))
   }
 
   static get(key) {
-    if (typeof window !== 'undefined') {
-      return JSON.parse(window.localStorage.getItem(key))
-    }
+    return JSON.parse(storage.getItem(key))
   }
 }
 

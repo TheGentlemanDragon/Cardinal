@@ -1,13 +1,23 @@
 import { h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
-// import PropTypes from 'proptypes'
+import { css } from 'linaria'
 
 import { GameItem } from 'components'
 import { Firebase } from 'lib/data'
-import s from './style.css'
+
+const mainCss = css`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: var(--g-padding-vertical) auto;
+  padding: var(--g-padding-page-top) calc((100vw - 800px) / 2) 32px;
+  position: absolute;
+  width: 100vw;
+  z-index: 1;
+`
 
 /** List games for the main page */
-function HomePage() {
+export function HomePage() {
   const [games, setGames] = useState([])
 
   useEffect(() => {
@@ -17,7 +27,7 @@ function HomePage() {
   }, [])
 
   return (
-    <div class={s.HomePage}>
+    <div class={mainCss}>
       <h2>Games</h2>
 
       {/* Games List */}
@@ -27,7 +37,3 @@ function HomePage() {
     </div>
   )
 }
-
-// HomePage.propTypes = {}
-
-export default HomePage

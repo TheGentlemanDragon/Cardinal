@@ -124,11 +124,11 @@ class FirebaseFactory {
 
 class Storage {
   static set(key, obj) {
-    localStorage.setItem(key, JSON.stringify(obj))
+    // localStorage.setItem(key, JSON.stringify(obj))
   }
 
   static get(key) {
-    return JSON.parse(localStorage.getItem(key))
+    // return JSON.parse(localStorage.getItem(key))
   }
 }
 

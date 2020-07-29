@@ -54,7 +54,7 @@ EditorPage.propTypes = {
  *   <EditorPage templateId={templateId} />
  * )
  */
-export function EditorPage({ gameId, templateId }) {
+function EditorPage({ gameId, templateId }) {
   const [games, setGames] = useState([])
   const [templates, setTemplates] = useState([])
   const [template, setTemplate] = useState({})
@@ -116,3 +116,7 @@ export function EditorPage({ gameId, templateId }) {
     </div>
   )
 }
+
+const EditorPageWithContext = withEditorContext(EditorPage, true)
+
+export { EditorPageWithContext as EditorPage }

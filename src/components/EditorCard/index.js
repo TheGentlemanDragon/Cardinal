@@ -1,6 +1,7 @@
 import { h } from 'preact'
 import PropTypes from 'proptypes'
 
+import { ElementModifier } from 'components'
 import { useEditorContext } from 'contexts/EditorContext'
 import { useGlobalBlur } from 'hooks'
 import { renderStyle, selectElement } from 'lib/utils'
@@ -8,30 +9,31 @@ import s from './style.css'
 
 function EditorCard({ template = {} }) {
   const { scale, elementIndex, set } = useEditorContext()
-  const { blurRef } = useGlobalBlur(elementIndex !== -1, () =>
-    set.elementIndex(-1)
-  )
+
   const { elements = [] } = template
+  const hasSelected = elements.length > 0 && elementIndex > -1
+
+  const { blurRef } = useGlobalBlur(hasSelected, () => set.elementIndex(-1))
 
   return (
     <div
       ref={blurRef}
       class={s.EditorCard}
+      id="EditorCard"
       style={{ transform: `scale(${scale})` }}
-      onClick={event => selectElement(elementIndex, event, set.elementIndex)}
+      onClick={selectElement(elementIndex, set.elementIndex)}
     >
-      {elements.map((element, index) => {
-        const selected = index === elementIndex ? s.SelectedElement : ''
-        return (
-          <div
-            key={element.name}
-            class={`${s.EditorElement} ${selected}`}
-            style={renderStyle(element)}
-          >
-            {element.name}
-          </div>
-        )
-      })}
+      {hasSelected && <ElementModifier element={elements[elementIndex]} />}
+
+      {elements.map(element => (
+        <div
+          key={element.name}
+          class={`element ${s.EditorElement}`}
+          style={renderStyle(element)}
+        >
+          {element.name}
+        </div>
+      ))}
     </div>
   )
 }

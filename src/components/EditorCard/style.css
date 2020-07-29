@@ -2,7 +2,6 @@
   background-color: #ffffff;
   border-radius: calc(0.13px * var(--res));
   box-shadow: var(--box-shadow-lg);
-  color: #000;
   height: calc(3.5px * var(--res));
   margin-bottom: calc(var(--input-height) + var(--g-padding-vertical));
   margin-left: 18rem;
@@ -11,17 +10,12 @@
 }
 
 .EditorElement {
-  cursor: pointer;
+  align-items: center;
+  color: #888;
   display: flex;
   justify-content: center;
-  align-items: center;
   position: absolute;
   user-select: none;
-}
-
-.SelectedElement {
-  border: 1px dotted var(--clr-accent);
-  border-radius: var(--radius-sm);
 }
 
 /*

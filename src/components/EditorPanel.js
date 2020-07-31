@@ -22,10 +22,10 @@ const addElementCss = css`
 
 EditorPanel.proptypes = {
   template: PropTypes.object.isRequired,
-  onUpdate: PropTypes.func,
+  onUpdate: PropTypes.func.isRequired,
 }
 
-export function EditorPanel({ template = {}, onUpdate }) {
+export function EditorPanel({ template, onUpdate }) {
   const addImage = () => addElement(template, 'image', onUpdate)
   const addText = () => addElement(template, 'text', onUpdate)
 

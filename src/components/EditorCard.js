@@ -20,18 +20,23 @@ const mainCss = css`
 
 const elementCss = css`
   align-items: center;
-  color: #888;
+  color: #aaa;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   position: absolute;
   user-select: none;
+
+  &:hover {
+    outline: 1px dotted #aaa;
+  }
 `
 
 EditorCard.proptypes = {
   template: PropTypes.object.isRequired,
 }
 
-export function EditorCard({ template = {} }) {
+export function EditorCard({ template }) {
   const { scale, elementIndex, set } = useEditorContext()
 
   const { elements = [] } = template

@@ -4,6 +4,7 @@ import { ElementModifier } from './ElementModifier'
 import { FlexSeparator } from './FlexSeparator'
 import { GameItem } from './GameItem'
 import { IconButton } from './IconButton'
+import { InteractionPoint } from './InteractionPoint'
 import { ScaleSlider } from './ScaleSlider'
 import { Select } from './Select'
 
@@ -14,6 +15,7 @@ export {
   FlexSeparator,
   GameItem,
   IconButton,
+  InteractionPoint,
   ScaleSlider,
   Select,
 }

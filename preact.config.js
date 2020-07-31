@@ -27,6 +27,7 @@ export default config => {
         loader: 'linaria/loader',
         options: {
           babelOptions: options, // Pass the current babel options to linaria's babel instance
+          displayName: true,
         },
       },
     ],

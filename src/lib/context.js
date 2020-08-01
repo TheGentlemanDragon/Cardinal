@@ -37,7 +37,7 @@ function populateContext(values, cacheKey) {
   )
 }
 
-export function useContextEx(defaults, cacheKey) {
+export function useContextEx(defaults, cacheKey, exclude = []) {
   const cached = {}
 
   // Persist value to localStorage if cacheKey is provided
@@ -45,6 +45,7 @@ export function useContextEx(defaults, cacheKey) {
     cacheKey = cacheKey[0].toUpperCase() + cacheKey.slice(1).toLowerCase()
     cacheKey += 'Context'
     Object.assign(cached, Storage.get(cacheKey))
+    exclude.forEach(key => delete cached[key])
   }
 
   const values = { ...defaults, ...cached }

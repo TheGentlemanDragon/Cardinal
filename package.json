@@ -24,7 +24,7 @@
   "dependencies": {
     "@jaames/iro": "^4.5.1",
     "firebase-auth-lite": "^0.8.5",
-    "firebase-firestore-lite": "^10.0.0-beta.9",
+    "firebase-firestore-lite": "^1.0.0-RC1.2",
     "linaria": "^1.3.3",
     "preact": "^10.3.2",
     "preact-render-to-string": "^5.1.4",

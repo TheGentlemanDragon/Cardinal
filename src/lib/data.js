@@ -180,7 +180,7 @@ class FirebaseFactory {
     )
   }
 
-  async update(object, value) {
+  update(object, value) {
     return Firebase.db.ref(object.$path).update(value)
   }
 

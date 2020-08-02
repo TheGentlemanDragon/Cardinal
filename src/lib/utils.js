@@ -1,5 +1,40 @@
 import { route } from 'preact-router'
 
+const MIN_SIZE = 18
+
+const atLeastMin = value => Math.max(MIN_SIZE, value)
+
+const clampLeft = (value, style, delta) => {
+  if (!delta.width && !delta.height) {
+    return value
+  }
+  return Math.min(value, style.left.value + style.width.value - MIN_SIZE)
+}
+
+const clampTop = (value, style, delta) => {
+  if (!delta.width && !delta.height) {
+    return value
+  }
+  return Math.min(value, style.top.value + style.height.value - MIN_SIZE)
+}
+
+const boundsMap = {
+  height: atLeastMin,
+  width: atLeastMin,
+  left: clampLeft,
+  top: clampTop,
+}
+
+function applyBounds(style, delta) {
+  return function(key, value) {
+    return (boundsMap[key] || identity)(value, style, delta)
+  }
+}
+
+function identity(value) {
+  return value
+}
+
 function pointInRect(point) {
   return function(rect) {
     return (
@@ -34,21 +69,6 @@ export function goToUrl(url) {
 
 export function noop() {}
 
-export function renderStyle(element = {}, baseStyle) {
-  if (!element.style) {
-    return {}
-  }
-
-  return Object.keys(element.style).reduce(
-    (result, key) => {
-      const item = element.style[key]
-      result[key] = `${item.value}${item.unit || ''}`
-      return result
-    },
-    { ...baseStyle }
-  )
-}
-
 export function selectElement(index, setSelected) {
   return function(event) {
     const { x, y } = event
@@ -72,6 +92,40 @@ export function selectElement(index, setSelected) {
   }
 }
 
+export function styleDelta(element = {}, delta = {}) {
+  if (!element.style) {
+    return {}
+  }
+
+  const { style } = element
+
+  return Object.keys(style).reduce((result, key) => {
+    const item = (result[key] = { ...style[key] })
+    const offset = delta[key] || 0
+    item.value = applyBounds(style, delta)(key, item.value + offset)
+    return result
+  }, {})
+}
+
+export function styleRender(element = {}, baseStyle = {}, delta = {}) {
+  if (!element.style) {
+    return {}
+  }
+
+  const { style } = element
+
+  return Object.keys(style).reduce(
+    (result, key) => {
+      const item = style[key]
+      const offset = delta[key] || 0
+      const value = applyBounds(style, delta)(key, item.value + offset)
+      result[key] = `${value}${item.unit || ''}`
+      return result
+    },
+    { ...baseStyle }
+  )
+}
+
 export function withEventTargetValue(cb) {
   return function(event) {
     return cb(event.target.value)
@@ -83,60 +137,3 @@ export function withToggle(setState, initialState) {
     setState(!initialState)
   }
 }
-
-// const EDGE_MARGIN = 4
-// export function updateCursor(index, cursor, setCursor) {
-//   return function(event) {
-//     let mode = 'default'
-//     const { x, y } = event
-
-//     const elements = Array.from(document.getElementById('EditorCard').children)
-//     const rect = elements[index].getBoundingClientRect()
-//     const isPointInRect = pointInRect({ x, y })
-
-//     const leftRect = {
-//       left: rect.left - EDGE_MARGIN,
-//       right: rect.left + EDGE_MARGIN,
-//       top: rect.top - EDGE_MARGIN,
-//       bottom: rect.bottom + EDGE_MARGIN,
-//     }
-//     const rightRect = {
-//       left: rect.right - EDGE_MARGIN,
-//       right: rect.right + EDGE_MARGIN,
-//       top: rect.top - EDGE_MARGIN,
-//       bottom: rect.bottom + EDGE_MARGIN,
-//     }
-//     const topRect = {
-//       top: rect.top - EDGE_MARGIN,
-//       bottom: rect.top + EDGE_MARGIN,
-//       left: rect.left - EDGE_MARGIN,
-//       right: rect.right + EDGE_MARGIN,
-//     }
-//     const bottomRect = {
-//       top: rect.bottom - EDGE_MARGIN,
-//       bottom: rect.bottom + EDGE_MARGIN,
-//       left: rect.left - EDGE_MARGIN,
-//       right: rect.right + EDGE_MARGIN,
-//     }
-
-//     if (
-//       (isPointInRect(leftRect) && isPointInRect(topRect)) ||
-//       (isPointInRect(rightRect) && isPointInRect(bottomRect))
-//     ) {
-//       mode = 'nw-resize'
-//     } else if (
-//       (isPointInRect(rightRect) && isPointInRect(topRect)) ||
-//       (isPointInRect(leftRect) && isPointInRect(bottomRect))
-//     ) {
-//       mode = 'sw-resize'
-//     } else if (isPointInRect(leftRect) || isPointInRect(rightRect)) {
-//       mode = 'w-resize'
-//     } else if (isPointInRect(topRect) || isPointInRect(bottomRect)) {
-//       mode = 'n-resize'
-//     }
-
-//     if (cursor !== mode) {
-//       setCursor(mode)
-//     }
-//   }
-// }

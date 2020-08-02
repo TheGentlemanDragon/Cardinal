@@ -72,9 +72,10 @@ function EditorPage({ gameId, templateId }) {
   //   setTemplates(_templates)
   // }
 
-  const updateTemplate = async () => {
-    const _template = await Firebase.doc('templates', templateId, true)
-    setTemplate(_template)
+  const updateTemplate = async (modifyTemplate, postUpdate) => {
+    await modifyTemplate(template)
+    setTemplate(await Firebase.doc('templates', templateId, true))
+    postUpdate()
   }
 
   useEffect(() => {
@@ -92,8 +93,8 @@ function EditorPage({ gameId, templateId }) {
 
   return (
     <div class={mainCss}>
-      <EditorPanel template={template} onUpdate={updateTemplate} />
-      <EditorCard template={template} />
+      <EditorPanel onUpdate={updateTemplate} />
+      <EditorCard elements={template.elements} onUpdate={updateTemplate} />
 
       <div class={bottomMenuCss}>
         <Select

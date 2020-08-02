@@ -16,7 +16,7 @@ function makeUseContext(context) {
   }
 }
 
-function populateContext(values, cacheKey) {
+function populateContext(values, cacheKey, exclude) {
   return Object.keys(values).reduce(
     (result, key) => {
       if (key === 'set') {
@@ -26,7 +26,7 @@ function populateContext(values, cacheKey) {
       const [value, setValue] = useState(values[key])
       result[key] = value
       result.set[key] = newVal => {
-        if (cacheKey) {
+        if (cacheKey && !exclude.includes(key)) {
           writeToStorage(cacheKey, key, newVal)
         }
         setValue(newVal)
@@ -55,7 +55,7 @@ export function useContextEx(defaults, cacheKey, exclude = []) {
   const withContext = Component => {
     return function(props) {
       return (
-        <Context.Provider value={populateContext(values, cacheKey)}>
+        <Context.Provider value={populateContext(values, cacheKey, exclude)}>
           <Component {...props} />
         </Context.Provider>
       )

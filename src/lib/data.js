@@ -60,8 +60,10 @@ class FirebaseFactory {
       return null
     }
 
-    DEBUG && console.info(`Fetching from Cache [${method}] ${key}`)
-    return this.cache[method][key] || null
+    const value = this.cache[method][key]
+    DEBUG && value && console.info(`Fetching from Cache [${method}] ${key}`)
+
+    return value || null
   }
 
   updateCache(method, key, value) {
@@ -78,6 +80,7 @@ class FirebaseFactory {
    * @memberof FirebaseFactory
    */
   col(name, invalidate = false) {
+    DEBUG && console.info(`[DATA] ${invalidate ? '!' : ''}col - ${name}`)
     const cached = this.tryCache('collection', name, invalidate)
 
     if (cached) {
@@ -97,6 +100,8 @@ class FirebaseFactory {
    * @memberof FirebaseFactory
    */
   async doc(collection, name, invalidate = false) {
+    DEBUG &&
+      console.info(`[DATA] ${invalidate ? '!' : ''}doc - ${collection}:${name}`)
     const key = `${collection}/${name}`
     const cached = this.tryCache('doc', key, invalidate)
 
@@ -116,7 +121,8 @@ class FirebaseFactory {
    * @memberof FirebaseFactory
    */
   async list(collection, sortKey, invalidate = false) {
-    const key = `${collection}?sort:${sortKey}`
+    DEBUG && console.info(`[DATA] ${invalidate ? '!' : ''}list - ${collection}`)
+    const key = `${collection}?sort:${sortKey}${invalidate && '(i)'}`
     const cached = this.tryCache('list', key, invalidate)
 
     if (cached) {
@@ -147,6 +153,7 @@ class FirebaseFactory {
   async query(collection, params, sortKey, invalidate = false) {
     const cacheKey = `${collection}?${hashRef(params)}&sort:${sortKey}`
     const cached = this.tryCache('query', cacheKey, invalidate)
+    DEBUG && console.info(`[DATA] ${invalidate ? '!' : ''}query - ${cacheKey}`)
 
     if (cached) {
       return cached
@@ -210,7 +217,7 @@ if (window && window.localStorage && typeof window.localStorage === 'object') {
   storage = window.localStorage
 }
 
-class Storage {
+class Cache {
   static set(key, obj) {
     storage.setItem(key, JSON.stringify(obj))
   }
@@ -219,10 +226,7 @@ class Storage {
     return JSON.parse(storage.getItem(key))
   }
 }
-
-const Cache = {}
-
 const Firebase = new FirebaseFactory()
 Firebase.setOwner('nando')
 
-export { Firebase, Storage, Cache }
+export { Firebase, Cache }

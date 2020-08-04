@@ -2,12 +2,12 @@ import { createContext } from 'preact'
 import { useContext, useState } from 'preact/hooks'
 
 import { debounce } from 'lib/utils'
-import { Storage } from 'lib/data'
+import { Cache } from 'lib/data'
 
 const writeToStorage = debounce((cacheKey, key, newVal) => {
-  const stored = Storage.get(cacheKey) || {}
+  const stored = Cache.get(cacheKey) || {}
   stored[key] = newVal
-  Storage.set(cacheKey, stored)
+  Cache.set(cacheKey, stored)
 }, 250)
 
 function makeUseContext(context) {
@@ -44,7 +44,7 @@ export function useContextEx(defaults, cacheKey, exclude = []) {
   if (cacheKey) {
     cacheKey = cacheKey[0].toUpperCase() + cacheKey.slice(1).toLowerCase()
     cacheKey += 'Context'
-    Object.assign(cached, Storage.get(cacheKey))
+    Object.assign(cached, Cache.get(cacheKey))
     exclude.forEach(key => delete cached[key])
   }
 

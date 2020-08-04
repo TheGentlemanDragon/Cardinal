@@ -8,7 +8,7 @@ import {
   EditorPanel,
   FlexSeparator,
   ScaleSlider,
-  Select,
+  SelectCollection,
 } from 'components'
 import { withEditorContext } from 'contexts'
 import { openEditorTemplate } from 'lib/actions'
@@ -55,11 +55,7 @@ EditorPage.propTypes = {
  * )
  */
 function EditorPage({ gameId, templateId }) {
-  const [games, setGames] = useState([])
-  const [templates, setTemplates] = useState([])
   const [template, setTemplate] = useState({})
-
-  const game = games.find(item => item.$id === gameId) || {}
 
   // If template name changes
   // const updateTemplates = async () => {
@@ -79,16 +75,8 @@ function EditorPage({ gameId, templateId }) {
   }
 
   useEffect(() => {
-    ;(async () => {
-      const [_games, _templates, _template] = await Promise.all([
-        Firebase.list('games', 'name'),
-        Firebase.query('templates', { gameRef: `/games/${gameId}` }, 'name'),
-        Firebase.doc('templates', templateId, true),
-      ])
-      setGames(_games)
-      setTemplates(_templates)
-      setTemplate(_template)
-    })()
+    ;(async () =>
+      setTemplate(await Firebase.doc('templates', templateId, true)))()
   }, [gameId, templateId])
 
   return (
@@ -97,17 +85,19 @@ function EditorPage({ gameId, templateId }) {
       <EditorCard elements={template.elements} onUpdate={updateTemplate} />
 
       <div class={bottomMenuCss}>
-        <Select
+        <SelectCollection
+          collection="games"
           labelKey="name"
           name="Game"
-          options={games}
-          value={game.name}
+          value={gameId}
+          valueKey="$id"
           onSelect={item => openEditorTemplate(item)}
         />
-        <Select
+        <SelectCollection
+          collection="templates"
           labelKey="name"
           name="Template"
-          options={templates}
+          query={{ gameRef: `/games/${gameId}` }}
           value={template.name}
           onSelect={item => openEditorTemplate(game, item)}
         />

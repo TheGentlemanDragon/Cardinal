@@ -1,5 +1,7 @@
 import { route } from 'preact-router'
 
+/* Constants */
+
 const MIN_SIZE = 18
 
 const atLeastMin = value => Math.max(MIN_SIZE, value)
@@ -25,6 +27,8 @@ const boundsMap = {
   top: clampTop,
 }
 
+/* Locals */
+
 function applyBounds(style, delta) {
   return function(key, value) {
     return (boundsMap[key] || identity)(value, style, delta)
@@ -46,6 +50,8 @@ function pointInRect(point) {
   }
 }
 
+/* Exports */
+
 export function debounce(fn, delay) {
   let timeout
 
@@ -53,6 +59,15 @@ export function debounce(fn, delay) {
     clearTimeout(timeout)
     timeout = setTimeout(() => fn(...args), delay)
   }
+}
+
+export function getDisplayValue(item, labelKey) {
+  if (typeof item === 'object' && labelKey in item) {
+    return item[labelKey]
+  } else if (typeof item !== 'object') {
+    return item
+  }
+  return ''
 }
 
 /**

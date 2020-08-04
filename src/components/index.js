@@ -7,6 +7,7 @@ import { IconButton } from './IconButton'
 import { InteractionPoint } from './InteractionPoint'
 import { ScaleSlider } from './ScaleSlider'
 import { Select } from './Select'
+import { SelectCollection } from './SelectCollection'
 
 export {
   EditorCard,
@@ -18,4 +19,5 @@ export {
   InteractionPoint,
   ScaleSlider,
   Select,
+  SelectCollection,
 }

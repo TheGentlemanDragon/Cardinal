@@ -4,15 +4,7 @@ import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { useGlobalBlur } from 'hooks'
-
-function getDisplayValue(item, labelKey) {
-  if (typeof item === 'object' && labelKey in item) {
-    return item[labelKey]
-  } else if (typeof item !== 'object') {
-    return item
-  }
-  return ''
-}
+import { getDisplayValue } from 'lib/utils'
 
 const mainCss = css`
   display: flex;

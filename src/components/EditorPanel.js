@@ -3,6 +3,7 @@ import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { IconButton } from 'components'
+import { useEditorContext } from 'contexts'
 import { addElement } from 'lib/actions'
 
 const mainCss = css`
@@ -24,9 +25,18 @@ EditorPanel.proptypes = {
   onUpdate: PropTypes.func.isRequired,
 }
 
-export function EditorPanel({ onUpdate }) {
-  const addImage = () => onUpdate(template => addElement(template, 'image'))
-  const addText = () => onUpdate(template => addElement(template, 'text'))
+export function EditorPanel() {
+  const { template, set } = useEditorContext()
+
+  const addImage = async () => {
+    await addElement(template, 'image')
+    set.refresh(Symbol())
+  }
+
+  const addText = async () => {
+    await addElement(template, 'text')
+    set.refresh(Symbol())
+  }
 
   return (
     <div class={mainCss}>

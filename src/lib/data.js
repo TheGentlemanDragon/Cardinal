@@ -16,6 +16,12 @@ function hashRef(obj) {
         .map(key => key + ':' + hashRef(obj[key]))
 }
 
+function sortByKey(key) {
+  return function(a, b) {
+    return a[key] > b[key] ? 1 : -1
+  }
+}
+
 /**
  * Encapsulates Firebase functionality
  *
@@ -72,8 +78,12 @@ class FirebaseFactory {
     return value
   }
 
+  add(collection, value) {
+    return Firebase.db.ref(collection).add(value)
+  }
+
   /**
-   * Retrieve collectionzen
+   * Retrieve collection
    *
    * @param {any} name collection name
    * @returns collection
@@ -129,16 +139,14 @@ class FirebaseFactory {
       return cached
     }
 
-    const snapshot = await this.col(collection, invalidate)
-      .query({
-        where: [['owner', '==', this.owner]],
-        orderBy: sortKey,
-      })
-      .run()
+    // TODO: Query on owner
+    const results = await this.col(collection, invalidate).list()
     return this.updateCache(
       'list',
       key,
-      snapshot.map(FirebaseFactory.docWithMeta)
+      results.documents
+        .sort(sortByKey(sortKey))
+        .map(FirebaseFactory.docWithMeta)
     )
   }
 

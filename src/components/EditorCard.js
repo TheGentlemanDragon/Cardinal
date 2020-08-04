@@ -1,13 +1,16 @@
 import { h } from 'preact'
+import { useEffect, useState } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { ElementModifier } from 'components'
-import { useEditorContext } from 'contexts/EditorContext'
+import { useEditorContext } from 'contexts'
 import { useGlobalBlur } from 'hooks'
+import { Firebase } from 'lib/data'
 import { styleRender, selectElement } from 'lib/utils'
 
 const hide = { display: 'none' }
+const defaultDelta = { x: 0, y: 0, width: 0, height: 0 }
 
 const mainCss = css`
   background-color: #ffffff;
@@ -35,19 +38,27 @@ const elementCss = css`
 `
 
 EditorCard.proptypes = {
-  elements: PropTypes.object,
-  onUpdate: PropTypes.func.isRequired,
+  templateId: PropTypes.object.isRequired,
 }
 
-EditorCard.defaultProps = {
-  elements: [],
-}
+EditorCard.defaultProps = {}
 
-export function EditorCard({ elements, onUpdate }) {
-  const { scale, elementIndex, set } = useEditorContext()
+export function EditorCard({ templateId }) {
+  const { elementIndex, refresh, scale, set } = useEditorContext()
+
+  const [elements, setElements] = useState([])
   const hasSelected = elements.length > 0 && elementIndex > -1
 
   const { blurRef } = useGlobalBlur(hasSelected, () => set.elementIndex(-1))
+
+  useEffect(() => {
+    ;(async () => {
+      setElements(
+        await Firebase.list(`templates/${templateId}/elements`, 'name', true)
+      )
+      set.delta(defaultDelta)
+    })()
+  }, [templateId, refresh])
 
   return (
     <div
@@ -57,9 +68,7 @@ export function EditorCard({ elements, onUpdate }) {
       style={{ transform: `scale(${scale})` }}
       onMouseDown={selectElement(elementIndex, set.elementIndex)}
     >
-      {hasSelected && (
-        <ElementModifier element={elements[elementIndex]} onUpdate={onUpdate} />
-      )}
+      {hasSelected && <ElementModifier element={elements[elementIndex]} />}
 
       {elements.map((element, index) => {
         const isSelected = index === elementIndex

@@ -4,10 +4,8 @@ import { css } from 'linaria'
 
 import { InteractionPoint } from 'components'
 import { useEditorContext } from 'contexts/EditorContext'
-import { updateElement } from 'lib/actions'
+import { Firebase } from 'lib/data'
 import { styleDelta, styleRender } from 'lib/utils'
-
-const defaultDelta = { x: 0, y: 0, width: 0, height: 0 }
 
 const applyOps = ops => (scale, setValue) => point =>
   setValue(
@@ -71,7 +69,6 @@ const rowCss = css`
 
 ElementModifier.proptypes = {
   element: PropTypes.object.isRequired,
-  onUpdate: PropTypes.func.isRequired,
 }
 
 /*
@@ -81,20 +78,15 @@ ElementModifier.proptypes = {
   * Troubleshoot issue during excessive resize/move
 */
 
-export function ElementModifier({ element, onUpdate }) {
-  const { delta, elementIndex, scale, set } = useEditorContext()
+export function ElementModifier({ element }) {
+  const { delta, scale, set } = useEditorContext()
   const style = styleRender(element, {}, delta)
   const { left, top, width } = style
 
-  const resetDelta = () => set.delta(defaultDelta)
-
-  const saveTransform = delta => {
-    const newElement = { ...element, style: styleDelta(element, delta) }
-
-    onUpdate(
-      template => updateElement(template, elementIndex, newElement),
-      resetDelta
-    )
+  const saveTransform = async delta => {
+    const data = { style: styleDelta(element, delta) }
+    await Firebase.update(element, data)
+    set.refresh(Symbol())
   }
 
   return (

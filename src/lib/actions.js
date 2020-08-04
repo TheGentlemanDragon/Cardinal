@@ -13,10 +13,13 @@ const defaultElement = {
 
 /* Element Actions */
 
-export function addElement(template, type, callback) {
-  const name = `element${template.elements?.length || 0}`
-  return Firebase.update(template, {
-    elements: [...(template.elements || []), { ...defaultElement, name, type }],
+export function addElement(template, type) {
+  const count = document.getElementsByClassName('element').length
+  const name = `element${count}`
+  return Firebase.add(`${template.$path}/elements`, {
+    ...defaultElement,
+    name,
+    type,
   })
 }
 

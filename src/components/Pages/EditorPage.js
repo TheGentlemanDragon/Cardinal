@@ -10,7 +10,7 @@ import {
   ScaleSlider,
   SelectCollection,
 } from 'components'
-import { withEditorContext } from 'contexts'
+import { useEditorContext, withEditorContext } from 'contexts'
 import { openEditorTemplate } from 'lib/actions'
 import { Firebase } from 'lib/data'
 
@@ -55,34 +55,18 @@ EditorPage.propTypes = {
  * )
  */
 function EditorPage({ gameId, templateId }) {
-  const [template, setTemplate] = useState({})
-
-  // If template name changes
-  // const updateTemplates = async () => {
-  //   const _templates = await Firebase.query(
-  //     'templates',
-  //     { gameRef: `/games/${gameId}` },
-  //     'name',
-  //     true
-  //   )
-  //   setTemplates(_templates)
-  // }
-
-  const updateTemplate = async (modifyTemplate, postUpdate) => {
-    await modifyTemplate(template)
-    setTemplate(await Firebase.doc('templates', templateId, true))
-    postUpdate()
-  }
+  const { template, set } = useEditorContext()
 
   useEffect(() => {
-    ;(async () =>
-      setTemplate(await Firebase.doc('templates', templateId, true)))()
-  }, [gameId, templateId])
+    ;(async () => {
+      set.template(await Firebase.doc('templates', templateId, true))
+    })()
+  }, [templateId])
 
   return (
     <div class={mainCss}>
-      <EditorPanel onUpdate={updateTemplate} />
-      <EditorCard elements={template.elements} onUpdate={updateTemplate} />
+      <EditorPanel />
+      <EditorCard templateId={templateId} />
 
       <div class={bottomMenuCss}>
         <SelectCollection

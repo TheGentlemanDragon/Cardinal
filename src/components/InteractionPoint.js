@@ -4,41 +4,35 @@ import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 const cursorMap = {
-  tl: 'nw-resize',
-  tc: 'n-resize',
-  tr: 'ne-resize',
-  ml: 'w-resize',
-  mc: 'move',
-  mr: 'e-resize',
-  bl: 'sw-resize',
-  bc: 's-resize',
-  br: 'se-resize',
+  move: 'move',
+  size: 'se-resize',
 }
 
 const mainCss = css`
-  background-color: var(--clr-accent);
-  height: 6px;
+  height: 12px;
   opacity: 0.9;
-  width: 6px;
+  width: 12px;
   z-index: 102;
 `
 
-InteractionPoint.proptypes = {
-  onUpdate: PropTypes.func.isRequired,
-  position: PropTypes.oneOf([
-    'tl',
-    'tc',
-    'tr',
-    'ml',
-    'mc',
-    'mr',
-    'bl',
-    'bc',
-    'br',
-  ]).isRequired,
+const moveCss = css`
+  background-color: blue;
+`
+const sizeCss = css`
+  background-color: red;
+  bottom: 0;
+  position: absolute;
+  right: 0;
+`
+
+InteractionPoint.propTypes = {
+  bounds: PropTypes.object.isRequired,
+  onDrag: PropTypes.func.isRequired,
+  onDragEnd: PropTypes.func.isRequired,
+  type: PropTypes.oneOf(['move', 'size']).isRequired,
 }
 
-export function InteractionPoint({ onDrag, onDragEnd, position }) {
+export function InteractionPoint({ bounds, onDrag, onDragEnd, type }) {
   const [start, setStart] = useState(null)
 
   const startInteraction = event => {
@@ -50,6 +44,10 @@ export function InteractionPoint({ onDrag, onDragEnd, position }) {
   const tickInteraction = useCallback(
     event => {
       const delta = { x: event.screenX - start.x, y: event.screenY - start.y }
+      delta.x = Math.max(delta.x, bounds.minX)
+      delta.x = Math.min(delta.x, bounds.maxX)
+      delta.y = Math.max(delta.y, bounds.minY)
+      delta.y = Math.min(delta.y, bounds.maxY)
       onDrag(delta)
     },
     [start]
@@ -57,6 +55,10 @@ export function InteractionPoint({ onDrag, onDragEnd, position }) {
 
   const endInteraction = useCallback(() => {
     const delta = { x: event.screenX - start.x, y: event.screenY - start.y }
+    delta.x = Math.max(delta.x, bounds.minX)
+    delta.x = Math.min(delta.x, bounds.maxX)
+    delta.y = Math.max(delta.y, bounds.minY)
+    delta.y = Math.min(delta.y, bounds.maxY)
 
     document.removeEventListener('mousemove', tickInteraction)
     document.removeEventListener('mouseup', endInteraction)
@@ -75,8 +77,8 @@ export function InteractionPoint({ onDrag, onDragEnd, position }) {
 
   return (
     <div
-      class={mainCss}
-      style={{ cursor: cursorMap[position] }}
+      class={`${mainCss} ${type === 'move' ? moveCss : sizeCss}`}
+      style={{ cursor: cursorMap[type] }}
       onMouseDown={startInteraction}
     />
   )

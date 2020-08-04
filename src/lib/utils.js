@@ -2,38 +2,7 @@ import { route } from 'preact-router'
 
 /* Constants */
 
-const MIN_SIZE = 18
-
-const atLeastMin = value => Math.max(MIN_SIZE, value)
-
-const clampLeft = (value, style, delta) => {
-  if (!delta.width && !delta.height) {
-    return value
-  }
-  return Math.min(value, style.left.value + style.width.value - MIN_SIZE)
-}
-
-const clampTop = (value, style, delta) => {
-  if (!delta.width && !delta.height) {
-    return value
-  }
-  return Math.min(value, style.top.value + style.height.value - MIN_SIZE)
-}
-
-const boundsMap = {
-  height: atLeastMin,
-  width: atLeastMin,
-  left: clampLeft,
-  top: clampTop,
-}
-
 /* Locals */
-
-function applyBounds(style, delta) {
-  return function(key, value) {
-    return (boundsMap[key] || identity)(value, style, delta)
-  }
-}
 
 function identity(value) {
   return value
@@ -117,7 +86,7 @@ export function styleDelta(element = {}, delta = {}) {
   return Object.keys(style).reduce((result, key) => {
     const item = (result[key] = { ...style[key] })
     const offset = delta[key] || 0
-    item.value = applyBounds(style, delta)(key, item.value + offset)
+    item.value = item.value + offset
     return result
   }, {})
 }
@@ -133,7 +102,7 @@ export function styleRender(element = {}, baseStyle = {}, delta = {}) {
     (result, key) => {
       const item = style[key]
       const offset = delta[key] || 0
-      const value = applyBounds(style, delta)(key, item.value + offset)
+      const value = item.value + offset
       result[key] = `${value}${item.unit || ''}`
       return result
     },

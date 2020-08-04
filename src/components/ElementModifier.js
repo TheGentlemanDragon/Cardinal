@@ -6,6 +6,11 @@ import { InteractionPoint } from 'components'
 import { useEditorContext } from 'contexts/EditorContext'
 import { Firebase } from 'lib/data'
 import { styleDelta, styleRender } from 'lib/utils'
+import { useMemo } from 'preact/hooks'
+
+const MIN_SIZE = 8
+const CARD_HEIGHT = 350
+const CARD_WIDTH = 250
 
 const applyOps = ops => (scale, setValue) => point =>
   setValue(
@@ -28,15 +33,8 @@ const t = {
 }
 
 const tMap = {
-  tl: applyOps([t.t, t.hi, t.l, t.wi]),
-  tc: applyOps([t.t, t.hi]),
-  tr: applyOps([t.t, t.hi, t.w]),
-  ml: applyOps([t.l, t.wi]),
-  mc: applyOps([t.l, t.t]),
-  mr: applyOps([t.w]),
-  bl: applyOps([t.h, t.l, t.wi]),
-  bc: applyOps([t.h]),
-  br: applyOps([t.h, t.w]),
+  move: applyOps([t.t, t.l]),
+  size: applyOps([t.h, t.w]),
 }
 
 const labelCss = css`
@@ -55,16 +53,7 @@ const labelCss = css`
 const mainCss = css`
   outline: 1px dotted var(--clr-accent);
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   position: absolute;
-`
-
-const rowCss = css`
-  display: flex;
-  justify-content: space-between;
-  overflow: visible;
 `
 
 ElementModifier.proptypes = {
@@ -73,21 +62,41 @@ ElementModifier.proptypes = {
 
 /*
   TODO:
-  * Prevent move out of bounds
-  * Prevent resize out of bounds
+  * Figure out why only first transform (move/resize) works correctly
+    - Is bounds updating properly?
+  * Finalize style for move and resize
   * Troubleshoot issue during excessive resize/move
 */
 
 export function ElementModifier({ element }) {
-  const { delta, scale, set } = useEditorContext()
+  const { delta, refresh, scale, set } = useEditorContext()
+
   const style = styleRender(element, {}, delta)
-  const { left, top, width } = style
+  const { left, top, width, height } = style
 
   const saveTransform = async delta => {
     const data = { style: styleDelta(element, delta) }
     await Firebase.update(element, data)
     set.refresh(Symbol())
   }
+
+  const bounds = useMemo(() => {
+    const { width: w, height: h, left: l, top: t } = element.style
+    return {
+      size: {
+        minX: -(w.value - MIN_SIZE) * scale,
+        maxX: (CARD_WIDTH - l.value - w.value) * scale,
+        minY: -(h.value - MIN_SIZE) * scale,
+        maxY: (CARD_HEIGHT - t.value - h.value) * scale,
+      },
+      move: {
+        minX: -(l.value * scale),
+        maxX: (CARD_WIDTH - l.value - w.value) * scale,
+        minY: -(t.value * scale),
+        maxY: (CARD_HEIGHT - t.value - h.value) * scale,
+      },
+    }
+  }, [refresh, scale])
 
   return (
     <>
@@ -96,59 +105,18 @@ export function ElementModifier({ element }) {
       </div>
 
       <div class={mainCss} style={style}>
-        <div class={rowCss} style={{ width }}>
-          <InteractionPoint
-            position="tl"
-            onDrag={tMap.tl(scale, set.delta)}
-            onDragEnd={tMap.tl(scale, saveTransform)}
-          />
-          <InteractionPoint
-            position="tc"
-            onDrag={tMap.tc(scale, set.delta)}
-            onDragEnd={tMap.tc(scale, saveTransform)}
-          />
-          <InteractionPoint
-            position="tr"
-            onDrag={tMap.tr(scale, set.delta)}
-            onDragEnd={tMap.tr(scale, saveTransform)}
-          />
-        </div>
-
-        <div class={rowCss} style={{ width }}>
-          <InteractionPoint
-            position="ml"
-            onDrag={tMap.ml(scale, set.delta)}
-            onDragEnd={tMap.ml(scale, saveTransform)}
-          />
-          <InteractionPoint
-            position="mc"
-            onDrag={tMap.mc(scale, set.delta)}
-            onDragEnd={tMap.mc(scale, saveTransform)}
-          />
-          <InteractionPoint
-            position="mr"
-            onDrag={tMap.mr(scale, set.delta)}
-            onDragEnd={tMap.mr(scale, saveTransform)}
-          />
-        </div>
-
-        <div class={rowCss} style={{ width }}>
-          <InteractionPoint
-            position="bl"
-            onDrag={tMap.bl(scale, set.delta)}
-            onDragEnd={tMap.bl(scale, saveTransform)}
-          />
-          <InteractionPoint
-            position="bc"
-            onDrag={tMap.bc(scale, set.delta)}
-            onDragEnd={tMap.bc(scale, saveTransform)}
-          />
-          <InteractionPoint
-            position="br"
-            onDrag={tMap.br(scale, set.delta)}
-            onDragEnd={tMap.br(scale, saveTransform)}
-          />
-        </div>
+        <InteractionPoint
+          bounds={bounds.move}
+          onDrag={tMap.move(scale, set.delta)}
+          onDragEnd={tMap.move(scale, saveTransform)}
+          type="move"
+        />
+        <InteractionPoint
+          bounds={bounds.size}
+          onDrag={tMap.size(scale, set.delta)}
+          onDragEnd={tMap.size(scale, saveTransform)}
+          type="size"
+        />
       </div>
     </>
   )

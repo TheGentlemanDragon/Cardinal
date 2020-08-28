@@ -1,8 +1,8 @@
 import { createContext } from 'preact'
 import { useContext, useState } from 'preact/hooks'
 
-import { debounce } from 'lib/utils'
-import { Cache } from 'lib/data'
+import { debounce } from './utils'
+import { Cache } from './data'
 
 const writeToStorage = debounce((cacheId, key, newVal) => {
   const stored = Cache.get(cacheId) || {}

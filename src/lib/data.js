@@ -2,7 +2,7 @@ import { Database } from 'firebase-firestore-lite'
 import Auth from 'firebase-auth-lite'
 
 import config from './config'
-import { hashRef, sortByKey } from 'lib/utils'
+import { hashRef, sortByKey } from './utils'
 
 const rxRef = /.*Ref$/
 const DEBUG = false

@@ -1,6 +1,6 @@
 import { Store, get, keys, set } from 'idb-keyval'
 
-import { identity, shortId, toObjQuery } from 'lib/utils'
+import { identity, shortId, toObjQuery } from './utils'
 
 // Manually create stores if they don't exist
 indexedDB.open('cardinal').onupgradeneeded = function(event) {

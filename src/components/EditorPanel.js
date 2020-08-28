@@ -2,10 +2,10 @@ import { h } from 'preact'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { IconButton } from 'components'
-import { useEditorContext } from 'contexts'
-import { DataStore } from 'lib/datastore'
-import { defaultElement } from 'lib/utils'
+import { IconButton } from './IconButton'
+import { useEditorContext } from '../contexts/EditorContext'
+import { DataStore } from '../lib/datastore'
+import { defaultElement } from '../lib/utils'
 
 const mainCss = css`
   background-color: var(--clr-bg-dark);

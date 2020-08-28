@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'preact/hooks'
 
-export default function useGlobalBlur(isActive, onBlur) {
+export function useGlobalBlur(isActive, onBlur) {
   const blurRef = useRef(null)
 
   const tryBlur = event => {

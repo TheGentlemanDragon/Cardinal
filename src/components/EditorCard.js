@@ -3,10 +3,10 @@ import { useEffect, useState } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { ElementModifier } from 'components'
-import { useEditorContext } from 'contexts'
-import { useGlobalBlur } from 'hooks'
-import { styleRender, selectElement } from 'lib/utils'
+import { ElementModifier } from './ElementModifier'
+import { useEditorContext } from '../contexts/EditorContext'
+import { useGlobalBlur } from '../hooks/useGlobalBlur'
+import { styleRender, selectElement } from '../lib/utils'
 
 const hide = { display: 'none' }
 

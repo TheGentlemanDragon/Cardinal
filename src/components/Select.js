@@ -3,8 +3,8 @@ import { useState } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { useGlobalBlur } from 'hooks'
-import { getDisplayValue } from 'lib/utils'
+import { useGlobalBlur } from '../hooks/useGlobalBlur'
+import { getDisplayValue } from '../lib/utils'
 
 const mainCss = css`
   display: flex;

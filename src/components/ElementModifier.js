@@ -1,12 +1,12 @@
 import { h } from 'preact'
+import { useMemo } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { InteractionPoint } from 'components'
-import { useEditorContext } from 'contexts/EditorContext'
-import { DataStore } from 'lib/datastore'
-import { styleDelta, styleRender } from 'lib/utils'
-import { useMemo } from 'preact/hooks'
+import { InteractionPoint } from './InteractionPoint'
+import { useEditorContext } from '../contexts/EditorContext'
+import { DataStore } from '../lib/datastore'
+import { styleDelta, styleRender } from '../lib/utils'
 
 const MIN_SIZE = 20
 const CARD_HEIGHT = 350

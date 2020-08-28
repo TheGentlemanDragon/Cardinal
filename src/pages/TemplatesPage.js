@@ -3,7 +3,7 @@ import { useState, useEffect } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { Firebase } from 'lib/data'
+import { Firebase } from '../lib/data'
 
 const mainCss = css`
   display: flex;

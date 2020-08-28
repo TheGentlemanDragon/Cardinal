@@ -1,18 +1,19 @@
 import { h } from 'preact'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import {
-  EditorCard,
-  EditorPanel,
-  FlexSeparator,
-  ScaleSlider,
-  SelectCollection,
-} from 'components'
-import { useEditorContext, withEditorContext } from 'contexts'
-import { openEditorTemplate } from 'lib/actions'
-import { Firebase } from 'lib/data'
+import { EditorCard } from '../components/EditorCard'
+import { EditorPanel } from '../components/EditorPanel'
+import { FlexSeparator } from '../components/FlexSeparator'
+import { ScaleSlider } from '../components/ScaleSlider'
+import { SelectCollection } from '../components/SelectCollection'
+
+import { useEditorContext } from '../contexts/EditorContext'
+import { withEditorContext } from '../contexts/EditorContext'
+
+import { openEditorTemplate } from '../lib/actions'
+import { Firebase } from '../lib/data'
 
 const mainCss = css`
   display: flex;

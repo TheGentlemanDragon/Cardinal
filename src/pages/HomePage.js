@@ -2,8 +2,8 @@ import { h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import { css } from 'linaria'
 
-import { GameItem } from 'components'
-import { Firebase } from 'lib/data'
+import { GameItem } from '../components/GameItem'
+import { Firebase } from '../lib/data'
 
 const mainCss = css`
   display: flex;

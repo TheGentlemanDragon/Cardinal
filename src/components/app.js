@@ -2,7 +2,9 @@ import { h } from 'preact'
 import { Router } from 'preact-router'
 // import Match from 'preact-router/match'
 
-import { HomePage, TemplatesPage, EditorPage } from 'components/Pages'
+import { HomePage } from '../pages/HomePage'
+import { TemplatesPage } from '../pages/TemplatesPage'
+import { EditorPage } from '../pages/EditorPage'
 
 import g from './global.css'
 

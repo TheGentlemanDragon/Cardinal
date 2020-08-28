@@ -2,9 +2,9 @@ import { h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import PropTypes from 'proptypes'
 
-import { Select } from 'components'
-import { getDisplayValue, identity } from 'lib/utils'
-import { DataStore } from 'lib/datastore'
+import { Select } from '../components/Select'
+import { DataStore } from '../lib/datastore'
+import { getDisplayValue, identity } from '../lib/utils'
 
 SelectCollection.propTypes = {
   collection: PropTypes.string.isRequired,

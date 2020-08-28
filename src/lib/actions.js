@@ -1,6 +1,6 @@
 import { route } from 'preact-router'
 
-import { Firebase } from 'lib/data'
+import { Firebase } from './data'
 
 /* Element Actions */
 

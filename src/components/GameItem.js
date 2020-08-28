@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import { css } from 'linaria'
 
-import { goToUrl } from 'lib/utils'
+import { goToUrl } from '../lib/utils'
 
 const mainCss = css`
   background-color: var(--clr-bg-card);

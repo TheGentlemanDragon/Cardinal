@@ -34,7 +34,7 @@ GameItem.defaultProps = {
 export function GameItem({ game }) {
   return (
     <>
-      <div class={mainCss} onClick={goToUrl(game.$path)}>
+      <div class={mainCss} onClick={goToUrl(`games/${game.$id}`)}>
         <figure>Preview</figure>
         <dl>
           <dt>{game.name}</dt>

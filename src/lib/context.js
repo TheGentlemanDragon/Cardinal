@@ -4,10 +4,10 @@ import { useContext, useState } from 'preact/hooks'
 import { debounce } from 'lib/utils'
 import { Cache } from 'lib/data'
 
-const writeToStorage = debounce((cacheKey, key, newVal) => {
-  const stored = Cache.get(cacheKey) || {}
+const writeToStorage = debounce((cacheId, key, newVal) => {
+  const stored = Cache.get(cacheId) || {}
   stored[key] = newVal
-  Cache.set(cacheKey, stored)
+  Cache.set(cacheId, stored)
 }, 250)
 
 function makeUseContext(context) {
@@ -16,7 +16,7 @@ function makeUseContext(context) {
   }
 }
 
-function populateContext(values, cacheKey, exclude) {
+function populateContext(values, cacheId, cachedKeys) {
   return Object.keys(values).reduce(
     (result, key) => {
       if (key === 'set') {
@@ -26,8 +26,8 @@ function populateContext(values, cacheKey, exclude) {
       const [value, setValue] = useState(values[key])
       result[key] = value
       result.set[key] = newVal => {
-        if (cacheKey && !exclude.includes(key)) {
-          writeToStorage(cacheKey, key, newVal)
+        if (cacheId && cachedKeys.includes(key)) {
+          writeToStorage(cacheId, key, newVal)
         }
         setValue(newVal)
       }
@@ -37,15 +37,19 @@ function populateContext(values, cacheKey, exclude) {
   )
 }
 
-export function useContextEx(defaults, cacheKey, exclude = []) {
+export function useContextEx(defaults, cacheId, cachedKeys = []) {
   const cached = {}
 
-  // Persist value to localStorage if cacheKey is provided
-  if (cacheKey) {
-    cacheKey = cacheKey[0].toUpperCase() + cacheKey.slice(1).toLowerCase()
-    cacheKey += 'Context'
-    Object.assign(cached, Cache.get(cacheKey))
-    exclude.forEach(key => delete cached[key])
+  // Persist value to localStorage if cacheId is provided
+  if (cacheId) {
+    cacheId = cacheId[0].toUpperCase() + cacheId.slice(1).toLowerCase()
+    cacheId += 'Context'
+    Object.assign(cached, Cache.get(cacheId))
+    Object.keys(cached).forEach(key => {
+      if (!cachedKeys.includes(key)) {
+        delete cached[key]
+      }
+    })
   }
 
   const values = { ...defaults, ...cached }
@@ -55,7 +59,7 @@ export function useContextEx(defaults, cacheKey, exclude = []) {
   const withContext = Component => {
     return function(props) {
       return (
-        <Context.Provider value={populateContext(values, cacheKey, exclude)}>
+        <Context.Provider value={populateContext(values, cacheId, cachedKeys)}>
           <Component {...props} />
         </Context.Provider>
       )

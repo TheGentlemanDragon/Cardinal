@@ -4,13 +4,14 @@ import { css } from 'linaria'
 
 import { InteractionPoint } from 'components'
 import { useEditorContext } from 'contexts/EditorContext'
-import { Firebase } from 'lib/data'
+import { DataStore } from 'lib/datastore'
 import { styleDelta, styleRender } from 'lib/utils'
 import { useMemo } from 'preact/hooks'
 
-const MIN_SIZE = 8
+const MIN_SIZE = 20
 const CARD_HEIGHT = 350
 const CARD_WIDTH = 250
+const defaultDelta = { x: 0, y: 0, width: 0, height: 0 }
 
 const applyOps = ops => (scale, setValue) => point =>
   setValue(
@@ -62,22 +63,30 @@ ElementModifier.proptypes = {
 
 /*
   TODO:
-  * Figure out why only first transform (move/resize) works correctly
-    - Is bounds updating properly?
-  * Finalize style for move and resize
-  * Troubleshoot issue during excessive resize/move
+  * Store element in context
+  * Acess element from context
+  * Update element on element select
+  * Debounce element interactionpoint updates
 */
 
 export function ElementModifier({ element }) {
-  const { delta, refresh, scale, set } = useEditorContext()
+  const {
+    elementIndex,
+    elements,
+    delta,
+    refresh,
+    scale,
+    set,
+  } = useEditorContext()
 
   const style = styleRender(element, {}, delta)
-  const { left, top, width, height } = style
+  const { left, top } = style
 
-  const saveTransform = async delta => {
-    const data = { style: styleDelta(element, delta) }
-    await Firebase.update(element, data)
-    set.refresh(Symbol())
+  const saveTransform = delta => {
+    const newElement = { ...element, style: styleDelta(element, delta) }
+    DataStore.Elements(element.$id, newElement)
+    set.delta(defaultDelta)
+    set.elements(Object.assign([], elements, { [elementIndex]: newElement }))
   }
 
   const bounds = useMemo(() => {
@@ -96,7 +105,7 @@ export function ElementModifier({ element }) {
         maxY: (CARD_HEIGHT - t.value - h.value) * scale,
       },
     }
-  }, [refresh, scale])
+  }, [element, refresh, scale])
 
   return (
     <>

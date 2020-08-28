@@ -4,7 +4,8 @@ import { css } from 'linaria'
 
 import { IconButton } from 'components'
 import { useEditorContext } from 'contexts'
-import { addElement } from 'lib/actions'
+import { DataStore } from 'lib/datastore'
+import { defaultElement } from 'lib/utils'
 
 const mainCss = css`
   background-color: var(--clr-bg-dark);
@@ -21,21 +22,32 @@ const addElementCss = css`
   justify-content: space-evenly;
 `
 
+function addElement(editorContext, type) {
+  const count = document.getElementsByClassName('element').length
+  const name = `element${count}`
+  const element = {
+    ...defaultElement,
+    name,
+    type,
+    templateId: editorContext.template.$id,
+  }
+  DataStore.Elements.add(element)
+  editorContext.set.elements([...editorContext.elements, element])
+}
+
 EditorPanel.proptypes = {
   onUpdate: PropTypes.func.isRequired,
 }
 
 export function EditorPanel() {
-  const { template, set } = useEditorContext()
+  const editorContext = useEditorContext()
 
-  const addImage = async () => {
-    await addElement(template, 'image')
-    set.refresh(Symbol())
+  const addImage = () => {
+    addElement(editorContext, 'image')
   }
 
-  const addText = async () => {
-    await addElement(template, 'text')
-    set.refresh(Symbol())
+  const addText = () => {
+    addElement(editorContext, 'text')
   }
 
   return (

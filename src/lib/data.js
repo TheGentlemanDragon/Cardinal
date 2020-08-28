@@ -2,25 +2,12 @@ import { Database } from 'firebase-firestore-lite'
 import Auth from 'firebase-auth-lite'
 
 import config from './config'
+import { hashRef, sortByKey } from 'lib/utils'
 
 const rxRef = /.*Ref$/
 const DEBUG = false
 
 const auth = new Auth({ apiKey: config.apiKey })
-
-function hashRef(obj) {
-  return typeof obj !== 'object'
-    ? obj
-    : Object.keys(obj)
-        .sort()
-        .map(key => key + ':' + hashRef(obj[key]))
-}
-
-function sortByKey(key) {
-  return function(a, b) {
-    return a[key] > b[key] ? 1 : -1
-  }
-}
 
 /**
  * Encapsulates Firebase functionality
@@ -234,6 +221,7 @@ class Cache {
     return JSON.parse(storage.getItem(key))
   }
 }
+
 const Firebase = new FirebaseFactory()
 Firebase.setOwner('nando')
 

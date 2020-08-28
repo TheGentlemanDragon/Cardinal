@@ -9,15 +9,20 @@ const cursorMap = {
 }
 
 const mainCss = css`
-  height: 12px;
+  height: 10px;
   opacity: 0.9;
-  width: 12px;
+  width: 10px;
   z-index: 102;
 `
 
 const moveCss = css`
   background-color: blue;
+  left: 50%;
+  position: relative;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `
+
 const sizeCss = css`
   background-color: red;
   bottom: 0;

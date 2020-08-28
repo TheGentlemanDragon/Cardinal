@@ -3,8 +3,8 @@ import { useEffect, useState } from 'preact/hooks'
 import PropTypes from 'proptypes'
 
 import { Select } from 'components'
-import { Firebase } from 'lib/data'
-import { getDisplayValue } from 'lib/utils'
+import { getDisplayValue, identity } from 'lib/utils'
+import { DataStore } from 'lib/datastore'
 
 SelectCollection.propTypes = {
   collection: PropTypes.string.isRequired,
@@ -20,7 +20,7 @@ SelectCollection.propTypes = {
 SelectCollection.defaultProps = {
   disabled: false,
   labelKey: '',
-  query: null,
+  query: undefined,
   value: '',
   valueKey: '',
 }
@@ -45,13 +45,7 @@ export function SelectCollection({
     ) || {}
 
   useEffect(() => {
-    ;(async () => {
-      const promise = query
-        ? Firebase.query(collection, query, 'name')
-        : Firebase.list(collection, 'name')
-
-      setOptions(await promise)
-    })()
+    DataStore[collection](query).then(setOptions)
   }, [collection, query])
 
   return (

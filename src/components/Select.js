@@ -123,7 +123,7 @@ export function Select({ disabled, labelKey, name, onSelect, options, value }) {
           {options
             .filter(item => getDisplayValue(item, labelKey) !== value)
             .map(item => (
-              <div onClick={() => onSelect(item)}>
+              <div key={item.$id} onClick={() => onSelect(item)}>
                 {getDisplayValue(item, labelKey)}
               </div>
             ))}

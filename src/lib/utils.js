@@ -2,11 +2,16 @@ import { route } from 'preact-router'
 
 /* Constants */
 
-/* Locals */
-
-function identity(value) {
-  return value
+export const defaultElement = {
+  style: {
+    left: { unit: 'px', value: 0 },
+    top: { unit: 'px', value: 0 },
+    height: { unit: 'px', value: 30 },
+    width: { unit: 'px', value: 100 },
+  },
 }
+
+/* Locals */
 
 function pointInRect(point) {
   return function(rect) {
@@ -51,6 +56,28 @@ export function goToUrl(url) {
   }
 }
 
+export function hashRef(obj) {
+  return typeof obj !== 'object'
+    ? obj
+    : Object.keys(obj)
+        .sort()
+        .map(key => key + ':' + hashRef(obj[key]))
+}
+
+export function identity(value) {
+  return value
+}
+
+export function memoize(fn) {
+  const cache = {}
+  return (...args) => {
+    const stringifiedArgs = JSON.stringify(args)
+    const result = (cache[stringifiedArgs] =
+      cache[stringifiedArgs] || fn(...args))
+    return result
+  }
+}
+
 export function noop() {}
 
 export function selectElement(index, setSelected) {
@@ -73,6 +100,23 @@ export function selectElement(index, setSelected) {
     // Select that item by its index in original array
     const nextIndex = originalElements.indexOf(clickedElement)
     setSelected(nextIndex)
+  }
+}
+
+export function shortId() {
+  return (1e11)
+    .toString()
+    .replace(/[018]/g, c =>
+      (
+        c ^
+        (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+      ).toString(16)
+    )
+}
+
+export function sortByKey(key) {
+  return function(a, b) {
+    return a[key] > b[key] ? 1 : -1
   }
 }
 
@@ -107,6 +151,22 @@ export function styleRender(element = {}, baseStyle = {}, delta = {}) {
       return result
     },
     { ...baseStyle }
+  )
+}
+
+export function toObjQuery(obj) {
+  return Object.keys(obj).reduce(
+    (result, key) => item => item[key] === obj[key],
+    undefined
+  )
+}
+
+export function uuid() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
   )
 }
 

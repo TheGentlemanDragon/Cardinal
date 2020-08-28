@@ -6,11 +6,9 @@ import { css } from 'linaria'
 import { ElementModifier } from 'components'
 import { useEditorContext } from 'contexts'
 import { useGlobalBlur } from 'hooks'
-import { Firebase } from 'lib/data'
 import { styleRender, selectElement } from 'lib/utils'
 
 const hide = { display: 'none' }
-const defaultDelta = { x: 0, y: 0, width: 0, height: 0 }
 
 const mainCss = css`
   background-color: #ffffff;
@@ -37,28 +35,16 @@ const elementCss = css`
   }
 `
 
-EditorCard.proptypes = {
-  templateId: PropTypes.object.isRequired,
-}
+EditorCard.proptypes = {}
 
 EditorCard.defaultProps = {}
 
-export function EditorCard({ templateId }) {
-  const { elementIndex, refresh, scale, set } = useEditorContext()
+export function EditorCard({}) {
+  const { elements, elementIndex, scale, set } = useEditorContext()
 
-  const [elements, setElements] = useState([])
   const hasSelected = elements.length > 0 && elementIndex > -1
 
   const { blurRef } = useGlobalBlur(hasSelected, () => set.elementIndex(-1))
-
-  useEffect(() => {
-    ;(async () => {
-      setElements(
-        await Firebase.list(`templates/${templateId}/elements`, 'name', true)
-      )
-      set.delta(defaultDelta)
-    })()
-  }, [templateId, refresh])
 
   return (
     <div
@@ -74,7 +60,7 @@ export function EditorCard({ templateId }) {
         const isSelected = index === elementIndex
         return (
           <div
-            key={element.name}
+            key={element.$id}
             class={`element ${elementCss}`}
             style={styleRender(element, isSelected && hide)}
           >

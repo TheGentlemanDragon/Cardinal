@@ -3,7 +3,7 @@ import { useEffect, useState } from 'preact/hooks'
 import { css } from 'linaria'
 
 import { GameItem } from '../components/GameItem'
-import { Firebase } from '../lib/data'
+import { DataStore } from '../lib/datastore'
 
 const mainCss = css`
   display: flex;
@@ -21,9 +21,7 @@ export function HomePage() {
   const [games, setGames] = useState([])
 
   useEffect(() => {
-    ;(async () => {
-      setGames(await Firebase.list('games', 'name'))
-    })()
+    DataStore.Games().then(setGames)
   }, [])
 
   return (

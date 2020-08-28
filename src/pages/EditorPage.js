@@ -13,7 +13,7 @@ import { useEditorContext } from '../contexts/EditorContext'
 import { withEditorContext } from '../contexts/EditorContext'
 
 import { openEditorTemplate } from '../lib/actions'
-import { Firebase } from '../lib/data'
+import { DataStore } from '../lib/datastore'
 
 const mainCss = css`
   display: flex;
@@ -59,9 +59,7 @@ function EditorPage({ gameId, templateId }) {
   const { template, set } = useEditorContext()
 
   useEffect(() => {
-    ;(async () => {
-      set.template(await Firebase.doc('templates', templateId, true))
-    })()
+    DataStore.Templates(templateId).then(set.template)
   }, [templateId])
 
   return (
@@ -71,7 +69,7 @@ function EditorPage({ gameId, templateId }) {
 
       <div class={bottomMenuCss}>
         <SelectCollection
-          collection="games"
+          collection="Games"
           labelKey="name"
           name="Game"
           value={gameId}
@@ -79,10 +77,10 @@ function EditorPage({ gameId, templateId }) {
           onSelect={item => openEditorTemplate(item)}
         />
         <SelectCollection
-          collection="templates"
+          collection="Templates"
           labelKey="name"
           name="Template"
-          query={{ gameRef: `/games/${gameId}` }}
+          query={{ gameId }}
           value={template.name}
           onSelect={item => openEditorTemplate(game, item)}
         />

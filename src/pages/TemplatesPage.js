@@ -3,7 +3,7 @@ import { useState, useEffect } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { Firebase } from '../lib/data'
+import { DataStore } from '../lib/datastore'
 
 const mainCss = css`
   display: flex;
@@ -78,14 +78,7 @@ export function TemplatesPage({ gameId }) {
   const [templates, setTemplates] = useState([])
 
   useEffect(() => {
-    ;(async () => {
-      const _templates = await Firebase.query(
-        'templates',
-        { gameRef: `/games/${gameId}` },
-        'name'
-      )
-      setTemplates(_templates)
-    })()
+    DataStore.Templates({ gameId }).then(setTemplates)
   }, [gameId])
 
   return (

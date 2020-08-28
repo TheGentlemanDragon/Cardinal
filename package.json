@@ -25,6 +25,7 @@
     "@jaames/iro": "^4.5.1",
     "firebase-auth-lite": "^0.8.5",
     "firebase-firestore-lite": "^1.0.0-RC1.2",
+    "idb-keyval": "^3.2.0",
     "linaria": "^1.3.3",
     "preact": "^10.3.2",
     "preact-render-to-string": "^5.1.4",
@@ -59,9 +60,6 @@
     "trailingComma": "es5"
   },
   "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
+    "last 2 Chrome versions"
   ]
 }

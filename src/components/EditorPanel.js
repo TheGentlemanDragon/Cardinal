@@ -2,7 +2,7 @@ import { h } from 'preact'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { IconButton } from './IconButton'
+import { Icon } from './Icon'
 import { useEditorContext } from '../contexts/EditorContext'
 import { DataStore } from '../lib/datastore'
 import { defaultElement } from '../lib/utils'
@@ -53,8 +53,8 @@ export function EditorPanel() {
       <h4>Add Element</h4>
 
       <div class={addElementCss}>
-        <IconButton type="text" onClick={addText} />
-        <IconButton type="image" onClick={addImage} />
+        <Icon type="text" onClick={addText} />
+        <Icon type="image" onClick={addImage} />
       </div>
     </div>
   )

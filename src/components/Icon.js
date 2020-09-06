@@ -24,6 +24,13 @@ const typeMap = {
     ),
   },
 
+  resize: {
+    baseSize: 24,
+    svg: (
+      <path d="M6 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z m12-8c0 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z m-6 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z m6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z m0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+    ),
+  },
+
   // text_fields.svg
   text: {
     baseSize: 48,
@@ -41,26 +48,29 @@ const mainCss = css`
   & + & {
     margin-left: var(--g-margin-sm);
   }
+`
 
+const hoverCss = css`
   &:hover {
     background-color: rgba(0, 0, 0, 0.3);
   }
 `
 
-IconButton.propTypes = {
+Icon.propTypes = {
   type: PropTypes.string.isRequired,
   onClick: PropTypes.func,
 }
 
-IconButton.defaultProps = {
+Icon.defaultProps = {
+  size: 0,
   onClick: noop,
 }
 
-export function IconButton({ type, onClick }) {
+export function Icon({ type, onClick }) {
   const icon = typeMap[type]
   return icon ? (
     <svg
-      class={mainCss}
+      class={`${mainCss} ${onClick === noop ? '' : hoverCss}`}
       xmlns="http://www.w3.org/2000/svg"
       width={`${icon.baseSize}`}
       height={`${icon.baseSize}`}

@@ -3,7 +3,9 @@ import { useState, useEffect } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
+import { Flex } from '../components/Flex'
 import { DataStore } from '../lib/datastore'
+import { sortByKey } from '../lib/utils'
 
 const mainCss = css`
   display: flex;
@@ -58,6 +60,16 @@ const templateItemCss = css`
   }
 `
 
+function createTemplate(gameId, templates, setTemplates) {
+  const count = document.getElementsByClassName('template').length
+  const template = {
+    name: `Template ${count}`,
+    gameId,
+  }
+  DataStore.Templates.add(template)
+  setTemplates([...templates, template])
+}
+
 TemplatesPage.propTypes = {
   gameId: PropTypes.string.isRequired,
 }
@@ -77,20 +89,25 @@ TemplatesPage.propTypes = {
 export function TemplatesPage({ gameId }) {
   const [templates, setTemplates] = useState([])
 
+  const addTemplate = () => createTemplate(gameId, templates, setTemplates)
+
   useEffect(() => {
     DataStore.Templates({ gameId }).then(setTemplates)
   }, [gameId])
 
   return (
     <div class={mainCss}>
-      <h2>Templates</h2>
+      <Flex justify="space-between">
+        <h2>Templates</h2>
+        <button onClick={addTemplate}>Add</button>
+      </Flex>
 
       {/* Templates List */}
       <div class={listCss}>
         {templates.map(template => (
           <a
             key={`templates-list-${template.$id}`}
-            class={templateItemCss}
+            class={`template ${templateItemCss}`}
             href={`/games/${gameId}/templates/${template.$id}`}
           >
             {template.name}

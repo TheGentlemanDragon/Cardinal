@@ -2,8 +2,10 @@ import { h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import { css } from 'linaria'
 
+import { Flex } from '../components/Flex'
 import { GameItem } from '../components/GameItem'
 import { DataStore } from '../lib/datastore'
+import { sortByKey } from '../lib/utils'
 
 const mainCss = css`
   display: flex;
@@ -16,9 +18,18 @@ const mainCss = css`
   z-index: 1;
 `
 
+function createGame(games, setGames) {
+  const count = document.getElementsByClassName('game').length
+  const game = { name: `Game ${count}` }
+  DataStore.Games.add(game)
+  setGames([...games, game])
+}
+
 /** List games for the main page */
 export function HomePage() {
   const [games, setGames] = useState([])
+
+  const addGame = () => createGame(games, setGames)
 
   useEffect(() => {
     DataStore.Games().then(setGames)
@@ -26,10 +37,13 @@ export function HomePage() {
 
   return (
     <div class={mainCss}>
-      <h2>Games</h2>
+      <Flex justify="space-between">
+        <h2>Games</h2>
+        <button onClick={addGame}>Add</button>
+      </Flex>
 
       {/* Games List */}
-      {games.map(game => (
+      {games.sort(sortByKey('name')).map(game => (
         <GameItem game={game} />
       ))}
     </div>

@@ -64,7 +64,7 @@ function EditorPage({ gameId, templateId }) {
 
   return (
     <div class={mainCss}>
-      <EditorPanel />
+      <EditorPanel gameId={gameId} templateId={templateId} />
       <EditorCard templateId={templateId} />
 
       <div class={bottomMenuCss}>

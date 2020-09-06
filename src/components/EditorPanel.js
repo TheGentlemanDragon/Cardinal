@@ -35,9 +35,7 @@ function addElement(editorContext, type) {
   editorContext.set.elements([...editorContext.elements, element])
 }
 
-EditorPanel.proptypes = {
-  onUpdate: PropTypes.func.isRequired,
-}
+EditorPanel.propTypes = {}
 
 export function EditorPanel() {
   const editorContext = useEditorContext()

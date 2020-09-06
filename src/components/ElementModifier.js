@@ -57,7 +57,7 @@ const mainCss = css`
   position: absolute;
 `
 
-ElementModifier.proptypes = {
+ElementModifier.propTypes = {
   element: PropTypes.object.isRequired,
 }
 

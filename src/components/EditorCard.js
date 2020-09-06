@@ -6,6 +6,7 @@ import { css } from 'linaria'
 import { ElementModifier } from './ElementModifier'
 import { useEditorContext } from '../contexts/EditorContext'
 import { useGlobalBlur } from '../hooks/useGlobalBlur'
+import { DataStore } from '../lib/datastore'
 import { styleRender, selectElement } from '../lib/utils'
 
 const hide = { display: 'none' }
@@ -35,16 +36,20 @@ const elementCss = css`
   }
 `
 
-EditorCard.proptypes = {}
+EditorCard.propTypes = {}
 
 EditorCard.defaultProps = {}
 
-export function EditorCard({}) {
+export function EditorCard({ gameId, templateId }) {
   const { elements, elementIndex, scale, set } = useEditorContext()
 
   const hasSelected = elements.length > 0 && elementIndex > -1
 
   const { blurRef } = useGlobalBlur(hasSelected, () => set.elementIndex(-1))
+
+  useEffect(() => {
+    DataStore.Elements({ templateId }).then(set.elements)
+  }, [gameId, templateId])
 
   return (
     <div

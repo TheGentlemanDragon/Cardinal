@@ -1,6 +1,5 @@
 import { h } from 'preact'
-import { useEffect, useState } from 'preact/hooks'
-import PropTypes from 'proptypes'
+import { useEffect } from 'preact/hooks'
 import { css } from 'linaria'
 
 import { ElementModifier } from './ElementModifier'

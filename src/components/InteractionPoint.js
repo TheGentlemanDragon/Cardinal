@@ -3,38 +3,39 @@ import { useCallback, useState, useEffect } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-const cursorMap = {
-  move: 'move',
-  size: 'se-resize',
-}
+import { Icon } from './Icon'
 
 const mainCss = css`
   height: 10px;
   opacity: 0.9;
   width: 10px;
-  z-index: 102;
+
+  & svg {
+    width: 12px;
+    height: 12px;
+    fill: var(--clr-accent);
+  }
 `
 
 const moveCss = css`
-  background-color: blue;
-  left: 50%;
-  position: relative;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: -1px;
+  left: 1px;
+  position: absolute;
+  z-index: 103;
 `
 
 const sizeCss = css`
-  background-color: red;
-  bottom: 0;
+  bottom: 4px;
   position: absolute;
-  right: 0;
+  right: 2px;
+  z-index: 102;
 `
 
 InteractionPoint.propTypes = {
   bounds: PropTypes.object.isRequired,
   onDrag: PropTypes.func.isRequired,
   onDragEnd: PropTypes.func.isRequired,
-  type: PropTypes.oneOf(['move', 'size']).isRequired,
+  type: PropTypes.oneOf(['move', 'resize']).isRequired,
 }
 
 export function InteractionPoint({ bounds, onDrag, onDragEnd, type }) {
@@ -83,8 +84,9 @@ export function InteractionPoint({ bounds, onDrag, onDragEnd, type }) {
   return (
     <div
       class={`${mainCss} ${type === 'move' ? moveCss : sizeCss}`}
-      style={{ cursor: cursorMap[type] }}
       onMouseDown={startInteraction}
-    />
+    >
+      <Icon type={type} />
+    </div>
   )
 }

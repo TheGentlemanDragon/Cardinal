@@ -16,15 +16,15 @@ import { openEditorTemplate } from '../lib/actions'
 import { DataStore } from '../lib/datastore'
 
 const mainCss = css`
+  align-items: center;
   display: flex;
   flex-direction: column;
   height: 100vh;
+  justify-content: center;
   position: absolute;
+  user-select: none;
   width: 100vw;
   z-index: 1;
-
-  align-items: center;
-  justify-content: center;
 `
 
 const bottomMenuCss = css`

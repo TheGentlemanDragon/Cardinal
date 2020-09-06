@@ -39,11 +39,10 @@ const tMap = {
 }
 
 const labelCss = css`
-  background-color: #888;
-  color: #fff;
-  font-size: 10px;
-  margin-top: -15px;
-  padding: 2px 3px;
+  align-items: center;
+  color: #aaa;
+  display: flex;
+  justify-content: center;
   position: relative;
   text-align: center;
   user-select: none;
@@ -61,14 +60,6 @@ ElementModifier.propTypes = {
   element: PropTypes.object.isRequired,
 }
 
-/*
-  TODO:
-  * Store element in context
-  * Acess element from context
-  * Update element on element select
-  * Debounce element interactionpoint updates
-*/
-
 export function ElementModifier({ element }) {
   const {
     elementIndex,
@@ -80,7 +71,6 @@ export function ElementModifier({ element }) {
   } = useEditorContext()
 
   const style = styleRender(element, {}, delta)
-  const { left, top } = style
 
   const saveTransform = delta => {
     const newElement = { ...element, style: styleDelta(element, delta) }
@@ -109,7 +99,7 @@ export function ElementModifier({ element }) {
 
   return (
     <>
-      <div class={labelCss} style={{ left, top }}>
+      <div class={labelCss} style={style}>
         {element.name}
       </div>
 
@@ -124,7 +114,7 @@ export function ElementModifier({ element }) {
           bounds={bounds.size}
           onDrag={tMap.size(scale, set.delta)}
           onDragEnd={tMap.size(scale, saveTransform)}
-          type="size"
+          type="resize"
         />
       </div>
     </>

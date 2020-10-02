@@ -6,7 +6,7 @@ import { HomePage } from '../pages/HomePage'
 import { TemplatesPage } from '../pages/TemplatesPage'
 import { EditorPage } from '../pages/EditorPage'
 
-import g from './global.css'
+import './global.css'
 
 export default function App() {
   return (
@@ -14,9 +14,6 @@ export default function App() {
       {/* <Match path="/">
         {({ matches }) => matches && <h1 class={g.title}>Cardinal</h1>}
       </Match> */}
-
-      {/* App Title */}
-      <h1 class={g.title}>Cardinal</h1>
 
       <Router>
         <HomePage path="/" />

@@ -3,11 +3,12 @@ import { useEffect, useState } from 'preact/hooks'
 import { css } from 'linaria'
 
 import { Flex } from '../components/Flex'
+import { Menu } from '../components/Menu'
 import { GameItem } from '../components/GameItem'
 import { DataStore } from '../lib/datastore'
 import { sortByKey } from '../lib/utils'
 
-const mainCss = css`
+const HomePageCss = css`
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -16,6 +17,18 @@ const mainCss = css`
   position: absolute;
   width: 100vw;
   z-index: 1;
+`
+
+const titleCss = css`
+  position: relative;
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 2rem;
+  margin: 0;
+  padding-left: var(--g-padding-horizontal);
+  text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
+  top: var(--g-padding-vertical);
 `
 
 function createGame(games, setGames) {
@@ -36,16 +49,20 @@ export function HomePage() {
   }, [])
 
   return (
-    <div class={mainCss}>
-      <Flex justify="space-between">
-        <h2>Games</h2>
-        <button onClick={addGame}>Add</button>
-      </Flex>
+    <>
+      <Menu titleOnly />
 
-      {/* Games List */}
-      {games.sort(sortByKey('name')).map(game => (
-        <GameItem game={game} />
-      ))}
-    </div>
+      <div class={HomePageCss}>
+        <Flex justify="space-between">
+          <h2>Games</h2>
+          <button onClick={addGame}>Add</button>
+        </Flex>
+
+        {/* Games List */}
+        {games.sort(sortByKey('name')).map(game => (
+          <GameItem game={game} />
+        ))}
+      </div>
+    </>
   )
 }

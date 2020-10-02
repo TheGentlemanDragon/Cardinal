@@ -6,14 +6,20 @@ import { css } from 'linaria'
 import { useGlobalBlur } from '../hooks/useGlobalBlur'
 import { getDisplayValue } from '../lib/utils'
 
-const mainCss = css`
-  display: flex;
-  align-items: center;
+const SelectCss = css`
+  margin-bottom: var(--g-margin-md);
+  text-align: right;
+  width: var(--input-min-width);
 
   label {
-    margin-right: var(--g-margin-md);
     text-shadow: var(--text-shadow-sm);
   }
+`
+
+const inputWrapperCss = css`
+  align-items: center;
+  display: flex;
+  margin-top: var(--g-margin-sm);
 `
 
 const inputCss = css`
@@ -24,7 +30,7 @@ const inputCss = css`
   height: var(--input-height);
   overflow: hidden;
   padding: var(--input-padding-vertical) var(--input-padding-horizontal);
-  padding-right: 1.6rem;
+  padding-right: var(--g-margin-lg);
   text-overflow: ellipsis;
   user-select: none;
   white-space: nowrap;
@@ -114,29 +120,30 @@ export function Select({ disabled, labelKey, name, onSelect, options, value }) {
   const { blurRef } = useGlobalBlur(isOpen, close)
 
   return (
-    <div class={`${mainCss} inputContainer`}>
+    <div class={SelectCss}>
       <label>{name}</label>
-
-      <div ref={blurRef} onClick={isOpen ? close : open}>
-        <div class={inputCss}>{value}</div>
-        <div class={isOpen ? menuCss : menuClosedCss}>
-          {options
-            .filter(item => getDisplayValue(item, labelKey) !== value)
-            .map(item => (
-              <div key={item.$id} onClick={() => onSelect(item)}>
-                {getDisplayValue(item, labelKey)}
-              </div>
-            ))}
+      <div class={`${inputWrapperCss} inputContainer`}>
+        <div ref={blurRef} onClick={isOpen ? close : open}>
+          <div class={inputCss}>{value}</div>
+          <div class={isOpen ? menuCss : menuClosedCss}>
+            {options
+              .filter(item => getDisplayValue(item, labelKey) !== value)
+              .map(item => (
+                <div key={item.$id} onClick={() => onSelect(item)}>
+                  {getDisplayValue(item, labelKey)}
+                </div>
+              ))}
+          </div>
         </div>
-      </div>
 
-      {options.length > 1 ? (
-        isOpen ? (
-          <span class={`${caretCss} ${caretUpCss}`} />
-        ) : (
-          <span class={caretCss} />
-        )
-      ) : null}
+        {options.length > 1 ? (
+          isOpen ? (
+            <span class={`${caretCss} ${caretUpCss}`} />
+          ) : (
+            <span class={caretCss} />
+          )
+        ) : null}
+      </div>
     </div>
   )
 }

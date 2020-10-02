@@ -10,13 +10,11 @@ import { styleRender, selectElement } from '../lib/utils'
 
 const hide = { display: 'none' }
 
-const mainCss = css`
+const EditorCardCss = css`
   background-color: #ffffff;
   border-radius: calc(0.13px * var(--res));
   box-shadow: var(--box-shadow-lg);
   height: calc(3.5px * var(--res));
-  margin-bottom: calc(var(--input-height) + var(--g-padding-vertical));
-  margin-left: 18rem;
   position: relative;
   width: calc(2.5px * var(--res));
 `
@@ -53,7 +51,7 @@ export function EditorCard({ gameId, templateId }) {
   return (
     <div
       ref={blurRef}
-      class={mainCss}
+      class={EditorCardCss}
       id="EditorCard"
       style={{ transform: `scale(${scale})` }}
       onMouseDown={selectElement(elementIndex, set.elementIndex)}

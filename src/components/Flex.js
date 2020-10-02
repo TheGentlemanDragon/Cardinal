@@ -2,7 +2,7 @@ import { h } from 'preact'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-const mainCss = css`
+const FlexCss = css`
   display: flex;
 `
 
@@ -25,7 +25,7 @@ export function Flex({ align, children, direction, justify }) {
     'align-items': align,
   }
   return (
-    <div class={mainCss} style={style}>
+    <div class={FlexCss} style={style}>
       {children}
     </div>
   )

@@ -4,39 +4,21 @@ import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { EditorCard } from '../components/EditorCard'
-import { EditorPanel } from '../components/EditorPanel'
-import { FlexSeparator } from '../components/FlexSeparator'
-import { ScaleSlider } from '../components/ScaleSlider'
-import { SelectCollection } from '../components/SelectCollection'
+import { Menu } from '../components/Menu'
 
-import { useEditorContext } from '../contexts/EditorContext'
-import { withEditorContext } from '../contexts/EditorContext'
+import { useEditorContext, withEditorContext } from '../contexts/EditorContext'
 
 import { openEditorTemplate } from '../lib/actions'
 import { DataStore } from '../lib/datastore'
+import { PageCss } from '../lib/styles'
 
-const mainCss = css`
+const EditorPageCss = css`
   align-items: center;
   display: flex;
   flex-direction: column;
-  height: 100vh;
   justify-content: center;
-  position: absolute;
+  padding: 0;
   user-select: none;
-  width: 100vw;
-  z-index: 1;
-`
-
-const bottomMenuCss = css`
-  display: flex;
-  position: absolute;
-  bottom: var(--g-padding-vertical);
-  left: var(--g-padding-horizontal);
-  width: calc(100vw - 2 * var(--g-padding-horizontal));
-
-  & > div + div {
-    margin-left: var(--g-margin-lg);
-  }
 `
 
 EditorPage.propTypes = {
@@ -63,31 +45,13 @@ function EditorPage({ gameId, templateId }) {
   }, [templateId])
 
   return (
-    <div class={mainCss}>
-      <EditorPanel gameId={gameId} templateId={templateId} />
-      <EditorCard templateId={templateId} />
+    <>
+      <Menu gameId={gameId} templateId={templateId} />
 
-      <div class={bottomMenuCss}>
-        <SelectCollection
-          collection="Games"
-          labelKey="name"
-          name="Game"
-          value={gameId}
-          valueKey="$id"
-          onSelect={item => openEditorTemplate(item)}
-        />
-        <SelectCollection
-          collection="Templates"
-          labelKey="name"
-          name="Template"
-          query={{ gameId }}
-          value={template.name}
-          onSelect={item => openEditorTemplate(game, item)}
-        />
-        <FlexSeparator />
-        <ScaleSlider />
+      <div class={PageCss + ' ' + EditorPageCss}>
+        <EditorCard templateId={templateId} />
       </div>
-    </div>
+    </>
   )
 }
 

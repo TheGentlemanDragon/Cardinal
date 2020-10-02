@@ -4,7 +4,7 @@ import { css } from 'linaria'
 import { useEditorContext } from '../contexts/EditorContext'
 import { withEventTargetValue } from '../lib/utils'
 
-const mainCss = css`
+const ScaleSliderCss = css`
   display: flex;
   align-items: center;
 
@@ -49,18 +49,20 @@ export function ScaleSlider() {
   const { scale, set } = useEditorContext()
 
   return (
-    <div class={mainCss}>
-      <label>Scale</label>
-      <input
-        type="range"
-        id="cardScale"
-        name="cardScale"
-        min="1"
-        max="4"
-        step="0.05"
-        value={scale}
-        onInput={withEventTargetValue(set.scale)}
-      />
-    </div>
+    scale && (
+      <div class={ScaleSliderCss}>
+        <label>Scale</label>
+        <input
+          type="range"
+          id="cardScale"
+          name="cardScale"
+          min="1"
+          max="4"
+          step="0.05"
+          value={scale}
+          onInput={withEventTargetValue(set.scale)}
+        />
+      </div>
+    )
   )
 }

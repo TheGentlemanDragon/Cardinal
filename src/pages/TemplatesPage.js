@@ -4,19 +4,9 @@ import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { Flex } from '../components/Flex'
+import { Menu } from '../components/Menu'
 import { DataStore } from '../lib/datastore'
-import { sortByKey } from '../lib/utils'
-
-const mainCss = css`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  margin: var(--g-padding-vertical) auto;
-  padding: var(--g-padding-page-top) calc((100vw - 800px) / 2) 32px;
-  position: absolute;
-  width: 100vw;
-  z-index: 1;
-`
+import { PageCss } from '../lib/styles'
 
 const listCss = css`
   display: flex;
@@ -96,24 +86,27 @@ export function TemplatesPage({ gameId }) {
   }, [gameId])
 
   return (
-    <div class={mainCss}>
-      <Flex justify="space-between">
-        <h2>Templates</h2>
-        <button onClick={addTemplate}>Add</button>
-      </Flex>
+    <>
+      <Menu gameId={gameId} />
+      <div class={PageCss}>
+        <Flex justify="space-between">
+          <h2>Templates</h2>
+          <button onClick={addTemplate}>Add</button>
+        </Flex>
 
-      {/* Templates List */}
-      <div class={listCss}>
-        {templates.map(template => (
-          <a
-            key={`templates-list-${template.$id}`}
-            class={`template ${templateItemCss}`}
-            href={`/games/${gameId}/templates/${template.$id}`}
-          >
-            {template.name}
-          </a>
-        ))}
+        {/* Templates List */}
+        <div class={listCss}>
+          {templates.map(template => (
+            <a
+              key={`templates-list-${template.$id}`}
+              class={`template ${templateItemCss}`}
+              href={`/games/${gameId}/templates/${template.$id}`}
+            >
+              {template.name}
+            </a>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 }

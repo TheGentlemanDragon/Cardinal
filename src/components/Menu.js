@@ -6,6 +6,7 @@ import { Flex } from '../components/Flex'
 import { FlexSeparator } from '../components/FlexSeparator'
 import { ScaleSlider } from '../components/ScaleSlider'
 import { SelectCollection } from '../components/SelectCollection'
+import { Title } from '../components/Title'
 import { DataStore } from '../lib/datastore'
 
 import { useEditorContext } from '../contexts/EditorContext'
@@ -15,7 +16,7 @@ const MenuCss = css`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: var(--g-padding-vertical) var(--g-padding-vertical);
+  padding: 0 var(--g-padding-vertical) var(--g-padding-vertical);
   width: 210px;
 
   > div {
@@ -23,44 +24,24 @@ const MenuCss = css`
   }
 `
 
-const titleCss = css`
-  color: #fff;
-  font-size: 2rem;
-  font-weight: 400;
-  line-height: 2rem;
-  margin-bottom: var(--g-margin-lg);
-  text-align: center;
-  text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
-  top: var(--g-padding-vertical);
-`
-
-const offsetTitleCss = css`
-  left: 45.5px;
-  position: absolute;
-`
-
-Menu.defaultProps = {
-  titleOnly: false,
-}
+Menu.defaultProps = {}
 
 /** List games for the main page */
-export function Menu({ gameId, templateId, titleOnly }) {
+export function Menu({ gameId, templateId }) {
   const { set, template } = useEditorContext()
 
   useEffect(() => {
-    if (titleOnly || !templateId) {
+    if (!templateId) {
       return
     }
 
     DataStore.Templates(templateId).then(set.template)
   }, [templateId])
 
-  return titleOnly ? (
-    <h1 class={`${offsetTitleCss} ${titleCss} `}>Cardinal</h1>
-  ) : (
+  return (
     <div class={MenuCss}>
       <Flex direction="column">
-        <h1 class={titleCss}>Cardinal</h1>
+        <Title />
 
         {gameId && (
           <SelectCollection

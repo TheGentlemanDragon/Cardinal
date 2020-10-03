@@ -7,10 +7,9 @@ import { useEditorContext } from '../contexts/EditorContext'
 import { DataStore } from '../lib/datastore'
 import { defaultElement } from '../lib/utils'
 
-const mainCss = css`
+const EditorPanaelCss = css`
   background-color: var(--clr-bg-dark);
   border-radius: var(--radius-md);
-  left: var(--g-padding-horizontal);
   position: absolute;
   width: 13rem;
   padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
@@ -49,7 +48,7 @@ export function EditorPanel() {
   }
 
   return (
-    <div class={mainCss}>
+    <div class={EditorPanaelCss}>
       <h4>Add Element</h4>
 
       <div class={addElementCss}>

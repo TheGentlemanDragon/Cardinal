@@ -3,8 +3,8 @@ import { useEffect, useState } from 'preact/hooks'
 import { css } from 'linaria'
 
 import { Flex } from '../components/Flex'
-import { Menu } from '../components/Menu'
 import { GameItem } from '../components/GameItem'
+import { Title } from '../components/Title'
 import { DataStore } from '../lib/datastore'
 import { sortByKey } from '../lib/utils'
 
@@ -12,11 +12,8 @@ const HomePageCss = css`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  margin: var(--g-padding-vertical) auto;
-  padding: var(--g-padding-page-top) calc((100vw - 800px) / 2) 32px;
-  position: absolute;
-  width: 100vw;
-  z-index: 1;
+  padding: 0 20px;
+  width: 640px;
 `
 
 function createGame(games, setGames) {
@@ -37,20 +34,18 @@ export function HomePage() {
   }, [])
 
   return (
-    <>
-      <Menu titleOnly />
+    <div class={HomePageCss}>
+      <Title />
 
-      <div class={HomePageCss}>
-        <Flex justify="space-between">
-          <h2>Games</h2>
-          <button onClick={addGame}>Add</button>
-        </Flex>
+      <Flex justify="space-between">
+        <h2>Games</h2>
+        <button onClick={addGame}>Add</button>
+      </Flex>
 
-        {/* Games List */}
-        {games.sort(sortByKey('name')).map(game => (
-          <GameItem game={game} />
-        ))}
-      </div>
-    </>
+      {/* Games List */}
+      {games.sort(sortByKey('name')).map(game => (
+        <GameItem game={game} />
+      ))}
+    </div>
   )
 }

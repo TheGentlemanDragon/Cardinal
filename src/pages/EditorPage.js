@@ -14,8 +14,6 @@ import { PageCss } from '../lib/styles'
 
 const EditorPageCss = css`
   align-items: center;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   padding: 0;
   user-select: none;
@@ -48,7 +46,7 @@ function EditorPage({ gameId, templateId }) {
     <>
       <Menu gameId={gameId} templateId={templateId} />
 
-      <div class={PageCss + ' ' + EditorPageCss}>
+      <div class={`${PageCss} ${EditorPageCss}`}>
         <EditorCard templateId={templateId} />
       </div>
     </>

@@ -88,6 +88,7 @@ export function TemplatesPage({ gameId }) {
   return (
     <>
       <Menu gameId={gameId} />
+
       <div class={PageCss}>
         <Flex justify="space-between">
           <h2>Templates</h2>

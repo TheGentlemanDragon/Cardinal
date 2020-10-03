@@ -103,9 +103,9 @@ export function selectElement(index, setSelected) {
   }
 }
 
-export function shortId() {
-  return (1e11)
-    .toString()
+export function hexId(length = 8) {
+  return '0'
+    .repeat(length)
     .replace(/[018]/g, c =>
       (
         c ^

@@ -11,7 +11,7 @@
     "start:development": "npm run -s dev",
     "build": "preact build --no-prerender",
     "serve": "preact build && sirv build --cors --single",
-    "dev": "preact watch",
+    "dev": "preact watch --host cardinal.localhost",
     "lint": "eslint src",
     "test": "jest"
   },

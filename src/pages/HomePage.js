@@ -19,18 +19,6 @@ const HomePageCss = css`
   z-index: 1;
 `
 
-const titleCss = css`
-  position: relative;
-  color: #fff;
-  font-size: 2rem;
-  font-weight: 400;
-  line-height: 2rem;
-  margin: 0;
-  padding-left: var(--g-padding-horizontal);
-  text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
-  top: var(--g-padding-vertical);
-`
-
 function createGame(games, setGames) {
   const count = document.getElementsByClassName('game').length
   const game = { name: `Game ${count}` }

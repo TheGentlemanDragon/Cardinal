@@ -15,9 +15,7 @@ const MenuCss = css`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: calc(var(--g-padding-vertical) + var(--g-padding-page-top))
-    var(--g-padding-vertical) var(--g-padding-vertical)
-    var(--g-padding-vertical);
+  padding: var(--g-padding-vertical) var(--g-padding-vertical);
   width: 210px;
 
   > div {
@@ -26,15 +24,19 @@ const MenuCss = css`
 `
 
 const titleCss = css`
-  position: absolute;
   color: #fff;
   font-size: 2rem;
   font-weight: 400;
   line-height: 2rem;
-  margin: 0;
-  left: var(--g-padding-horizontal);
+  margin-bottom: var(--g-margin-lg);
+  text-align: center;
   text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
   top: var(--g-padding-vertical);
+`
+
+const offsetTitleCss = css`
+  left: 45.5px;
+  position: absolute;
 `
 
 Menu.defaultProps = {
@@ -54,7 +56,7 @@ export function Menu({ gameId, templateId, titleOnly }) {
   }, [templateId])
 
   return titleOnly ? (
-    <h1 class={titleCss}>Cardinal</h1>
+    <h1 class={`${offsetTitleCss} ${titleCss} `}>Cardinal</h1>
   ) : (
     <div class={MenuCss}>
       <Flex direction="column">

@@ -122,6 +122,12 @@ export function randomInt(max = 255) {
   return Math.round(random() * max)
 }
 
+export function sortArrayByKey(key) {
+  return function(array) {
+    return array.sort(sortByKey(key))
+  }
+}
+
 export function sortByKey(key) {
   return function(a, b) {
     return a[key] > b[key] ? 1 : -1

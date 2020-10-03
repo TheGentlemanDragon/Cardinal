@@ -4,7 +4,7 @@ import PropTypes from 'proptypes'
 
 import { Select } from '../components/Select'
 import { DataStore } from '../lib/datastore'
-import { getDisplayValue } from '../lib/utils'
+import { getDisplayValue, sortArrayByKey } from '../lib/utils'
 
 SelectCollection.propTypes = {
   collection: PropTypes.string.isRequired,
@@ -45,7 +45,9 @@ export function SelectCollection({
     ) || {}
 
   useEffect(() => {
-    DataStore[collection](query).then(setOptions)
+    DataStore[collection](query)
+      .then(sortArrayByKey(labelKey))
+      .then(setOptions)
   }, [collection, query])
 
   return (

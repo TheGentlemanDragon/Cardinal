@@ -4,7 +4,7 @@ import PropTypes from 'proptypes'
 
 import { Select } from '../components/Select'
 import { DataStore } from '../lib/datastore'
-import { getDisplayValue, identity } from '../lib/utils'
+import { getDisplayValue } from '../lib/utils'
 
 SelectCollection.propTypes = {
   collection: PropTypes.string.isRequired,

@@ -23,7 +23,7 @@
   --clr-text-dark: rgba(24, 24, 24, 0.9);
   --clr-text-light: rgba(32, 32, 32, 0.9);
   --clr-input: var(--clr-white);
-  --clr-input-bg-hover: rgb(12, 64, 124, 0.6);
+  --clr-input-bg-hover: rgb(12, 64, 124);
   --clr-svg-fill: var(--clr-white);
   /* rgb(18, 73, 136, 0.4); */
 

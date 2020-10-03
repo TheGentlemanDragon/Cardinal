@@ -9,28 +9,24 @@ import { getDisplayValue } from '../lib/utils'
 const SelectCss = css`
   margin-bottom: var(--g-margin-md);
   text-align: right;
-  width: var(--input-min-width);
 
   label {
     text-shadow: var(--text-shadow-sm);
   }
 `
 
-const inputWrapperCss = css`
-  align-items: center;
-  display: flex;
-  margin-top: var(--g-margin-sm);
-`
-
 const inputCss = css`
+  align-items: center;
   background-color: var(--clr-input);
   border-radius: var(--radius-md);
   color: var(--clr-text-dark);
   cursor: pointer;
+  display: flex;
   height: var(--input-height);
+  justify-content: space-between;
+  margin-top: var(--g-margin-sm);
   overflow: hidden;
   padding: var(--input-padding-vertical) var(--input-padding-horizontal);
-  padding-right: var(--g-margin-lg);
   text-overflow: ellipsis;
   user-select: none;
   white-space: nowrap;
@@ -41,7 +37,6 @@ const caretCss = css`
   background-image: url(../assets/icons/caret-down.png);
   cursor: pointer;
   height: 16px;
-  margin-left: -26px;
   margin-top: 1px;
   pointer-events: none;
   transition: linear 0.15s transform;
@@ -52,47 +47,44 @@ const caretUpCss = css`
   transform: rotate(180deg);
 `
 
-const menuClosedCss = css`
-  background-color: var(--clr-input);
-  border-radius: var(--radius-md);
-  bottom: 0;
+const menuWrapperCss = css`
   height: 0;
-  opacity: 0;
-  overflow: hidden;
-  padding: var(--input-padding-vertical) 0;
-  position: absolute;
-  z-index: -1;
+  margin-top: calc(var(--g-margin-sm) / 2);
+  overflow: visible;
 `
 
 const menuCss = css`
-  background-color: var(--clr-input);
+  background-color: var(--clr-input-bg-hover);
   border-radius: var(--radius-md);
-  bottom: calc(var(--input-height) + var(--input-padding-vertical));
-  height: unset;
   opacity: 1;
   overflow: hidden;
   padding: var(--input-padding-vertical) 0;
   position: absolute;
-  transition: bottom 0.5s, opacity 0.5s;
-  z-index: unset;
+  transition: opacity 0.5s;
+  width: var(--input-min-width);
 
   > div {
     align-items: center;
     display: flex;
     height: var(--input-height);
-    justify-content: flex-start;
+    justify-content: flex-end;
     padding: var(--input-padding-vertical) var(--input-padding-horizontal);
   }
 
   > div {
-    color: var(--clr-text-dark);
-    opacity: 0.6;
+    color: var(--clr-white);
+    opacity: 0.9;
   }
 
   > div:hover {
     cursor: pointer;
     opacity: 1;
   }
+`
+
+const menuClosedCss = css`
+  opacity: 0;
+  z-index: -1;
 `
 
 Select.propTypes = {
@@ -122,27 +114,32 @@ export function Select({ disabled, labelKey, name, onSelect, options, value }) {
   return (
     <div class={SelectCss}>
       <label>{name}</label>
-      <div class={`${inputWrapperCss} inputContainer`}>
-        <div ref={blurRef} onClick={isOpen ? close : open}>
-          <div class={inputCss}>{value}</div>
-          <div class={isOpen ? menuCss : menuClosedCss}>
-            {options
-              .filter(item => getDisplayValue(item, labelKey) !== value)
-              .map(item => (
-                <div key={item.$id} onClick={() => onSelect(item)}>
-                  {getDisplayValue(item, labelKey)}
-                </div>
-              ))}
-          </div>
-        </div>
 
+      <div
+        ref={blurRef}
+        class={`${inputCss} inputContainer`}
+        onClick={isOpen ? close : open}
+      >
         {options.length > 1 ? (
           isOpen ? (
-            <span class={`${caretCss} ${caretUpCss}`} />
+            <div class={`${caretCss} ${caretUpCss}`} />
           ) : (
-            <span class={caretCss} />
+            <div class={caretCss} />
           )
         ) : null}
+        {value}
+      </div>
+
+      <div class={menuWrapperCss}>
+        <div class={`${menuCss} ${!isOpen && menuClosedCss}`}>
+          {options
+            .filter(item => getDisplayValue(item, labelKey) !== value)
+            .map(item => (
+              <div key={item.$id} onClick={() => onSelect(item)}>
+                {getDisplayValue(item, labelKey)}
+              </div>
+            ))}
+        </div>
       </div>
     </div>
   )

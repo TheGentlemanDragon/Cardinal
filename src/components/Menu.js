@@ -1,13 +1,15 @@
 import { h } from 'preact'
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect } from 'preact/hooks'
 import { css } from 'linaria'
 
-import { Flex } from '../components/Flex'
-import { FlexSeparator } from '../components/FlexSeparator'
-import { ScaleSlider } from '../components/ScaleSlider'
-import { SelectCollection } from '../components/SelectCollection'
-import { Title } from '../components/Title'
+import { EditorPanel } from './EditorPanel'
+import { Flex } from './Flex'
+import { FlexSeparator } from './FlexSeparator'
+import { ScaleSlider } from './ScaleSlider'
+import { SelectCollection } from './SelectCollection'
+import { Title } from './Title'
 import { DataStore } from '../lib/datastore'
+import { openEditorTemplate } from '../lib/actions'
 
 import { useEditorContext } from '../contexts/EditorContext'
 
@@ -50,7 +52,7 @@ export function Menu({ gameId, templateId }) {
             name="Game"
             value={gameId}
             valueKey="$id"
-            onSelect={item => openEditorTemplate(item)}
+            onSelect={game => openEditorTemplate(game.$id)}
           />
         )}
 
@@ -61,11 +63,11 @@ export function Menu({ gameId, templateId }) {
             name="Template"
             query={{ gameId }}
             value={template.name}
-            onSelect={item => openEditorTemplate(game, item)}
+            onSelect={template => openEditorTemplate(gameId, template.$id)}
           />
         )}
 
-        {/* <EditorPanel gameId={gameId} templateId={templateId} /> */}
+        {template && <EditorPanel gameId={gameId} templateId={templateId} />}
 
         <FlexSeparator />
 

@@ -7,18 +7,25 @@ import { useEditorContext } from '../contexts/EditorContext'
 import { DataStore } from '../lib/datastore'
 import { defaultElement } from '../lib/utils'
 
-const EditorPanaelCss = css`
-  background-color: var(--clr-bg-dark);
-  border-radius: var(--radius-md);
-  position: absolute;
-  width: 13rem;
-  padding: var(--panel-padding-vertical) var(--panel-padding-horizontal);
-  margin-left: 2rem;
+const EditorPanelCss = css`
+  align-items: flex-end;
+  display: flex;
+  flex-direction: column;
 `
 
 const addElementCss = css`
   display: flex;
   justify-content: space-evenly;
+  margin-top: var(--g-margin-sm);
+  width: 100%;
+
+  svg {
+    padding: var(--input-padding-vertical);
+  }
+
+  svg:hover {
+    background-color: var(--clr-input-bg-hover);
+  }
 `
 
 function addElement(editorContext, type) {
@@ -48,8 +55,8 @@ export function EditorPanel() {
   }
 
   return (
-    <div class={EditorPanaelCss}>
-      <h4>Add Element</h4>
+    <div class={EditorPanelCss}>
+      <label>Add Element</label>
 
       <div class={addElementCss}>
         <Icon type="text" onClick={addText} />

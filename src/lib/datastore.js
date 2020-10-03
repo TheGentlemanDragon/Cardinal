@@ -1,6 +1,6 @@
 import { Store, get, keys, set } from 'idb-keyval'
 
-import { identity, hexId, toObjQuery } from './utils'
+import { identity, generateId, toObjQuery } from './utils'
 
 // Manually create stores if they don't exist
 indexedDB.open('cardinal').onupgradeneeded = function(event) {
@@ -50,7 +50,7 @@ function generateStore(name) {
   }
 
   Instance.add = function(value) {
-    value.$id = hexId()
+    value.$id = generateId(8)
     set(value.$id, value, store)
     return value
   }

@@ -1,17 +1,8 @@
 import { route } from 'preact-router'
 
-/* Constants */
-
-export const defaultElement = {
-  style: {
-    left: { unit: 'px', value: 0 },
-    top: { unit: 'px', value: 0 },
-    height: { unit: 'px', value: 30 },
-    width: { unit: 'px', value: 100 },
-  },
-}
-
 /* Locals */
+
+const idChars = '1234567890abcdefghijkmnpqrstuvwzyz'
 
 function pointInRect(point) {
   return function(rect) {
@@ -24,6 +15,17 @@ function pointInRect(point) {
   }
 }
 
+/* Constants */
+
+export const defaultElement = {
+  style: {
+    left: { unit: 'px', value: 0 },
+    top: { unit: 'px', value: 0 },
+    height: { unit: 'px', value: 30 },
+    width: { unit: 'px', value: 100 },
+  },
+}
+
 /* Exports */
 
 export function debounce(fn, delay) {
@@ -33,6 +35,13 @@ export function debounce(fn, delay) {
     clearTimeout(timeout)
     timeout = setTimeout(() => fn(...args), delay)
   }
+}
+
+export function generateId(length = 8) {
+  return Array(length)
+    .fill(0)
+    .map((_, i) => idChars[randomInt(idChars.length - 1)])
+    .join('')
 }
 
 export function getDisplayValue(item, labelKey) {
@@ -103,15 +112,14 @@ export function selectElement(index, setSelected) {
   }
 }
 
-export function hexId(length = 8) {
-  return '0'
-    .repeat(length)
-    .replace(/[018]/g, c =>
-      (
-        c ^
-        (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-      ).toString(16)
-    )
+export function random() {
+  const randomBuffer = new Uint32Array(1)
+  window.crypto.getRandomValues(randomBuffer)
+  return randomBuffer[0] / (0xffffffff + 1)
+}
+
+export function randomInt(max = 255) {
+  return Math.round(random() * max)
 }
 
 export function sortByKey(key) {

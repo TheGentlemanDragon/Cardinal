@@ -4347,16 +4347,6 @@ find-yarn-workspace-root@^1.2.1:
     fs-extra "^4.0.3"
     micromatch "^3.1.4"
 
-firebase-auth-lite@^0.8.5:
-  version "0.8.5"
-  resolved "https://registry.yarnpkg.com/firebase-auth-lite/-/firebase-auth-lite-0.8.5.tgz#dd1eb20031f0d3090c05b7b4f1e29ba15f177187"
-  integrity sha512-CqVJuXfajf+TRMRCNXQJYkfWXPPfWwj7SqA2QRdowaq3oaMaNUx/GSwcn4jsFSglSN1SbsPCeMRvrtTQPPwh7g==
-
-firebase-firestore-lite@^1.0.0-RC1.2:
-  version "1.0.0-RC1.2"
-  resolved "https://registry.yarnpkg.com/firebase-firestore-lite/-/firebase-firestore-lite-1.0.0-RC1.2.tgz#3b527d52f1e9377c3638c691dfea296126283f68"
-  integrity sha512-tNgmX4CcukSmM2ouz0e6HZxlVlzzqulZ0jUbL3QijtV59OqCrJM0HvdEBSr+BS9W9opxEE7bMSwMLr2/ImFwlQ==
-
 flat-cache@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/flat-cache/-/flat-cache-2.0.1.tgz#5d296d6f04bda44a4630a301413bdbc2ec085ec0"

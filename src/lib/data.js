@@ -1,5 +1,9 @@
-import { Database } from 'firebase-firestore-lite'
-import Auth from 'firebase-auth-lite'
+// To re-enable firebase, install
+// "firebase-auth-lite": "^0.8.5",
+// "firebase-firestore-lite": "^1.0.0-RC1.2",
+
+// import { Database } from 'firebase-firestore-lite'
+// import Auth from 'firebase-auth-lite'
 
 import config from './config'
 import { hashRef, sortByKey } from './utils'
@@ -7,7 +11,7 @@ import { hashRef, sortByKey } from './utils'
 const rxRef = /.*Ref$/
 const DEBUG = false
 
-const auth = new Auth({ apiKey: config.apiKey })
+// const auth = new Auth({ apiKey: config.apiKey })
 
 /**
  * Encapsulates Firebase functionality
@@ -16,7 +20,8 @@ const auth = new Auth({ apiKey: config.apiKey })
  */
 class FirebaseFactory {
   constructor() {
-    this.db = new Database({ projectId: config.projectId, auth })
+    // this.db = new Database({ projectId: config.projectId, auth })
+    this.db = {}
     this.owner = null
     this.cache = {
       collection: {},
@@ -66,7 +71,8 @@ class FirebaseFactory {
   }
 
   add(collection, value) {
-    return Firebase.db.ref(collection).add(value)
+    // return Firebase.db.ref(collection).add(value)
+    return {}
   }
 
   /**
@@ -183,7 +189,8 @@ class FirebaseFactory {
   }
 
   update(object, value) {
-    return Firebase.db.ref(object.$path).update(value)
+    // return Firebase.db.ref(object.$path).update(value)
+    return {}
   }
 
   // /**
@@ -222,7 +229,8 @@ class Cache {
   }
 }
 
-const Firebase = new FirebaseFactory()
-Firebase.setOwner('nando')
+// const Firebase = new FirebaseFactory()
+// Firebase.setOwner('nando')
 
-export { Firebase, Cache }
+// export { Firebase, Cache }
+export { Cache }

@@ -16,8 +16,10 @@
 
   /* Colors */
   --clr-white: rgba(250, 250, 250, 0.9);
+  --clr-red: rgb(231 76 60);
 
   --clr-accent: rgb(255, 178, 0);
+  --clr-alert: var(--clr-red);
   --clr-bg-card: var(--clr-white);
   --clr-bg-dark: rgba(24, 24, 24, 0.5);
   --clr-text-dark: rgba(24, 24, 24, 0.9);

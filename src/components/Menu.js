@@ -8,10 +8,10 @@ import { FlexSeparator } from './FlexSeparator'
 import { ScaleSlider } from './ScaleSlider'
 import { SelectCollection } from './SelectCollection'
 import { Title } from './Title'
-import { DataStore } from '../lib/datastore'
-import { openEditorTemplate } from '../lib/actions'
 
 import { useEditorContext } from '../contexts/EditorContext'
+import { useDS } from '../hooks/useDS'
+import { openEditorTemplate } from '../lib/actions'
 
 const MenuCss = css`
   background-color: rgba(0, 0, 0, 0.6);
@@ -30,6 +30,7 @@ Menu.defaultProps = {}
 
 /** List games for the main page */
 export function Menu({ gameId, templateId }) {
+  const Templates = useDS('Templates')
   const { set, template } = useEditorContext()
 
   useEffect(() => {
@@ -37,8 +38,15 @@ export function Menu({ gameId, templateId }) {
       return
     }
 
-    DataStore.Templates(templateId).then(set.template)
+    Templates.getItem(templateId)
   }, [templateId])
+
+  useEffect(() => {
+    if (!Templates.item) {
+      return
+    }
+    set.template(Templates.item)
+  }, [Templates.item])
 
   return (
     <div class={MenuCss}>
@@ -62,7 +70,7 @@ export function Menu({ gameId, templateId }) {
             labelKey="name"
             name="Template"
             query={{ gameId }}
-            value={template.name}
+            value={Templates.item?.name}
             onSelect={template => openEditorTemplate(gameId, template.$id)}
           />
         )}

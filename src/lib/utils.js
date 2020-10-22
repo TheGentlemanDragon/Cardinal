@@ -70,7 +70,8 @@ export function hashRef(obj) {
     ? obj
     : Object.keys(obj)
         .sort()
-        .map(key => key + ':' + hashRef(obj[key]))
+        .map(key => key + '=' + hashRef(obj[key]))
+        .join('&')
 }
 
 export function identity(value) {
@@ -88,6 +89,16 @@ export function memoize(fn) {
 }
 
 export function noop() {}
+
+export function random() {
+  const randomBuffer = new Uint32Array(1)
+  window.crypto.getRandomValues(randomBuffer)
+  return randomBuffer[0] / (0xffffffff + 1)
+}
+
+export function randomInt(max = 255) {
+  return Math.round(random() * max)
+}
 
 export function selectElement(index, setSelected) {
   return function(event) {
@@ -110,16 +121,6 @@ export function selectElement(index, setSelected) {
     const nextIndex = originalElements.indexOf(clickedElement)
     setSelected(nextIndex)
   }
-}
-
-export function random() {
-  const randomBuffer = new Uint32Array(1)
-  window.crypto.getRandomValues(randomBuffer)
-  return randomBuffer[0] / (0xffffffff + 1)
-}
-
-export function randomInt(max = 255) {
-  return Math.round(random() * max)
 }
 
 export function sortArrayByKey(key) {

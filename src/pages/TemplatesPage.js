@@ -1,12 +1,13 @@
 import { h } from 'preact'
-import { useState, useEffect } from 'preact/hooks'
+import { useEffect } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { Flex } from '../components/Flex'
 import { Menu } from '../components/Menu'
-import { DataStore } from '../lib/datastore'
+import { useDS } from '../hooks/useDS'
 import { PageCss } from '../lib/styles'
+import { sortByKey } from '../lib/utils'
 
 const listCss = css`
   display: flex;
@@ -50,16 +51,6 @@ const templateItemCss = css`
   }
 `
 
-function createTemplate(gameId, templates, setTemplates) {
-  const count = document.getElementsByClassName('template').length
-  const template = {
-    name: `Template ${count}`,
-    gameId,
-  }
-  DataStore.Templates.add(template)
-  setTemplates([...templates, template])
-}
-
 TemplatesPage.propTypes = {
   gameId: PropTypes.string.isRequired,
 }
@@ -77,12 +68,16 @@ TemplatesPage.propTypes = {
  * )
  */
 export function TemplatesPage({ gameId }) {
-  const [templates, setTemplates] = useState([])
+  const Templates = useDS('Templates')
 
-  const addTemplate = () => createTemplate(gameId, templates, setTemplates)
+  const addTemplate = () => {
+    const count = document.getElementsByClassName('template').length
+    Templates.add({ name: `Template ${count}`, gameId })
+    Templates.refresh('list')
+  }
 
   useEffect(() => {
-    DataStore.Templates({ gameId }).then(setTemplates)
+    Templates.getList({ gameId })
   }, [gameId])
 
   return (
@@ -97,7 +92,7 @@ export function TemplatesPage({ gameId }) {
 
         {/* Templates List */}
         <div class={listCss}>
-          {templates.map(template => (
+          {Templates.list.sort(sortByKey('name')).map(template => (
             <a
               key={`templates-list-${template.$id}`}
               class={`template ${templateItemCss}`}

@@ -45,7 +45,8 @@ export function SelectCollection({
     ) || {}
 
   useEffect(() => {
-    DataStore[collection](query)
+    DataStore[collection]
+      .list(query)
       .then(sortArrayByKey(labelKey))
       .then(setOptions)
   }, [collection, query])

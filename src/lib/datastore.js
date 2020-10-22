@@ -30,29 +30,26 @@ function generateStore(name) {
     console.log(error)
   }
 
-  async function Instance(keyOrQuery, value) {
-    const keyType = typeof keyOrQuery
-    const key = keyType === 'string' && keyOrQuery
+  function Instance() {}
 
-    if (value) {
-      return set(key, value, store)
-    }
-
-    const query = keyType === 'object' ? toObjQuery(keyOrQuery) : identity
-
-    if (!key) {
-      const objKeys = await keys(store)
-      const items = await Promise.all(objKeys.map(key => get(key, store)))
-      return items.filter(query)
-    }
-
-    return get(key, store)
+  Instance.add = async function(value) {
+    value.$id = generateId(8)
+    await set(value.$id, value, store)
   }
 
-  Instance.add = function(value) {
-    value.$id = generateId(8)
-    set(value.$id, value, store)
-    return value
+  Instance.get = async function(id) {
+    return await get(id, store)
+  }
+
+  Instance.set = async function(id, value) {
+    await set(id, value, store)
+  }
+
+  Instance.list = async function(params) {
+    const query = params ? toObjQuery(params) : identity
+    const objKeys = await keys(store)
+    const items = await Promise.all(objKeys.map(key => get(key, store)))
+    return items.filter(query)
   }
 
   return Instance

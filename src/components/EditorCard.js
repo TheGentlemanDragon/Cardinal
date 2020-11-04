@@ -4,8 +4,8 @@ import { css } from 'linaria'
 
 import { ElementModifier } from './ElementModifier'
 import { useEditorContext } from '../contexts/EditorContext'
+import { useDS } from '../hooks/useDS'
 import { useGlobalBlur } from '../hooks/useGlobalBlur'
-import { DataStore } from '../lib/datastore'
 import { styleRender, selectElement } from '../lib/utils'
 
 const hide = { display: 'none' }
@@ -19,7 +19,7 @@ const EditorCardCss = css`
   width: calc(2.5px * var(--res));
 `
 
-const elementCss = css`
+const ElementCss = css`
   align-items: center;
   color: #aaa;
   cursor: pointer;
@@ -38,14 +38,15 @@ EditorCard.propTypes = {}
 EditorCard.defaultProps = {}
 
 export function EditorCard({ gameId, templateId }) {
-  const { elements, elementIndex, scale, set } = useEditorContext()
+  const Elements = useDS('Elements')
+  const { elementIndex, elements, scale, $set } = useEditorContext()
 
-  const hasSelected = elements.length > 0 && elementIndex > -1
+  const hasSelected = Elements.list.length > 0 && elementIndex > -1
 
-  const { blurRef } = useGlobalBlur(hasSelected, () => set.elementIndex(-1))
+  const { blurRef } = useGlobalBlur(hasSelected, () => $set.elementIndex(-1))
 
   useEffect(() => {
-    DataStore.Elements({ templateId }).then(set.elements)
+    Elements.getList({ templateId }).then($set.elements)
   }, [gameId, templateId])
 
   return (
@@ -54,7 +55,7 @@ export function EditorCard({ gameId, templateId }) {
       class={EditorCardCss}
       id="EditorCard"
       style={{ transform: `scale(${scale})` }}
-      onMouseDown={selectElement(elementIndex, set.elementIndex)}
+      onMouseDown={selectElement(elementIndex, $set.elementIndex)}
     >
       {hasSelected && <ElementModifier element={elements[elementIndex]} />}
 
@@ -63,7 +64,7 @@ export function EditorCard({ gameId, templateId }) {
         return (
           <div
             key={element.$id}
-            class={`element ${elementCss}`}
+            class={`element ${ElementCss}`}
             style={styleRender(element, isSelected && hide)}
           >
             {element.name}

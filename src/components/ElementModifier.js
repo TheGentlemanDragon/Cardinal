@@ -74,7 +74,7 @@ export function ElementModifier({ element }) {
 
   const saveTransform = delta => {
     const newElement = { ...element, style: styleDelta(element, delta) }
-    DataStore.Elements(element.$id, newElement)
+    DataStore.Elements.set(element.$id, newElement)
     $set.delta(defaultDelta)
     $set.elements(Object.assign([], elements, { [elementIndex]: newElement }))
   }

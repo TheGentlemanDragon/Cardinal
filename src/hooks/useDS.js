@@ -9,14 +9,18 @@ export function useDS(storeName) {
   const [list, setList] = useState([])
   const [item, setItem] = useState()
 
+  const setAndReturn = type => result => (
+    (type === 'item' ? setItem : setList)(result), result
+  )
+
   const getItem = id => {
     setItemId(id)
-    store.get(id).then(setItem)
+    return store.get(id).then(setAndReturn('item'))
   }
 
   const getList = params => {
     setListParams(params)
-    store.list(params).then(setList)
+    return store.list(params).then(setAndReturn('list'))
   }
 
   const refresh = scope => {

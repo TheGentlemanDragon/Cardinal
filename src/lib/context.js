@@ -19,13 +19,13 @@ function makeUseContext(context) {
 function populateContext(values, cacheId, cachedKeys) {
   return Object.keys(values).reduce(
     (result, key) => {
-      if (key === 'set') {
-        throw `'set' is a reserved key`
+      if (key === '$set') {
+        throw new Error(`'$set' is a reserved key`)
       }
 
       const [value, setValue] = useState(values[key])
       result[key] = value
-      result.set[key] = newVal => {
+      result.$set[key] = newVal => {
         if (cacheId && cachedKeys.includes(key)) {
           writeToStorage(cacheId, key, newVal)
         }
@@ -33,7 +33,7 @@ function populateContext(values, cacheId, cachedKeys) {
       }
       return result
     },
-    { get: {}, set: {} }
+    { $set: {} }
   )
 }
 

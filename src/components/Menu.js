@@ -18,7 +18,7 @@ const MenuCss = css`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 0 var(--g-padding-vertical) var(--g-padding-vertical);
+  padding: 0 var(--padding-vertical) var(--padding-vertical);
   width: 210px;
 
   > div {
@@ -31,7 +31,7 @@ Menu.defaultProps = {}
 /** List games for the main page */
 export function Menu({ gameId, templateId }) {
   const Templates = useDS('Templates')
-  const { set, template } = useEditorContext()
+  const { $set, template } = useEditorContext()
 
   useEffect(() => {
     if (!templateId) {
@@ -45,7 +45,7 @@ export function Menu({ gameId, templateId }) {
     if (!Templates.item) {
       return
     }
-    set.template(Templates.item)
+    $set.template(Templates.item)
   }, [Templates.item])
 
   return (

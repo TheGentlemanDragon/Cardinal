@@ -21,7 +21,7 @@ export function useDS(storeName) {
 
   const refresh = scope => {
     if (!scope) {
-      throw "Must specify refresh scope: 'all', 'item', 'list'"
+      throw new Error("Must specify refresh scope: 'all', 'item', 'list'")
     }
 
     if (scope === 'all' || scope === 'list') {

@@ -1,15 +1,11 @@
 import { h } from 'preact'
-import { useEffect } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { EditorCard } from '../components/EditorCard'
 import { Menu } from '../components/Menu'
 
-import { useEditorContext, withEditorContext } from '../contexts/EditorContext'
-
-import { openEditorTemplate } from '../lib/actions'
-import { DataStore } from '../lib/datastore'
+import { withEditorContext } from '../contexts/EditorContext'
 import { PageCss } from '../lib/styles'
 
 const EditorPageCss = css`
@@ -36,12 +32,6 @@ EditorPage.propTypes = {
  * )
  */
 function EditorPage({ gameId, templateId }) {
-  const { template, set } = useEditorContext()
-
-  useEffect(() => {
-    DataStore.Templates(templateId).then(set.template)
-  }, [templateId])
-
   return (
     <>
       <Menu gameId={gameId} templateId={templateId} />

@@ -67,7 +67,7 @@ export function ElementModifier({ element }) {
     delta,
     refresh,
     scale,
-    set,
+    $set,
   } = useEditorContext()
 
   const style = styleRender(element, {}, delta)
@@ -75,8 +75,8 @@ export function ElementModifier({ element }) {
   const saveTransform = delta => {
     const newElement = { ...element, style: styleDelta(element, delta) }
     DataStore.Elements(element.$id, newElement)
-    set.delta(defaultDelta)
-    set.elements(Object.assign([], elements, { [elementIndex]: newElement }))
+    $set.delta(defaultDelta)
+    $set.elements(Object.assign([], elements, { [elementIndex]: newElement }))
   }
 
   const bounds = useMemo(() => {
@@ -106,13 +106,13 @@ export function ElementModifier({ element }) {
       <div class={mainCss} style={style}>
         <InteractionPoint
           bounds={bounds.move}
-          onDrag={tMap.move(scale, set.delta)}
+          onDrag={tMap.move(scale, $set.delta)}
           onDragEnd={tMap.move(scale, saveTransform)}
           type="move"
         />
         <InteractionPoint
           bounds={bounds.size}
-          onDrag={tMap.size(scale, set.delta)}
+          onDrag={tMap.size(scale, $set.delta)}
           onDragEnd={tMap.size(scale, saveTransform)}
           type="resize"
         />

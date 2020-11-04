@@ -9,7 +9,7 @@ const ScaleSliderCss = css`
   align-items: center;
 
   label {
-    margin-right: var(--g-margin-md);
+    margin-right: var(--margin-md);
     text-shadow: var(--text-shadow-sm);
   }
 
@@ -46,7 +46,7 @@ const ScaleSliderCss = css`
 
 /** List games for the main page */
 export function ScaleSlider() {
-  const { scale, set } = useEditorContext()
+  const { scale, $set } = useEditorContext()
 
   return (
     scale && (
@@ -60,7 +60,7 @@ export function ScaleSlider() {
           max="3"
           step="0.05"
           value={scale}
-          onInput={withEventTargetValue(set.scale)}
+          onInput={withEventTargetValue($set.scale)}
         />
       </div>
     )

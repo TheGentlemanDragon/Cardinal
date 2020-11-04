@@ -16,11 +16,13 @@ const EditorPanelCss = css`
 const addElementCss = css`
   display: flex;
   justify-content: space-evenly;
-  margin-top: var(--g-margin-sm);
+  margin-top: var(--margin-sm);
   width: 100%;
 
   svg {
+    background-color: var(--clr-input-bg);
     padding: var(--input-padding-vertical);
+    width: 100%;
   }
 
   svg:hover {

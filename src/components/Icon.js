@@ -74,7 +74,7 @@ const IconCss = css`
   width: 42px;
 
   & + & {
-    margin-left: var(--g-margin-sm);
+    margin-left: var(--margin-sm);
   }
 `
 

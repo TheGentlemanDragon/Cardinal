@@ -7,7 +7,7 @@ import { useGlobalBlur } from '../hooks/useGlobalBlur'
 import { getDisplayValue } from '../lib/utils'
 
 const SelectCss = css`
-  margin-bottom: var(--g-margin-md);
+  margin-bottom: var(--margin-md);
   text-align: right;
 
   label {
@@ -24,7 +24,7 @@ const inputCss = css`
   display: flex;
   height: var(--input-height);
   justify-content: space-between;
-  margin-top: var(--g-margin-sm);
+  margin-top: var(--margin-sm);
   overflow: hidden;
   padding: var(--input-padding-vertical) var(--input-padding-horizontal);
   text-overflow: ellipsis;
@@ -49,34 +49,32 @@ const caretUpCss = css`
 
 const menuWrapperCss = css`
   height: 0;
-  margin-top: calc(var(--g-margin-sm) / 2);
+  margin-top: 1px;
   overflow: visible;
 `
 
 const menuCss = css`
-  background-color: var(--clr-input-bg-hover);
+  background-color: var(--clr-white);
   border-radius: var(--radius-md);
   opacity: 1;
   overflow: hidden;
-  padding: var(--input-padding-vertical) 0;
+  padding: var(--margin-tn) 0;
   position: absolute;
   transition: opacity 0.5s;
   width: var(--input-min-width);
 
   > div {
     align-items: center;
+    color: var(--clr-text-light);
     display: flex;
     height: var(--input-height);
     justify-content: flex-end;
     padding: var(--input-padding-vertical) var(--input-padding-horizontal);
   }
 
-  > div {
-    color: var(--clr-white);
-    opacity: 0.9;
-  }
-
   > div:hover {
+    background-color: var(--clr-input-bg);
+    color: var(--clr-white);
     cursor: pointer;
     opacity: 1;
   }

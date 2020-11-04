@@ -5,5 +5,5 @@ export const PageCss = css`
   flex-direction: column;
   flex-grow: 1;
   height: 100vh;
-  padding: var(--g-padding-page);
+  padding: var(--padding-page);
 `

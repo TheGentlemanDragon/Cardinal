@@ -1,10 +1,11 @@
 :root {
   /* Sizes */
-  --g-margin-sm: 0.5rem;
-  --g-margin-md: 1rem;
-  --g-margin-lg: 2rem;
-  --g-padding-page: 4rem;
-  --g-padding-vertical: 1.1rem;
+  --margin-tn: 0.25rem;
+  --margin-sm: 0.5rem;
+  --margin-md: 1rem;
+  --margin-lg: 2rem;
+  --padding-page: 4rem;
+  --padding-vertical: 1.1rem;
   --radius-sm: 0.2rem;
   --radius-md: 0.4rem;
   --input-height: 2rem;
@@ -15,18 +16,20 @@
   --panel-padding-horizontal: 0.8rem;
 
   /* Colors */
-  --clr-white: rgba(250, 250, 250, 0.9);
+  --clr-white: rgba(250, 250, 250);
+  --clr-white-90: rgba(250, 250, 250, 0.9);
   --clr-red: rgb(231 76 60);
 
   --clr-accent: rgb(255, 178, 0);
   --clr-alert: var(--clr-red);
-  --clr-bg-card: var(--clr-white);
+  --clr-bg-card: var(--clr-white-90);
   --clr-bg-dark: rgba(24, 24, 24, 0.5);
   --clr-text-dark: rgba(24, 24, 24, 0.9);
   --clr-text-light: rgba(32, 32, 32, 0.9);
-  --clr-input: var(--clr-white);
+  --clr-input: var(--clr-white-90);
+  --clr-input-bg: rgb(12, 64, 124, 0.5);
   --clr-input-bg-hover: rgb(12, 64, 124);
-  --clr-svg-fill: var(--clr-white);
+  --clr-svg-fill: var(--clr-white-90);
   /* rgb(18, 73, 136, 0.4); */
 
   /* Complex */
@@ -80,6 +83,6 @@ h2,
 h3,
 h4,
 h5 {
-  margin-bottom: var(--g-margin-sm);
+  margin-bottom: var(--margin-sm);
   margin-top: 0;
 }

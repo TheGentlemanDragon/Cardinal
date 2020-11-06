@@ -62,7 +62,7 @@ export function EditorPanel() {
 
       <div class={addElementCss}>
         <Icon type="text" onClick={addText} />
-        <Icon type="image" onClick={addImage} />
+        <Icon type="image" margin="left" onClick={addImage} />
       </div>
     </div>
   )

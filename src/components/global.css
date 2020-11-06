@@ -18,10 +18,14 @@
   /* Colors */
   --clr-white: rgba(250, 250, 250);
   --clr-white-90: rgba(250, 250, 250, 0.9);
-  --clr-red: rgb(231 76 60);
+  --clr-green: rgb(29, 188, 96);
+  --clr-green-50: rgb(29, 188, 96, 0.5);
+  --clr-red: rgb(231, 76, 60);
+  --clr-red-50: rgb(231, 76, 60, 0.5);
 
   --clr-accent: rgb(255, 178, 0);
-  --clr-alert: var(--clr-red);
+  --clr-alert: var(--clr-red-50);
+  --clr-alert-hover: var(--clr-red);
   --clr-bg-card: var(--clr-white-90);
   --clr-bg-dark: rgba(24, 24, 24, 0.5);
   --clr-text-dark: rgba(24, 24, 24, 0.9);
@@ -29,6 +33,8 @@
   --clr-input: var(--clr-white-90);
   --clr-input-bg: rgb(12, 64, 124, 0.5);
   --clr-input-bg-hover: rgb(12, 64, 124);
+  --clr-save: var(--clr-green-50);
+  --clr-save-hover: var(--clr-green);
   --clr-svg-fill: var(--clr-white-90);
   /* rgb(18, 73, 136, 0.4); */
 

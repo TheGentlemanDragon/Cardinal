@@ -7,7 +7,6 @@ import { noop } from '../lib/utils'
 const typeMap = {
   // add_box.svg
   add: {
-    baseSize: 24,
     svg: (
       <>
         <path d="M0 0h24v24H0z" fill="none" />
@@ -17,21 +16,29 @@ const typeMap = {
   },
 
   cancel: {
-    baseSize: 24,
     svg: (
       <>
-        <path d="M0 0h24v24H0V0z" fill="none" opacity=".87" />
-        <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z" />
+        <path d="M0 0h24v24H0z" fill="none" />
+        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
       </>
     ),
   },
 
   edit: {
-    baseSize: 24,
     svg: (
       <>
         <path d="M0 0h24v24H0z" fill="none" />
         <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+      </>
+    ),
+  },
+
+  // action/done
+  done: {
+    svg: (
+      <>
+        <path d="M0 0h24v24H0z" fill="none" />
+        <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
       </>
     ),
   },
@@ -46,14 +53,12 @@ const typeMap = {
 
   // cursor_move.svg
   move: {
-    baseSize: 24,
     svg: (
       <path d="M13,6V11H18V7.75L22.25,12L18,16.25V13H13V18H16.25L12,22.25L7.75,18H11V13H6V16.25L1.75,12L6,7.75V11H11V6H7.75L12,1.75L16.25,6H13Z" />
     ),
   },
 
   resize: {
-    baseSize: 24,
     svg: (
       <path d="M6 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z m12-8c0 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z m-6 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z m6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z m0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z m-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
     ),
@@ -72,10 +77,14 @@ const IconCss = css`
   fill: var(--clr-svg-fill);
   height: 42px;
   width: 42px;
+`
 
-  & + & {
-    margin-left: var(--margin-sm);
-  }
+const MarginLeftCss = css`
+  margin-left: var(--margin-sm);
+`
+
+const MarginTopCss = css`
+  margin-top: var(--margin-sm);
 `
 
 const hoverCss = css`
@@ -93,17 +102,26 @@ Icon.propTypes = {
 Icon.defaultProps = {
   exClass: '',
   onClick: noop,
+  margin: '',
 }
 
-export function Icon({ exClass, type, onClick }) {
+export function Icon({ exClass, type, margin, onClick }) {
   const icon = typeMap[type]
+  const baseSize = icon.baseSize || 24
+
   return icon ? (
     <svg
-      class={`${exClass} ${IconCss} ${onClick === noop ? '' : hoverCss}`}
+      class={`
+        ${exClass}
+        ${IconCss}
+        ${margin === 'left' && MarginLeftCss}
+        ${margin === 'top' && MarginTopCss}
+        ${onClick !== noop && hoverCss}
+      `}
       xmlns="http://www.w3.org/2000/svg"
-      width={`${icon.baseSize}`}
-      height={`${icon.baseSize}`}
-      viewBox={`0 0 ${icon.baseSize} ${icon.baseSize}`}
+      width={`${baseSize}`}
+      height={`${baseSize}`}
+      viewBox={`0 0 ${baseSize} ${baseSize}`}
       onClick={onClick}
     >
       {icon.svg}

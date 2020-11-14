@@ -40,7 +40,7 @@ function addElement(editorContext, type) {
     templateId: editorContext.template.$id,
   }
   DataStore.Elements.add(element)
-  editorContext.set.elements([...editorContext.elements, element])
+  editorContext.$set.elements([...editorContext.elements, element])
 }
 
 EditorPanel.propTypes = {}

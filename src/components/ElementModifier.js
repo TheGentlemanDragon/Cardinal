@@ -3,6 +3,8 @@ import { useMemo } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
+import { ElementBaseCss } from './EditorCard'
+import { Icon } from './Icon'
 import { InteractionPoint } from './InteractionPoint'
 import { useEditorContext } from '../contexts/EditorContext'
 import { DataStore } from '../lib/datastore'
@@ -38,19 +40,11 @@ const tMap = {
   size: applyOps([t.h, t.w]),
 }
 
-const labelCss = css`
-  align-items: center;
-  color: #aaa;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  text-align: center;
-  user-select: none;
-  width: 70px;
+const TopZIndexCss = css`
   z-index: 101;
 `
 
-const mainCss = css`
+const ElementModifierCss = css`
   outline: 1px dotted var(--clr-accent);
   cursor: pointer;
   position: absolute;
@@ -99,11 +93,12 @@ export function ElementModifier({ element }) {
 
   return (
     <>
-      <div class={labelCss} style={style}>
-        {element.name}
+      <div class={`${ElementBaseCss} ${TopZIndexCss}`} style={style}>
+        <Icon type={element.type} />
+        <span>{element.name}</span>
       </div>
 
-      <div class={mainCss} style={style}>
+      <div class={ElementModifierCss} style={style}>
         <InteractionPoint
           bounds={bounds.move}
           onDrag={tMap.move(scale, $set.delta)}

@@ -2,10 +2,10 @@ import { h } from 'preact'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { Icon } from './Icon'
-import { useEditorContext } from '../contexts/EditorContext'
-import { DataStore } from '../lib/datastore'
-import { defaultElement } from '../lib/utils'
+import { Icon } from '../Icon'
+import { useEditorContext } from '../../contexts/EditorContext'
+import { DataStore } from '../../lib/datastore'
+import { defaultElement } from '../../lib/utils'
 
 const EditorPanelCss = css`
   align-items: flex-end;

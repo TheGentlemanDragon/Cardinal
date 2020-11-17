@@ -1,9 +1,9 @@
 import { h } from 'preact'
 import { css } from 'linaria'
 
-import { Flex } from '../components/Flex'
-import { GameItem } from '../components/GameItem'
-import { Title } from '../components/Title'
+import { Flex } from '../features/Flex'
+import { GameItem } from '../features/GameItem'
+import { Title } from '../features/Title'
 import { useDS } from '../hooks/useDS'
 import { sortByKey } from '../lib/utils'
 import { useEffect } from 'preact/hooks'

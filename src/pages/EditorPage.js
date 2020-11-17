@@ -2,8 +2,8 @@ import { h } from 'preact'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { EditorCard } from '../components/EditorCard'
-import { Menu } from '../components/Menu'
+import { EditorCard } from '../features/EditorCard'
+import { Menu } from '../features/Menu/Menu'
 
 import { withEditorContext } from '../contexts/EditorContext'
 import { PageCss } from '../lib/styles'

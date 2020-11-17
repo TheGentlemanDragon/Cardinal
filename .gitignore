@@ -3,5 +3,6 @@
 /build
 /.linaria-cache
 config.js
+debug.log
 node_modules
 size-plugin.json

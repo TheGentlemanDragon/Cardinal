@@ -22,7 +22,6 @@ const EditorPanelCss = css`
     justify-content: space-between;
     margin-top: var(--margin-sm);
     padding-right: 0.75rem;
-
     width: 100%;
 
     svg {

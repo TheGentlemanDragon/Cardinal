@@ -6,7 +6,6 @@ import { Icon } from './Icon'
 import { ElementModifier } from './ElementModifier'
 import { useEditorContext } from '../contexts/EditorContext'
 import { useDS } from '../hooks/useDS'
-import { useGlobalBlur } from '../hooks/useGlobalBlur'
 import { styleRender, selectElement } from '../lib/utils'
 
 const hide = { display: 'none' }
@@ -54,15 +53,12 @@ export function EditorCard({ gameId, templateId }) {
 
   const hasSelected = elements?.length > 0 && elementIndex > -1
 
-  const { blurRef } = useGlobalBlur(hasSelected, () => $set.elementIndex(-1))
-
   useEffect(() => {
     Elements.getList({ templateId }).then($set.elements)
   }, [gameId, templateId])
 
   return (
     <div
-      ref={blurRef}
       class={EditorCardCss}
       id="EditorCard"
       style={{ transform: `scale(${scale})` }}

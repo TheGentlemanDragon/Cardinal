@@ -17,6 +17,7 @@
 
   /* Colors */
   --clr-white: rgba(250, 250, 250);
+  --clr-white-10: rgba(250, 250, 250, 0.1);
   --clr-white-90: rgba(250, 250, 250, 0.9);
   --clr-green: rgb(29, 188, 96);
   --clr-green-50: rgb(29, 188, 96, 0.5);

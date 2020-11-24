@@ -8293,6 +8293,11 @@ rc@^1.2.8:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-colorful@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/react-colorful/-/react-colorful-4.4.2.tgz#b32c4458e3ae6447049cb1a8f17a2a5f6b0f5b1f"
+  integrity sha512-oQ4gG7RSpJt+C9ozmvObiZIh4E6MIgjkzjNXA1xx/Bel01Q2P6JalLODe1YlU8U44WaoCXrVXVv7d1sMWR7gvw==
+
 react-is@^16.8.1, react-is@^16.8.3, react-is@^16.8.4:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"

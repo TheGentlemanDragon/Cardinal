@@ -18,7 +18,7 @@ const GameItemCss = css`
 
   .GameItem_Thumbnail {
     align-items: center;
-    border: var(--border-light);
+    border: var(--border-dark);
     display: flex;
     justify-content: center;
     margin: 1rem 2rem 1rem 1rem;
@@ -36,7 +36,7 @@ const GameItemCss = css`
   }
 
   .GameItem_Menu {
-    border-left: var(--border-light);
+    border-left: var(--border-dark);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;

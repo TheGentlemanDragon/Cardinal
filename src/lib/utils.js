@@ -28,6 +28,10 @@ export const defaultElement = {
 
 /* Exports */
 
+export function cls(...names) {
+  return names.join(' ')
+}
+
 export function debounce(fn, delay) {
   let timeout
 

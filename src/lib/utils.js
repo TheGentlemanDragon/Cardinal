@@ -82,6 +82,40 @@ export function identity(value) {
   return value
 }
 
+export async function importFile({ target }) {
+  // Get file
+  const file = target.files[0]
+
+  // Get hash, as hex
+  let hexHash = ''
+  const hash = await crypto.subtle.digest('SHA-256', await file.arrayBuffer())
+  const view = new DataView(hash)
+
+  for (let i = 0; i < view.byteLength; i++) {
+    const b = view.getUint8(i)
+    hexHash += '0123456789abcdef'[(b & 0xf0) >> 4]
+    hexHash += '0123456789abcdef'[b & 0x0f]
+  }
+
+  // Load image to get dimensions and return record
+  return new Promise(resolve => {
+    const objectUrl = URL.createObjectURL(file)
+    const img = new Image()
+    img.onload = () => {
+      resolve({
+        created: new Date(),
+        data: file,
+        hash: hexHash,
+        height: img.height,
+        name: file.name,
+        width: img.width,
+      })
+      URL.revokeObjectURL(file)
+    }
+    img.src = objectUrl
+  })
+}
+
 export function memoize(fn) {
   const cache = {}
   return (...args) => {

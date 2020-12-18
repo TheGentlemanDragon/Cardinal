@@ -6,6 +6,11 @@ import { identity, generateId, toObjQuery } from './utils'
 indexedDB.open('cardinal').onupgradeneeded = function(event) {
   const db = event.target.result
 
+  const assetStore = db.createObjectStore('assets')
+  assetStore.createIndex('$id', '$id', { unique: true })
+  assetStore.createIndex('name', 'name', { unique: false })
+  assetStore.createIndex('hash', 'hash', { unique: true })
+
   const gameStore = db.createObjectStore('games')
   gameStore.createIndex('$id', '$id', { unique: true })
   gameStore.createIndex('name', 'name', { unique: false })
@@ -56,6 +61,7 @@ function generateStore(name) {
 }
 
 const DataStore = {
+  Assets: generateStore('assets'),
   Games: generateStore('games'),
   Templates: generateStore('templates'),
   Elements: generateStore('elements'),

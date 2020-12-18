@@ -10,7 +10,7 @@ const TitleCss = css`
     font-weight: 400;
     line-height: 2rem;
     margin-bottom: var(--margin-lg);
-    margin-top: var(--padding-vertical);
+    margin-top: var(--padding-y);
     text-align: center;
     text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
   }

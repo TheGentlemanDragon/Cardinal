@@ -38,7 +38,7 @@ const SelectCss = css`
     height: var(--input-height);
     justify-content: space-between;
     margin-top: var(--margin-sm);
-    padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+    padding: var(--input-padding-y) var(--input-padding-x);
     width: var(--input-min-width);
   }
 
@@ -78,7 +78,7 @@ const SelectCss = css`
     height: var(--input-height);
     justify-content: flex-end;
     overflow: hidden;
-    padding: var(--input-padding-vertical) var(--input-padding-horizontal);
+    padding: var(--input-padding-y) var(--input-padding-x);
     text-overflow: ellipsis;
     white-space: nowrap;
   }

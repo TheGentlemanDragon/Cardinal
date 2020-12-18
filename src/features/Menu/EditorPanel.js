@@ -2,42 +2,11 @@ import { h } from 'preact'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { Icon } from '../Icon'
 import { useEditorContext } from '../../contexts/EditorContext'
 import { DataStore } from '../../lib/datastore'
+import { MenuPanelCss } from '../../lib/styles'
 import { defaultElement } from '../../lib/utils'
-
-const EditorPanelCss = css`
-  align-items: flex-end;
-  display: flex;
-  flex-direction: column;
-
-  .EditorPanel-ButtonRow {
-    align-items: center;
-    background-color: var(--clr-input-bg);
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    display: flex;
-    font-variant: small-caps;
-    justify-content: space-between;
-    margin-top: var(--margin-sm);
-    padding-right: 0.75rem;
-    width: 100%;
-
-    svg {
-      background-color: var(--clr-input-bg-hover);
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      height: 50px;
-      padding: 10px;
-      width: 50px;
-    }
-
-    &:hover {
-      background-color: var(--clr-input-bg-hover);
-    }
-  }
-`
+import { ActionButton } from './ActionButton'
 
 function addElement(editorContext, type) {
   const count = document.getElementsByClassName('element').length
@@ -66,16 +35,10 @@ export function EditorPanel() {
   }
 
   return (
-    <div class={EditorPanelCss}>
-      <div class="EditorPanel-ButtonRow" onClick={addText}>
-        <Icon type="text" />
-        Add Text
-      </div>
+    <div class={MenuPanelCss}>
+      <ActionButton caption="Add Text" iconType="text" onClick={addText} />
 
-      <div class="EditorPanel-ButtonRow" onClick={addImage}>
-        <Icon type="image" />
-        Add Image
-      </div>
+      <ActionButton caption="Add Image" iconType="image" onClick={addImage} />
     </div>
   )
 }

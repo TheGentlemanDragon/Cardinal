@@ -6,6 +6,7 @@ import { Icon } from './Icon'
 import { ElementModifier } from './ElementModifier'
 import { useEditorContext } from '../contexts/EditorContext'
 import { useDS } from '../hooks/useDS'
+import { ElementBaseCss } from '../lib/styles'
 import { styleRender, selectElement } from '../lib/utils'
 
 const hide = { display: 'none' }
@@ -17,24 +18,6 @@ const EditorCardCss = css`
   height: calc(3.5px * var(--res));
   position: relative;
   width: calc(2.5px * var(--res));
-`
-
-export const ElementBaseCss = css`
-  align-items: center;
-  color: #aaa;
-  cursor: pointer;
-  display: flex;
-  font-size: 12px;
-  justify-content: center;
-  position: absolute;
-  user-select: none;
-
-  svg {
-    fill: #aaa;
-    height: 14px;
-    width: 14px;
-    margin-right: 0.25rem;
-  }
 `
 
 const ElementCss = css`

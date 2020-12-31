@@ -7,7 +7,7 @@ import { DataImage } from '../features/DataImage'
 import { ActionButton } from '../features/Menu/ActionButton'
 import { MenuCss } from '../features/Menu/Menu'
 import { useDS } from '../hooks/useDS'
-import { MenuPanelCss } from '../lib/styles'
+import { MenuPanelCss, SearchInputCss } from '../lib/styles'
 import { importFile, noop } from '../lib/utils'
 
 const IMAGE_WIDTH = 234
@@ -23,21 +23,12 @@ const AssetManagerCss = css`
     width: 50rem;
   }
 
-  .AssetManager-SearchInput {
-    background-color: var(--clr-black-10);
-    border: none;
-    border-bottom: var(--border-dark);
-    font-size: large;
-    outline: none;
-    padding: var(--input-padding-y) var(--input-padding-x);
-  }
-
   .AssetManager-Header {
     display: flex;
   }
 
   .AssetManager-Title {
-    color: var(--clr-text-light);
+    color: var(--clr-text-dark);
     flex-grow: 1;
   }
 
@@ -110,11 +101,7 @@ export function useAssetManager(onSelect = noop) {
       <div class="AssetManager-Content">
         <div class="AssetManager-Header">
           <h2 class="AssetManager-Title">Game Assets</h2>
-          <input
-            class="AssetManager-SearchInput"
-            type="text"
-            placeholder="Search"
-          />
+          <input class={SearchInputCss} type="text" placeholder="Search" />
         </div>
 
         <div class="AssetManager-List">

@@ -3,11 +3,11 @@ import { useMemo } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { ElementBaseCss } from './EditorCard'
 import { Icon } from './Icon'
 import { InteractionPoint } from './InteractionPoint'
 import { useEditorContext } from '../contexts/EditorContext'
 import { DataStore } from '../lib/datastore'
+import { ElementBaseCss } from '../lib/styles'
 import { styleDelta, styleRender } from '../lib/utils'
 
 const MIN_SIZE = 20

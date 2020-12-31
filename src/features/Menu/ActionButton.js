@@ -7,15 +7,18 @@ import { Icon } from '../Icon'
 const ActionButtonCss = css`
   align-items: center;
   background-color: var(--clr-input-bg);
+  border: none;
   border-radius: var(--radius-sm);
+  color: var(--clr-text-light);
   cursor: pointer;
   display: flex;
   font-variant: small-caps;
   justify-content: space-between;
-  padding-right: 0.75rem;
+  padding: 0;
+  padding-right: 1rem;
   width: 100%;
 
-  & + div {
+  & + button {
     margin-top: var(--margin-sm);
   }
 
@@ -45,9 +48,9 @@ ActionButton.defaultProps = {
 
 export function ActionButton({ caption, iconType, onClick }) {
   return (
-    <div class={ActionButtonCss} onClick={onClick}>
+    <button class={ActionButtonCss} onClick={onClick}>
       {iconType && <Icon type={iconType} />}
       {caption}
-    </div>
+    </button>
   )
 }

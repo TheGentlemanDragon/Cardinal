@@ -57,14 +57,21 @@ export function getDisplayValue(item, labelKey) {
   return ''
 }
 
-export function hasOwn(obj, key) {
-  return Object.prototype.hasOwnProperty.call(obj, key)
+/**
+ * Return current value(s) for specified query string param(s)
+ *
+ * @param {string[]} params query string param(s)
+ *
+ * @returns {string[]} values
+ */
+export function getParams(params) {
+  const allParams = new URL(document.location).searchParams
+  return params.map(param => allParams.get(param))
 }
 
 /**
  * Open url string in current window
  *
- * @export
  * @param {string} url address to visit
  */
 export function goToUrl(url) {
@@ -80,6 +87,10 @@ export function hashRef(obj) {
         .sort()
         .map(key => key + '=' + hashRef(obj[key]))
         .join('&')
+}
+
+export function hasOwn(obj, key) {
+  return Object.prototype.hasOwnProperty.call(obj, key)
 }
 
 export function identity(value) {

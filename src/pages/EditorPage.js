@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import PropTypes from 'proptypes'
+// import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { EditorCard } from '../features/EditorCard'
@@ -7,6 +7,7 @@ import { Menu } from '../features/Menu/Menu'
 
 import { withEditorContext } from '../contexts/EditorContext'
 import { PageCss } from '../lib/styles'
+import { getParams } from '../lib/utils'
 
 const EditorPageCss = css`
   align-items: center;
@@ -15,9 +16,7 @@ const EditorPageCss = css`
   user-select: none;
 `
 
-EditorPage.propTypes = {
-  templateId: PropTypes.string.isRequired,
-}
+EditorPage.propTypes = {}
 
 /**
  * Some documented component
@@ -31,7 +30,9 @@ EditorPage.propTypes = {
  *   <EditorPage templateId={templateId} />
  * )
  */
-function EditorPage({ gameId, templateId }) {
+function EditorPage() {
+  const [gameId, templateId] = getParams(['game', 'template'])
+
   return (
     <>
       <Menu gameId={gameId} templateId={templateId} />

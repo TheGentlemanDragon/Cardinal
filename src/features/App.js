@@ -6,6 +6,7 @@ import { HomePage } from '../pages/HomePage'
 import { TemplatesPage } from '../pages/TemplatesPage'
 import { EditorPage } from '../pages/EditorPage'
 
+import { Redirect } from './Redirect'
 import './global.css'
 
 export default function App() {
@@ -16,10 +17,11 @@ export default function App() {
       </Match> */}
 
       <Router>
-        <HomePage path="/" />
-        <TemplatesPage path="/games/:gameId" />
-        <EditorPage path="/games/:gameId/templates/:templateId" />
-        {/* <Profile path="/profile/:user" /> */}
+        <HomePage path="/home" />
+        <TemplatesPage path="/templates" />
+        <EditorPage path="/editor" />
+
+        <Redirect path="/" to="/home" />
       </Router>
     </div>
   )

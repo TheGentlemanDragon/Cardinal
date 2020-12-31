@@ -11,7 +11,7 @@ const GameItemCss = css`
   background-color: var(--clr-bg-card);
   border-radius: var(--radius-sm);
   box-shadow: var(--box-shadow-md);
-  color: var(--clr-text-dark);
+  color: var(--clr-text-darker);
   display: flex;
   height: 8rem;
   margin: 0 0 1.2rem;
@@ -88,7 +88,7 @@ export function GameItem({ game }) {
     DataStore.Games.set(game.$id, { ...game, name })
   }
 
-  const Name = useEditableValue(game.name, setName)
+  const Name = useEditableValue({ initial: game.name, onSave: setName })
 
   return (
     <>
@@ -98,7 +98,9 @@ export function GameItem({ game }) {
         <dl class="GameItem_Details">
           <dt
             class={`GameItem_Name ${!Name.isEditMode && 'GameItem_Underline'}`}
-            onClick={Name.isEditMode ? noop : goToUrl(`games/${game.$id}`)}
+            onClick={
+              Name.isEditMode ? noop : goToUrl(`templates?game=${game.$id}`)
+            }
           >
             {Name.Node}
           </dt>

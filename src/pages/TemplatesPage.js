@@ -1,13 +1,13 @@
 import { h } from 'preact'
 import { useEffect } from 'preact/hooks'
-import PropTypes from 'proptypes'
+// import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { Flex } from '../features/Flex'
 import { Menu } from '../features/Menu/Menu'
 import { useDS } from '../hooks/useDS'
 import { PageCss } from '../lib/styles'
-import { sortByKey } from '../lib/utils'
+import { getParams, sortByKey } from '../lib/utils'
 
 const listCss = css`
   display: flex;
@@ -51,9 +51,7 @@ const templateItemCss = css`
   }
 `
 
-TemplatesPage.propTypes = {
-  gameId: PropTypes.string.isRequired,
-}
+TemplatesPage.propTypes = {}
 
 /**
  * Some documented component
@@ -67,13 +65,17 @@ TemplatesPage.propTypes = {
  *   <TemplatesPage gameId={gameId} />
  * )
  */
-export function TemplatesPage({ gameId }) {
+export function TemplatesPage() {
   const Templates = useDS('Templates')
+  const [gameId] = getParams(['game'])
 
   const addTemplate = () => {
     const count = document.getElementsByClassName('template').length
-    Templates.add({ name: `Template ${count}`, gameId })
-    Templates.refresh('list')
+    Templates.add({
+      name: `Template ${count}`,
+      gameId,
+      fields: [],
+    })
   }
 
   useEffect(() => {
@@ -96,7 +98,7 @@ export function TemplatesPage({ gameId }) {
             <a
               key={`templates-list-${template.$id}`}
               class={`template ${templateItemCss}`}
-              href={`/games/${gameId}/templates/${template.$id}`}
+              href={`/editor?game=${gameId}&template=${template.$id}`}
             >
               {template.name}
             </a>

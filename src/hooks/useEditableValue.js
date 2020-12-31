@@ -1,18 +1,23 @@
 import { h } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 
-export function useEditableValue(initial, onSave) {
+// TODO: Refactor to allow temporary value or backup previous Value
+export function useEditableValue({ initial, saveOnBlur, onSave }) {
   const [state, setState] = useState({ value: initial, isEditMode: false })
   const { value, isEditMode } = state
   const input = useRef(null)
+
+  const focus = () => {
+    input.current.focus()
+    input.current.select()
+  }
 
   useEffect(() => {
     if (!isEditMode) {
       return
     }
 
-    input.current.focus()
-    input.current.select()
+    focus()
   }, [isEditMode])
 
   const edit = () => setState({ value, isEditMode: true })
@@ -20,7 +25,12 @@ export function useEditableValue(initial, onSave) {
   const cancel = () => setState({ value, isEditMode: false })
 
   const save = () => {
-    onSave(input.current.value)
+    if (onSave(input.current.value)) {
+      focus()
+      // TODO: Add error notification
+      return
+    }
+
     setState({ value: input.current.value, isEditMode: false })
   }
 
@@ -39,13 +49,14 @@ export function useEditableValue(initial, onSave) {
         ref={input}
         value={state.value}
         onKeyDown={checkKeyDown}
+        onBlur={saveOnBlur ? save : null}
       />
     ) : (
       value
     ),
-    isEditMode,
     cancel,
     edit,
+    isEditMode,
     save,
   }
 }

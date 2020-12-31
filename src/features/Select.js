@@ -18,10 +18,13 @@ const SelectCss = css`
     background-image: url(../assets/icons/caret-down.png);
     cursor: pointer;
     height: 16px;
-    margin-right: 0.5rem;
     min-width: 16px;
     pointer-events: none;
     transition: linear 0.15s transform;
+  }
+
+  .Select-CaretDisabled {
+    opacity: 0.3;
   }
 
   .Select-CaretUp {
@@ -32,7 +35,7 @@ const SelectCss = css`
     align-items: center;
     background-color: var(--clr-input);
     border-radius: var(--radius-md);
-    color: var(--clr-text-dark);
+    color: var(--clr-text-darker);
     cursor: pointer;
     display: flex;
     height: var(--input-height);
@@ -74,7 +77,7 @@ const SelectCss = css`
 
   .Select-MenuItem {
     align-items: center;
-    color: var(--clr-text-light);
+    color: var(--clr-text-dark);
     height: var(--input-height);
     justify-content: flex-end;
     overflow: hidden;
@@ -115,19 +118,16 @@ export function Select({ disabled, labelKey, name, onSelect, options, value }) {
 
   const { blurRef } = useGlobalBlur(isOpen, close)
 
+  const clsCaretUp = options.length > 1 && isOpen ? 'Select-CaretUp' : ''
+  const clsCaretDisabled = options.length <= 1 ? 'Select-CaretDisabled' : ''
+
   return (
     <div class={SelectCss}>
       <label>{name}</label>
 
       <div ref={blurRef} class="Select-Input" onClick={isOpen ? close : open}>
-        {options.length > 1 ? (
-          isOpen ? (
-            <div class={cls('Select-Caret', 'Select-CaretUp')} />
-          ) : (
-            <div class="Select-Caret" />
-          )
-        ) : null}
         <span class="Select-SelectedValue">{value}</span>
+        <div class={cls('Select-Caret', clsCaretUp, clsCaretDisabled)} />
       </div>
 
       <div class="Select-MenuWrapper">

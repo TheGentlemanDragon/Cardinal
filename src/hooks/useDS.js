@@ -1,48 +1,70 @@
-import { useState } from 'preact/hooks'
+import { useReducer, useState } from 'preact/hooks'
 
 import { DataStore } from '../lib/datastore'
 
+const initialState = {
+  itemId: undefined,
+  listParams: undefined,
+  list: [],
+  item: undefined,
+}
+
+const reducer = (state, value) => ({ ...state, ...value })
+
+const scopes = ['all', 'item', 'list']
+
 export function useDS(storeName) {
   const store = DataStore[storeName] || null
-  const [itemId, setItemId] = useState()
-  const [listParams, setListParams] = useState()
-  const [list, setList] = useState([])
-  const [item, setItem] = useState()
+  const [state, dispatch] = useReducer(reducer, initialState)
 
-  const setAndReturn = type => result => (
-    (type === 'item' ? setItem : setList)(result), result
-  )
-
-  const getItem = id => {
-    setItemId(id)
-    return store.get(id).then(setAndReturn('item'))
+  const getItem = async id => {
+    const item = await store.get(id)
+    dispatch({ itemId: id, item })
+    return item
   }
 
-  const getList = params => {
-    setListParams(params)
-    return store.list(params).then(setAndReturn('list'))
+  const setItem = async (id, value) => {
+    const item = await store.get(id)
+    await store.set(id, { ...item, ...value })
+    return getItem(id)
   }
 
-  const refresh = scope => {
-    if (!scope) {
+  const getList = async listParams => {
+    const list = await store.list(listParams)
+    dispatch({ listParams, list })
+    return list
+  }
+
+  const refresh = async scope => {
+    if (!scopes.includes(scope)) {
       throw new Error("Must specify refresh scope: 'all', 'item', 'list'")
     }
 
+    const value = {}
+
     if (scope === 'all' || scope === 'list') {
-      store.list(listParams).then(setList)
-    } else if (scope === 'all' || scope === 'item') {
-      store.get(itemId).then(setItem)
+      value.list = await store.list(state.listParams)
     }
+
+    if (scope === 'all' || scope === 'item') {
+      value.item = await store.get(state.itemId)
+    }
+
+    dispatch(value)
   }
 
-  const add = value => store.add(value).then(() => refresh('list'))
+  const add = async value => {
+    await store.add(value)
+    refresh('list')
+  }
 
   return {
     add,
     getItem,
     getList,
-    item,
-    list,
+    item: state.item,
+    list: state.list,
     refresh,
+    setItem,
   }
 }

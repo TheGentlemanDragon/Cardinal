@@ -1,6 +1,5 @@
 import { h } from 'preact'
 import PropTypes from 'proptypes'
-import { css } from 'linaria'
 
 import { useEditorContext } from '../../contexts/EditorContext'
 import { DataStore } from '../../lib/datastore'

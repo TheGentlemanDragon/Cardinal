@@ -18,10 +18,12 @@
 
   /* Colors */
   --clr-black-10: rgba(0, 0, 0, 0.1);
+  --clr-black-70: rgba(0, 0, 0, 0.7);
   --clr-off-white: rgb(240, 240, 240);
   --clr-white: rgba(250, 250, 250);
   --clr-white-10: rgba(250, 250, 250, 0.1);
   --clr-white-90: rgba(250, 250, 250, 0.9);
+  --clr-blue: rgb(12, 64, 124);
   --clr-green: rgb(29, 188, 96);
   --clr-green-50: rgb(29, 188, 96, 0.5);
   --clr-red: rgb(231, 76, 60);
@@ -41,8 +43,9 @@
   --clr-save-hover: var(--clr-green);
   --clr-save: var(--clr-green-50);
   --clr-svg-fill: var(--clr-white-90);
-  --clr-text-dark: rgba(24, 24, 24, 0.9);
-  --clr-text-light: rgba(32, 32, 32, 0.9);
+  --clr-text-darker: rgba(24, 24, 24, 0.9);
+  --clr-text-dark: rgba(32, 32, 32, 0.9);
+  --clr-text-light: var(--clr-white);
   /* rgb(18, 73, 136, 0.4); */
 
   /* Complex */

@@ -2,7 +2,7 @@ import { route } from 'preact-router'
 
 /* Locals */
 
-const idChars = '1234567890abcdefghijkmnpqrstuvwzyz'
+const idChars = '1234567890abcdefghijkmnpqrstuvwxyz'
 
 function pointInRect(point) {
   return function(rect) {
@@ -55,6 +55,10 @@ export function getDisplayValue(item, labelKey) {
     return item
   }
   return ''
+}
+
+export function hasOwn(obj, key) {
+  return Object.prototype.hasOwnProperty.call(obj, key)
 }
 
 /**
@@ -128,6 +132,10 @@ export function memoize(fn) {
 
 export function noop() {}
 
+export async function openEditorTemplate(gameId, templateId) {
+  route(`/games/${gameId}${templateId ? '/templates/' + templateId : ''}`, true)
+}
+
 export function random() {
   const randomBuffer = new Uint32Array(1)
   window.crypto.getRandomValues(randomBuffer)
@@ -171,6 +179,10 @@ export function sortByKey(key) {
   return function(a, b) {
     return a[key] > b[key] ? 1 : -1
   }
+}
+
+export function sortByFieldOrder(fields) {
+  return (a, b) => (fields[a].order > fields[b].order ? 1 : -1)
 }
 
 export function styleDelta(element = {}, delta = {}) {

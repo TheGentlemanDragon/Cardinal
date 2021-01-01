@@ -38,18 +38,18 @@ const ActionButtonCss = css`
 
 ActionButton.propTypes = {
   caption: PropTypes.string.isRequired,
-  iconType: PropTypes.string,
+  icon: PropTypes.string,
   onClick: PropTypes.func.isRequired,
 }
 
 ActionButton.defaultProps = {
-  iconType: '',
+  icon: '',
 }
 
-export function ActionButton({ caption, iconType, onClick }) {
+export function ActionButton({ caption, icon, onClick }) {
   return (
     <button class={ActionButtonCss} onClick={onClick}>
-      {iconType && <Icon type={iconType} />}
+      {icon && <Icon type={icon} />}
       {caption}
     </button>
   )

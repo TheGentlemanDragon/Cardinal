@@ -18,6 +18,40 @@ export const ElementBaseCss = css`
   }
 `
 
+export const MenuCss = css`
+  background-color: var(--clr-menu-bg);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 210px;
+
+  label {
+    margin-bottom: var(--margin-sm);
+  }
+
+  input:not(:last-of-type) {
+    margin-bottom: var(--margin-md);
+  }
+
+  a {
+    border-bottom: var(--border-light);
+    padding: var(--margin-md);
+
+    h1 {
+      margin: 0;
+    }
+  }
+
+  > div {
+    align-items: flex-end;
+    display: flex;
+    border-bottom: var(--border-light);
+    flex-direction: column;
+    margin: 0;
+    padding: var(--margin-md) var(--padding-y);
+  }
+`
+
 export const MenuPanelCss = css`
   align-items: flex-end;
   display: flex;

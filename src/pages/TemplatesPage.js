@@ -4,7 +4,7 @@ import { useEffect } from 'preact/hooks'
 import { css } from 'linaria'
 
 import { Flex } from '../features/Flex'
-import { Menu } from '../features/Menu/Menu'
+import { TemplatesMenu } from '../features/Menu/TemplatesMenu'
 import { useDS } from '../hooks/useDS'
 import { PageCss } from '../lib/styles'
 import { getParams, sortByKey } from '../lib/utils'
@@ -84,7 +84,7 @@ export function TemplatesPage() {
 
   return (
     <>
-      <Menu gameId={gameId} />
+      <TemplatesMenu gameId={gameId} />
 
       <div class={PageCss}>
         <Flex justify="space-between">

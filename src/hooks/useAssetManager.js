@@ -5,9 +5,8 @@ import { css } from 'linaria'
 import { useModal } from './useModal'
 import { DataImage } from '../features/DataImage'
 import { ActionButton } from '../features/Menu/ActionButton'
-import { MenuCss } from '../features/Menu/Menu'
 import { useDS } from '../hooks/useDS'
-import { MenuPanelCss, SearchInputCss } from '../lib/styles'
+import { MenuCss, MenuPanelCss, SearchInputCss } from '../lib/styles'
 import { importFile, noop } from '../lib/utils'
 
 const IMAGE_WIDTH = 234
@@ -84,17 +83,17 @@ export function useAssetManager(onSelect = noop) {
     <div class={AssetManagerCss}>
       <div class={MenuCss}>
         <div class={MenuPanelCss}>
-          <ActionButton caption="Back" iconType="back" onClick={closeModal} />
+          <ActionButton caption="Back" icon="back" onClick={closeModal} />
         </div>
 
         <div class={MenuPanelCss}>
           <ActionButton
             caption="Add Image"
-            iconType="addImage"
+            icon="addImage"
             onClick={() => fileInput.current?.click()}
           />
 
-          <ActionButton caption="Add URL" iconType="addUrl" onClick={noop} />
+          <ActionButton caption="Add URL" icon="addUrl" onClick={noop} />
         </div>
       </div>
 

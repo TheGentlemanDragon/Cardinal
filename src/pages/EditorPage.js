@@ -3,7 +3,7 @@ import { h } from 'preact'
 import { css } from 'linaria'
 
 import { EditorCard } from '../features/EditorCard'
-import { Menu } from '../features/Menu/Menu'
+import { EditorMenu } from '../features/Menu/EditorMenu'
 
 import { withEditorContext } from '../contexts/EditorContext'
 import { PageCss } from '../lib/styles'
@@ -35,7 +35,7 @@ function EditorPage() {
 
   return (
     <>
-      <Menu gameId={gameId} templateId={templateId} />
+      <EditorMenu gameId={gameId} templateId={templateId} />
 
       <div class={`${PageCss} ${EditorPageCss}`}>
         <EditorCard templateId={templateId} />

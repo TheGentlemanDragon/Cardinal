@@ -8,9 +8,13 @@ export function useSelectOnFocus() {
   }
 
   useEffect(() => {
+    if (!selectRef.current) {
+      return
+    }
+
     selectRef.current.addEventListener('focus', trySelect)
     return () => selectRef.current.removeEventListener('focus', trySelect)
-  }, [])
+  }, [selectRef.current])
 
   return selectRef
 }

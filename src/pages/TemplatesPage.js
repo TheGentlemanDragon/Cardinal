@@ -69,28 +69,16 @@ export function TemplatesPage() {
   const Templates = useDS('Templates')
   const [gameId] = getParams(['game'])
 
-  const addTemplate = () => {
-    const count = document.getElementsByClassName('template').length
-    Templates.add({
-      name: `Template ${count}`,
-      gameId,
-      fields: [],
-    })
-  }
-
   useEffect(() => {
     Templates.getList({ gameId })
   }, [gameId])
 
   return (
     <>
-      <TemplatesMenu gameId={gameId} />
+      <TemplatesMenu gameId={gameId} Templates={Templates} />
 
       <div class={PageCss}>
-        <Flex justify="space-between">
-          <h2>Templates</h2>
-          <button onClick={addTemplate}>Add</button>
-        </Flex>
+        <h2>Templates</h2>
 
         {/* Templates List */}
         <div class={listCss}>

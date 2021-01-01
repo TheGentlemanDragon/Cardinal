@@ -8,16 +8,25 @@ import { Title } from '../Title'
 import { MenuCss } from '../../lib/styles'
 import { openEditorTemplate } from '../../lib/utils'
 
+// TODO: Add DS proptype
 TemplatesMenu.propTypes = {
-  gameId: PropTypes.string,
+  gameId: PropTypes.string.isRequired,
+  Templates: PropTypes.object.isRequired,
 }
 
-TemplatesMenu.defaultProps = {
-  gameId: '',
-}
+TemplatesMenu.defaultProps = {}
 
 /** List games for the main page */
-export function TemplatesMenu({ gameId }) {
+export function TemplatesMenu({ gameId, Templates }) {
+  const addTemplate = () => {
+    const count = document.getElementsByClassName('template').length
+    Templates.add({
+      name: `Template ${count}`,
+      gameId,
+      fields: [],
+    })
+  }
+
   return (
     <div class={MenuCss}>
       <Title />
@@ -34,7 +43,11 @@ export function TemplatesMenu({ gameId }) {
       </div>
 
       <div class="Menu-Panel">
-        <ActionButton caption="Add Template" icon="text" onClick={() => {}} />
+        <ActionButton
+          caption="Add Template"
+          icon="text"
+          onClick={addTemplate}
+        />
       </div>
     </div>
   )

@@ -7,7 +7,6 @@ import { useGlobalBlur } from '../hooks/useGlobalBlur'
 import { cls, getDisplayValue } from '../lib/utils'
 
 const SelectCss = css`
-  margin-bottom: var(--margin-md);
   text-align: right;
 
   label {

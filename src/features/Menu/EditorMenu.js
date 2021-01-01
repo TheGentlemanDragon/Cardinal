@@ -62,20 +62,22 @@ export function EditorMenu() {
     <div class={MenuCss}>
       <Title />
 
-      <SelectCollection
-        collection="Templates"
-        labelKey="name"
-        name="Template"
-        query={{ gameId }}
-        value={Templates.item?.name}
-        onSelect={template => openEditorTemplate(gameId, template.$id)}
-      />
+      <div class="Menu-Panel">
+        <SelectCollection
+          collection="Templates"
+          labelKey="name"
+          name="Template"
+          query={{ gameId }}
+          value={Templates.item?.name}
+          onSelect={template => openEditorTemplate(gameId, template.$id)}
+        />
+      </div>
 
-      <div>
+      <div class="Menu-Panel">
         <ActionButton caption="Edit Cards" icon="table" onClick={() => {}} />
       </div>
 
-      <div>
+      <div class="Menu-Panel">
         <ActionButton
           caption="Add Text"
           icon="text"
@@ -90,7 +92,7 @@ export function EditorMenu() {
       </div>
 
       {element && (
-        <div>
+        <div class="Menu-Panel">
           <label>Name</label>
           <input
             type="text"

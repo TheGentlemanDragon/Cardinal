@@ -42,7 +42,7 @@ export const MenuCss = css`
     }
   }
 
-  > div {
+  .Menu-Panel {
     align-items: flex-end;
     display: flex;
     border-bottom: var(--border-light);

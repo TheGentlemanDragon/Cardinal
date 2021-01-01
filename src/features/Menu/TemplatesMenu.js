@@ -22,16 +22,18 @@ export function TemplatesMenu({ gameId }) {
     <div class={MenuCss}>
       <Title />
 
-      <SelectCollection
-        collection="Games"
-        labelKey="name"
-        name="Game"
-        value={gameId}
-        valueKey="$id"
-        onSelect={game => openEditorTemplate(game.$id)}
-      />
+      <div class="Menu-Panel">
+        <SelectCollection
+          collection="Games"
+          labelKey="name"
+          name="Game"
+          value={gameId}
+          valueKey="$id"
+          onSelect={game => openEditorTemplate(game.$id)}
+        />
+      </div>
 
-      <div>
+      <div class="Menu-Panel">
         <ActionButton caption="Add Template" icon="text" onClick={() => {}} />
       </div>
     </div>

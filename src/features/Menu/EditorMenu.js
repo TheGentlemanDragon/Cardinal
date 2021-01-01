@@ -114,7 +114,9 @@ export function EditorMenu() {
 
       <FlexSeparator />
 
-      <ScaleSlider />
+      <div class="Menu-Panel">
+        <ScaleSlider />
+      </div>
 
       <Modal />
     </div>

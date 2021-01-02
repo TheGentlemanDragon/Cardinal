@@ -33,19 +33,9 @@ export const MenuCss = css`
     margin-bottom: var(--margin-md);
   }
 
-  a {
-    border-bottom: var(--border-light);
-    padding: var(--margin-md);
-
-    h1 {
-      margin: 0;
-    }
-  }
-
   .Menu-Panel {
     align-items: flex-end;
     display: flex;
-    border-bottom: var(--border-light);
     flex-direction: column;
     margin: 0;
     padding: var(--margin-md) var(--padding-y);

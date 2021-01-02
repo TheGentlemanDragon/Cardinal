@@ -1,4 +1,5 @@
 import { h } from 'preact'
+import { route } from 'preact-router'
 import PropTypes from 'proptypes'
 
 import { ActionButton } from './ActionButton'
@@ -6,7 +7,6 @@ import { SelectCollection } from '../SelectCollection'
 import { Title } from '../Title'
 
 import { MenuCss } from '../../lib/styles'
-import { openEditorTemplate } from '../../lib/utils'
 
 // TODO: Add DS proptype
 TemplatesMenu.propTypes = {
@@ -38,7 +38,7 @@ export function TemplatesMenu({ gameId, Templates }) {
           name="Game"
           value={gameId}
           valueKey="$id"
-          onSelect={game => openEditorTemplate(game.$id)}
+          onSelect={game => route(`templates?game=${game.$id}`)}
         />
       </div>
 

@@ -3,6 +3,7 @@ import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { Icon } from '../Icon'
+import { noop } from '../../lib/utils'
 
 const ActionButtonCss = css`
   align-items: center;
@@ -12,10 +13,12 @@ const ActionButtonCss = css`
   color: var(--clr-text-light);
   cursor: pointer;
   display: flex;
+  font-size: 0.9rem;
   font-variant: small-caps;
   justify-content: space-between;
   padding: 0;
   padding-right: 1rem;
+  text-decoration: none;
   width: 100%;
 
   & + button {
@@ -38,16 +41,24 @@ const ActionButtonCss = css`
 
 ActionButton.propTypes = {
   caption: PropTypes.string.isRequired,
+  href: PropTypes.string,
   icon: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
 }
 
 ActionButton.defaultProps = {
+  href: '',
   icon: '',
+  onClick: noop,
 }
 
-export function ActionButton({ caption, icon, onClick }) {
-  return (
+export function ActionButton({ caption, href, icon, onClick }) {
+  return href ? (
+    <a class={ActionButtonCss} href={href}>
+      {icon && <Icon type={icon} />}
+      {caption}
+    </a>
+  ) : (
     <button class={ActionButtonCss} onClick={onClick}>
       {icon && <Icon type={icon} />}
       {caption}

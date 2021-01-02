@@ -28,6 +28,13 @@ export const defaultElement = {
 
 /* Exports */
 
+/**
+ * Return space-delimited string of css class names
+ *
+ * @param {...string} names individual css class names
+ *
+ * @returns {string} space-delimited, concatenated string
+ */
 export function cls(...names) {
   return names.join(' ')
 }
@@ -143,10 +150,6 @@ export function memoize(fn) {
 
 export function noop() {}
 
-export async function openEditorTemplate(gameId, templateId) {
-  route(`/games/${gameId}${templateId ? '/templates/' + templateId : ''}`, true)
-}
-
 export function random() {
   const randomBuffer = new Uint32Array(1)
   window.crypto.getRandomValues(randomBuffer)
@@ -230,11 +233,33 @@ export function styleRender(element = {}, baseStyle = {}, delta = {}) {
   )
 }
 
-export function toObjQuery(obj) {
+export function toObjQuery(obj = {}) {
   return Object.keys(obj).reduce(
     (result, key) => item => item[key] === obj[key],
     undefined
   )
+}
+
+export function toQueryString(obj = {}) {
+  const keys = Object.keys(obj)
+  return keys.length
+    ? '?' +
+        Object.keys(obj)
+          .map(
+            key => encodeURIComponent(key) + '=' + encodeURIComponent(obj[key])
+          )
+          .join('&')
+    : ''
+}
+
+/**
+ * Returns url with query string params
+ *
+ * @param {string} url address to visit
+ * @param {Object} params query string params object
+ */
+export function toUrl(url, params) {
+  return url + toQueryString(params)
 }
 
 export function uuid() {

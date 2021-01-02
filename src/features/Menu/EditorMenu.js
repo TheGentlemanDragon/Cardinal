@@ -1,5 +1,6 @@
 import { h } from 'preact'
 import { useEffect } from 'preact/hooks'
+import { route } from 'preact-router'
 // import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
@@ -15,7 +16,7 @@ import { useDS } from '../../hooks/useDS'
 import { useSelectOnFocus } from '../../hooks/useSelectOnFocus'
 import { DataStore } from '../../lib/datastore'
 import { MenuCss } from '../../lib/styles'
-import { defaultElement, getParams, openEditorTemplate } from '../../lib/utils'
+import { defaultElement, getParams } from '../../lib/utils'
 
 EditorMenu.propTypes = {}
 
@@ -33,7 +34,7 @@ export function EditorMenu() {
 
   useEffect(() => {
     Templates.getItem(templateId).then($set.template)
-  }, [])
+  }, [templateId])
 
   const addElement = type => {
     const count = document.getElementsByClassName('element').length
@@ -42,7 +43,7 @@ export function EditorMenu() {
       ...defaultElement,
       name,
       type,
-      templateId: template.$id,
+      templateId,
     }
     DataStore.Elements.add(element)
     $set.elements([...elements, element])
@@ -69,12 +70,18 @@ export function EditorMenu() {
           name="Template"
           query={{ gameId }}
           value={Templates.item?.name}
-          onSelect={template => openEditorTemplate(gameId, template.$id)}
+          onSelect={template =>
+            route(`editor?game=${gameId}&template=${template.$id}`)
+          }
         />
       </div>
 
       <div class="Menu-Panel">
-        <ActionButton caption="Edit Cards" icon="table" onClick={() => {}} />
+        <ActionButton
+          caption="Edit Cards"
+          icon="table"
+          href={`data?game=${gameId}&template=${templateId}`}
+        />
       </div>
 
       <div class="Menu-Panel">

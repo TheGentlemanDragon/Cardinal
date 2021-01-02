@@ -96,6 +96,7 @@ export function GameItem({ game }) {
         <figure class="GameItem_Thumbnail">Preview</figure>
 
         <dl class="GameItem_Details">
+          {/* TODO: Convert to anchor tag */}
           <dt
             class={`GameItem_Name ${!Name.isEditMode && 'GameItem_Underline'}`}
             onClick={

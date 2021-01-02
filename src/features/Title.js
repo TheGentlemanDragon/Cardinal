@@ -18,7 +18,7 @@ const TitleCss = css`
 
 export function Title() {
   return (
-    <a href="/" class={TitleCss}>
+    <a href="/home" class={TitleCss}>
       <h1>Cardinal</h1>
     </a>
   )

@@ -18,6 +18,7 @@ const ActionButtonCss = css`
   justify-content: space-between;
   padding: 0;
   padding-right: 1rem;
+  text-align: right;
   text-decoration: none;
   width: 100%;
 
@@ -29,6 +30,8 @@ const ActionButtonCss = css`
     background-color: var(--clr-input-bg-hover);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    flex: 0 0 50px;
+    margin-right: 0.5rem;
     height: 50px;
     padding: 10px;
     width: 50px;

@@ -23,7 +23,7 @@ export const MenuCss = css`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 210px;
+  flex: 0 0 210px;
 
   label {
     margin-bottom: var(--margin-sm);

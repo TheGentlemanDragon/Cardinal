@@ -76,6 +76,11 @@ export function getParams(params) {
   return params.map(param => allParams.get(param))
 }
 
+/** Navigate to the previous page in history */
+export function goBack() {
+  history.back()
+}
+
 /**
  * Open url string in current window
  *

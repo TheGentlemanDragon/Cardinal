@@ -6,6 +6,7 @@ import { ActionButton } from './ActionButton'
 import { SelectCollection } from '../SelectCollection'
 import { Title } from '../Title'
 
+import { newTemplate } from '../../lib/models'
 import { MenuCss } from '../../lib/styles'
 
 // TODO: Add DS proptype
@@ -20,11 +21,7 @@ TemplatesMenu.defaultProps = {}
 export function TemplatesMenu({ gameId, Templates }) {
   const addTemplate = () => {
     const count = document.getElementsByClassName('template').length
-    Templates.add({
-      name: `Template ${count}`,
-      gameId,
-      fields: [],
-    })
+    Templates.add(newTemplate(gameId, count))
   }
 
   return (

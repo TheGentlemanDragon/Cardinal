@@ -7,7 +7,6 @@ import { Title } from '../Title'
 import { MenuCss } from '../../lib/styles'
 import { goBack } from '../../lib/utils'
 
-// TODO: Add DS proptype
 DataMenu.propTypes = {
   addField: PropTypes.func.isRequired,
   addRow: PropTypes.func.isRequired,

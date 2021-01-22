@@ -8,8 +8,9 @@ import { DataMenu } from '../features/Menu/DataMenu'
 
 import { withEditorContext } from '../contexts/EditorContext'
 import { useDS } from '../hooks/useDS'
+import { getUniqueName, newField } from '../lib/models'
 import { PageCss } from '../lib/styles'
-import { cls, getParams, sortByFieldOrder } from '../lib/utils'
+import { cls, getParams, sortByKey } from '../lib/utils'
 
 DataPage.propTypes = {}
 
@@ -28,65 +29,52 @@ DataPage.propTypes = {}
 function DataPage() {
   const Cards = useDS('Cards')
   const Templates = useDS('Templates')
-  const Selected = useState({ row: '0', col: '0' })
-  const [selected, setSelected] = Selected
 
   const [templateId] = getParams(['template'])
   const template = Templates.item
-  const fields = template?.fields
-  const fieldKeys = fields
-    ? Object.keys(fields).sort(sortByFieldOrder(fields))
-    : []
+  const fields = template?.fields.sort(sortByKey('order'))
+  const fieldNames = fields?.map(field => field.name)
 
-  const addRow = () => {
-    Cards.add({ templateId, name: 'New card' })
-  }
+  const primeAddRow = id => () => Cards.add({ templateId, [id]: 'New card' })
 
   // Add a new field with optional suffix to ensure uniqueness
   const addField = () => {
-    const index = fieldKeys.length
-    const field = { order: index }
-    let count = 1
-    let suffix = ''
-
-    while (fieldKeys.includes(`newField${suffix}`)) {
-      suffix = count.toString()
-      count += 1
-    }
+    const index = fields.length
+    const name = getUniqueName(fieldNames, 'newField')
 
     Templates.setItem(templateId, {
-      fields: { ...template.fields, [`newField${suffix}`]: field },
+      fields: [...template.fields, newField(name, index)],
     })
-    setSelected({ row: 'h', col: index })
   }
 
-  const save = value => {
-    let newValue = value
-    const col = selected.col - 1
-    const key = col === -1 ? 'name' : fieldKeys[col]
-    const field = fields[key]
+  const save = (value, row, id) => {
+    const field = fields.find(item => item.id === id)
 
-    // Ensure edited field is unique by optionally appending suffix
-    if (selected.row === 'h') {
-      let count = 1
-      let suffix = ''
-
-      while (fieldKeys.includes(`${newValue}${suffix}`)) {
-        suffix = count.toString()
-        count += 1
+    if (row === 'h') {
+      // Exit if value has not changed
+      if (value === field.name) {
+        return
       }
 
-      newValue = `${newValue}${suffix}`
+      if (fieldNames.includes(value)) {
+        alert('The field name is already in use')
+        return
+      }
 
-      const { [key]: rem, ...newFields } = fields
       Templates.setItem(templateId, {
-        fields: { ...newFields, [newValue]: field },
+        fields: fields.map(item =>
+          item.id === id ? { ...item, name: value } : item
+        ),
       })
-
-      // TODO: Rename all cards on header change
     } else {
-      const card = Cards.list[selected.row]
-      Cards.setItem(card.$id, { ...card, [key]: value })
+      const card = Cards.list[row]
+
+      // Exit if value has not changed
+      if (value === card[id]) {
+        return
+      }
+
+      Cards.setItem(card.$id, { ...card, [id]: value })
       Cards.refresh('list')
     }
   }
@@ -101,6 +89,8 @@ function DataPage() {
     Templates.getItem(templateId)
   }, [templateId])
 
+  const addRow = primeAddRow(fields?.[0]?.id)
+
   return (
     <>
       <DataMenu addField={addField} addRow={addRow} />
@@ -111,7 +101,6 @@ function DataPage() {
             addRow={addRow}
             cards={Cards.list}
             save={save}
-            Selected={Selected}
             template={template}
           />
         )}

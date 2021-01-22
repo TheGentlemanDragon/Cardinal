@@ -3,7 +3,6 @@ import { useEffect } from 'preact/hooks'
 // import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { Flex } from '../features/Flex'
 import { TemplatesMenu } from '../features/Menu/TemplatesMenu'
 import { useDS } from '../hooks/useDS'
 import { PageCss } from '../lib/styles'

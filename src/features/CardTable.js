@@ -4,7 +4,7 @@ import { css } from 'linaria'
 
 import { EmptyState } from './EmptyStates/EmptyState'
 
-import { cls, sortByFieldOrder } from '../lib/utils'
+import { cls, sortByKey } from '../lib/utils'
 
 const CardTableCss = css`
   display: flex;
@@ -74,19 +74,13 @@ const CardTableCss = css`
     } */
   }
 `
-
-export function CardTable({ addRow, cards, template, save, Selected }) {
-  const [cell, setCell] = Selected
+// TODO: Bug: Adding a field breaks cursor movement until refresh
+export function CardTable({ addRow, cards, save, template }) {
+  const [cell, setCell] = useState({ row: '0', col: '0' })
   const [isEditing, setIsEditing] = useState(false)
   const [tempValue, setTempValue] = useState('')
 
-  const fields = template.fields
-  const fieldKeys = fields
-    ? Object.keys(fields).sort(sortByFieldOrder(fields))
-    : []
-
-  fieldKeys.unshift('name')
-
+  const fields = template.fields.sort(sortByKey('order'))
   const hasData = cards.length > 0
 
   // Focus changed cell
@@ -94,7 +88,6 @@ export function CardTable({ addRow, cards, template, save, Selected }) {
     if (!cards.length) return
 
     const target = isEditing ? `#activeCell` : `#r${cell.row}-c${cell.col}`
-    console.log(target)
     document.querySelector(target).focus()
   }, [cards, isEditing, cell])
 
@@ -106,10 +99,15 @@ export function CardTable({ addRow, cards, template, save, Selected }) {
     const atTop = row === 'h'
     const atBottom = row === cards.length - 1
     const atLeft = col === 0
-    const atRight = col === fieldKeys.length - 1
+    const atRight = col === fields.length - 1
 
     switch (event.key) {
       case 'Enter':
+        if (atTop && atLeft) {
+          alert('You can not rename this field')
+          return
+        }
+
         setIsEditing(true)
         setTempValue(event.target.textContent)
         break
@@ -145,7 +143,7 @@ export function CardTable({ addRow, cards, template, save, Selected }) {
     setCell(targetCell)
   }
 
-  const checkInput = (row, col) => event => {
+  const checkInput = (row, id) => event => {
     switch (event.key) {
       case 'Escape':
         setIsEditing(false)
@@ -157,14 +155,7 @@ export function CardTable({ addRow, cards, template, save, Selected }) {
         event.cancelBubble = true
 
         setIsEditing(false)
-
-        const key = fieldKeys[col]
-        const original = (row === 'h' ? key : cards[row][key]) ?? ''
-
-        // Only save if value changed
-        if (tempValue.trim() !== original) {
-          save(tempValue.trim())
-        }
+        save(tempValue, row, id)
     }
   }
 
@@ -181,8 +172,7 @@ export function CardTable({ addRow, cards, template, save, Selected }) {
         <table class="CardTable-List">
           <thead>
             <tr>
-              {fieldKeys.map((key, col) => {
-                const isNotName = key !== 'name'
+              {fields.map((field, col) => {
                 const isActive = isActiveCell('h', col)
                 return (
                   <th
@@ -192,16 +182,16 @@ export function CardTable({ addRow, cards, template, save, Selected }) {
                     tabindex="0"
                     onKeyDown={moveCursor('h', col)}
                   >
-                    {isActive && isNotName ? (
+                    {isActive ? (
                       <input
                         id="activeCell"
                         value={tempValue}
                         size="1"
-                        onKeyDown={checkInput('h', col)}
+                        onKeyDown={checkInput('h', field.id)}
                         onChange={event => setTempValue(event.target.value)}
                       />
                     ) : (
-                      key
+                      field.name
                     )}
                   </th>
                 )
@@ -214,7 +204,7 @@ export function CardTable({ addRow, cards, template, save, Selected }) {
                 key={`row-${row}`}
                 class={cls(cell.row === row && 'active-row')}
               >
-                {fieldKeys.map((key, col) => {
+                {fields.map((field, col) => {
                   const isActive = isActiveCell(row, col)
                   return (
                     <td
@@ -229,11 +219,11 @@ export function CardTable({ addRow, cards, template, save, Selected }) {
                           id="activeCell"
                           value={tempValue}
                           size="1"
-                          onKeyDown={checkInput(row, col)}
+                          onKeyDown={checkInput(row, field.id)}
                           onChange={event => setTempValue(event.target.value)}
                         />
                       ) : (
-                        card[key]
+                        card[field.id]
                       )}
                     </td>
                   )

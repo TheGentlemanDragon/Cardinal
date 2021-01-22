@@ -200,10 +200,6 @@ export function sortByKey(key) {
   }
 }
 
-export function sortByFieldOrder(fields) {
-  return (a, b) => (fields[a].order > fields[b].order ? 1 : -1)
-}
-
 export function styleDelta(element = {}, delta = {}) {
   if (!element.style) {
     return {}

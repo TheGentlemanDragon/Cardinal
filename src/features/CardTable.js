@@ -10,24 +10,16 @@ const CardTableCss = css`
   display: flex;
   flex-direction: column;
 
-  .CardTable-ModalHeader {
-    display: flex;
-  }
-
-  .CardTable-Title {
-    flex-grow: 1;
-  }
-
   .CardTable-List {
     border-collapse: collapse;
     border-radius: var(--radius-md);
     box-shadow: var(--box-shadow-lg);
+    display: block;
     font-size: 0.9rem;
     margin: 2rem auto 0;
     min-width: 10rem;
-    overflow: hidden;
-    table-layout: fixed;
-    width: 100%;
+    overflow: auto;
+    width: calc(100vw - 22rem);
 
     thead tr {
       background-color: var(--clr-blue);
@@ -38,7 +30,7 @@ const CardTableCss = css`
     th,
     td {
       cursor: pointer;
-      min-width: 5rem;
+      /* min-width: 5rem; */
       overflow: auto;
       padding: 12px 15px;
       white-space: pre;
@@ -170,9 +162,7 @@ export function CardTable({ addRow, cards, save, template }) {
 
   return (
     <div class={CardTableCss}>
-      <div class="CardTable-ModalHeader">
-        <h1>Card Data</h1>
-      </div>
+      <h1>Card Data</h1>
 
       {hasData ? (
         <table class="CardTable-List">

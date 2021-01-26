@@ -1,4 +1,4 @@
-import { Store, get, keys, set } from 'idb-keyval'
+import { Store, clear, get, keys, set } from 'idb-keyval'
 
 import { identity, generateId, toObjQuery } from './utils'
 
@@ -45,6 +45,10 @@ function generateStore(name) {
   Instance.add = async function(value) {
     value.$id = generateId(8)
     await set(value.$id, value, store)
+  }
+
+  Instance.clear = async function() {
+    await clear(store)
   }
 
   Instance.get = async function(id) {

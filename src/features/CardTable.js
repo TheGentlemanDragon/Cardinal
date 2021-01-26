@@ -23,7 +23,7 @@ const CardTableCss = css`
     border-radius: var(--radius-md);
     box-shadow: var(--box-shadow-lg);
     font-size: 0.9rem;
-    margin: 10% auto 0;
+    margin: 2rem auto 0;
     min-width: 10rem;
     overflow: hidden;
     table-layout: fixed;
@@ -39,7 +39,9 @@ const CardTableCss = css`
     td {
       cursor: pointer;
       min-width: 5rem;
+      overflow: auto;
       padding: 12px 15px;
+      white-space: pre;
 
       &:focus {
         cursor: unset;
@@ -58,6 +60,10 @@ const CardTableCss = css`
 
     tr {
       color: var(--clr-black-70);
+    }
+
+    tbody {
+      overflow-y: auto;
     }
 
     tbody tr {

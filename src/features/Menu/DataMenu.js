@@ -4,6 +4,7 @@ import PropTypes from 'proptypes'
 import { ActionButton } from './ActionButton'
 import { Title } from '../Title'
 
+import { importCsv } from '../../lib/models'
 import { MenuCss } from '../../lib/styles'
 import { goBack } from '../../lib/utils'
 
@@ -22,6 +23,10 @@ export function DataMenu({ addField, addRow }) {
 
       <div class="Menu-Panel">
         <ActionButton caption="Return to Editor" icon="back" onClick={goBack} />
+      </div>
+
+      <div class="Menu-Panel">
+        <ActionButton caption="Import CSV" icon="table" onClick={importCsv} />
       </div>
 
       <div class="Menu-Panel">

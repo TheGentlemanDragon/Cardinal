@@ -19,7 +19,7 @@ const CardTableCss = css`
     margin: 2rem auto 0;
     min-width: 10rem;
     overflow: auto;
-    width: calc(100vw - 22rem);
+    max-width: calc(100vw - 22rem);
 
     thead tr {
       background-color: var(--clr-blue);
@@ -30,7 +30,7 @@ const CardTableCss = css`
     th,
     td {
       cursor: pointer;
-      /* min-width: 5rem; */
+      min-width: 3rem;
       overflow: auto;
       padding: 12px 15px;
       white-space: pre;

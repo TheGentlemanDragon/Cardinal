@@ -19,16 +19,17 @@
   /* Colors */
   --clr-black-10: rgba(0, 0, 0, 0.1);
   --clr-black-70: rgba(0, 0, 0, 0.7);
+  --clr-blue: rgb(12, 64, 124);
+  --clr-dark-blue: rgb(6, 31, 60);
+  --clr-gray: rgb(128, 128, 128);
+  --clr-green-50: rgb(29, 188, 96, 0.5);
+  --clr-green: rgb(29, 188, 96);
   --clr-off-white: rgb(240, 240, 240);
-  --clr-white: rgba(250, 250, 250);
+  --clr-red-50: rgb(231, 76, 60, 0.5);
+  --clr-red: rgb(231, 76, 60);
   --clr-white-10: rgba(250, 250, 250, 0.1);
   --clr-white-90: rgba(250, 250, 250, 0.9);
-  --clr-blue: rgb(12, 64, 124);
-  --clr-green: rgb(29, 188, 96);
-  --clr-green-50: rgb(29, 188, 96, 0.5);
-  --clr-red: rgb(231, 76, 60);
-  --clr-red-50: rgb(231, 76, 60, 0.5);
-  --clr-dark-blue: rgb(6, 31, 60);
+  --clr-white: rgba(250, 250, 250);
 
   --clr-accent: rgb(255, 178, 0);
   --clr-alert-hover: var(--clr-red);

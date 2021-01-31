@@ -21,6 +21,20 @@ const CardTableCss = css`
     overflow: auto;
     max-width: calc(100vw - 22rem);
 
+    ::-webkit-scrollbar {
+      background-color: var(--clr-blue);
+      max-height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: var(--clr-gray);
+    }
+
     thead tr {
       background-color: var(--clr-blue);
       color: #ffffff;
@@ -40,12 +54,18 @@ const CardTableCss = css`
       }
 
       &.activeCell {
-        padding: 7px 9px;
+        padding: 0 0;
 
         input {
           font-size: 0.9rem;
           padding: 3px 4px;
           width: 100%;
+        }
+
+        textarea {
+          padding: 5px 6px;
+          resize: none;
+          white-space: nowrap;
         }
       }
     }
@@ -72,9 +92,11 @@ const CardTableCss = css`
     } */
   }
 `
-// TODO: Bug: Adding a field breaks cursor movement until refresh
+
+// BUG: Adding a field breaks cursor movement until refresh
 export function CardTable({ addRow, cards, save, template }) {
   const [cell, setCell] = useState({ row: '0', col: '0' })
+  const [lastSize, setLastSize] = useState({ h: 0, w: 0 })
   const [isEditing, setIsEditing] = useState(false)
   const [tempValue, setTempValue] = useState('')
 
@@ -106,7 +128,10 @@ export function CardTable({ addRow, cards, save, template }) {
           return
         }
 
+        const { height: h, width: w } = event.target.getClientRects()[0]
+
         setIsEditing(true)
+        setLastSize({ h: `${h - 3}px`, w: `${w}px` })
         setTempValue(event.target.textContent)
         break
 
@@ -148,6 +173,11 @@ export function CardTable({ addRow, cards, save, template }) {
         return
 
       case 'Enter':
+        // Allow line breaks if holding shift
+        if (event.shiftKey) {
+          return
+        }
+
         // Don't allow line break
         event.preventDefault()
         event.cancelBubble = true
@@ -211,10 +241,11 @@ export function CardTable({ addRow, cards, save, template }) {
                       onKeyDown={moveCursor(row, col)}
                     >
                       {isActive ? (
-                        <input
+                        <textarea
                           id="activeCell"
                           value={tempValue}
                           size="1"
+                          style={`height:${lastSize.h};width:${lastSize.w};`}
                           onKeyDown={checkInput(row, field.id)}
                           onChange={event => setTempValue(event.target.value)}
                         />

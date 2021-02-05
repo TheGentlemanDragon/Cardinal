@@ -25,16 +25,8 @@ export const MenuCss = css`
   height: 100vh;
   flex: 0 0 210px;
 
-  label {
-    margin-bottom: var(--margin-sm);
-  }
-
-  input:not(:last-of-type) {
-    margin-bottom: var(--margin-md);
-  }
-
   .Menu-Panel {
-    align-items: flex-end;
+    align-items: stretch;
     display: flex;
     flex-direction: column;
     margin: 0;

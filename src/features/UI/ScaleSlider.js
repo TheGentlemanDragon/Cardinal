@@ -1,8 +1,8 @@
 import { h } from 'preact'
 import { css } from 'linaria'
 
-import { useEditorContext } from '../contexts/EditorContext'
-import { withEventTargetValue } from '../lib/utils'
+import { useEditorContext } from '../../contexts/EditorContext'
+import { withEventTargetValue } from '../../lib/utils'
 
 const ScaleSliderCss = css`
   display: flex;

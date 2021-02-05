@@ -3,7 +3,7 @@ import { useMemo } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { Icon } from './Icon'
+import { Icon } from './UI/Icon'
 import { InteractionPoint } from './InteractionPoint'
 import { useEditorContext } from '../contexts/EditorContext'
 import { DataStore } from '../lib/datastore'

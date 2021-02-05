@@ -3,7 +3,7 @@ import { useCallback, useState, useEffect } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { Icon } from './Icon'
+import { Icon } from './UI/Icon'
 
 const mainCss = css`
   height: 10px;

@@ -3,8 +3,8 @@ import { useState } from 'preact/hooks'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { useGlobalBlur } from '../hooks/useGlobalBlur'
-import { cls, getDisplayValue } from '../lib/utils'
+import { useGlobalBlur } from '../../hooks/useGlobalBlur'
+import { cls, getDisplayValue } from '../../lib/utils'
 
 const SelectCss = css`
   text-align: right;
@@ -14,7 +14,7 @@ const SelectCss = css`
   }
 
   .Select-Caret {
-    background-image: url(../assets/icons/caret-down.png);
+    background-image: url(../../assets/icons/caret-down.png);
     cursor: pointer;
     height: 16px;
     min-width: 16px;

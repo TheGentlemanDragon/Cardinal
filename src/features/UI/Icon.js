@@ -2,7 +2,7 @@ import { h } from 'preact'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { noop } from '../lib/utils'
+import { noop } from '../../lib/utils'
 
 const typeMap = {
   // add_box.svg

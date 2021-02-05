@@ -3,8 +3,8 @@ import { route } from 'preact-router'
 import PropTypes from 'proptypes'
 
 import { ActionButton } from './ActionButton'
-import { SelectCollection } from '../SelectCollection'
 import { Title } from '../Title'
+import { SelectCollection } from '../UI/SelectCollection'
 
 import { newTemplate } from '../../lib/models'
 import { MenuCss } from '../../lib/styles'

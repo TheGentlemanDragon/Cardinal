@@ -5,10 +5,10 @@ import { route } from 'preact-router'
 import { css } from 'linaria'
 
 import { ActionButton } from './ActionButton'
-import { FlexSeparator } from '../FlexSeparator'
-import { ScaleSlider } from '../ScaleSlider'
-import { SelectCollection } from '../SelectCollection'
 import { Title } from '../Title'
+import { FlexSeparator } from '../UI/FlexSeparator'
+import { SelectCollection } from '../UI/SelectCollection'
+import { ScaleSlider } from '../UI/ScaleSlider'
 
 import { useEditorContext } from '../../contexts/EditorContext'
 import { useAssetManager } from '../../hooks/useAssetManager'

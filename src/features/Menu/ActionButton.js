@@ -2,7 +2,7 @@ import { h } from 'preact'
 import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
-import { Icon } from '../Icon'
+import { Icon } from '../UI/Icon'
 import { noop } from '../../lib/utils'
 
 const ActionButtonCss = css`

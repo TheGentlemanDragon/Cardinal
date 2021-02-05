@@ -2,7 +2,7 @@ import { h } from 'preact'
 import PropTypes from 'proptypes'
 import { styled } from 'linaria/react'
 
-const FlexCss = styled.div`
+const StyledFlex = styled.div`
   display: flex;
   align-items: ${props => props.align};
   flex-direction: ${props => props.direction};
@@ -23,13 +23,13 @@ Flex.defaultProps = {
 
 export function Flex({ align, children, direction, justify }) {
   return (
-    <FlexCss
+    <StyledFlex
       align={align}
       children={children}
       direction={direction}
       justify={justify}
     >
       {children}
-    </FlexCss>
+    </StyledFlex>
   )
 }

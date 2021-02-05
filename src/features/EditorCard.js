@@ -2,7 +2,7 @@ import { h } from 'preact'
 import { useEffect } from 'preact/hooks'
 import { css } from 'linaria'
 
-import { Icon } from './Icon'
+import { Icon } from './UI/Icon'
 import { ElementModifier } from './ElementModifier'
 import { useEditorContext } from '../contexts/EditorContext'
 import { useDS } from '../hooks/useDS'

@@ -2,7 +2,7 @@ import { h } from 'preact'
 
 import { css } from 'linaria'
 
-import { Icon } from './Icon'
+import { Icon } from './UI/Icon'
 import { useEditableValue } from '../hooks/useEditableValue'
 import { DataStore } from '../lib/datastore'
 import { goToUrl, noop } from '../lib/utils'

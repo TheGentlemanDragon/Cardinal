@@ -7,7 +7,7 @@ import { EditorMenu } from '../features/Menu/EditorMenu'
 
 import { withEditorContext } from '../contexts/EditorContext'
 import { PageCss } from '../lib/styles'
-import { getParams } from '../lib/utils'
+import { cls, getParams } from '../lib/utils'
 
 const EditorPageCss = css`
   align-items: center;
@@ -37,7 +37,7 @@ function EditorPage() {
     <>
       <EditorMenu gameId={gameId} templateId={templateId} />
 
-      <div class={`${PageCss} ${EditorPageCss}`}>
+      <div class={cls(EditorPageCss, PageCss)}>
         <EditorCard templateId={templateId} />
       </div>
     </>

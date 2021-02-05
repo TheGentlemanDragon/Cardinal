@@ -1,6 +1,5 @@
 import { h } from 'preact'
 import { useMemo } from 'preact/hooks'
-import PropTypes from 'proptypes'
 import { css } from 'linaria'
 
 import { Icon } from './UI/Icon'
@@ -8,7 +7,7 @@ import { InteractionPoint } from './InteractionPoint'
 import { useEditorContext } from '../contexts/EditorContext'
 import { DataStore } from '../lib/datastore'
 import { ElementBaseCss } from '../lib/styles'
-import { styleDelta, styleRender } from '../lib/utils'
+import { cls, styleDelta, styleRender } from '../lib/utils'
 
 const MIN_SIZE = 20
 const CARD_HEIGHT = 350
@@ -50,20 +49,24 @@ const ElementModifierCss = css`
   position: absolute;
 `
 
-ElementModifier.propTypes = {
-  element: PropTypes.object.isRequired,
-}
-
-export function ElementModifier({ element }) {
+export function ElementModifier() {
   const {
     elementIndex,
     elements,
     delta,
+    preview,
     refresh,
     scale,
     $set,
   } = useEditorContext()
 
+  const hasSelected = elements?.length > 0 && elementIndex > -1
+
+  if (!hasSelected) {
+    return null
+  }
+
+  const element = elements[elementIndex]
   const style = styleRender(element, {}, delta)
 
   const saveTransform = delta => {
@@ -93,10 +96,12 @@ export function ElementModifier({ element }) {
 
   return (
     <>
-      <div class={`${ElementBaseCss} ${TopZIndexCss}`} style={style}>
-        <Icon type={element.type} />
-        <span>{element.name}</span>
-      </div>
+      {!preview && (
+        <div class={cls(ElementBaseCss, TopZIndexCss)} style={style}>
+          <Icon type={element.type} />
+          <span>{element.name}</span>
+        </div>
+      )}
 
       <div class={ElementModifierCss} style={style}>
         <InteractionPoint

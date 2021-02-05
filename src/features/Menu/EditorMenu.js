@@ -1,14 +1,13 @@
 import { h } from 'preact'
 import { useEffect } from 'preact/hooks'
 import { route } from 'preact-router'
-// import PropTypes from 'proptypes'
-import { css } from 'linaria'
 
 import { ActionButton } from './ActionButton'
 import { Title } from '../Title'
 import { FlexSeparator } from '../UI/FlexSeparator'
-import { SelectCollection } from '../UI/SelectCollection'
 import { ScaleSlider } from '../UI/ScaleSlider'
+import { SelectCollection } from '../UI/SelectCollection'
+import { Toggle } from '../UI/Toggle'
 
 import { useEditorContext } from '../../contexts/EditorContext'
 import { useAssetManager } from '../../hooks/useAssetManager'
@@ -24,9 +23,10 @@ EditorMenu.defaultProps = {}
 
 /** List games for the main page */
 export function EditorMenu() {
+  const Elements = useDS('Elements')
   const Templates = useDS('Templates')
   const { toggle, Modal } = useAssetManager()
-  const { elementIndex, elements, $set, template } = useEditorContext()
+  const { elementIndex, elements, preview, $set, template } = useEditorContext()
   const selectRef = useSelectOnFocus()
 
   const [gameId, templateId] = getParams(['game', 'template'])
@@ -35,6 +35,12 @@ export function EditorMenu() {
   useEffect(() => {
     Templates.getItem(templateId).then($set.template)
   }, [templateId])
+
+  useEffect(() => {
+    if (template.$id) {
+      Elements.getList({ templateId }).then($set.elements)
+    }
+  }, [template])
 
   const addElement = type => {
     const count = document.getElementsByClassName('element').length
@@ -112,7 +118,7 @@ export function EditorMenu() {
           <input
             type="text"
             ref={selectRef}
-            value={element.value || ''}
+            value={element.value}
             onInput={e => updateElement({ value: e.target.value })}
           />
           <button onClick={toggle}>Assets </button>
@@ -122,6 +128,7 @@ export function EditorMenu() {
       <FlexSeparator />
 
       <div class="Menu-Panel">
+        <Toggle label="Preview" value={preview} onUpdate={$set.preview} />
         <ScaleSlider />
       </div>
 

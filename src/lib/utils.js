@@ -24,6 +24,7 @@ export const defaultElement = {
     height: { unit: 'px', value: 30 },
     width: { unit: 'px', value: 100 },
   },
+  value: '',
 }
 
 /* Exports */

@@ -2,12 +2,13 @@ import { h } from 'preact'
 import { useEffect } from 'preact/hooks'
 import { css } from 'linaria'
 
-import { Icon } from './UI/Icon'
 import { ElementModifier } from './ElementModifier'
+import { Icon } from './UI/Icon'
+
 import { useEditorContext } from '../contexts/EditorContext'
 import { useDS } from '../hooks/useDS'
 import { ElementBaseCss } from '../lib/styles'
-import { styleRender, selectElement } from '../lib/utils'
+import { cls, selectElement, styleRender } from '../lib/utils'
 
 const hide = { display: 'none' }
 
@@ -26,18 +27,36 @@ const ElementCss = css`
   }
 `
 
+const rxVariables = /\{([^}]*)\}/g
+
+function applyValues(value, card, fields) {
+  return value.match(rxVariables)?.reduce((result, varName) => {
+    const key = varName.substring(1, varName.length - 1)
+    const id = fields.find(item => item.name === key)?.id
+    return result.replace(varName, card[id])
+  }, value)
+}
+
 EditorCard.propTypes = {}
 
 EditorCard.defaultProps = {}
 
 export function EditorCard({ gameId, templateId }) {
-  const Elements = useDS('Elements')
-  const { elementIndex, elements, scale, $set } = useEditorContext()
+  const Cards = useDS('Cards')
 
-  const hasSelected = elements?.length > 0 && elementIndex > -1
+  const {
+    elementIndex,
+    elements,
+    preview,
+    scale,
+    $set,
+    template,
+  } = useEditorContext()
+
+  const card = preview ? Cards.list[0] : {}
 
   useEffect(() => {
-    Elements.getList({ templateId }).then($set.elements)
+    Cards.getList({ templateId })
   }, [gameId, templateId])
 
   return (
@@ -47,18 +66,24 @@ export function EditorCard({ gameId, templateId }) {
       style={{ transform: `scale(${scale})` }}
       onMouseDown={selectElement(elementIndex, $set.elementIndex)}
     >
-      {hasSelected && <ElementModifier element={elements[elementIndex]} />}
+      <ElementModifier />
 
       {elements.map((element, index) => {
         const isSelected = index === elementIndex
         return (
           <div
             key={element.$id}
-            class={`element ${ElementBaseCss} ${ElementCss}`}
-            style={styleRender(element, isSelected && hide)}
+            class={cls('element', ElementBaseCss, ElementCss)}
+            style={styleRender(element, !preview && isSelected && hide)}
           >
-            <Icon type={element.type} />
-            <span>{element.name}</span>
+            {preview ? (
+              <span>{applyValues(element.value, card, template.fields)}</span>
+            ) : (
+              <>
+                <Icon type={element.type} />
+                <span>{element.name}</span>
+              </>
+            )}
           </div>
         )
       })}

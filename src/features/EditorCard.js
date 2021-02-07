@@ -2,6 +2,7 @@ import { h } from 'preact'
 import { useEffect } from 'preact/hooks'
 import { css } from 'linaria'
 
+import { DataImage } from './DataImage'
 import { ElementModifier } from './ElementModifier'
 import { Icon } from './UI/Icon'
 
@@ -29,19 +30,12 @@ const ElementCss = css`
 
 const rxVariables = /\{([^}]*)\}/g
 
-function applyValues(value, card, fields) {
-  return value.match(rxVariables)?.reduce((result, varName) => {
-    const key = varName.substring(1, varName.length - 1)
-    const id = fields.find(item => item.name === key)?.id
-    return result.replace(varName, card[id])
-  }, value)
-}
-
 EditorCard.propTypes = {}
 
 EditorCard.defaultProps = {}
 
 export function EditorCard({ gameId, templateId }) {
+  const Assets = useDS('Assets')
   const Cards = useDS('Cards')
 
   const {
@@ -56,8 +50,45 @@ export function EditorCard({ gameId, templateId }) {
   const card = preview ? Cards.list[0] : {}
 
   useEffect(() => {
+    Assets.getList()
+  }, [])
+
+  useEffect(() => {
     Cards.getList({ templateId })
   }, [gameId, templateId])
+
+  function applyText(element) {
+    return element.value.match(rxVariables)?.reduce((result, varName) => {
+      const key = varName.substring(1, varName.length - 1)
+      const id = template.fields.find(item => item.name === key)?.id
+      return result.replace(varName, card[id])
+    }, element.value)
+  }
+
+  function applyImage(element) {
+    const match = element.value.match(rxVariables)?.[0]
+    let imageName
+
+    if (match) {
+      const key = match.substring(1, match.length - 1)
+      const id = template.fields.find(item => item.name === key)?.id
+      imageName = card[id]
+    } else {
+      imageName = element.value
+    }
+
+    const image = Assets.list.find(item => item.name === imageName)
+    const { height, width, top: y, left: x } = element.style
+
+    return (
+      <DataImage
+        image={image}
+        height={height.value}
+        width={width.value}
+        offset={{ x: x.value, y: y.value }}
+      />
+    )
+  }
 
   return (
     <div
@@ -77,7 +108,10 @@ export function EditorCard({ gameId, templateId }) {
             style={styleRender(element, !preview && isSelected && hide)}
           >
             {preview ? (
-              <span>{applyValues(element.value, card, template.fields)}</span>
+              <span>
+                {element.type === 'text' && applyText(element)}
+                {element.type === 'image' && applyImage(element)}
+              </span>
             ) : (
               <>
                 <Icon type={element.type} />

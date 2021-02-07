@@ -5,7 +5,7 @@
 // import { Database } from 'firebase-firestore-lite'
 // import Auth from 'firebase-auth-lite'
 
-import config from './config'
+// import config from './config'
 import { hashRef, sortByKey } from './utils'
 
 const rxRef = /.*Ref$/

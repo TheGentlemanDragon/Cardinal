@@ -1,4 +1,4 @@
-import { useReducer, useState } from 'preact/hooks'
+import { useReducer } from 'preact/hooks'
 
 import { DataStore } from '../lib/datastore'
 

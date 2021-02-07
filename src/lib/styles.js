@@ -12,6 +12,7 @@ export const ElementBaseCss = css`
 
   svg {
     fill: #aaa;
+    flex: 0 0 14px;
     height: 14px;
     width: 14px;
     margin-right: 0.25rem;

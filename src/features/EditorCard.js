@@ -1,5 +1,5 @@
 import { h } from 'preact'
-import { useEffect } from 'preact/hooks'
+import { useEffect, useMemo } from 'preact/hooks'
 import { css } from 'linaria'
 
 import { DataImage } from './DataImage'
@@ -90,6 +90,14 @@ export function EditorCard({ gameId, templateId }) {
     )
   }
 
+  const orderedElements = useMemo(() => {
+    if (!elements.length || !template?.order) {
+      return [...elements].reverse()
+    }
+
+    return template?.order.map(index => elements[index]).reverse()
+  }, [elements, template])
+
   return (
     <div
       class={EditorCardCss}
@@ -99,7 +107,7 @@ export function EditorCard({ gameId, templateId }) {
     >
       <ElementModifier />
 
-      {elements.map((element, index) => {
+      {orderedElements.map((element, index) => {
         const isSelected = index === elementIndex
         return (
           <div

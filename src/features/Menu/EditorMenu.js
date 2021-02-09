@@ -3,6 +3,7 @@ import { useEffect } from 'preact/hooks'
 import { route } from 'preact-router'
 
 import { ActionButton } from './ActionButton'
+import { ElementList } from '../ElementList'
 import { Title } from '../Title'
 import { FlexSeparator } from '../UI/FlexSeparator'
 import { ScaleSlider } from '../UI/ScaleSlider'
@@ -102,6 +103,10 @@ export function EditorMenu() {
           icon="image"
           onClick={() => addElement('image')}
         />
+      </div>
+
+      <div class="Menu-Panel">
+        <ElementList />
       </div>
 
       {element && (

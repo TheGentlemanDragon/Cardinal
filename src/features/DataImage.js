@@ -13,18 +13,23 @@ const DataImageCss = css`
 
 DataImage.propTypes = {
   height: PropTypes.number,
-  image: PropTypes.object.isRequired,
+  image: PropTypes.object,
   offset: PropTypes.object,
   width: PropTypes.number,
 }
 
 DataImage.defaultProps = {
   height: 0,
+  image: null,
   offset: { x: 0, y: 0 },
   width: 0,
 }
 
 export function DataImage({ height, image, offset, width }) {
+  if (!image) {
+    return null
+  }
+
   const objectUrl = useMemo(() => URL.createObjectURL(image.data), [image])
   return (
     <img

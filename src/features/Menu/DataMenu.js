@@ -4,7 +4,7 @@ import PropTypes from 'proptypes'
 import { ActionButton } from './ActionButton'
 import { Title } from '../Title'
 
-import { importCsv } from '../../lib/models'
+import { exportCsv, importCsv } from '../../lib/models'
 import { MenuCss } from '../../lib/styles'
 import { goBack } from '../../lib/utils'
 
@@ -27,6 +27,8 @@ export function DataMenu({ addField, addRow }) {
 
       <div class="Menu-Panel">
         <ActionButton caption="Import CSV" icon="table" onClick={importCsv} />
+
+        <ActionButton caption="Export CSV" icon="table" onClick={exportCsv} />
       </div>
 
       <div class="Menu-Panel">

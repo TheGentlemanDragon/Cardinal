@@ -1,5 +1,5 @@
 import { DataStore } from './datastore'
-import { generateId, getParams } from './utils'
+import { generateId, getParams, getProp, sortByKey } from './utils'
 
 const RETURN_CHAR = 10
 const DOUBLE_QUOTE_CHAR = 34
@@ -65,6 +65,46 @@ function arrayBufferToLines(buffer) {
   return lines
 }
 
+async function createCsv() {
+  const [templateId] = getParams(['template'])
+  const { $id, fields, name } = await DataStore.Templates.get(templateId)
+
+  // Cache headers to write first row of CSV
+  const headers = fields.sort(sortByKey('order'))
+
+  // Get all cards with templateId = template.$id
+  const cards = await DataStore.Cards.list({ templateId: $id })
+
+  let value
+  let hasNewLine
+
+  // Write a row for each card
+  const lines = cards.map(
+    card =>
+      `${headers
+        .map(header => {
+          value = card[header.id]
+          hasNewLine = value.indexOf('\n') !== -1
+
+          if (hasNewLine) {
+            value = value.replace(/\n/g, '\\n')
+          }
+
+          // Wrap values with comma or newline in double quotes
+          if (value.indexOf(',') !== -1 || hasNewLine) {
+            return `"${value}"`
+          }
+
+          return value
+        })
+        .join(',')}\n`
+  )
+
+  lines.unshift(`${headers.map(getProp('name')).join(',')}\n`)
+
+  return { name, lines }
+}
+
 function loadCsv() {
   const reader = new FileReader()
 
@@ -92,6 +132,25 @@ function loadCsv() {
   reader.readAsArrayBuffer(this.files[0])
 }
 
+export async function exportCsv() {
+  let { lines, name } = await createCsv()
+
+  const blob = new Blob(lines, { type: 'text/plain' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+
+  link.href = url
+  link.download = `${name}.csv`
+
+  link.dispatchEvent(
+    new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    })
+  )
+}
+
 export function getUniqueName(names, name) {
   let count = 1
   let suffix = ''
@@ -103,6 +162,7 @@ export function getUniqueName(names, name) {
 
   return `${name}${suffix}`
 }
+
 export function importCsv() {
   const input = document.createElement('input')
   input.type = 'file'
@@ -115,7 +175,7 @@ export function importCsv() {
 export function newCardFromArray(data, fields, templateId) {
   return data.reduce(
     (card, item, index) => {
-      card[fields[index].id] = item
+      card[fields[index].id] = item.replace(/\\n/g, '\n')
       return card
     },
     { templateId }

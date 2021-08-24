@@ -77,6 +77,12 @@ export function getParams(params) {
   return params.map(param => allParams.get(param))
 }
 
+export function getProp(prop) {
+  return function(item) {
+    return item[prop]
+  }
+}
+
 /** Navigate to the previous page in history */
 export function goBack() {
   history.back()
@@ -98,7 +104,7 @@ export function hashRef(obj) {
     ? obj
     : Object.keys(obj)
         .sort()
-        .map(key => key + '=' + hashRef(obj[key]))
+        .map(key => `${key}=${hashRef(obj[key])}`)
         .join('&')
 }
 
@@ -245,12 +251,11 @@ export function toObjQuery(obj = {}) {
 export function toQueryString(obj = {}) {
   const keys = Object.keys(obj)
   return keys.length
-    ? '?' +
-        Object.keys(obj)
-          .map(
-            key => encodeURIComponent(key) + '=' + encodeURIComponent(obj[key])
-          )
-          .join('&')
+    ? `?${Object.keys(obj)
+        .map(
+          key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`
+        )
+        .join('&')}`
     : ''
 }
 

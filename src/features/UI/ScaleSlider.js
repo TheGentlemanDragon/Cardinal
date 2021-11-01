@@ -1,7 +1,8 @@
-import { h } from 'preact'
+import { useAtom } from 'jotai'
 import { css } from 'linaria'
+import { h } from 'preact'
 
-import { useEditorContext } from '../../contexts/EditorContext'
+import { Atoms } from '../../lib/atoms'
 import { withEventTargetValue } from '../../lib/utils'
 
 const ScaleSliderCss = css`
@@ -46,7 +47,7 @@ const ScaleSliderCss = css`
 
 /** List games for the main page */
 export function ScaleSlider() {
-  const { scale, $set } = useEditorContext()
+  const [scale, setScale] = useAtom(Atoms.scale)
 
   return (
     scale && (
@@ -60,7 +61,7 @@ export function ScaleSlider() {
           max="3"
           step="0.05"
           value={scale}
-          onInput={withEventTargetValue($set.scale)}
+          onInput={withEventTargetValue(setScale)}
         />
       </div>
     )

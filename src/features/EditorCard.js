@@ -1,6 +1,7 @@
+import { useAtom } from 'jotai'
+import { css } from 'linaria'
 import { h } from 'preact'
 import { useEffect, useMemo } from 'preact/hooks'
-import { css } from 'linaria'
 
 import { DataImage } from './DataImage'
 import { ElementModifier } from './ElementModifier'
@@ -8,6 +9,7 @@ import { Icon } from './UI/Icon'
 
 import { useEditorContext } from '../contexts/EditorContext'
 import { useDS } from '../hooks/useDS'
+import { Atoms } from '../lib/atoms'
 import { ElementBaseCss } from '../lib/styles'
 import { cls, selectElement, styleRender } from '../lib/utils'
 
@@ -38,14 +40,9 @@ export function EditorCard({ gameId, templateId }) {
   const Assets = useDS('Assets')
   const Cards = useDS('Cards')
 
-  const {
-    elementIndex,
-    elements,
-    preview,
-    scale,
-    $set,
-    template,
-  } = useEditorContext()
+  const [scale] = useAtom(Atoms.scale)
+
+  const { elementIndex, elements, preview, $set, template } = useEditorContext()
 
   const card = preview ? Cards.list[0] : {}
 
@@ -60,7 +57,7 @@ export function EditorCard({ gameId, templateId }) {
   function applyText(element) {
     return element.value.match(rxVariables)?.reduce((result, varName) => {
       const key = varName.substring(1, varName.length - 1)
-      const id = template.fields.find(item => item.name === key)?.id
+      const id = template.fields.find((item) => item.name === key)?.id
       return result.replace(varName, card[id])
     }, element.value)
   }
@@ -71,13 +68,13 @@ export function EditorCard({ gameId, templateId }) {
 
     if (match) {
       const key = match.substring(1, match.length - 1)
-      const id = template.fields.find(item => item.name === key)?.id
+      const id = template.fields.find((item) => item.name === key)?.id
       imageName = card[id]
     } else {
       imageName = element.value
     }
 
-    const image = Assets.list.find(item => item.name === imageName)
+    const image = Assets.list.find((item) => item.name === imageName)
     const { height, width, top: y, left: x } = element.style
 
     return (
@@ -95,7 +92,7 @@ export function EditorCard({ gameId, templateId }) {
       return [...elements].reverse()
     }
 
-    return template?.order.map(index => elements[index]).reverse()
+    return template?.order.map((index) => elements[index]).reverse()
   }, [elements, template])
 
   return (

@@ -23,8 +23,9 @@
   },
   "dependencies": {
     "idb-keyval": "^3.2.0",
+    "jotai": "^1.4.2",
     "linaria": "^2.0.2",
-    "preact": "^10.5.14",
+    "preact": "^10.5.15",
     "preact-render-to-string": "^5.1.19",
     "preact-router": "^3.2.1",
     "react-colorful": "^4.4.2"
@@ -52,11 +53,6 @@
       "<rootDir>/tests/__mocks__/browserMocks.js",
       "<rootDir>/tests/__mocks__/setupTests.js"
     ]
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "es5"
   },
   "browserslist": [
     "last 2 Chrome versions"

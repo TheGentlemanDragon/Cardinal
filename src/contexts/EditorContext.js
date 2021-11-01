@@ -6,13 +6,11 @@ const defaults = {
   elements: [],
   preview: false,
   refresh: {},
-  scale: 2.0,
   template: {},
 }
 
 const [useEditorContext, withEditorContext] = useContextEx(defaults, 'Editor', [
   'preview',
-  'scale',
 ])
 
 export { useEditorContext, withEditorContext }

@@ -1,10 +1,12 @@
+import { useAtom } from 'jotai'
+import { css } from 'linaria'
 import { h } from 'preact'
 import { useMemo } from 'preact/hooks'
-import { css } from 'linaria'
 
 import { Icon } from './UI/Icon'
 import { InteractionPoint } from './InteractionPoint'
 import { useEditorContext } from '../contexts/EditorContext'
+import { Atoms } from '../lib/atoms'
 import { DataStore } from '../lib/datastore'
 import { ElementBaseCss } from '../lib/styles'
 import { cls, styleDelta, styleRender } from '../lib/utils'
@@ -14,7 +16,7 @@ const CARD_HEIGHT = 350
 const CARD_WIDTH = 250
 const defaultDelta = { x: 0, y: 0, width: 0, height: 0 }
 
-const applyOps = ops => (scale, setValue) => point =>
+const applyOps = (ops) => (scale, setValue) => (point) =>
   setValue(
     ops.reduce(
       (result, fn) => ({
@@ -26,12 +28,24 @@ const applyOps = ops => (scale, setValue) => point =>
   )
 
 const t = {
-  t: scale => ({ x, y }) => ({ top: y / scale }),
-  l: scale => ({ x, y }) => ({ left: x / scale }),
-  h: scale => ({ x, y }) => ({ height: y / scale }),
-  hi: scale => ({ x, y }) => ({ height: -y / scale }),
-  w: scale => ({ x, y }) => ({ width: x / scale }),
-  wi: scale => ({ x, y }) => ({ width: -x / scale }),
+  t:
+    (scale) =>
+    ({ x, y }) => ({ top: y / scale }),
+  l:
+    (scale) =>
+    ({ x, y }) => ({ left: x / scale }),
+  h:
+    (scale) =>
+    ({ x, y }) => ({ height: y / scale }),
+  hi:
+    (scale) =>
+    ({ x, y }) => ({ height: -y / scale }),
+  w:
+    (scale) =>
+    ({ x, y }) => ({ width: x / scale }),
+  wi:
+    (scale) =>
+    ({ x, y }) => ({ width: -x / scale }),
 }
 
 const tMap = {
@@ -50,15 +64,9 @@ const ElementModifierCss = css`
 `
 
 export function ElementModifier() {
-  const {
-    elementIndex,
-    elements,
-    delta,
-    preview,
-    refresh,
-    scale,
-    $set,
-  } = useEditorContext()
+  const [scale] = useAtom(Atoms.scale)
+  const { elementIndex, elements, delta, preview, refresh, $set } =
+    useEditorContext()
 
   const hasSelected = elements?.length > 0 && elementIndex > -1
 
@@ -69,7 +77,7 @@ export function ElementModifier() {
   const element = elements[elementIndex]
   const style = styleRender(element, {}, delta)
 
-  const saveTransform = delta => {
+  const saveTransform = (delta) => {
     const newElement = { ...element, style: styleDelta(element, delta) }
     DataStore.Elements.set(element.$id, newElement)
     $set.delta(defaultDelta)

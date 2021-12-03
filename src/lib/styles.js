@@ -1,4 +1,4 @@
-import { css } from 'linaria'
+import { css } from "linaria";
 
 export const ElementBaseCss = css`
   align-items: center;
@@ -17,7 +17,7 @@ export const ElementBaseCss = css`
     width: 14px;
     margin-right: 0.25rem;
   }
-`
+`;
 
 export const MenuCss = css`
   background-color: var(--clr-menu-bg);
@@ -33,13 +33,13 @@ export const MenuCss = css`
     margin: 0;
     padding: var(--margin-md) var(--padding-y);
   }
-`
+`;
 
 export const MenuPanelCss = css`
   align-items: flex-end;
   display: flex;
   flex-direction: column;
-`
+`;
 
 export const PageCss = css`
   display: flex;
@@ -47,7 +47,7 @@ export const PageCss = css`
   flex-grow: 1;
   height: 100vh;
   padding: var(--padding-page);
-`
+`;
 
 export const SearchInputCss = css`
   background-color: var(--clr-black-10);
@@ -56,4 +56,4 @@ export const SearchInputCss = css`
   font-size: large;
   outline: none;
   padding: var(--input-padding-y) var(--input-padding-x);
-`
+`;

@@ -1,70 +1,70 @@
-import { createContext } from 'preact'
-import { useContext, useState } from 'preact/hooks'
+import { createContext } from "preact";
+import { useContext, useState } from "preact/hooks";
 
-import { debounce } from './utils'
-import { Cache } from './data'
+import { debounce } from "./utils";
+import { Cache } from "./data";
 
 const writeToStorage = debounce((cacheId, key, newVal) => {
-  const stored = Cache.get(cacheId) || {}
-  stored[key] = newVal
-  Cache.set(cacheId, stored)
-}, 250)
+  const stored = Cache.get(cacheId) || {};
+  stored[key] = newVal;
+  Cache.set(cacheId, stored);
+}, 250);
 
 function makeUseContext(context) {
-  return function() {
-    return useContext(context)
-  }
+  return function () {
+    return useContext(context);
+  };
 }
 
 function populateContext(values, cacheId, cachedKeys) {
   return Object.keys(values).reduce(
     (result, key) => {
-      if (key === '$set') {
-        throw new Error(`'$set' is a reserved key`)
+      if (key === "$set") {
+        throw new Error(`'$set' is a reserved key`);
       }
 
-      const [value, setValue] = useState(values[key])
-      result[key] = value
-      result.$set[key] = newVal => {
+      const [value, setValue] = useState(values[key]);
+      result[key] = value;
+      result.$set[key] = (newVal) => {
         if (cacheId && cachedKeys.includes(key)) {
-          writeToStorage(cacheId, key, newVal)
+          writeToStorage(cacheId, key, newVal);
         }
-        setValue(newVal)
-      }
-      return result
+        setValue(newVal);
+      };
+      return result;
     },
     { $set: {} }
-  )
+  );
 }
 
 export function useContextEx(defaults, cacheId, cachedKeys = []) {
-  const cached = {}
+  const cached = {};
 
   // Persist value to localStorage if cacheId is provided
   if (cacheId) {
-    cacheId = cacheId[0].toUpperCase() + cacheId.slice(1).toLowerCase()
-    cacheId += 'Context'
-    Object.assign(cached, Cache.get(cacheId))
-    Object.keys(cached).forEach(key => {
+    cacheId = cacheId[0].toUpperCase() + cacheId.slice(1).toLowerCase();
+    cacheId += "Context";
+    Object.assign(cached, Cache.get(cacheId));
+    Object.keys(cached).forEach((key) => {
       if (!cachedKeys.includes(key)) {
-        delete cached[key]
+        delete cached[key];
       }
-    })
+    });
   }
 
-  const values = { ...defaults, ...cached }
-  const Context = createContext({})
-  const keyedUseContext = makeUseContext(Context)
+  const values = { ...defaults, ...cached };
+  const Context = createContext({});
+  const keyedUseContext = makeUseContext(Context);
 
-  const withContext = Component => {
-    return function(props) {
+  const withContext = (Component) => {
+    return function (props) {
       return (
         <Context.Provider value={populateContext(values, cacheId, cachedKeys)}>
           <Component {...props} />
         </Context.Provider>
-      )
-    }
-  }
+      );
+    };
+  };
 
-  return [keyedUseContext, withContext]
+  return [keyedUseContext, withContext];
 }

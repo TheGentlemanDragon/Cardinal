@@ -1,36 +1,36 @@
-import { h } from 'preact'
-import { useMemo } from 'preact/hooks'
-import PropTypes from 'proptypes'
-import { css } from 'linaria'
+import { h } from "preact";
+import { useMemo } from "preact/hooks";
+import PropTypes from "proptypes";
+import { css } from "linaria";
 
-import { cls } from '../lib/utils'
+import { cls } from "../lib/utils";
 
 const DataImageCss = css`
   left: 0;
   position: absolute;
   top: 0;
-`
+`;
 
 DataImage.propTypes = {
   height: PropTypes.number,
   image: PropTypes.object,
   offset: PropTypes.object,
   width: PropTypes.number,
-}
+};
 
 DataImage.defaultProps = {
   height: 0,
   image: null,
   offset: { x: 0, y: 0 },
   width: 0,
-}
+};
 
 export function DataImage({ height, image, offset, width }) {
   if (!image) {
-    return null
+    return null;
   }
 
-  const objectUrl = useMemo(() => URL.createObjectURL(image.data), [image])
+  const objectUrl = useMemo(() => URL.createObjectURL(image.data), [image]);
   return (
     <img
       class={DataImageCss}
@@ -38,9 +38,9 @@ export function DataImage({ height, image, offset, width }) {
       onLoad={() => URL.revokeObjectURL(image.data)}
       style={cls(
         `transform: translateX(${offset.x}px) translateY(${offset.y}px);`,
-        height ? `height: ${height}px;` : '',
-        width ? `width: ${width}px;` : ''
+        height ? `height: ${height}px;` : "",
+        width ? `width: ${width}px;` : ""
       )}
     />
-  )
+  );
 }

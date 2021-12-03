@@ -1,11 +1,11 @@
-import { h } from 'preact'
-import { useMemo, useState } from 'preact/hooks'
-import { css } from 'linaria'
+import { h } from "preact";
+import { useMemo, useState } from "preact/hooks";
+import { css } from "linaria";
 // import PropTypes from 'proptypes'
 
-import { useEditorContext } from '../contexts/EditorContext'
-import { useDS } from '../hooks/useDS'
-import { cls } from '../lib/utils'
+import { useEditorContext } from "../contexts/EditorContext";
+import { useDS } from "../hooks/useDS";
+import { cls } from "../lib/utils";
 
 const ElementListCss = css`
   display: flex;
@@ -24,45 +24,45 @@ const ElementListCss = css`
   .ElementList-Dragging {
     opacity: 0.5;
   }
-`
+`;
 
-ElementList.propTypes = {}
+ElementList.propTypes = {};
 
-ElementList.defaultProps = {}
+ElementList.defaultProps = {};
 
 export function ElementList() {
-  const Templates = useDS('Templates')
-  const { elements, $set, template } = useEditorContext()
-  const [draggedIndex, setDraggedIndex] = useState(-1)
+  const Templates = useDS("Templates");
+  const { elements, $set, template } = useEditorContext();
+  const [draggedIndex, setDraggedIndex] = useState(-1);
 
-  const order = template.order || elements.map((_, index) => index)
+  const order = template.order || elements.map((_, index) => index);
 
   const orderedElements = useMemo(() => {
     if (!elements.length || !template?.order) {
-      return [...elements]
+      return [...elements];
     }
 
-    return template.order.map(index => elements[index])
-  }, [elements, template])
+    return template.order.map((index) => elements[index]);
+  }, [elements, template]);
 
-  const swapElements = index => {
+  const swapElements = (index) => {
     if (index === draggedIndex) {
-      return
+      return;
     }
 
-    const newOrder = [...order]
-    ;[newOrder[index], newOrder[draggedIndex]] = [
+    const newOrder = [...order];
+    [newOrder[index], newOrder[draggedIndex]] = [
       newOrder[draggedIndex],
       newOrder[index],
-    ]
-    setDraggedIndex(index)
-    Templates.setItem(template.$id, { order: newOrder })
-    $set.template({ ...template, order: newOrder })
-  }
+    ];
+    setDraggedIndex(index);
+    Templates.setItem(template.$id, { order: newOrder });
+    $set.template({ ...template, order: newOrder });
+  };
 
   const saveOrder = () => {
-    setDraggedIndex(-1)
-  }
+    setDraggedIndex(-1);
+  };
 
   return (
     <>
@@ -73,19 +73,19 @@ export function ElementList() {
             <div
               key={item.name ?? index}
               class={cls(
-                'ElementList-Item',
-                index === draggedIndex && 'ElementList-Dragging'
+                "ElementList-Item",
+                index === draggedIndex && "ElementList-Dragging"
               )}
               onDragStart={() => setDraggedIndex(index)}
-              onDragOver={e => swapElements(index)}
+              onDragOver={(e) => swapElements(index)}
               onDragEnd={saveOrder}
               draggable={true}
             >
               {item.name}
             </div>
-          )
+          );
         })}
       </div>
     </>
-  )
+  );
 }

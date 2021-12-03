@@ -1,10 +1,10 @@
-import { h } from 'preact'
-import { useEffect, useState } from 'preact/hooks'
-import { css } from 'linaria'
+import { h } from "preact";
+import { useEffect, useState } from "preact/hooks";
+import { css } from "linaria";
 
-import { EmptyState } from './EmptyStates/EmptyState'
+import { EmptyState } from "./EmptyStates/EmptyState";
 
-import { cls, sortByKey } from '../lib/utils'
+import { cls, sortByKey } from "../lib/utils";
 
 const CardTableCss = css`
   display: flex;
@@ -91,104 +91,104 @@ const CardTableCss = css`
       background-color: var(--clr-input-bg-hover);
     } */
   }
-`
+`;
 
 // BUG: Adding a field breaks cursor movement until refresh
 export function CardTable({ addRow, cards, save, template }) {
-  const [cell, setCell] = useState({ row: '0', col: '0' })
-  const [lastSize, setLastSize] = useState({ h: 0, w: 0 })
-  const [isEditing, setIsEditing] = useState(false)
-  const [tempValue, setTempValue] = useState('')
+  const [cell, setCell] = useState({ row: "0", col: "0" });
+  const [lastSize, setLastSize] = useState({ h: 0, w: 0 });
+  const [isEditing, setIsEditing] = useState(false);
+  const [tempValue, setTempValue] = useState("");
 
-  const fields = template.fields.sort(sortByKey('order'))
-  const hasData = cards.length > 0
+  const fields = template.fields.sort(sortByKey("order"));
+  const hasData = cards.length > 0;
 
   // Focus changed cell
   useEffect(() => {
-    if (!cards.length) return
+    if (!cards.length) return;
 
-    const target = isEditing ? `#activeCell` : `#r${cell.row}-c${cell.col}`
-    document.querySelector(target).focus()
-  }, [cards, isEditing, cell])
+    const target = isEditing ? `#activeCell` : `#r${cell.row}-c${cell.col}`;
+    document.querySelector(target).focus();
+  }, [cards, isEditing, cell]);
 
-  const moveCursor = (row, col) => event => {
-    if (isEditing) return
+  const moveCursor = (row, col) => (event) => {
+    if (isEditing) return;
 
-    const targetCell = { row, col }
+    const targetCell = { row, col };
 
-    const atTop = row === 'h'
-    const atBottom = row === cards.length - 1
-    const atLeft = col === 0
-    const atRight = col === fields.length - 1
+    const atTop = row === "h";
+    const atBottom = row === cards.length - 1;
+    const atLeft = col === 0;
+    const atRight = col === fields.length - 1;
 
     switch (event.key) {
-      case 'Enter':
+      case "Enter":
         if (atTop && atLeft) {
-          alert('You can not rename this field')
-          return
+          alert("You can not rename this field");
+          return;
         }
 
-        const { height: h, width: w } = event.target.getClientRects()[0]
+        const { height: h, width: w } = event.target.getClientRects()[0];
 
-        setIsEditing(true)
-        setLastSize({ h: `${h - 3}px`, w: `${w}px` })
-        setTempValue(event.target.textContent)
-        break
+        setIsEditing(true);
+        setLastSize({ h: `${h - 3}px`, w: `${w}px` });
+        setTempValue(event.target.textContent);
+        break;
 
-      case 'ArrowDown':
-        if (atBottom) return
+      case "ArrowDown":
+        if (atBottom) return;
 
-        targetCell.row = atTop ? 0 : row + 1
-        break
+        targetCell.row = atTop ? 0 : row + 1;
+        break;
 
-      case 'ArrowUp':
-        if (atTop) return
+      case "ArrowUp":
+        if (atTop) return;
 
-        targetCell.row = row === 0 ? 'h' : row - 1
-        break
+        targetCell.row = row === 0 ? "h" : row - 1;
+        break;
 
-      case 'ArrowRight':
-        if (atRight) return
+      case "ArrowRight":
+        if (atRight) return;
 
-        targetCell.col += 1
-        break
+        targetCell.col += 1;
+        break;
 
-      case 'ArrowLeft':
-        if (atLeft) return
+      case "ArrowLeft":
+        if (atLeft) return;
 
-        targetCell.col -= 1
-        break
+        targetCell.col -= 1;
+        break;
 
       default:
-        return
+        return;
     }
 
-    setCell(targetCell)
-  }
+    setCell(targetCell);
+  };
 
-  const checkInput = (row, id) => event => {
+  const checkInput = (row, id) => (event) => {
     switch (event.key) {
-      case 'Escape':
-        setIsEditing(false)
-        return
+      case "Escape":
+        setIsEditing(false);
+        return;
 
-      case 'Enter':
+      case "Enter":
         // Allow line breaks if holding shift
         if (event.shiftKey) {
-          return
+          return;
         }
 
         // Don't allow line break
-        event.preventDefault()
-        event.cancelBubble = true
+        event.preventDefault();
+        event.cancelBubble = true;
 
-        setIsEditing(false)
-        save(tempValue, row, id)
+        setIsEditing(false);
+        save(tempValue, row, id);
     }
-  }
+  };
 
   const isActiveCell = (row, col) =>
-    isEditing && row === cell.row && col === cell.col
+    isEditing && row === cell.row && col === cell.col;
 
   return (
     <div class={CardTableCss}>
@@ -199,28 +199,28 @@ export function CardTable({ addRow, cards, save, template }) {
           <thead>
             <tr>
               {fields.map((field, col) => {
-                const isActive = isActiveCell('h', col)
+                const isActive = isActiveCell("h", col);
                 return (
                   <th
                     key={`rh-c${col}`}
                     id={`rh-c${col}`}
-                    class={cls(isActive && 'activeCell')}
+                    class={cls(isActive && "activeCell")}
                     tabindex="0"
-                    onKeyDown={moveCursor('h', col)}
+                    onKeyDown={moveCursor("h", col)}
                   >
                     {isActive ? (
                       <input
                         id="activeCell"
                         value={tempValue}
                         size="1"
-                        onKeyDown={checkInput('h', field.id)}
-                        onChange={event => setTempValue(event.target.value)}
+                        onKeyDown={checkInput("h", field.id)}
+                        onChange={(event) => setTempValue(event.target.value)}
                       />
                     ) : (
                       field.name
                     )}
                   </th>
-                )
+                );
               })}
             </tr>
           </thead>
@@ -228,15 +228,15 @@ export function CardTable({ addRow, cards, save, template }) {
             {cards.map((card, row) => (
               <tr
                 key={`row-${row}`}
-                class={cls(cell.row === row && 'active-row')}
+                class={cls(cell.row === row && "active-row")}
               >
                 {fields.map((field, col) => {
-                  const isActive = isActiveCell(row, col)
+                  const isActive = isActiveCell(row, col);
                   return (
                     <td
                       key={`r${row}-c${col}`}
                       id={`r${row}-c${col}`}
-                      class={cls(isActive && 'activeCell')}
+                      class={cls(isActive && "activeCell")}
                       tabindex="0"
                       onKeyDown={moveCursor(row, col)}
                     >
@@ -247,13 +247,13 @@ export function CardTable({ addRow, cards, save, template }) {
                           size="1"
                           style={`height:${lastSize.h};width:${lastSize.w};`}
                           onKeyDown={checkInput(row, field.id)}
-                          onChange={event => setTempValue(event.target.value)}
+                          onChange={(event) => setTempValue(event.target.value)}
                         />
                       ) : (
                         card[field.id]
                       )}
                     </td>
-                  )
+                  );
                 })}
               </tr>
             ))}
@@ -278,5 +278,5 @@ export function CardTable({ addRow, cards, save, template }) {
         />
       )}
     </div>
-  )
+  );
 }

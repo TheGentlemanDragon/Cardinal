@@ -1,9 +1,9 @@
-import { h } from 'preact'
-import PropTypes from 'proptypes'
-import { css } from 'linaria'
+import { h } from "preact";
+import PropTypes from "proptypes";
+import { css } from "linaria";
 
-import { Icon } from '../UI/Icon'
-import { noop } from '../../lib/utils'
+import { Icon } from "../UI/Icon";
+import { noop } from "../../lib/utils";
 
 const ActionButtonCss = css`
   align-items: center;
@@ -40,20 +40,20 @@ const ActionButtonCss = css`
   &:hover {
     background-color: var(--clr-input-bg-hover);
   }
-`
+`;
 
 ActionButton.propTypes = {
   caption: PropTypes.string.isRequired,
   href: PropTypes.string,
   icon: PropTypes.string,
   onClick: PropTypes.func,
-}
+};
 
 ActionButton.defaultProps = {
-  href: '',
-  icon: '',
+  href: "",
+  icon: "",
   onClick: noop,
-}
+};
 
 export function ActionButton({ caption, href, icon, onClick }) {
   return href ? (
@@ -66,5 +66,5 @@ export function ActionButton({ caption, href, icon, onClick }) {
       {icon && <Icon type={icon} />}
       {caption}
     </button>
-  )
+  );
 }

@@ -1,19 +1,19 @@
-import { h } from 'preact'
-import PropTypes from 'proptypes'
+import { h } from "preact";
+import PropTypes from "proptypes";
 
-import { ActionButton } from './ActionButton'
-import { Title } from '../Title'
+import { ActionButton } from "./ActionButton";
+import { Title } from "../Title";
 
-import { exportCsv, importCsv } from '../../lib/models'
-import { MenuCss } from '../../lib/styles'
-import { goBack } from '../../lib/utils'
+import { exportCsv, importCsv } from "../../lib/models";
+import { MenuCss } from "../../lib/styles";
+import { goBack } from "../../lib/utils";
 
 DataMenu.propTypes = {
   addField: PropTypes.func.isRequired,
   addRow: PropTypes.func.isRequired,
-}
+};
 
-DataMenu.defaultProps = {}
+DataMenu.defaultProps = {};
 
 /** List games for the main page */
 export function DataMenu({ addField, addRow }) {
@@ -37,5 +37,5 @@ export function DataMenu({ addField, addRow }) {
         <ActionButton caption="Add field" icon="addImage" onClick={addField} />
       </div>
     </div>
-  )
+  );
 }

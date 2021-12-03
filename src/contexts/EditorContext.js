@@ -1,4 +1,4 @@
-import { useContextEx } from '../lib/context'
+import { useContextEx } from "../lib/context";
 
 const defaults = {
   delta: { x: 0, y: 0, width: 0, height: 0 },
@@ -7,10 +7,10 @@ const defaults = {
   preview: false,
   refresh: {},
   template: {},
-}
+};
 
-const [useEditorContext, withEditorContext] = useContextEx(defaults, 'Editor', [
-  'preview',
-])
+const [useEditorContext, withEditorContext] = useContextEx(defaults, "Editor", [
+  "preview",
+]);
 
-export { useEditorContext, withEditorContext }
+export { useEditorContext, withEditorContext };

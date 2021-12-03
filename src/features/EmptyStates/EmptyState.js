@@ -1,7 +1,7 @@
-import { h } from 'preact'
-import { css } from 'linaria'
+import { h } from "preact";
+import { css } from "linaria";
 
-import { EmptyDataSvg } from './EmptyDataSvg'
+import { EmptyDataSvg } from "./EmptyDataSvg";
 
 const EmptyStateCss = css`
   align-items: center;
@@ -13,15 +13,15 @@ const EmptyStateCss = css`
   p {
     text-align: center;
   }
-`
+`;
 
 export function EmptyState({ action, image, content, title }) {
   return (
     <div class={EmptyStateCss}>
-      {image === 'data' && <EmptyDataSvg />}
+      {image === "data" && <EmptyDataSvg />}
       <h2>{title}</h2>
       {content}
       {action}
     </div>
-  )
+  );
 }

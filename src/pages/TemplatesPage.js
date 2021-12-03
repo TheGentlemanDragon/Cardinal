@@ -1,16 +1,16 @@
-import { h } from 'preact'
-import { useEffect } from 'preact/hooks'
+import { h } from "preact";
+import { useEffect } from "preact/hooks";
 // import PropTypes from 'proptypes'
-import { css } from 'linaria'
+import { css } from "linaria";
 
-import { TemplatesMenu } from '../features/Menu/TemplatesMenu'
-import { useDS } from '../hooks/useDS'
-import { PageCss } from '../lib/styles'
-import { getParams, sortByKey } from '../lib/utils'
+import { TemplatesMenu } from "../features/Menu/TemplatesMenu";
+import { useDS } from "../hooks/useDS";
+import { PageCss } from "../lib/styles";
+import { getParams, sortByKey } from "../lib/utils";
 
 const listCss = css`
   display: flex;
-`
+`;
 
 const templateItemCss = css`
   /* Item */
@@ -48,9 +48,9 @@ const templateItemCss = css`
   &:hover {
     transform: scale(1.1, 1.1);
   }
-`
+`;
 
-TemplatesPage.propTypes = {}
+TemplatesPage.propTypes = {};
 
 /**
  * Some documented component
@@ -65,12 +65,12 @@ TemplatesPage.propTypes = {}
  * )
  */
 export function TemplatesPage() {
-  const Templates = useDS('Templates')
-  const [gameId] = getParams(['game'])
+  const Templates = useDS("Templates");
+  const [gameId] = getParams(["game"]);
 
   useEffect(() => {
-    Templates.getList({ gameId })
-  }, [gameId])
+    Templates.getList({ gameId });
+  }, [gameId]);
 
   return (
     <>
@@ -81,7 +81,7 @@ export function TemplatesPage() {
 
         {/* Templates List */}
         <div class={listCss}>
-          {Templates.list.sort(sortByKey('name')).map(template => (
+          {Templates.list.sort(sortByKey("name")).map((template) => (
             <a
               key={`templates-list-${template.$id}`}
               class={`template ${templateItemCss}`}
@@ -93,5 +93,5 @@ export function TemplatesPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

@@ -1,19 +1,19 @@
-import { useAtom } from 'jotai'
-import { css } from 'linaria'
-import { h } from 'preact'
-import { useEffect, useMemo } from 'preact/hooks'
+import { useAtom } from "jotai";
+import { css } from "linaria";
+import { h } from "preact";
+import { useEffect, useMemo } from "preact/hooks";
 
-import { DataImage } from './DataImage'
-import { ElementModifier } from './ElementModifier'
-import { Icon } from './UI/Icon'
+import { DataImage } from "./DataImage";
+import { ElementModifier } from "./ElementModifier";
+import { Icon } from "./UI/Icon";
 
-import { useEditorContext } from '../contexts/EditorContext'
-import { useDS } from '../hooks/useDS'
-import { Atoms } from '../lib/atoms'
-import { ElementBaseCss } from '../lib/styles'
-import { cls, selectElement, styleRender } from '../lib/utils'
+import { useEditorContext } from "../contexts/EditorContext";
+import { useDS } from "../hooks/useDS";
+import { Atoms } from "../lib/atoms";
+import { ElementBaseCss } from "../lib/styles";
+import { cls, selectElement, styleRender } from "../lib/utils";
 
-const hide = { display: 'none' }
+const hide = { display: "none" };
 
 const EditorCardCss = css`
   background-color: #ffffff;
@@ -22,60 +22,61 @@ const EditorCardCss = css`
   height: calc(3.5px * var(--res));
   position: relative;
   width: calc(2.5px * var(--res));
-`
+`;
 
 const ElementCss = css`
   &:hover {
     outline: 1px dotted #aaa;
   }
-`
+`;
 
-const rxVariables = /\{([^}]*)\}/g
+const rxVariables = /\{([^}]*)\}/g;
 
-EditorCard.propTypes = {}
+EditorCard.propTypes = {};
 
-EditorCard.defaultProps = {}
+EditorCard.defaultProps = {};
 
 export function EditorCard({ gameId, templateId }) {
-  const Assets = useDS('Assets')
-  const Cards = useDS('Cards')
+  const Assets = useDS("Assets");
+  const Cards = useDS("Cards");
 
-  const [scale] = useAtom(Atoms.scale)
+  const [scale] = useAtom(Atoms.scale);
 
-  const { elementIndex, elements, preview, $set, template } = useEditorContext()
+  const { elementIndex, elements, preview, $set, template } =
+    useEditorContext();
 
-  const card = preview ? Cards.list[0] : {}
-
-  useEffect(() => {
-    Assets.getList()
-  }, [])
+  const card = preview ? Cards.list[0] : {};
 
   useEffect(() => {
-    Cards.getList({ templateId })
-  }, [gameId, templateId])
+    Assets.getList();
+  }, []);
+
+  useEffect(() => {
+    Cards.getList({ templateId });
+  }, [gameId, templateId]);
 
   function applyText(element) {
     return element.value.match(rxVariables)?.reduce((result, varName) => {
-      const key = varName.substring(1, varName.length - 1)
-      const id = template.fields.find((item) => item.name === key)?.id
-      return result.replace(varName, card[id])
-    }, element.value)
+      const key = varName.substring(1, varName.length - 1);
+      const id = template.fields.find((item) => item.name === key)?.id;
+      return result.replace(varName, card[id]);
+    }, element.value);
   }
 
   function applyImage(element) {
-    const match = element.value.match(rxVariables)?.[0]
-    let imageName
+    const match = element.value.match(rxVariables)?.[0];
+    let imageName;
 
     if (match) {
-      const key = match.substring(1, match.length - 1)
-      const id = template.fields.find((item) => item.name === key)?.id
-      imageName = card[id]
+      const key = match.substring(1, match.length - 1);
+      const id = template.fields.find((item) => item.name === key)?.id;
+      imageName = card[id];
     } else {
-      imageName = element.value
+      imageName = element.value;
     }
 
-    const image = Assets.list.find((item) => item.name === imageName)
-    const { height, width, top: y, left: x } = element.style
+    const image = Assets.list.find((item) => item.name === imageName);
+    const { height, width, top: y, left: x } = element.style;
 
     return (
       <DataImage
@@ -84,16 +85,16 @@ export function EditorCard({ gameId, templateId }) {
         width={width.value}
         offset={{ x: x.value, y: y.value }}
       />
-    )
+    );
   }
 
   const orderedElements = useMemo(() => {
     if (!elements.length || !template?.order) {
-      return [...elements].reverse()
+      return [...elements].reverse();
     }
 
-    return template?.order.map((index) => elements[index]).reverse()
-  }, [elements, template])
+    return template?.order.map((index) => elements[index]).reverse();
+  }, [elements, template]);
 
   return (
     <div
@@ -105,17 +106,17 @@ export function EditorCard({ gameId, templateId }) {
       <ElementModifier />
 
       {orderedElements.map((element, index) => {
-        const isSelected = index === elementIndex
+        const isSelected = index === elementIndex;
         return (
           <div
             key={element.$id}
-            class={cls('element', ElementBaseCss, ElementCss)}
+            class={cls("element", ElementBaseCss, ElementCss)}
             style={styleRender(element, !preview && isSelected && hide)}
           >
             {preview ? (
               <span>
-                {element.type === 'text' && applyText(element)}
-                {element.type === 'image' && applyImage(element)}
+                {element.type === "text" && applyText(element)}
+                {element.type === "image" && applyImage(element)}
               </span>
             ) : (
               <>
@@ -124,8 +125,8 @@ export function EditorCard({ gameId, templateId }) {
               </>
             )}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }

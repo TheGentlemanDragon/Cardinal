@@ -1,5 +1,5 @@
-import { h } from 'preact'
-import { css } from 'linaria'
+import { h } from "preact";
+import { css } from "linaria";
 
 const TitleCss = css`
   text-decoration: none;
@@ -14,12 +14,12 @@ const TitleCss = css`
     text-align: center;
     text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.6);
   }
-`
+`;
 
 export function Title() {
   return (
     <a href="/home" class={TitleCss}>
       <h1>Cardinal</h1>
     </a>
-  )
+  );
 }

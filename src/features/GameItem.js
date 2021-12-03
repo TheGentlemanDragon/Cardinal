@@ -1,11 +1,11 @@
-import { h } from 'preact'
+import { h } from "preact";
 
-import { css } from 'linaria'
+import { css } from "linaria";
 
-import { Icon } from './UI/Icon'
-import { useEditableValue } from '../hooks/useEditableValue'
-import { DataStore } from '../lib/datastore'
-import { goToUrl, noop } from '../lib/utils'
+import { Icon } from "./UI/Icon";
+import { useEditableValue } from "../hooks/useEditableValue";
+import { DataStore } from "../lib/datastore";
+import { goToUrl, noop } from "../lib/utils";
 
 const GameItemCss = css`
   background-color: var(--clr-bg-card);
@@ -77,18 +77,18 @@ const GameItemCss = css`
       text-decoration: underline;
     }
   }
-`
+`;
 
 GameItem.defaultProps = {
   game: {},
-}
+};
 
 export function GameItem({ game }) {
-  const setName = name => {
-    DataStore.Games.set(game.$id, { ...game, name })
-  }
+  const setName = (name) => {
+    DataStore.Games.set(game.$id, { ...game, name });
+  };
 
-  const Name = useEditableValue({ initial: game.name, onSave: setName })
+  const Name = useEditableValue({ initial: game.name, onSave: setName });
 
   return (
     <>
@@ -98,7 +98,7 @@ export function GameItem({ game }) {
         <dl class="GameItem_Details">
           {/* TODO: Convert to anchor tag */}
           <dt
-            class={`GameItem_Name ${!Name.isEditMode && 'GameItem_Underline'}`}
+            class={`GameItem_Name ${!Name.isEditMode && "GameItem_Underline"}`}
             onClick={
               Name.isEditMode ? noop : goToUrl(`templates?game=${game.$id}`)
             }
@@ -127,5 +127,5 @@ export function GameItem({ game }) {
         </menu>
       </div>
     </>
-  )
+  );
 }

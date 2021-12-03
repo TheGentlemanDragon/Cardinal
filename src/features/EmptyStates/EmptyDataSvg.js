@@ -1,4 +1,4 @@
-import { h } from 'preact'
+import { h } from "preact";
 
 export function EmptyDataSvg() {
   return (
@@ -137,5 +137,5 @@ export function EmptyDataSvg() {
         <circle cx="212" cy="96" r="4" fill="#005DBA" />
       </g>
     </svg>
-  )
+  );
 }

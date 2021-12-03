@@ -1,9 +1,9 @@
-import { h } from 'preact'
-import { useState } from 'preact/hooks'
-import PropTypes from 'proptypes'
-import { css } from 'linaria'
+import { h } from "preact";
+import { useState } from "preact/hooks";
+import PropTypes from "proptypes";
+import { css } from "linaria";
 
-import { cls, noop } from '../../lib/utils'
+import { cls, noop } from "../../lib/utils";
 
 const ToggleCss = css`
   align-items: center;
@@ -34,33 +34,33 @@ const ToggleCss = css`
       margin-left: 1.5rem;
     }
   }
-`
+`;
 
 Toggle.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.bool,
   onUpdate: PropTypes.func,
-}
+};
 
 Toggle.defaultProps = {
   value: false,
   onUpdate: noop,
-}
+};
 
 export function Toggle({ label, value, onUpdate }) {
-  const [active, setActive] = useState(value)
+  const [active, setActive] = useState(value);
 
   const toggle = () => {
-    onUpdate(!active)
-    setActive(!active)
-  }
+    onUpdate(!active);
+    setActive(!active);
+  };
 
   return (
     <div class={ToggleCss}>
       <label>{label}</label>
-      <div class={cls(active && 'active', 'Toggle-Well')} onClick={toggle}>
-        <div class={cls(active && 'active', 'Toggle-Dot')} />
+      <div class={cls(active && "active", "Toggle-Well")} onClick={toggle}>
+        <div class={cls(active && "active", "Toggle-Dot")} />
       </div>
     </div>
-  )
+  );
 }

@@ -1,10 +1,10 @@
-import { h } from 'preact'
-import { useEffect, useState } from 'preact/hooks'
-import PropTypes from 'proptypes'
+import { h } from "preact";
+import { useEffect, useState } from "preact/hooks";
+import PropTypes from "proptypes";
 
-import { Select } from './Select'
-import { DataStore } from '../../lib/datastore'
-import { getDisplayValue, sortArrayByKey } from '../../lib/utils'
+import { Select } from "./Select";
+import { DataStore } from "../../lib/datastore";
+import { getDisplayValue, sortArrayByKey } from "../../lib/utils";
 
 SelectCollection.propTypes = {
   collection: PropTypes.string.isRequired,
@@ -15,15 +15,15 @@ SelectCollection.propTypes = {
   query: PropTypes.object,
   value: PropTypes.any,
   valueKey: PropTypes.string,
-}
+};
 
 SelectCollection.defaultProps = {
   disabled: false,
-  labelKey: '',
+  labelKey: "",
   query: undefined,
-  value: '',
-  valueKey: '',
-}
+  value: "",
+  valueKey: "",
+};
 
 export function SelectCollection({
   collection,
@@ -35,21 +35,21 @@ export function SelectCollection({
   value,
   valueKey,
 }) {
-  const [options, setOptions] = useState([])
+  const [options, setOptions] = useState([]);
 
   const selected =
-    options.find(item =>
+    options.find((item) =>
       valueKey
         ? item[valueKey] === value
         : getDisplayValue(item, labelKey) === value
-    ) || {}
+    ) || {};
 
   useEffect(() => {
     DataStore[collection]
       .list(query)
       .then(sortArrayByKey(labelKey))
-      .then(setOptions)
-  }, [collection, query])
+      .then(setOptions);
+  }, [collection, query]);
 
   return (
     <Select
@@ -59,5 +59,5 @@ export function SelectCollection({
       onSelect={onSelect}
       value={valueKey ? selected[labelKey] : value}
     />
-  )
+  );
 }

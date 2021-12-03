@@ -1,16 +1,16 @@
-import { h } from 'preact'
-import { useEffect, useMemo, useRef, useState } from 'preact/hooks'
-import { css } from 'linaria'
+import { h } from "preact";
+import { useEffect, useMemo, useRef, useState } from "preact/hooks";
+import { css } from "linaria";
 
-import { useModal } from './useModal'
-import { DataImage } from '../features/DataImage'
-import { ActionButton } from '../features/Menu/ActionButton'
-import { useDS } from '../hooks/useDS'
-import { MenuCss, MenuPanelCss, SearchInputCss } from '../lib/styles'
-import { importFile, noop } from '../lib/utils'
+import { useModal } from "./useModal";
+import { DataImage } from "../features/DataImage";
+import { ActionButton } from "../features/Menu/ActionButton";
+import { useDS } from "../hooks/useDS";
+import { MenuCss, MenuPanelCss, SearchInputCss } from "../lib/styles";
+import { importFile, noop } from "../lib/utils";
 
-const IMAGE_WIDTH = 234
-const PADDING = 16
+const IMAGE_WIDTH = 234;
+const PADDING = 16;
 
 const AssetManagerCss = css`
   display: flex;
@@ -38,46 +38,46 @@ const AssetManagerCss = css`
     overflow: hidden auto;
     position: relative;
   }
-`
+`;
 
 export function useAssetManager(onSelect = noop) {
-  const Assets = useDS('Assets')
-  const fileInput = useRef(null)
-  const [selected, setSelected] = useState('')
+  const Assets = useDS("Assets");
+  const fileInput = useRef(null);
+  const [selected, setSelected] = useState("");
 
   useEffect(() => {
-    Assets.getList()
-  }, [])
+    Assets.getList();
+  }, []);
 
   // Get 3-column flow offset map for each image asset
   const offsets = useMemo(() => {
     if (!Assets.list.length) {
-      return []
+      return [];
     }
 
     const columns = [
       { x: 0, y: 0 },
       { x: PADDING + IMAGE_WIDTH, y: 0 },
       { x: 2 * (PADDING + IMAGE_WIDTH), y: 0 },
-    ]
+    ];
 
-    return Assets.list.map(item => {
+    return Assets.list.map((item) => {
       // Move first column to end, once it is larger
       if (columns[0].y > columns[1].y) {
-        columns.push(columns.shift())
+        columns.push(columns.shift());
       }
 
-      const offset = { ...columns[0] }
-      columns[0].y += PADDING + (IMAGE_WIDTH / item.width) * item.height
+      const offset = { ...columns[0] };
+      columns[0].y += PADDING + (IMAGE_WIDTH / item.width) * item.height;
 
-      return offset
-    })
-  }, [Assets])
+      return offset;
+    });
+  }, [Assets]);
 
-  const uploadFile = async event => {
-    const imageFile = await importFile(event)
-    Assets.add(imageFile)
-  }
+  const uploadFile = async (event) => {
+    const imageFile = await importFile(event);
+    Assets.add(imageFile);
+  };
 
   const AssetManagerContent = ({ closeModal }) => (
     <div class={AssetManagerCss}>
@@ -123,7 +123,7 @@ export function useAssetManager(onSelect = noop) {
         style="display:none"
       />
     </div>
-  )
+  );
 
-  return useModal(AssetManagerContent)
+  return useModal(AssetManagerContent);
 }

@@ -1,8 +1,8 @@
-import { h } from 'preact'
-import PropTypes from 'proptypes'
-import { css } from 'linaria'
+import { h } from "preact";
+import PropTypes from "proptypes";
+import { css } from "linaria";
 
-import { noop } from '../../lib/utils'
+import { noop } from "../../lib/utils";
 
 const typeMap = {
   // add_box.svg
@@ -97,7 +97,7 @@ const typeMap = {
       <path d="M17 7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h10c2.76 0 5-2.24 5-5s-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z" />
     ),
   },
-}
+};
 
 const IconCss = css`
   border-radius: var(--radius-sm);
@@ -105,45 +105,45 @@ const IconCss = css`
   fill: var(--clr-svg-fill);
   height: 42px;
   width: 42px;
-`
+`;
 
 const MarginLeftCss = css`
   margin-left: var(--margin-sm);
-`
+`;
 
 const MarginTopCss = css`
   margin-top: var(--margin-sm);
-`
+`;
 
 const hoverCss = css`
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
-`
+`;
 
 Icon.propTypes = {
   exClass: PropTypes.string,
   type: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-}
+};
 
 Icon.defaultProps = {
-  exClass: '',
+  exClass: "",
   onClick: noop,
-  margin: '',
-}
+  margin: "",
+};
 
 export function Icon({ exClass, type, margin, onClick }) {
-  const icon = typeMap[type]
-  const baseSize = icon.baseSize || 24
+  const icon = typeMap[type];
+  const baseSize = icon.baseSize || 24;
 
   return icon ? (
     <svg
       class={`
         ${exClass}
         ${IconCss}
-        ${margin === 'left' && MarginLeftCss}
-        ${margin === 'top' && MarginTopCss}
+        ${margin === "left" && MarginLeftCss}
+        ${margin === "top" && MarginTopCss}
         ${onClick !== noop && hoverCss}
       `}
       xmlns="http://www.w3.org/2000/svg"
@@ -154,5 +154,5 @@ export function Icon({ exClass, type, margin, onClick }) {
     >
       {icon.svg}
     </svg>
-  ) : null
+  ) : null;
 }

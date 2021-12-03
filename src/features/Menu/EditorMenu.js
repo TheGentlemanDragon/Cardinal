@@ -1,69 +1,70 @@
-import { h } from 'preact'
-import { useEffect } from 'preact/hooks'
-import { route } from 'preact-router'
+import { h } from "preact";
+import { useEffect } from "preact/hooks";
+import { route } from "preact-router";
 
-import { ActionButton } from './ActionButton'
-import { ElementList } from '../ElementList'
-import { Title } from '../Title'
-import { FlexSeparator } from '../UI/FlexSeparator'
-import { ScaleSlider } from '../UI/ScaleSlider'
-import { SelectCollection } from '../UI/SelectCollection'
-import { Toggle } from '../UI/Toggle'
+import { ActionButton } from "./ActionButton";
+import { ElementList } from "../ElementList";
+import { Title } from "../Title";
+import { FlexSeparator } from "../UI/FlexSeparator";
+import { ScaleSlider } from "../UI/ScaleSlider";
+import { SelectCollection } from "../UI/SelectCollection";
+import { Toggle } from "../UI/Toggle";
 
-import { useEditorContext } from '../../contexts/EditorContext'
-import { useAssetManager } from '../../hooks/useAssetManager'
-import { useDS } from '../../hooks/useDS'
-import { useSelectOnFocus } from '../../hooks/useSelectOnFocus'
-import { DataStore } from '../../lib/datastore'
-import { MenuCss } from '../../lib/styles'
-import { defaultElement, getParams } from '../../lib/utils'
+import { useEditorContext } from "../../contexts/EditorContext";
+import { useAssetManager } from "../../hooks/useAssetManager";
+import { useDS } from "../../hooks/useDS";
+import { useSelectOnFocus } from "../../hooks/useSelectOnFocus";
+import { DataStore } from "../../lib/datastore";
+import { MenuCss } from "../../lib/styles";
+import { defaultElement, getParams } from "../../lib/utils";
 
-EditorMenu.propTypes = {}
+EditorMenu.propTypes = {};
 
-EditorMenu.defaultProps = {}
+EditorMenu.defaultProps = {};
 
 /** List games for the main page */
 export function EditorMenu() {
-  const Elements = useDS('Elements')
-  const Templates = useDS('Templates')
-  const { toggle, Modal } = useAssetManager()
-  const { elementIndex, elements, preview, $set, template } = useEditorContext()
-  const selectRef = useSelectOnFocus()
+  const Elements = useDS("Elements");
+  const Templates = useDS("Templates");
+  const { toggle, Modal } = useAssetManager();
+  const { elementIndex, elements, preview, $set, template } =
+    useEditorContext();
+  const selectRef = useSelectOnFocus();
 
-  const [gameId, templateId] = getParams(['game', 'template'])
-  const element = elements?.[elementIndex]
+  const [gameId, templateId] = getParams(["game", "template"]);
+  const element = elements?.[elementIndex];
 
   useEffect(() => {
-    Templates.getItem(templateId).then($set.template)
-  }, [templateId])
+    Templates.getItem(templateId).then($set.template);
+  }, [templateId]);
 
   useEffect(() => {
     if (template.$id) {
-      Elements.getList({ templateId }).then($set.elements)
+      Elements.getList({ templateId }).then($set.elements);
     }
-  }, [template])
+  }, [template]);
 
-  const addElement = type => {
-    const count = document.getElementsByClassName('element').length
-    const name = `element${count}`
+  const addElement = (type) => {
+    const count = document.getElementsByClassName("element").length;
+    const name = `element${count}`;
     const element = {
       ...defaultElement,
       name,
       type,
       templateId,
-    }
-    DataStore.Elements.add(element)
-    $set.elements([...elements, element])
-  }
+    };
+    DataStore.Elements.add(element);
+    $set.elements([...elements, element]);
+  };
 
-  const updateElement = partial => {
-    const newElement = { ...element, ...partial }
-    DataStore.Elements.set(element?.$id, newElement)
-    $set.elements(Object.assign([], elements, { [elementIndex]: newElement }))
-  }
+  const updateElement = (partial) => {
+    const newElement = { ...element, ...partial };
+    DataStore.Elements.set(element?.$id, newElement);
+    $set.elements(Object.assign([], elements, { [elementIndex]: newElement }));
+  };
 
   if (!template) {
-    return null
+    return null;
   }
 
   return (
@@ -77,7 +78,7 @@ export function EditorMenu() {
           name="Template"
           query={{ gameId }}
           value={Templates.item?.name}
-          onSelect={template =>
+          onSelect={(template) =>
             route(`editor?game=${gameId}&template=${template.$id}`)
           }
         />
@@ -95,13 +96,13 @@ export function EditorMenu() {
         <ActionButton
           caption="Add Text"
           icon="text"
-          onClick={() => addElement('text')}
+          onClick={() => addElement("text")}
         />
 
         <ActionButton
           caption="Add Image"
           icon="image"
-          onClick={() => addElement('image')}
+          onClick={() => addElement("image")}
         />
       </div>
 
@@ -116,7 +117,7 @@ export function EditorMenu() {
             type="text"
             ref={selectRef}
             value={element.name}
-            onInput={e => updateElement({ name: e.target.value })}
+            onInput={(e) => updateElement({ name: e.target.value })}
           />
 
           <label>Value</label>
@@ -124,7 +125,7 @@ export function EditorMenu() {
             type="text"
             ref={selectRef}
             value={element.value}
-            onInput={e => updateElement({ value: e.target.value })}
+            onInput={(e) => updateElement({ value: e.target.value })}
           />
           <button onClick={toggle}>Assets </button>
         </div>
@@ -139,5 +140,5 @@ export function EditorMenu() {
 
       <Modal />
     </div>
-  )
+  );
 }

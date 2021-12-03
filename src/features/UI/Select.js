@@ -1,10 +1,10 @@
-import { h } from 'preact'
-import { useState } from 'preact/hooks'
-import PropTypes from 'proptypes'
-import { css } from 'linaria'
+import { h } from "preact";
+import { useState } from "preact/hooks";
+import PropTypes from "proptypes";
+import { css } from "linaria";
 
-import { useGlobalBlur } from '../../hooks/useGlobalBlur'
-import { cls, getDisplayValue } from '../../lib/utils'
+import { useGlobalBlur } from "../../hooks/useGlobalBlur";
+import { cls, getDisplayValue } from "../../lib/utils";
 
 const SelectCss = css`
   text-align: right;
@@ -91,7 +91,7 @@ const SelectCss = css`
     cursor: pointer;
     opacity: 1;
   }
-`
+`;
 
 Select.propTypes = {
   disabled: PropTypes.bool,
@@ -100,25 +100,25 @@ Select.propTypes = {
   onSelect: PropTypes.func.isRequired,
   options: PropTypes.array,
   value: PropTypes.any,
-}
+};
 
 Select.defaultProps = {
   disabled: false,
-  labelKey: '',
+  labelKey: "",
   options: [],
-  value: '',
-}
+  value: "",
+};
 
 export function Select({ disabled, labelKey, name, onSelect, options, value }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
-  const open = () => options.length > 1 && setIsOpen(true)
-  const close = () => setIsOpen(false)
+  const open = () => options.length > 1 && setIsOpen(true);
+  const close = () => setIsOpen(false);
 
-  const { blurRef } = useGlobalBlur(isOpen, close)
+  const { blurRef } = useGlobalBlur(isOpen, close);
 
-  const clsCaretUp = options.length > 1 && isOpen ? 'Select-CaretUp' : ''
-  const clsCaretDisabled = options.length <= 1 ? 'Select-CaretDisabled' : ''
+  const clsCaretUp = options.length > 1 && isOpen ? "Select-CaretUp" : "";
+  const clsCaretDisabled = options.length <= 1 ? "Select-CaretDisabled" : "";
 
   return (
     <div class={SelectCss}>
@@ -126,14 +126,14 @@ export function Select({ disabled, labelKey, name, onSelect, options, value }) {
 
       <div ref={blurRef} class="Select-Input" onClick={isOpen ? close : open}>
         <span class="Select-SelectedValue">{value}</span>
-        <div class={cls('Select-Caret', clsCaretUp, clsCaretDisabled)} />
+        <div class={cls("Select-Caret", clsCaretUp, clsCaretDisabled)} />
       </div>
 
       <div class="Select-MenuWrapper">
-        <div class={cls('Select-Menu', !isOpen && 'Select-MenuClosed')}>
+        <div class={cls("Select-Menu", !isOpen && "Select-MenuClosed")}>
           {options
-            .filter(item => getDisplayValue(item, labelKey) !== value)
-            .map(item => (
+            .filter((item) => getDisplayValue(item, labelKey) !== value)
+            .map((item) => (
               <div
                 class="Select-MenuItem"
                 key={item.$id}
@@ -145,5 +145,5 @@ export function Select({ disabled, labelKey, name, onSelect, options, value }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

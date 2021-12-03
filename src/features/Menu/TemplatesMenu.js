@@ -1,28 +1,28 @@
-import { h } from 'preact'
-import { route } from 'preact-router'
-import PropTypes from 'proptypes'
+import { h } from "preact";
+import { route } from "preact-router";
+import PropTypes from "proptypes";
 
-import { ActionButton } from './ActionButton'
-import { Title } from '../Title'
-import { SelectCollection } from '../UI/SelectCollection'
+import { ActionButton } from "./ActionButton";
+import { Title } from "../Title";
+import { SelectCollection } from "../UI/SelectCollection";
 
-import { newTemplate } from '../../lib/models'
-import { MenuCss } from '../../lib/styles'
+import { newTemplate } from "../../lib/models";
+import { MenuCss } from "../../lib/styles";
 
 // TODO: Add DS proptype
 TemplatesMenu.propTypes = {
   gameId: PropTypes.string.isRequired,
   Templates: PropTypes.object.isRequired,
-}
+};
 
-TemplatesMenu.defaultProps = {}
+TemplatesMenu.defaultProps = {};
 
 /** List games for the main page */
 export function TemplatesMenu({ gameId, Templates }) {
   const addTemplate = () => {
-    const count = document.getElementsByClassName('template').length
-    Templates.add(newTemplate(gameId, count))
-  }
+    const count = document.getElementsByClassName("template").length;
+    Templates.add(newTemplate(gameId, count));
+  };
 
   return (
     <div class={MenuCss}>
@@ -35,7 +35,7 @@ export function TemplatesMenu({ gameId, Templates }) {
           name="Game"
           value={gameId}
           valueKey="$id"
-          onSelect={game => route(`templates?game=${game.$id}`)}
+          onSelect={(game) => route(`templates?game=${game.$id}`)}
         />
       </div>
 
@@ -47,5 +47,5 @@ export function TemplatesMenu({ gameId, Templates }) {
         />
       </div>
     </div>
-  )
+  );
 }

@@ -1,18 +1,18 @@
-import { h } from 'preact'
-import { useEffect, useState } from 'preact/hooks'
+import { h } from "preact";
+import { useEffect, useState } from "preact/hooks";
 // import PropTypes from 'proptypes'
 // import { css } from 'linaria'
 
-import { CardTable } from '../features/CardTable'
-import { DataMenu } from '../features/Menu/DataMenu'
+import { CardTable } from "../features/CardTable";
+import { DataMenu } from "../features/Menu/DataMenu";
 
-import { withEditorContext } from '../contexts/EditorContext'
-import { useDS } from '../hooks/useDS'
-import { getUniqueName, newField } from '../lib/models'
-import { PageCss } from '../lib/styles'
-import { cls, getParams, sortByKey } from '../lib/utils'
+import { withEditorContext } from "../contexts/EditorContext";
+import { useDS } from "../hooks/useDS";
+import { getUniqueName, newField } from "../lib/models";
+import { PageCss } from "../lib/styles";
+import { cls, getParams, sortByKey } from "../lib/utils";
 
-DataPage.propTypes = {}
+DataPage.propTypes = {};
 
 /**
  * Some documented component
@@ -27,69 +27,69 @@ DataPage.propTypes = {}
  * )
  */
 function DataPage() {
-  const Cards = useDS('Cards')
-  const Templates = useDS('Templates')
+  const Cards = useDS("Cards");
+  const Templates = useDS("Templates");
 
-  const [templateId] = getParams(['template'])
-  const template = Templates.item
-  const fields = template?.fields.sort(sortByKey('order'))
-  const fieldNames = fields?.map(field => field.name)
+  const [templateId] = getParams(["template"]);
+  const template = Templates.item;
+  const fields = template?.fields.sort(sortByKey("order"));
+  const fieldNames = fields?.map((field) => field.name);
 
-  const primeAddRow = id => () => Cards.add({ templateId, [id]: 'New card' })
+  const primeAddRow = (id) => () => Cards.add({ templateId, [id]: "New card" });
 
   // Add a new field with optional suffix to ensure uniqueness
   const addField = () => {
-    const index = fields.length
-    const name = getUniqueName(fieldNames, 'newField')
+    const index = fields.length;
+    const name = getUniqueName(fieldNames, "newField");
 
     Templates.setItem(templateId, {
       fields: [...template.fields, newField(name, index)],
-    })
-  }
+    });
+  };
 
   const save = (value, row, id) => {
-    const field = fields.find(item => item.id === id)
+    const field = fields.find((item) => item.id === id);
 
-    if (row === 'h') {
+    if (row === "h") {
       // Exit if value has not changed
       if (value === field.name) {
-        return
+        return;
       }
 
       if (fieldNames.includes(value)) {
-        alert('The field name is already in use')
-        return
+        alert("The field name is already in use");
+        return;
       }
 
       Templates.setItem(templateId, {
-        fields: fields.map(item =>
+        fields: fields.map((item) =>
           item.id === id ? { ...item, name: value } : item
         ),
-      })
+      });
     } else {
-      const card = Cards.list[row]
+      const card = Cards.list[row];
 
       // Exit if value has not changed
       if (value === card[id]) {
-        return
+        return;
       }
 
-      Cards.setItem(card.$id, { ...card, [id]: value })
-      Cards.refresh('list')
+      Cards.setItem(card.$id, { ...card, [id]: value });
+      Cards.refresh("list");
     }
-  }
+  };
 
   // Load card data
   useEffect(() => {
     if (!templateId) {
-      return
+      return;
     }
 
-    Cards.getList({ templateId })
-    Templates.getItem(templateId)
-  }, [templateId])
+    Cards.getList({ templateId });
+    Templates.getItem(templateId);
+  }, [templateId]);
 
-  const addRow = primeAddRow(fields?.[0]?.id)
+  const addRow = primeAddRow(fields?.[0]?.id);
 
   return (
     <>
@@ -106,9 +106,9 @@ function DataPage() {
         )}
       </div>
     </>
-  )
+  );
 }
 
-const DataPageWithContext = withEditorContext(DataPage, true)
+const DataPageWithContext = withEditorContext(DataPage, true);
 
-export { DataPageWithContext as DataPage }
+export { DataPageWithContext as DataPage };

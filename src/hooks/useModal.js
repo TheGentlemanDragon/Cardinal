@@ -1,7 +1,7 @@
-import { h } from 'preact'
-import { useState } from 'preact/hooks'
-import { createPortal } from 'preact/compat'
-import { css } from 'linaria'
+import { h } from "preact";
+import { useState } from "preact/hooks";
+import { createPortal } from "preact/compat";
+import { css } from "linaria";
 
 const ModalOverlayCss = css`
   background-color: var(--clr-bg-dark);
@@ -10,19 +10,19 @@ const ModalOverlayCss = css`
   position: absolute;
   top: 0;
   width: 100vw;
-`
+`;
 
 export function useModal(Component = null) {
-  const [isShowing, setIsShowing] = useState(false)
+  const [isShowing, setIsShowing] = useState(false);
 
-  const container = document.getElementById('modal')
+  const container = document.getElementById("modal");
 
   function closeModal() {
-    setIsShowing(false)
+    setIsShowing(false);
   }
 
   function toggle() {
-    setIsShowing(!isShowing)
+    setIsShowing(!isShowing);
   }
 
   const Modal = () =>
@@ -39,11 +39,11 @@ export function useModal(Component = null) {
           </div>,
           container
         )
-      : null
+      : null;
 
   return {
     isShowing,
     toggle,
     Modal,
-  }
+  };
 }

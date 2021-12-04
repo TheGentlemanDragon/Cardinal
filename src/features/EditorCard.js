@@ -57,7 +57,8 @@ export function EditorCard({ gameId, templateId }) {
   }, [gameId, templateId]);
 
   function applyText(element) {
-    return element.value.match(rxVariables)?.reduce((result, varName) => {
+    const placeholders = element.value.match(rxVariables) || [];
+    return placeholders.reduce((result, varName) => {
       const key = varName.substring(1, varName.length - 1);
       const id = template.fields.find((item) => item.name === key)?.id;
       return result.replace(varName, card[id]);

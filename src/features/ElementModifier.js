@@ -66,16 +66,11 @@ const ElementModifierCss = css`
 export function ElementModifier() {
   const [scale] = useAtom(Atoms.scale);
   const [elements, setElements] = useAtom(Atoms.elements);
-  const [elementIndex] = useAtom(Atoms.elementIndex);
+  const [elementId] = useAtom(Atoms.elementId);
   const { delta, preview, refresh, $set } = useEditorContext();
 
-  const hasSelected = elements?.length > 0 && elementIndex > -1;
-
-  if (!hasSelected) {
-    return null;
-  }
-
-  const element = elements[elementIndex];
+  const element = elements.find((item) => item.$id === elementId);
+  const elementIndex = elements.findIndex((item) => item === element);
   const style = styleRender(element, {}, delta);
 
   const saveTransform = (delta) => {

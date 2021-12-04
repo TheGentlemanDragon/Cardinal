@@ -30,12 +30,13 @@ export function EditorMenu() {
   const Templates = useDS("Templates");
   const { toggle, Modal } = useAssetManager();
   const [elements, setElements] = useAtom(Atoms.elements);
-  const [elementIndex] = useAtom(Atoms.elementIndex);
+  const [elementId] = useAtom(Atoms.elementId);
   const { preview, $set, template } = useEditorContext();
   const selectRef = useSelectOnFocus();
 
+  const element = elements.find((item) => item.$id === elementId);
+  const elementIndex = elements.findIndex((item) => item === element);
   const [gameId, templateId] = getParams(["game", "template"]);
-  const element = elements?.[elementIndex];
 
   useEffect(() => {
     Templates.getItem(templateId).then($set.template);
@@ -56,7 +57,16 @@ export function EditorMenu() {
       type,
       templateId,
     };
+
+    // Set order for new element
+    const order = template.order;
+    order.push(template.order.length);
+
+    const newTemplate = { ...template, order };
+
     DataStore.Elements.add(element);
+    DataStore.Templates.set(template.$id, newTemplate);
+
     setElements([...elements, element]);
   };
 

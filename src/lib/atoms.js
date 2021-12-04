@@ -24,5 +24,5 @@ const atomWithLocalStorage = (key, initialValue) => {
 export const Atoms = {
   scale: atomWithLocalStorage("ui-scale", 2.0),
   elements: atom([]),
-  elementIndex: atom(-1),
+  elementId: atom(""),
 };

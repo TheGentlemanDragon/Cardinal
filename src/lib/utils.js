@@ -4,7 +4,7 @@ import { route } from "preact-router";
 
 const idChars = "1234567890abcdefghijkmnpqrstuvwxyz";
 
-function pointInRect(point) {
+function withPointInRect(point) {
   return function (rect) {
     return (
       rect.left <= point.x &&
@@ -172,26 +172,27 @@ export function randomInt(max = 255) {
   return Math.round(random() * max);
 }
 
-export function selectElement(index, setSelected) {
+export function selectElement(currentId, setSelected) {
   return function (event) {
     const { x, y } = event;
 
     // Shift elements to back
-    const originalElements = Array.from(document.querySelectorAll(".element"));
+    const allElements = Array.from(document.querySelectorAll(".element"));
+    const index = allElements.findIndex((item) => item.id === currentId);
+
     const elements = [
-      ...originalElements.slice(index + 1),
-      ...originalElements.slice(0, index + 1),
+      ...allElements.slice(index + 1),
+      ...allElements.slice(0, index + 1),
     ];
 
     // Get the first clicked on item from shifted array
-    const clickedOn = pointInRect({ x, y });
+    const isPointInRect = withPointInRect({ x, y });
     const clickedElement = elements.find((item) =>
-      clickedOn(item.getBoundingClientRect())
+      isPointInRect(item.getBoundingClientRect())
     );
 
     // Select that item by its index in original array
-    const nextIndex = originalElements.indexOf(clickedElement);
-    setSelected(nextIndex);
+    setSelected(clickedElement?.id || "");
   };
 }
 

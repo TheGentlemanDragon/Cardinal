@@ -41,9 +41,10 @@ export function EditorCard({ gameId, templateId }) {
   const Cards = useDS("Cards");
 
   const [scale] = useAtom(Atoms.scale);
+  const [elements] = useAtom(Atoms.elements);
+  const [elementIndex, setElementIndex] = useAtom(Atoms.elementIndex);
 
-  const { elementIndex, elements, preview, $set, template } =
-    useEditorContext();
+  const { preview, template } = useEditorContext();
 
   const card = preview ? Cards.list[0] : {};
 
@@ -101,7 +102,7 @@ export function EditorCard({ gameId, templateId }) {
       class={EditorCardCss}
       id="EditorCard"
       style={{ transform: `scale(${scale})` }}
-      onMouseDown={selectElement(elementIndex, $set.elementIndex)}
+      onMouseDown={selectElement(elementIndex, setElementIndex)}
     >
       <ElementModifier />
 

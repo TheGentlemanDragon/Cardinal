@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import { h } from "preact";
 import { useMemo, useState } from "preact/hooks";
 import { css } from "linaria";
@@ -5,6 +6,7 @@ import { css } from "linaria";
 
 import { useEditorContext } from "../contexts/EditorContext";
 import { useDS } from "../hooks/useDS";
+import { Atoms } from "../lib/atoms";
 import { cls } from "../lib/utils";
 
 const ElementListCss = css`
@@ -32,7 +34,8 @@ ElementList.defaultProps = {};
 
 export function ElementList() {
   const Templates = useDS("Templates");
-  const { elements, $set, template } = useEditorContext();
+  const [elements] = useAtom(Atoms.elements);
+  const { $set, template } = useEditorContext();
   const [draggedIndex, setDraggedIndex] = useState(-1);
 
   const order = template.order || elements.map((_, index) => index);

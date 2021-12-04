@@ -1,3 +1,4 @@
+import { useAtom } from "jotai";
 import { h } from "preact";
 import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
@@ -14,6 +15,7 @@ import { useEditorContext } from "../../contexts/EditorContext";
 import { useAssetManager } from "../../hooks/useAssetManager";
 import { useDS } from "../../hooks/useDS";
 import { useSelectOnFocus } from "../../hooks/useSelectOnFocus";
+import { Atoms } from "../../lib/atoms";
 import { DataStore } from "../../lib/datastore";
 import { MenuCss } from "../../lib/styles";
 import { defaultElement, getParams } from "../../lib/utils";
@@ -27,8 +29,9 @@ export function EditorMenu() {
   const Elements = useDS("Elements");
   const Templates = useDS("Templates");
   const { toggle, Modal } = useAssetManager();
-  const { elementIndex, elements, preview, $set, template } =
-    useEditorContext();
+  const [elements, setElements] = useAtom(Atoms.elements);
+  const [elementIndex] = useAtom(Atoms.elementIndex);
+  const { preview, $set, template } = useEditorContext();
   const selectRef = useSelectOnFocus();
 
   const [gameId, templateId] = getParams(["game", "template"]);
@@ -40,7 +43,7 @@ export function EditorMenu() {
 
   useEffect(() => {
     if (template.$id) {
-      Elements.getList({ templateId }).then($set.elements);
+      Elements.getList({ templateId }).then(setElements);
     }
   }, [template]);
 
@@ -54,13 +57,13 @@ export function EditorMenu() {
       templateId,
     };
     DataStore.Elements.add(element);
-    $set.elements([...elements, element]);
+    setElements([...elements, element]);
   };
 
   const updateElement = (partial) => {
     const newElement = { ...element, ...partial };
     DataStore.Elements.set(element?.$id, newElement);
-    $set.elements(Object.assign([], elements, { [elementIndex]: newElement }));
+    setElements(Object.assign([], elements, { [elementIndex]: newElement }));
   };
 
   if (!template) {

@@ -1,0 +1,7 @@
+name,tier,capacity,passive,activate,qty,background
+Military Battery,A,1,Lazors deal +1@dmg to a target,"Gain 1@charge or\n1-3: Any [tier_a]A[/tier_a] card\n4-5: Any [tier_b]B[/tier_b] Lazor",2,battery-background
+Tesseract Battery,B,5,Start with 5@charge,Gain any card for 1@charge,2,battery_tesseract
+Reactive Battery,B,2,Get 1@charge if damaged this turn,Gain 1@charge or any card,2,battery_reactive
+Chaotic Battery,A,1,Spend 1@charge to keep a used Power,"Gain 1@charge or\n1-3: Any [tier_a]A[/tier_a] card\n4-5: Any [tier_b]B[/tier_b] Power",2,battery_chaotic
+Barrier Battery,A,1,Shields block +1@dmg,"Gain 1@charge or\n1-3: Any [tier_a]A[/tier_a] card\n4-5: Any [tier_b]B[/tier_b] Shield",2,battery_barrier
+Basic Battery,S,0,,Gain any [tier_a]A[/tier_a] card,5,battery-background

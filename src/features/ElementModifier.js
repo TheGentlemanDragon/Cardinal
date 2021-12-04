@@ -65,8 +65,9 @@ const ElementModifierCss = css`
 
 export function ElementModifier() {
   const [scale] = useAtom(Atoms.scale);
-  const { elementIndex, elements, delta, preview, refresh, $set } =
-    useEditorContext();
+  const [elements, setElements] = useAtom(Atoms.elements);
+  const [elementIndex] = useAtom(Atoms.elementIndex);
+  const { delta, preview, refresh, $set } = useEditorContext();
 
   const hasSelected = elements?.length > 0 && elementIndex > -1;
 
@@ -81,7 +82,7 @@ export function ElementModifier() {
     const newElement = { ...element, style: styleDelta(element, delta) };
     DataStore.Elements.set(element.$id, newElement);
     $set.delta(defaultDelta);
-    $set.elements(Object.assign([], elements, { [elementIndex]: newElement }));
+    setElements(Object.assign([], elements, { [elementIndex]: newElement }));
   };
 
   const bounds = useMemo(() => {

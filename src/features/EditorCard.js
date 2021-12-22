@@ -7,7 +7,6 @@ import { DataImage } from "./DataImage";
 import { ElementModifier } from "./ElementModifier";
 import { Icon } from "./UI/Icon";
 
-import { useEditorContext } from "../contexts/EditorContext";
 import { useDS } from "../hooks/useDS";
 import { Atoms } from "../lib/atoms";
 import { ElementBaseCss } from "../lib/styles";
@@ -40,11 +39,11 @@ export function EditorCard({ gameId, templateId }) {
   const Assets = useDS("Assets");
   const Cards = useDS("Cards");
 
-  const [scale] = useAtom(Atoms.scale);
-  const [elements] = useAtom(Atoms.elements);
   const [elementId, setElementId] = useAtom(Atoms.elementId);
-
-  const { preview, template } = useEditorContext();
+  const [elements] = useAtom(Atoms.elements);
+  const [preview] = useAtom(Atoms.preview);
+  const [scale] = useAtom(Atoms.scale);
+  const [template] = useAtom(Atoms.template);
 
   const card = preview ? Cards.list[0] : {};
 

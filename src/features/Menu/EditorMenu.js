@@ -11,7 +11,6 @@ import { ScaleSlider } from "../UI/ScaleSlider";
 import { SelectCollection } from "../UI/SelectCollection";
 import { Toggle } from "../UI/Toggle";
 
-import { useEditorContext } from "../../contexts/EditorContext";
 import { useAssetManager } from "../../hooks/useAssetManager";
 import { useDS } from "../../hooks/useDS";
 import { useSelectOnFocus } from "../../hooks/useSelectOnFocus";
@@ -31,7 +30,8 @@ export function EditorMenu() {
   const { toggle, Modal } = useAssetManager();
   const [elements, setElements] = useAtom(Atoms.elements);
   const [elementId] = useAtom(Atoms.elementId);
-  const { preview, $set, template } = useEditorContext();
+  const [preview, setPreview] = useAtom(Atoms.preview);
+  const [template, setTemplate] = useAtom(Atoms.template);
   const selectRef = useSelectOnFocus();
 
   const element = elements.find((item) => item.$id === elementId);
@@ -39,7 +39,7 @@ export function EditorMenu() {
   const [gameId, templateId] = getParams(["game", "template"]);
 
   useEffect(() => {
-    Templates.getItem(templateId).then($set.template);
+    Templates.getItem(templateId).then(setTemplate);
   }, [templateId]);
 
   useEffect(() => {
@@ -147,7 +147,7 @@ export function EditorMenu() {
       <FlexSeparator />
 
       <div class="Menu-Panel">
-        <Toggle label="Preview" value={preview} onUpdate={$set.preview} />
+        <Toggle label="Preview" value={preview} onUpdate={setPreview} />
         <ScaleSlider />
       </div>
 

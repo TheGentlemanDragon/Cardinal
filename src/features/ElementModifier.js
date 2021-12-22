@@ -5,8 +5,7 @@ import { useMemo } from "preact/hooks";
 
 import { Icon } from "./UI/Icon";
 import { InteractionPoint } from "./InteractionPoint";
-import { useEditorContext } from "../contexts/EditorContext";
-import { Atoms } from "../lib/atoms";
+import { Atoms, DEFAULT_DELTA } from "../lib/atoms";
 import { DataStore } from "../lib/datastore";
 import { ElementBaseCss } from "../lib/styles";
 import { cls, styleDelta, styleRender } from "../lib/utils";
@@ -14,7 +13,6 @@ import { cls, styleDelta, styleRender } from "../lib/utils";
 const MIN_SIZE = 20;
 const CARD_HEIGHT = 350;
 const CARD_WIDTH = 250;
-const defaultDelta = { x: 0, y: 0, width: 0, height: 0 };
 
 const applyOps = (ops) => (scale, setValue) => (point) =>
   setValue(
@@ -64,10 +62,12 @@ const ElementModifierCss = css`
 `;
 
 export function ElementModifier() {
-  const [scale] = useAtom(Atoms.scale);
-  const [elements, setElements] = useAtom(Atoms.elements);
+  const [delta, setDelta] = useAtom(Atoms.delta);
   const [elementId] = useAtom(Atoms.elementId);
-  const { delta, preview, refresh, $set } = useEditorContext();
+  const [elements, setElements] = useAtom(Atoms.elements);
+  const [preview] = useAtom(Atoms.preview);
+  const [refresh] = useAtom(Atoms.refresh);
+  const [scale] = useAtom(Atoms.scale);
 
   const element = elements.find((item) => item.$id === elementId);
   const elementIndex = elements.findIndex((item) => item === element);
@@ -76,7 +76,7 @@ export function ElementModifier() {
   const saveTransform = (delta) => {
     const newElement = { ...element, style: styleDelta(element, delta) };
     DataStore.Elements.set(element.$id, newElement);
-    $set.delta(defaultDelta);
+    setDelta(DEFAULT_DELTA);
     setElements(Object.assign([], elements, { [elementIndex]: newElement }));
   };
 
@@ -110,13 +110,13 @@ export function ElementModifier() {
       <div class={ElementModifierCss} style={style}>
         <InteractionPoint
           bounds={bounds.move}
-          onDrag={tMap.move(scale, $set.delta)}
+          onDrag={tMap.move(scale, setDelta)}
           onDragEnd={tMap.move(scale, saveTransform)}
           type="move"
         />
         <InteractionPoint
           bounds={bounds.size}
-          onDrag={tMap.size(scale, $set.delta)}
+          onDrag={tMap.size(scale, setDelta)}
           onDragEnd={tMap.size(scale, saveTransform)}
           type="resize"
         />

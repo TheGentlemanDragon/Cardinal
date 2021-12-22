@@ -5,7 +5,6 @@ import { css } from "linaria";
 import { EditorCard } from "../features/EditorCard";
 import { EditorMenu } from "../features/Menu/EditorMenu";
 
-import { withEditorContext } from "../contexts/EditorContext";
 import { PageCss } from "../lib/styles";
 import { cls, getParams } from "../lib/utils";
 
@@ -44,6 +43,4 @@ function EditorPage() {
   );
 }
 
-const EditorPageWithContext = withEditorContext(EditorPage, true);
-
-export { EditorPageWithContext as EditorPage };
+export { EditorPage };

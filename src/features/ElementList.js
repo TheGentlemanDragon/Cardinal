@@ -4,7 +4,6 @@ import { useMemo, useState } from "preact/hooks";
 import { css } from "linaria";
 // import PropTypes from 'proptypes'
 
-import { useEditorContext } from "../contexts/EditorContext";
 import { useDS } from "../hooks/useDS";
 import { Atoms } from "../lib/atoms";
 import { cls } from "../lib/utils";
@@ -35,7 +34,7 @@ ElementList.defaultProps = {};
 export function ElementList() {
   const Templates = useDS("Templates");
   const [elements] = useAtom(Atoms.elements);
-  const { $set, template } = useEditorContext();
+  const [template, setTemplate] = useAtom(Atoms.template);
   const [draggedIndex, setDraggedIndex] = useState(-1);
 
   const order = template.order || elements.map((_, index) => index);
@@ -60,7 +59,7 @@ export function ElementList() {
     ];
     setDraggedIndex(index);
     Templates.setItem(template.$id, { order: newOrder });
-    $set.template({ ...template, order: newOrder });
+    setTemplate({ ...template, order: newOrder });
   };
 
   const saveOrder = () => {

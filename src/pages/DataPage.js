@@ -6,7 +6,6 @@ import { useEffect, useState } from "preact/hooks";
 import { CardTable } from "../features/CardTable";
 import { DataMenu } from "../features/Menu/DataMenu";
 
-import { withEditorContext } from "../contexts/EditorContext";
 import { useDS } from "../hooks/useDS";
 import { getUniqueName, newField } from "../lib/models";
 import { PageCss } from "../lib/styles";
@@ -109,6 +108,4 @@ function DataPage() {
   );
 }
 
-const DataPageWithContext = withEditorContext(DataPage, true);
-
-export { DataPageWithContext as DataPage };
+export { DataPage };

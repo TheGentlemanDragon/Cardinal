@@ -44,6 +44,7 @@
   --clr-save-hover: var(--clr-green);
   --clr-save: var(--clr-green-50);
   --clr-svg-fill: var(--clr-white-90);
+  --clr-svg-fill-dark: var(--clr-black-70);
   --clr-text-darker: rgba(24, 24, 24, 0.9);
   --clr-text-dark: rgba(32, 32, 32, 0.9);
   --clr-text-light: var(--clr-white);
@@ -104,4 +105,8 @@ h4,
 h5 {
   margin-bottom: var(--margin-sm);
   margin-top: 0;
+}
+
+.alignRight {
+  text-align: right;
 }

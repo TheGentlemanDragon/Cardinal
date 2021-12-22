@@ -39,6 +39,19 @@ const typeMap = {
     ),
   },
 
+  drag: {
+    svg: (
+      <>
+        <circle cx="8" cy="4" r="2"></circle>
+        <circle cx="8" cy="12" r="2"></circle>
+        <circle cx="8" cy="20" r="2"></circle>
+        <circle cx="16" cy="4" r="2"></circle>
+        <circle cx="16" cy="12" r="2"></circle>
+        <circle cx="16" cy="20" r="2"></circle>
+      </>
+    ),
+  },
+
   edit: {
     svg: (
       <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
@@ -99,41 +112,65 @@ const typeMap = {
   },
 };
 
+const DarkCss = css`
+  fill: var(--clr-svg-fill-dark);
+`;
+
+const LightCss = css`
+  fill: var(--clr-svg-fill);
+`;
+
+const SmallSizeCss = css`
+  height: 20px;
+  width: 20px;
+`;
+
+const MediumSizeCss = css`
+  height: 42px;
+  width: 42px;
+`;
+
 const IconCss = css`
   border-radius: var(--radius-sm);
   cursor: pointer;
-  fill: var(--clr-svg-fill);
-  height: 42px;
-  width: 42px;
 `;
 
 const MarginLeftCss = css`
   margin-left: var(--margin-sm);
 `;
 
+const MarginRightCss = css`
+  margin-right: var(--margin-sm);
+`;
+
 const MarginTopCss = css`
   margin-top: var(--margin-sm);
 `;
 
-const hoverCss = css`
+const HoverCss = css`
   &:hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
 `;
 
 Icon.propTypes = {
+  dark: PropTypes.bool,
   exClass: PropTypes.string,
-  type: PropTypes.string.isRequired,
+  margin: PropTypes.string,
   onClick: PropTypes.func,
+  small: PropTypes.bool,
+  type: PropTypes.string.isRequired,
 };
 
 Icon.defaultProps = {
+  dark: false,
   exClass: "",
-  onClick: noop,
   margin: "",
+  onClick: noop,
+  small: false,
 };
 
-export function Icon({ exClass, type, margin, onClick }) {
+export function Icon({ dark, exClass, margin, onClick, small, type }) {
   const icon = typeMap[type];
   const baseSize = icon.baseSize || 24;
 
@@ -142,9 +179,12 @@ export function Icon({ exClass, type, margin, onClick }) {
       class={`
         ${exClass}
         ${IconCss}
+        ${dark ? DarkCss : LightCss}
+        ${small ? SmallSizeCss : MediumSizeCss}
         ${margin === "left" && MarginLeftCss}
+        ${margin === "right" && MarginRightCss}
         ${margin === "top" && MarginTopCss}
-        ${onClick !== noop && hoverCss}
+        ${onClick !== noop && HoverCss}
       `}
       xmlns="http://www.w3.org/2000/svg"
       width={`${baseSize}`}

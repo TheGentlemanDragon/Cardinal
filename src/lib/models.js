@@ -192,8 +192,9 @@ export function newField(name, order) {
 
 export function newTemplate(gameId, suffix) {
   return {
-    name: `Template ${suffix}`,
-    gameId,
     fields: [newField("name", 0)],
+    gameId,
+    name: `Template ${suffix}`,
+    order: [],
   };
 }

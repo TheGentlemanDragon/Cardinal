@@ -7,15 +7,19 @@ import { css } from "linaria";
 import { useDS } from "../hooks/useDS";
 import { Atoms } from "../lib/atoms";
 import { cls } from "../lib/utils";
+import { Icon } from "./UI/Icon";
 
 const ElementListCss = css`
   display: flex;
   flex-direction: column;
 
   .ElementList-Item {
+    align-items: center;
     background-color: white;
     border-radius: 0.25rem;
     color: black;
+    cursor: grab;
+    display: flex;
     height: 2rem;
     line-height: 2rem;
     margin-top: 0.5rem;
@@ -68,8 +72,15 @@ export function ElementList() {
 
   return (
     <>
-      <label>Order</label>
-      <div class={ElementListCss}>
+      <label class="alignRight">Elements</label>
+      <div
+        class={ElementListCss}
+        onDragOver={(e) => {
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "move";
+        }}
+        onDrop={(e) => e.preventDefault()}
+      >
         {orderedElements.map((item, index) => {
           return (
             <div
@@ -79,10 +90,11 @@ export function ElementList() {
                 index === draggedIndex && "ElementList-Dragging"
               )}
               onDragStart={() => setDraggedIndex(index)}
-              onDragOver={(e) => swapElements(index)}
+              onDragOver={() => swapElements(index)}
               onDragEnd={saveOrder}
-              draggable={true}
+              draggable
             >
+              <Icon type="drag" margin="right" dark small />
               {item.name}
             </div>
           );

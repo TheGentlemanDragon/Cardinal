@@ -107,6 +107,10 @@ h5 {
   margin-top: 0;
 }
 
+.alignCenter {
+  text-align: center;
+}
+
 .alignRight {
   text-align: right;
 }

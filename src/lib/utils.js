@@ -172,6 +172,10 @@ export function randomInt(max = 255) {
   return Math.round(random() * max);
 }
 
+export function selectTextOnFocus(e) {
+  e.target.select();
+}
+
 export function selectElement(currentId, setSelected) {
   return function (event) {
     const { x, y } = event;

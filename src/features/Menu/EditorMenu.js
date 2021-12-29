@@ -13,11 +13,10 @@ import { Toggle } from "../UI/Toggle";
 
 import { useAssetManager } from "../../hooks/useAssetManager";
 import { useDS } from "../../hooks/useDS";
-import { useSelectOnFocus } from "../../hooks/useSelectOnFocus";
 import { Atoms } from "../../lib/atoms";
 import { DataStore } from "../../lib/datastore";
 import { MenuCss } from "../../lib/styles";
-import { defaultElement, getParams } from "../../lib/utils";
+import { defaultElement, getParams, selectTextOnFocus } from "../../lib/utils";
 
 EditorMenu.propTypes = {};
 
@@ -32,7 +31,6 @@ export function EditorMenu() {
   const [elementId] = useAtom(Atoms.elementId);
   const [preview, setPreview] = useAtom(Atoms.preview);
   const [template, setTemplate] = useAtom(Atoms.template);
-  const selectRef = useSelectOnFocus();
 
   const element = elements.find((item) => item.$id === elementId);
   const elementIndex = elements.findIndex((item) => item === element);
@@ -120,7 +118,13 @@ export function EditorMenu() {
       </div>
 
       <div class="Menu-Panel">
-        <ElementList />
+        {elements.length === 0 ? (
+          <label class="alignCenter">
+            This template currently has no elements
+          </label>
+        ) : (
+          <ElementList />
+        )}
       </div>
 
       {element && (
@@ -128,16 +132,16 @@ export function EditorMenu() {
           <label>Name</label>
           <input
             type="text"
-            ref={selectRef}
             value={element.name}
+            onFocus={selectTextOnFocus}
             onInput={(e) => updateElement({ name: e.target.value })}
           />
 
           <label>Value</label>
           <input
             type="text"
-            ref={selectRef}
             value={element.value}
+            onFocus={selectTextOnFocus}
             onInput={(e) => updateElement({ value: e.target.value })}
           />
           <button onClick={toggle}>Assets </button>

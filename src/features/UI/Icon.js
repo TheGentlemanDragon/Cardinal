@@ -132,7 +132,6 @@ const MediumSizeCss = css`
 
 const IconCss = css`
   border-radius: var(--radius-sm);
-  cursor: pointer;
 `;
 
 const MarginLeftCss = css`

@@ -1,5 +1,6 @@
 import { h } from "preact";
 import { Router } from "preact-router";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import { HomePage } from "../pages/HomePage";
 import { TemplatesPage } from "../pages/TemplatesPage";
@@ -9,9 +10,24 @@ import { DataPage } from "../pages/DataPage";
 import { Redirect } from "./Redirect";
 import "./global.css";
 
+// const DEFAULT_STALE_TIME = 1800000; // Standard cache time is 30 mins
+
+export const QUERY_CLIENT_CONFIG = new QueryClient({
+  //   defaultOptions: {
+  //     mutations: {
+  //       retry: false,
+  //     },
+  //     queries: {
+  //       retry: false,
+  //       refetchOnWindowFocus: false,
+  //       staleTime: DEFAULT_STALE_TIME,
+  //     },
+  //   },
+});
+
 export default function App() {
   return (
-    <div id="app">
+    <QueryClientProvider client={QUERY_CLIENT_CONFIG}>
       <Router>
         <HomePage path="/home" />
         <TemplatesPage path="/templates" />
@@ -20,6 +36,6 @@ export default function App() {
 
         <Redirect path="/" to="/home" />
       </Router>
-    </div>
+    </QueryClientProvider>
   );
 }

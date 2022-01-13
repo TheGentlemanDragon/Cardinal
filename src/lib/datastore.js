@@ -72,9 +72,9 @@ function generateStore(name) {
 const DataStore = {
   Assets: generateStore("assets"),
   Cards: generateStore("cards"),
+  Elements: generateStore("elements"),
   Games: generateStore("games"),
   Templates: generateStore("templates"),
-  Elements: generateStore("elements"),
 };
 
 export { DataStore };

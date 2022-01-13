@@ -4,9 +4,8 @@ import { css } from "linaria";
 import { GameItem } from "../features/GameItem";
 import { Title } from "../features/Title";
 import { Flex } from "../features/UI/Flex";
-import { useDS } from "../hooks/useDS";
+import { Stores, useDataMutation, useDataQuery } from "../hooks/useDataQuery";
 import { sortByKey } from "../lib/utils";
-import { useEffect } from "preact/hooks";
 
 const HomePageCss = css`
   display: flex;
@@ -16,18 +15,17 @@ const HomePageCss = css`
   width: 640px;
 `;
 
+const initialData = [];
+
 /** List games for the main page */
 export function HomePage() {
-  const Games = useDS("Games");
+  const { mutate: addGame } = useDataMutation(Stores.Games);
+  const { data: games } = useDataQuery(Stores.Games, null, { initialData });
 
-  const addGame = () => {
+  const addGameData = () => {
     const count = document.getElementsByClassName("game").length;
-    Games.add({ name: `Game ${count}` });
+    addGame({ name: `Game ${count}` });
   };
-
-  useEffect(() => {
-    Games.getList();
-  }, []);
 
   return (
     <div class={HomePageCss}>
@@ -35,11 +33,11 @@ export function HomePage() {
 
       <Flex justify="space-between">
         <h2>Games</h2>
-        <button onClick={addGame}>Add</button>
+        <button onClick={addGameData}>Add</button>
       </Flex>
 
       {/* Games List */}
-      {Games.list.sort(sortByKey("name")).map((game) => (
+      {games.sort(sortByKey("name")).map((game) => (
         <GameItem game={game} />
       ))}
     </div>

@@ -28,11 +28,13 @@
     "preact": "^10.5.15",
     "preact-render-to-string": "^5.1.19",
     "preact-router": "^3.2.1",
-    "react-colorful": "^4.4.2"
+    "react-colorful": "^4.4.2",
+    "react-query": "^3.34.8"
   },
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-react": "^7.14.5",
+    "@types/react-query": "^1.2.9",
     "enzyme": "^3.10.0",
     "enzyme-adapter-preact-pure": "^2.0.0",
     "eslint": "^6.0.1",

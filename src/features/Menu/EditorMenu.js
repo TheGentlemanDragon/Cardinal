@@ -8,7 +8,7 @@ import { ElementList } from "../ElementList";
 import { Title } from "../Title";
 import { FlexSeparator } from "../UI/FlexSeparator";
 import { ScaleSlider } from "../UI/ScaleSlider";
-import { SelectCollection } from "../UI/SelectCollection";
+import { SelectStore } from "../UI/SelectStore";
 import { Toggle } from "../UI/Toggle";
 
 import { useAssetManager } from "../../hooks/useAssetManager";
@@ -83,7 +83,7 @@ export function EditorMenu() {
       <Title />
 
       <div class="Menu-Panel">
-        <SelectCollection
+        <SelectStore
           collection="Templates"
           labelKey="name"
           name="Template"

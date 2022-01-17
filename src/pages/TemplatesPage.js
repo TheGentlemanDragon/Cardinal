@@ -4,7 +4,7 @@ import { useEffect } from "preact/hooks";
 import { css } from "linaria";
 
 import { TemplatesMenu } from "../features/Menu/TemplatesMenu";
-import { useDS } from "../hooks/useDS";
+import { Stores, useDataQuery } from "../hooks/useDataQuery";
 import { PageCss } from "../lib/styles";
 import { getParams, sortByKey } from "../lib/utils";
 
@@ -65,23 +65,19 @@ TemplatesPage.propTypes = {};
  * )
  */
 export function TemplatesPage() {
-  const Templates = useDS("Templates");
   const [gameId] = getParams(["game"]);
-
-  useEffect(() => {
-    Templates.getList({ gameId });
-  }, [gameId]);
+  const { data: templates } = useDataQuery(Stores.Templates, { gameId });
 
   return (
     <>
-      <TemplatesMenu gameId={gameId} Templates={Templates} />
+      <TemplatesMenu gameId={gameId} />
 
       <div class={PageCss}>
         <h2>Templates</h2>
 
         {/* Templates List */}
         <div class={listCss}>
-          {Templates.list.sort(sortByKey("name")).map((template) => (
+          {templates.sort(sortByKey("name")).map((template) => (
             <a
               key={`templates-list-${template.$id}`}
               class={`template ${templateItemCss}`}

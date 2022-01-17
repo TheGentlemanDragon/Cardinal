@@ -20,7 +20,7 @@ const initialData = [];
 /** List games for the main page */
 export function HomePage() {
   const { mutate: addGame } = useDataMutation(Stores.Games);
-  const { data: games } = useDataQuery(Stores.Games, null, { initialData });
+  const { data: games } = useDataQuery(Stores.Games, null);
 
   const addGameData = () => {
     const count = document.getElementsByClassName("game").length;

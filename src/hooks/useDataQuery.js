@@ -13,14 +13,19 @@ function queryKey(collection, id) {
   return [collection, id];
 }
 
-export function useDataQuery(collection, query = null, queryOptions) {
+export function useDataQuery(collection, idOrQuery = null, queryOptions) {
+  const isList = typeof idOrQuery !== "number";
+
   return useQuery(
-    queryKey(collection, query),
+    queryKey(collection, idOrQuery),
     () => {
-      const fn = typeof query === "number" ? "get" : "list";
-      return DataStore[collection][fn](query);
+      const fn = isList ? "list" : "get";
+      return DataStore[collection][fn](idOrQuery);
     },
-    queryOptions
+    {
+      initialData: isList ? [] : {},
+      ...queryOptions,
+    }
   );
 }
 

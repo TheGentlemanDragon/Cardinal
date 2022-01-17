@@ -4,24 +4,27 @@ import PropTypes from "proptypes";
 
 import { ActionButton } from "./ActionButton";
 import { Title } from "../Title";
-import { SelectCollection } from "../UI/SelectCollection";
+import { SelectStore } from "../UI/SelectStore";
 
+import { Stores, useDataMutation } from "../../hooks/useDataQuery";
 import { newTemplate } from "../../lib/models";
 import { MenuCss } from "../../lib/styles";
 
-// TODO: Add DS proptype
 TemplatesMenu.propTypes = {
   gameId: PropTypes.string.isRequired,
-  Templates: PropTypes.object.isRequired,
 };
 
 TemplatesMenu.defaultProps = {};
 
 /** List games for the main page */
-export function TemplatesMenu({ gameId, Templates }) {
-  const addTemplate = () => {
+export function TemplatesMenu({ gameId }) {
+  const { mutate: addTemplate } = useDataMutation(Stores.Templates, false, {
+    gameId,
+  });
+
+  const addTemplateData = () => {
     const count = document.getElementsByClassName("template").length;
-    Templates.add(newTemplate(gameId, count));
+    addTemplate(newTemplate(gameId, count));
   };
 
   return (
@@ -29,8 +32,8 @@ export function TemplatesMenu({ gameId, Templates }) {
       <Title />
 
       <div class="Menu-Panel">
-        <SelectCollection
-          collection="Games"
+        <SelectStore
+          collection={Stores.Games}
           labelKey="name"
           name="Game"
           value={gameId}
@@ -43,7 +46,7 @@ export function TemplatesMenu({ gameId, Templates }) {
         <ActionButton
           caption="Add Template"
           icon="text"
-          onClick={addTemplate}
+          onClick={addTemplateData}
         />
       </div>
     </div>

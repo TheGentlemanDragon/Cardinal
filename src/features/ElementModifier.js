@@ -61,15 +61,16 @@ const ElementModifierCss = css`
   position: absolute;
 `;
 
+// TODO: Fix element modifier
 export function ElementModifier() {
   const [delta, setDelta] = useAtom(Atoms.delta);
-  const [elementId] = useAtom(Atoms.elementId);
+  const [element] = useAtom(Atoms.element);
   const [elements, setElements] = useAtom(Atoms.elements);
   const [preview] = useAtom(Atoms.preview);
   const [refresh] = useAtom(Atoms.refresh);
   const [scale] = useAtom(Atoms.scale);
 
-  const element = elements.find((item) => item.$id === elementId);
+  // const element = elements.find((item) => item.$id === elementId);
   const elementIndex = elements.findIndex((item) => item === element);
   const style = styleRender(element, {}, delta);
 

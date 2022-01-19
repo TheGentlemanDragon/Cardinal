@@ -1,6 +1,5 @@
 import { useAtom } from "jotai";
 import { h } from "preact";
-import { useEffect } from "preact/hooks";
 import { route } from "preact-router";
 
 import { ActionButton } from "./ActionButton";
@@ -12,9 +11,15 @@ import { SelectStore } from "../UI/SelectStore";
 import { Toggle } from "../UI/Toggle";
 
 import { useAssetManager } from "../../hooks/useAssetManager";
-import { useDS } from "../../hooks/useDS";
+import {
+  queryKey,
+  Stores,
+  useAddMutation,
+  useItemQuery,
+  useSaveMutation,
+} from "../../hooks/data";
+
 import { Atoms } from "../../lib/atoms";
-import { DataStore } from "../../lib/datastore";
 import { MenuCss } from "../../lib/styles";
 import { defaultElement, getParams, selectTextOnFocus } from "../../lib/utils";
 
@@ -24,29 +29,29 @@ EditorMenu.defaultProps = {};
 
 /** List games for the main page */
 export function EditorMenu() {
-  const Elements = useDS("Elements");
-  const Templates = useDS("Templates");
-  const { toggle, Modal } = useAssetManager();
-  const [elements, setElements] = useAtom(Atoms.elements);
-  const [elementId] = useAtom(Atoms.elementId);
-  const [preview, setPreview] = useAtom(Atoms.preview);
-  const [template, setTemplate] = useAtom(Atoms.template);
-
-  const element = elements.find((item) => item.$id === elementId);
-  const elementIndex = elements.findIndex((item) => item === element);
   const [gameId, templateId] = getParams(["game", "template"]);
 
-  useEffect(() => {
-    Templates.getItem(templateId).then(setTemplate);
-  }, [templateId]);
+  const { data: template } = useItemQuery(Stores.Templates, templateId);
+  const { mutate: addElement } = useAddMutation(
+    Stores.Elements,
+    queryKey(Stores.Elements, { templateId })
+  );
+  const { mutate: saveTemplate } = useSaveMutation(
+    Stores.Templates,
+    templateId
+  );
 
-  useEffect(() => {
-    if (template.$id) {
-      Elements.getList({ templateId }).then(setElements);
-    }
-  }, [template]);
+  // const { toggle, Modal } = useAssetManager();
+  // const [elements, setElements] = useAtom(Atoms.elements);
+  const [element] = useAtom(Atoms.element);
+  const [preview, setPreview] = useAtom(Atoms.preview);
+  // const [template, setTemplate] = useAtom(Atoms.template);
 
-  const addElement = (type) => {
+  // const element = elements.find((item) => item.$id === elementId);
+  // const elementIndex = elements.findIndex((item) => item === element);
+
+  const addElementData = (type) => {
+    // TODO: fix element count on new element added
     const count = document.getElementsByClassName("element").length;
     const name = `element${count}`;
     const element = {
@@ -59,24 +64,15 @@ export function EditorMenu() {
     // Set order for new element
     const order = template.order;
     order.push(template.order.length);
-
-    const newTemplate = { ...template, order };
-
-    DataStore.Elements.add(element);
-    DataStore.Templates.set(template.$id, newTemplate);
-
-    setElements([...elements, element]);
+    saveTemplate({ ...template, order }, templateId);
+    addElement(element);
   };
 
   const updateElement = (partial) => {
     const newElement = { ...element, ...partial };
-    DataStore.Elements.set(element?.$id, newElement);
-    setElements(Object.assign([], elements, { [elementIndex]: newElement }));
+    // DataStore.Elements.set(element?.$id, newElement);
+    // setElements(Object.assign([], elements, { [elementIndex]: newElement }));
   };
-
-  if (!template) {
-    return null;
-  }
 
   return (
     <div class={MenuCss}>
@@ -88,7 +84,7 @@ export function EditorMenu() {
           labelKey="name"
           name="Template"
           query={{ gameId }}
-          value={Templates.item?.name}
+          value={template.name}
           onSelect={(template) =>
             route(`editor?game=${gameId}&template=${template.$id}`)
           }
@@ -107,24 +103,18 @@ export function EditorMenu() {
         <ActionButton
           caption="Add Text"
           icon="text"
-          onClick={() => addElement("text")}
+          onClick={() => addElementData("text")}
         />
 
         <ActionButton
           caption="Add Image"
           icon="image"
-          onClick={() => addElement("image")}
+          onClick={() => addElementData("image")}
         />
       </div>
 
       <div class="Menu-Panel">
-        {elements.length === 0 ? (
-          <label class="alignCenter">
-            This template currently has no elements
-          </label>
-        ) : (
-          <ElementList />
-        )}
+        <ElementList />
       </div>
 
       {element && (
@@ -144,7 +134,7 @@ export function EditorMenu() {
             onFocus={selectTextOnFocus}
             onInput={(e) => updateElement({ value: e.target.value })}
           />
-          <button onClick={toggle}>Assets </button>
+          {/* <button onClick={toggle}>Assets </button> */}
         </div>
       )}
 
@@ -155,7 +145,7 @@ export function EditorMenu() {
         <ScaleSlider />
       </div>
 
-      <Modal />
+      {/* <Modal /> */}
     </div>
   );
 }

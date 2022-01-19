@@ -4,9 +4,14 @@ import { useMemo, useState } from "preact/hooks";
 import { css } from "linaria";
 // import PropTypes from 'proptypes'
 
-import { useDS } from "../hooks/useDS";
-import { Atoms } from "../lib/atoms";
-import { cls } from "../lib/utils";
+import {
+  Stores,
+  useCollectionQuery,
+  useItemQuery,
+  useSaveMutation,
+} from "../hooks/data";
+import { cls, getParams } from "../lib/utils";
+
 import { Icon } from "./UI/Icon";
 
 const ElementListCss = css`
@@ -36,12 +41,18 @@ ElementList.propTypes = {};
 ElementList.defaultProps = {};
 
 export function ElementList() {
-  const Templates = useDS("Templates");
-  const [elements] = useAtom(Atoms.elements);
-  const [template, setTemplate] = useAtom(Atoms.template);
-  const [draggedIndex, setDraggedIndex] = useState(-1);
+  const [templateId] = getParams(["template"]);
+  const { data: elements } = useCollectionQuery(Stores.Elements, {
+    templateId,
+  });
+  const { data: template } = useItemQuery(Stores.Templates, templateId);
+  const { mutate: saveTemplate } = useSaveMutation(
+    Stores.Templates,
+    templateId
+  );
 
-  const order = template.order || elements.map((_, index) => index);
+  const [draggedIndex, setDraggedIndex] = useState(-1);
+  const [order, setOrder] = useState(template.order);
 
   const orderedElements = useMemo(() => {
     if (!elements.length || !template?.order) {
@@ -51,22 +62,30 @@ export function ElementList() {
     return template.order.map((index) => elements[index]);
   }, [elements, template]);
 
+  if (elements.length === 0) {
+    return (
+      <label class="alignCenter">This template currently has no elements</label>
+    );
+  }
+
   const swapElements = (index) => {
     if (index === draggedIndex) {
       return;
     }
+
+    setDraggedIndex(index);
 
     const newOrder = [...order];
     [newOrder[index], newOrder[draggedIndex]] = [
       newOrder[draggedIndex],
       newOrder[index],
     ];
-    setDraggedIndex(index);
-    Templates.setItem(template.$id, { order: newOrder });
-    setTemplate({ ...template, order: newOrder });
+
+    setOrder(newOrder);
   };
 
   const saveOrder = () => {
+    saveTemplate({ ...template, order });
     setDraggedIndex(-1);
   };
 

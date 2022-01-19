@@ -6,7 +6,7 @@ import { ActionButton } from "./ActionButton";
 import { Title } from "../Title";
 import { SelectStore } from "../UI/SelectStore";
 
-import { Stores, useDataMutation } from "../../hooks/useDataQuery";
+import { queryKey, Stores, useAddMutation } from "../../hooks/data";
 import { newTemplate } from "../../lib/models";
 import { MenuCss } from "../../lib/styles";
 
@@ -18,9 +18,10 @@ TemplatesMenu.defaultProps = {};
 
 /** List games for the main page */
 export function TemplatesMenu({ gameId }) {
-  const { mutate: addTemplate } = useDataMutation(Stores.Templates, false, {
-    gameId,
-  });
+  const { mutate: addTemplate } = useAddMutation(
+    Stores.Templates,
+    queryKey(Stores.Templates, { gameId })
+  );
 
   const addTemplateData = () => {
     const count = document.getElementsByClassName("template").length;

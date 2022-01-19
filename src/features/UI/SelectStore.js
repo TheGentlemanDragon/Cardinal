@@ -2,7 +2,7 @@ import { h } from "preact";
 import PropTypes from "proptypes";
 
 import { Select } from "./Select";
-import { useDataQuery } from "../../hooks/useDataQuery";
+import { useCollectionQuery } from "../../hooks/data";
 import { getDisplayValue, sortByKey } from "../../lib/utils";
 
 SelectStore.propTypes = {
@@ -34,7 +34,7 @@ export function SelectStore({
   value,
   valueKey,
 }) {
-  const { data } = useDataQuery(collection, null);
+  const { data } = useCollectionQuery(collection);
   const options = data.sort(sortByKey(labelKey));
 
   const selected =

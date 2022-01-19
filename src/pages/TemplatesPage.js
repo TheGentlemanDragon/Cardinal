@@ -4,7 +4,7 @@ import { useEffect } from "preact/hooks";
 import { css } from "linaria";
 
 import { TemplatesMenu } from "../features/Menu/TemplatesMenu";
-import { Stores, useDataQuery } from "../hooks/useDataQuery";
+import { Stores, useCollectionQuery } from "../hooks/data";
 import { PageCss } from "../lib/styles";
 import { getParams, sortByKey } from "../lib/utils";
 
@@ -66,7 +66,7 @@ TemplatesPage.propTypes = {};
  */
 export function TemplatesPage() {
   const [gameId] = getParams(["game"]);
-  const { data: templates } = useDataQuery(Stores.Templates, { gameId });
+  const { data: templates } = useCollectionQuery(Stores.Templates, { gameId });
 
   return (
     <>

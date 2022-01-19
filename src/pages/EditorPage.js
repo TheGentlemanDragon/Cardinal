@@ -37,7 +37,7 @@ function EditorPage() {
       <EditorMenu gameId={gameId} templateId={templateId} />
 
       <div class={cls(EditorPageCss, PageCss)}>
-        <EditorCard templateId={templateId} />
+        {/* <EditorCard templateId={templateId} /> */}
       </div>
     </>
   );

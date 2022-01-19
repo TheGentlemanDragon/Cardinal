@@ -4,7 +4,7 @@ import { css } from "linaria";
 import { GameItem } from "../features/GameItem";
 import { Title } from "../features/Title";
 import { Flex } from "../features/UI/Flex";
-import { Stores, useDataMutation, useDataQuery } from "../hooks/useDataQuery";
+import { Stores, useAddMutation, useCollectionQuery } from "../hooks/data";
 import { sortByKey } from "../lib/utils";
 
 const HomePageCss = css`
@@ -15,12 +15,10 @@ const HomePageCss = css`
   width: 640px;
 `;
 
-const initialData = [];
-
 /** List games for the main page */
 export function HomePage() {
-  const { mutate: addGame } = useDataMutation(Stores.Games);
-  const { data: games } = useDataQuery(Stores.Games, null);
+  const { data: games } = useCollectionQuery(Stores.Games);
+  const { mutate: addGame } = useAddMutation(Stores.Games);
 
   const addGameData = () => {
     const count = document.getElementsByClassName("game").length;

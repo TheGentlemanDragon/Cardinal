@@ -1,6 +1,7 @@
 import { h } from "preact";
 import { Router } from "preact-router";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 import { HomePage } from "../pages/HomePage";
 import { TemplatesPage } from "../pages/TemplatesPage";
@@ -36,6 +37,7 @@ export default function App() {
 
         <Redirect path="/" to="/home" />
       </Router>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

@@ -23,8 +23,10 @@ const atomWithLocalStorage = (key, initialValue) => {
   return derivedAtom;
 };
 
+// TODO: Audit atoms
 export const Atoms = {
   delta: atom({ DEFAULT_DELTA }),
+  element: atom({}),
   elementId: atom(""),
   elements: atom([]),
   preview: atom(false),

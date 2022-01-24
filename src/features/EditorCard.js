@@ -7,7 +7,7 @@ import { DataImage } from "./DataImage";
 import { ElementModifier } from "./ElementModifier";
 import { Icon } from "./UI/Icon";
 
-import { useDS } from "../hooks/useDS";
+import { Stores, useCollectionQuery } from "../hooks/data";
 import { Atoms } from "../lib/atoms";
 import { ElementBaseCss } from "../lib/styles";
 import { cls, selectElement, styleRender } from "../lib/utils";
@@ -36,24 +36,18 @@ EditorCard.propTypes = {};
 EditorCard.defaultProps = {};
 
 export function EditorCard({ gameId, templateId }) {
-  const Assets = useDS("Assets");
-  const Cards = useDS("Cards");
+  const { data: assets } = useCollectionQuery(Stores.Assets);
+  const { data: cards } = useCollectionQuery(Stores.Cards, { templateId });
+  const { data: elements } = useCollectionQuery(Stores.Elements, {
+    templateId,
+  });
 
   const [elementId, setElementId] = useAtom(Atoms.elementId);
-  const [elements] = useAtom(Atoms.elements);
   const [preview] = useAtom(Atoms.preview);
   const [scale] = useAtom(Atoms.scale);
   const [template] = useAtom(Atoms.template);
 
-  const card = preview ? Cards.list[0] : {};
-
-  useEffect(() => {
-    Assets.getList();
-  }, []);
-
-  useEffect(() => {
-    Cards.getList({ templateId });
-  }, [gameId, templateId]);
+  const card = preview ? cards[0] : {};
 
   function applyText(element) {
     const placeholders = element.value.match(rxVariables) || [];
@@ -76,7 +70,7 @@ export function EditorCard({ gameId, templateId }) {
       imageName = element.value;
     }
 
-    const image = Assets.list.find((item) => item.name === imageName);
+    const image = assets.find((item) => item.name === imageName);
     const { height, width, top: y, left: x } = element.style;
 
     return (
@@ -102,7 +96,7 @@ export function EditorCard({ gameId, templateId }) {
       class={EditorCardCss}
       id="EditorCard"
       style={{ transform: `scale(${scale})` }}
-      onMouseDown={selectElement(elementId, setElementId)}
+      // onMouseDown={selectElement(elementId, setElementId)}
     >
       {elementId && <ElementModifier />}
 

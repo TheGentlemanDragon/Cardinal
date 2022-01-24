@@ -2,8 +2,8 @@ import { h } from "preact";
 import { css } from "linaria";
 
 import { GameItem } from "../features/GameItem";
-import { Title } from "../features/Title";
 import { Flex } from "../features/UI/Flex";
+import { Title } from "../features/UI/Title";
 import { Stores, useAddMutation, useCollectionQuery } from "../hooks/data";
 import { sortByKey } from "../lib/utils";
 

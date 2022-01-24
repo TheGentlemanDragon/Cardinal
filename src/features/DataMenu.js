@@ -1,12 +1,12 @@
 import { h } from "preact";
 import PropTypes from "proptypes";
 
-import { ActionButton } from "./ActionButton";
-import { Title } from "../Title";
+import { ActionButton } from "./UI/ActionButton";
+import { Title } from "./UI/Title";
 
-import { exportCsv, importCsv } from "../../lib/models";
-import { MenuCss } from "../../lib/styles";
-import { goBack } from "../../lib/utils";
+import { exportCsv, importCsv } from "../lib/models";
+import { MenuCss } from "../lib/styles";
+import { goBack } from "../lib/utils";
 
 DataMenu.propTypes = {
   addField: PropTypes.func.isRequired,

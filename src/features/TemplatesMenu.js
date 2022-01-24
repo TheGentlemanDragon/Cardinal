@@ -2,13 +2,13 @@ import { h } from "preact";
 import { route } from "preact-router";
 import PropTypes from "proptypes";
 
-import { ActionButton } from "./ActionButton";
-import { Title } from "../Title";
-import { SelectStore } from "../UI/SelectStore";
+import { ActionButton } from "./UI/ActionButton";
+import { SelectStore } from "./UI/SelectStore";
+import { Title } from "./UI/Title";
 
-import { queryKey, Stores, useAddMutation } from "../../hooks/data";
-import { newTemplate } from "../../lib/models";
-import { MenuCss } from "../../lib/styles";
+import { queryKey, Stores, useAddMutation } from "../hooks/data";
+import { newTemplate } from "../lib/models";
+import { MenuCss } from "../lib/styles";
 
 TemplatesMenu.propTypes = {
   gameId: PropTypes.string.isRequired,

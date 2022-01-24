@@ -3,7 +3,7 @@ import { h } from "preact";
 import { css } from "linaria";
 
 import { EditorCard } from "../features/EditorCard";
-import { EditorMenu } from "../features/Menu/EditorMenu";
+import { EditorMenu } from "../features/EditorMenu";
 
 import { PageCss } from "../lib/styles";
 import { cls, getParams } from "../lib/utils";

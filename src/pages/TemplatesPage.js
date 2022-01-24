@@ -3,7 +3,7 @@ import { useEffect } from "preact/hooks";
 // import PropTypes from 'proptypes'
 import { css } from "linaria";
 
-import { TemplatesMenu } from "../features/Menu/TemplatesMenu";
+import { TemplatesMenu } from "../features/TemplatesMenu";
 import { Stores, useCollectionQuery } from "../hooks/data";
 import { PageCss } from "../lib/styles";
 import { getParams, sortByKey } from "../lib/utils";

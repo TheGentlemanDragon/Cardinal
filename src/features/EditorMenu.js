@@ -2,26 +2,26 @@ import { useAtom } from "jotai";
 import { h } from "preact";
 import { route } from "preact-router";
 
-import { ActionButton } from "./ActionButton";
-import { ElementList } from "../ElementList";
-import { Title } from "../Title";
-import { FlexSeparator } from "../UI/FlexSeparator";
-import { ScaleSlider } from "../UI/ScaleSlider";
-import { SelectStore } from "../UI/SelectStore";
-import { Toggle } from "../UI/Toggle";
+import { ActionButton } from "./UI/ActionButton";
+import { FlexSeparator } from "./UI/FlexSeparator";
+import { ScaleSlider } from "./UI/ScaleSlider";
+import { SelectStore } from "./UI/SelectStore";
+import { Title } from "./UI/Title";
+import { Toggle } from "./UI/Toggle";
+import { ElementList } from "./ElementList";
 
-import { useAssetManager } from "../../hooks/useAssetManager";
+import { useAssetManager } from "../hooks/useAssetManager";
 import {
   queryKey,
   Stores,
   useAddMutation,
   useItemQuery,
   useSaveMutation,
-} from "../../hooks/data";
+} from "../hooks/data";
 
-import { Atoms } from "../../lib/atoms";
-import { MenuCss } from "../../lib/styles";
-import { defaultElement, getParams, selectTextOnFocus } from "../../lib/utils";
+import { Atoms } from "../lib/atoms";
+import { MenuCss } from "../lib/styles";
+import { defaultElement, getParams, selectTextOnFocus } from "../lib/utils";
 
 EditorMenu.propTypes = {};
 

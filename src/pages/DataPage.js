@@ -4,7 +4,7 @@ import { useEffect, useState } from "preact/hooks";
 // import { css } from 'linaria'
 
 import { CardTable } from "../features/CardTable";
-import { DataMenu } from "../features/Menu/DataMenu";
+import { DataMenu } from "../features/DataMenu";
 
 import { useDS } from "../hooks/useDS";
 import { getUniqueName, newField } from "../lib/models";

@@ -100,7 +100,7 @@ export function CardTable({ addRow, cards, save, template }) {
   const [isEditing, setIsEditing] = useState(false);
   const [tempValue, setTempValue] = useState("");
 
-  const fields = template.fields.sort(sortByKey("order"));
+  const fields = template?.fields?.sort(sortByKey("order"));
   const hasData = cards.length > 0;
 
   // Focus changed cell

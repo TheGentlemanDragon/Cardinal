@@ -1,11 +1,11 @@
 import { h } from "preact";
-import { useEffect, useMemo, useRef, useState } from "preact/hooks";
+import { useMemo, useRef, useState } from "preact/hooks";
 import { css } from "linaria";
 
 import { useModal } from "./useModal";
 import { DataImage } from "../features/DataImage";
 import { ActionButton } from "../features/UI/ActionButton";
-import { useDS } from "../hooks/useDS";
+import { Stores, useCollectionQuery } from "../hooks/data";
 import { MenuCss, MenuPanelCss, SearchInputCss } from "../lib/styles";
 import { importFile, noop } from "../lib/utils";
 
@@ -41,17 +41,13 @@ const AssetManagerCss = css`
 `;
 
 export function useAssetManager(onSelect = noop) {
-  const Assets = useDS("Assets");
+  const { data: assets } = useCollectionQuery(Stores.Assets);
   const fileInput = useRef(null);
   const [selected, setSelected] = useState("");
 
-  useEffect(() => {
-    Assets.getList();
-  }, []);
-
   // Get 3-column flow offset map for each image asset
   const offsets = useMemo(() => {
-    if (!Assets.list.length) {
+    if (!assets.length) {
       return [];
     }
 
@@ -61,7 +57,7 @@ export function useAssetManager(onSelect = noop) {
       { x: 2 * (PADDING + IMAGE_WIDTH), y: 0 },
     ];
 
-    return Assets.list.map((item) => {
+    return assets.map((item) => {
       // Move first column to end, once it is larger
       if (columns[0].y > columns[1].y) {
         columns.push(columns.shift());
@@ -104,7 +100,7 @@ export function useAssetManager(onSelect = noop) {
         </div>
 
         <div class="AssetManager-List">
-          {Assets.list.map((item, index) => (
+          {assets.map((item, index) => (
             <DataImage
               image={item}
               offset={offsets[index]}

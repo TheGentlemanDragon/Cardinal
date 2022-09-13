@@ -1,18 +1,18 @@
 import { useAtom } from "jotai";
 import { css } from "linaria";
-import { h } from "preact";
-import { useMemo } from "preact/hooks";
+import { useMemo, useState } from "preact/hooks";
 
 import { Icon } from "./UI/Icon";
 import { InteractionPoint } from "./InteractionPoint";
-import { Atoms, DEFAULT_DELTA } from "../lib/atoms";
+import { Atoms } from "../lib/atoms"
 import { DataStore } from "../lib/datastore";
 import { ElementBaseCss } from "../lib/styles";
 import { cls, styleDelta, styleRender } from "../lib/utils";
 
-const MIN_SIZE = 20;
 const CARD_HEIGHT = 350;
 const CARD_WIDTH = 250;
+const DEFAULT_DELTA = { x: 0, y: 0, width: 0, height: 0 };
+const MIN_SIZE = 20;
 
 const applyOps = (ops) => (scale, setValue) => (point) =>
   setValue(
@@ -63,12 +63,13 @@ const ElementModifierCss = css`
 
 // TODO: Fix element modifier
 export function ElementModifier() {
-  const [delta, setDelta] = useAtom(Atoms.delta);
   const [element] = useAtom(Atoms.element);
   const [elements, setElements] = useAtom(Atoms.elements);
   const [preview] = useAtom(Atoms.preview);
   const [refresh] = useAtom(Atoms.refresh);
   const [scale] = useAtom(Atoms.scale);
+
+  const [delta, setDelta] = useState({ ...DEFAULT_DELTA });
 
   // const element = elements.find((item) => item.$id === elementId);
   const elementIndex = elements.findIndex((item) => item === element);

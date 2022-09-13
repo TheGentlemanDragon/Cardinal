@@ -10,7 +10,7 @@ import { Icon } from "./UI/Icon";
 import { Stores, useCollectionQuery } from "../hooks/data";
 import { Atoms } from "../lib/atoms";
 import { ElementBaseCss } from "../lib/styles";
-import { cls, selectElement, styleRender } from "../lib/utils";
+import { cls, selectNextElement, styleRender } from "../lib/utils";
 
 const hide = { display: "none" };
 
@@ -42,7 +42,7 @@ export function EditorCard({ gameId, templateId }) {
     templateId,
   });
 
-  const [elementId, setElementId] = useAtom(Atoms.elementId);
+  const [selectedElement, setSelectedElement] = useAtom(Atoms.element);
   const [preview] = useAtom(Atoms.preview);
   const [scale] = useAtom(Atoms.scale);
   const [template] = useAtom(Atoms.template);
@@ -83,6 +83,11 @@ export function EditorCard({ gameId, templateId }) {
     );
   }
 
+  function setElementById(id) {
+    const element = elements.find((item) => item.$id === id);
+    setSelectedElement(element);
+  }
+
   const orderedElements = useMemo(() => {
     if (!elements.length || !template?.order) {
       return [...elements].reverse();
@@ -96,12 +101,12 @@ export function EditorCard({ gameId, templateId }) {
       class={EditorCardCss}
       id="EditorCard"
       style={{ transform: `scale(${scale})` }}
-      // onMouseDown={selectElement(elementId, setElementId)}
+      onMouseDown={selectNextElement(selectedElement, setElementById)}
     >
-      {elementId && <ElementModifier />}
+      {selectedElement && <ElementModifier />}
 
       {orderedElements.map((element) => {
-        const isSelected = element.$id === elementId;
+        const isSelected = element.$id === selectedElement?.$id;
 
         return (
           <div

@@ -1,7 +1,5 @@
 import { atom } from "jotai";
 
-export const DEFAULT_DELTA = { x: 0, y: 0, width: 0, height: 0 };
-
 const atomWithLocalStorage = (key, initialValue) => {
   const getInitialValue = () => {
     const item = localStorage.getItem(key);
@@ -25,9 +23,7 @@ const atomWithLocalStorage = (key, initialValue) => {
 
 // TODO: Audit atoms
 export const Atoms = {
-  delta: atom({ DEFAULT_DELTA }),
-  element: atom({}),
-  elementId: atom(""),
+  element: atom(null),
   elements: atom([]),
   preview: atom(false),
   refresh: atom({}),

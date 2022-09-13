@@ -37,7 +37,7 @@ export default function App() {
 
         <Redirect path="/" to="/home" />
       </Router>
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
     </QueryClientProvider>
   );
 }

@@ -176,7 +176,7 @@ export function selectTextOnFocus(e) {
   e.target.select();
 }
 
-export function selectElement(currentId, setSelected) {
+export function selectNextElement(currentId, setSelected) {
   return function (event) {
     const { x, y } = event;
 
@@ -196,7 +196,7 @@ export function selectElement(currentId, setSelected) {
     );
 
     // Select that item by its index in original array
-    setSelected(clickedElement?.id || "");
+    setSelected(clickedElement?.id);
   };
 }
 

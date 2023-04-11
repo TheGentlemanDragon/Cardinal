@@ -1,0 +1,27 @@
+:root {
+  --shadow-sm: 0 1px 0 hsl(205deg, 14%, 68%);
+  --shadow-md: 0 0.25rem 1rem rgba(48, 55, 66, 0.15);
+  --modal-bg: rgb(36 36 36 / 50%);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.bg-blue {
+  background: radial-gradient(
+    circle at center center,
+    #125baf 10%,
+    #0c407c 100%
+  );
+}
+
+.card.shadow-md {
+  box-shadow: var(--shadow-md);
+  border: none;
+}
+
+.border-bottom {
+  box-shadow: var(--shadow-sm);
+}

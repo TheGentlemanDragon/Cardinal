@@ -1,9 +1,9 @@
-import styles from "./HomePage.module.css";
+import styles from "./styles.module.css";
 
 /** Show welcome message and login/signup options */
 export default function HomePage() {
   return (
-    <div class={styles.page}>
+    <div class={styles.home}>
       <h1>Cardinal</h1>
 
       <h3 class="text-bold">Make your card game a reality</h3>

@@ -17,7 +17,7 @@ import "./assets/spectre.min.css";
 const HomePage = lazy(() => import("./pages/HomePage"));
 // const LoginPage = lazy(() => import("./pages/LoginPage"));
 // const ProjectsPage = lazy(() => import("./pages/ProjectsPage"));
-// const SignUpPage = lazy(() => import("./pages/SignUpPage"));
+const SignUpPage = lazy(() => import("./pages/SignUpPage"));
 
 export function App() {
   usePageTitle("Cardinal");
@@ -29,7 +29,7 @@ export function App() {
       <ErrorBoundary>
         <Router>
           <Route path="/" component={HomePage} />
-          {/* <Route path="/signup" component={SignUpPage} /> */}
+          <Route path="/signup" component={SignUpPage} />
           {/* <Route path="/login" component={LoginPage} /> */}
           {/* <Route path="/about" component={AboutPage} /> */}
           <Route default component={NotFound} />

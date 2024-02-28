@@ -1,7 +1,7 @@
 import { useEffect } from "preact/hooks";
 
-export default function usePageTitle(title: string) {
+export const usePageTitle = (title: string) => {
   useEffect(() => {
     document.title = title;
   }, []);
-}
+};

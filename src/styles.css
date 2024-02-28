@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+.splash-bg {
+  background: radial-gradient(
+    circle at center 10%,
+    #ffffff 40%,
+    #93bdec 80%,
+    #4c85c5 100%
+  );
+}
+
+.main-bg {
+  background-color: #1565c0;
+  background: radial-gradient(
+    circle at center center,
+    #1565c0 10%,
+    #0c407c 100%
+  );
+}

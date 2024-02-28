@@ -2,7 +2,6 @@
 
 import { render } from "preact";
 import { ErrorBoundary, lazy, LocationProvider, Router } from "preact-iso";
-import { Navbar } from "./features/Navbar";
 import { usePageTitle } from "./features/usePageTitle";
 import "./styles.css";
 
@@ -17,8 +16,6 @@ const App = () => {
 
   return (
     <LocationProvider>
-      <Navbar />
-
       <ErrorBoundary>
         <Router>
           <Splash path="/" />

@@ -17,7 +17,7 @@ import {
 import { INPUT_ICON_CLS, INPUT_CLS } from "../lib/styles";
 import { preventDefault } from "../lib/utils";
 
-/** List games for the main page */
+/** User sign up */
 const SignUpPage = () => {
   const hasError = !!error.value.message;
 

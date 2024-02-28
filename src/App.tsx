@@ -10,8 +10,7 @@ const Splash = lazy(() => import("./pages/SplashPage"));
 const SignUp = lazy(() => import("./pages/SignUpPage"));
 const SignIn = lazy(() => import("./pages/SignInPage"));
 const Projects = lazy(() => import("./pages/ProjectsPage"));
-
-const NotFound = lazy(() => import("./pages/_404"));
+const NotFound = lazy(() => import("./pages/NotFoundPage"));
 
 const App = () => {
   usePageTitle("Cardinal");

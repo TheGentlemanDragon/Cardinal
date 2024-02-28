@@ -1,5 +1,5 @@
-/** Show welcome message and login/signup options */
-export const SplashPage = () => {
+/** Show app welcome message  */
+const SplashPage = () => {
   return (
     <div class="splash-bg size-full text-gray-800">
       <article class="flex flex-col items-center max-w-2xl m-auto text-center">
@@ -23,3 +23,5 @@ export const SplashPage = () => {
     </div>
   );
 };
+
+export default SplashPage;

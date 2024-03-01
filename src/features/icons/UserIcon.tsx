@@ -1,5 +1,5 @@
 type Prop = {
-  cls: string;
+  cls?: string;
 };
 
 export const UserIcon = ({ cls }: Prop) => {

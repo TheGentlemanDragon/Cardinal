@@ -1,40 +1,30 @@
-// import styles from './style.module.css';
-
+import { Navbar } from "../features/Navbar";
+import { ProjectCard } from "../features/ProjectCard";
 import {
   CreateProjectButton,
   CreateProjectModal,
 } from "../features/modals/CreateProjectModal";
 
-/** List projects for the main page */
+/** List all projects */
 const ProjectsPage = () => {
-  // const { data: games } = useCollectionQuery(Stores.Games);
-  // const { mutate: addGame } = useAddMutation(Stores.Games);
-
-  // const addGameData = () => {
-  //   const count = document.getElementsByClassName("game").length;
-  //   addGame({ name: `Game ${count}` });
-  // };
-
   return (
-    <section>
-      <div class="grid">
-        <div style="justify-self: flex-end;">
+    <main class="main-bg size-full">
+      <Navbar />
+
+      <section class="grid grid-cols-3 gap-5 mx-auto max-w-screen-md pt-14">
+        <div class="col-span-3 flex justify-between">
+          <div class="text-2xl font-semibold">Projects</div>
+
           <CreateProjectButton />
         </div>
-      </div>
 
-      <div class="grid">
-        {/* {games.sort(sortByKey("name")).map((game) => ( */}
-        <article>I'm a card!</article>
-        <article>I'm a card!</article>
-        <article>I'm a card!</article>
-        {/*}
-        <GameItem game={game} />
-				))} */}
-      </div>
+        <ProjectCard title="Shoes!" />
+        <ProjectCard title="Oh my God!" />
+        <ProjectCard title="Shoes" />
 
-      <CreateProjectModal />
-    </section>
+        <CreateProjectModal />
+      </section>
+    </main>
   );
 };
 

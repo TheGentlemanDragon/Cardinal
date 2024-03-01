@@ -1,24 +1,27 @@
-import { userSignal } from "../lib/user";
+import { useLayoutEffect } from "preact/hooks";
+import { cacheAuth, userInitials, userSignal } from "../lib/user";
 
 export const Navbar = () => {
   const user = userSignal.value;
 
-  if (!user.authed) {
+  useLayoutEffect(() => {
+    cacheAuth();
+  }, []);
+
+  if (!user?.id) {
     return null;
   }
 
   return (
     <header>
-      <nav>
-        <section>
-          <a href="#">Cardinal</a>
-        </section>
+      <nav class="navbar pr-6 justify-between">
+        <a class="btn btn-ghost text-lg font-bold">Cardinal</a>
 
-        <section>
-          <a href="/">Projects</a>
-          <a href="/assets">Assets</a>
-          <a href="/recent">Recent</a>
-        </section>
+        <div class="avatar placeholder">
+          <div class="bg-neutral-content text-neutral rounded-full w-8">
+            <span class="text-xs font-bold">{userInitials(user)}</span>
+          </div>
+        </div>
       </nav>
     </header>
   );

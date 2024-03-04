@@ -1,12 +1,8 @@
-import { useLayoutEffect } from "preact/hooks";
-import { cacheAuth, userInitials, userSignal } from "../lib/user";
+import { TEXT_SHADOW_CLS } from "../lib/styles";
+import { userInitials, userSignal } from "../lib/user";
 
 export const Navbar = () => {
   const user = userSignal.value;
-
-  useLayoutEffect(() => {
-    cacheAuth();
-  }, []);
 
   if (!user?.id) {
     return null;
@@ -15,7 +11,9 @@ export const Navbar = () => {
   return (
     <header>
       <nav class="navbar pr-6 justify-between">
-        <a class="btn btn-ghost text-lg font-bold">Cardinal</a>
+        <a class={`btn btn-ghost text-lg font-bold ${TEXT_SHADOW_CLS}`}>
+          Cardinal
+        </a>
 
         <div class="avatar placeholder">
           <div class="bg-neutral-content text-neutral rounded-full w-8">

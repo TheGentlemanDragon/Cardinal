@@ -1,8 +1,10 @@
 // import { hydrate, prerender as ssr } from "preact-iso";
 
+import { QueryClientProvider } from "@tanstack/react-query";
 import { render } from "preact";
 import { ErrorBoundary, lazy, LocationProvider, Router } from "preact-iso";
 import { usePageTitle } from "./features/usePageTitle";
+import { queryClient } from "./lib/db";
 import "./styles.css";
 
 const Splash = lazy(() => import("./pages/SplashPage"));
@@ -15,18 +17,20 @@ const App = () => {
   usePageTitle("Cardinal");
 
   return (
-    <LocationProvider>
-      <ErrorBoundary>
-        <Router>
-          <Splash path="/" />
-          <SignUp path="/signup" />
-          <SignIn path="/signin" />
-          <Projects path="/projects" />
+    <QueryClientProvider client={queryClient}>
+      <LocationProvider>
+        <ErrorBoundary>
+          <Router>
+            <Splash path="/" />
+            <SignUp path="/signup" />
+            <SignIn path="/signin" />
+            <Projects path="/projects" />
 
-          <NotFound default />
-        </Router>
-      </ErrorBoundary>
-    </LocationProvider>
+            <NotFound default />
+          </Router>
+        </ErrorBoundary>
+      </LocationProvider>
+    </QueryClientProvider>
   );
 };
 

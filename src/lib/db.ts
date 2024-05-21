@@ -1,5 +1,7 @@
 import PocketBase from "pocketbase";
 import { QueryClient } from "@tanstack/react-query";
+import { DB_URL } from "./config";
+
 
 export const queryClient = new QueryClient();
 
@@ -11,4 +13,4 @@ export type PbList<BaseType> = {
   totalPages: number;
 };
 
-export const pb = new PocketBase("http://127.0.0.1:8090/"); // remote
+export const pb = new PocketBase(DB_URL);

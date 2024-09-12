@@ -6,12 +6,14 @@ import { create, useProjectsList } from "../../lib/projects";
 const refSignal = signal<Ref<HTMLDialogElement> | null>(null);
 
 export const CreateProjectButton = () => (
-  <button
-    class="btn btn-sm btn-neutral btn-circle"
-    onClick={() => refSignal.value?.current?.showModal()}
-  >
-    <PlusIcon />
-  </button>
+  <div className="tooltip" data-tip="Create new project">
+    <button
+      class="btn btn-sm btn-neutral btn-circle"
+      onClick={() => refSignal.value?.current?.showModal()}
+    >
+      <PlusIcon />
+    </button>
+  </div>
 );
 
 export const CreateProjectModal = () => {
@@ -28,13 +30,6 @@ export const CreateProjectModal = () => {
   return (
     <dialog class="modal" id="createProjectModal" ref={refSignal.value}>
       <article class="modal-box p-0">
-        <figure>
-          <img
-            src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
-            alt="Shoes"
-          />
-        </figure>
-
         <section class="p-10 flex flex-col gap-2">
           <h1 class="text-lg font-bold">Create a new project</h1>
 

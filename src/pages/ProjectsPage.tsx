@@ -1,7 +1,7 @@
 import {
   CreateProjectButton,
   CreateProjectModal,
-} from "../features/modals/useCreateProjectModal";
+} from "../features/modals/CreateProjectModal";
 import { Navbar } from "../features/Navbar";
 import { ProjectsEmpty } from "../features/projects/ProjectsEmpty";
 import { ProjectCard } from "../features/projects/ProjectCard";

@@ -1,35 +1,35 @@
 {
-	"name": "cardinal-app",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"preview": "vite preview"
-	},
-	"eslintConfig": {
-		"extends": "preact"
-	},
-	"dependencies": {
-		"@preact/signals": "^1.2.3",
-		"@preact/signals-core": "^1.6.0",
-		"@react-hooks-library/core": "^0.6.2",
-		"@tailwindcss/typography": "^0.5.13",
-		"@tanstack/react-query": "^5.37.1",
-		"pocketbase": "^0.21.2",
-		"preact": "^10.20.0",
-		"preact-iso": "^2.6.2"
-	},
-	"devDependencies": {
-		"@preact/preset-vite": "^2.8.2",
-		"autoprefixer": "^10.4.19",
-		"daisyui": "^4.11.1",
-		"eslint": "^8.57.0",
-		"eslint-config-preact": "^1.4.0",
-		"postcss": "^8.4.38",
-		"tailwindcss": "^3.4.3",
-		"typescript": "^5.4.5",
-		"vite": "^5.2.2"
-	}
+  "name": "cardinal-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "eslintConfig": {
+    "extends": "preact"
+  },
+  "dependencies": {
+    "@preact/signals": "^1.3.0",
+    "@preact/signals-core": "^1.8.0",
+    "@react-hooks-library/core": "^0.6.2",
+    "@tailwindcss/typography": "^0.5.13",
+    "@tanstack/react-query": "^5.55.4",
+    "pocketbase": "^0.21.5",
+    "preact": "^10.23.2",
+    "preact-iso": "^2.6.3"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.9.0",
+    "autoprefixer": "^10.4.19",
+    "daisyui": "^4.12.10",
+    "eslint": "^8.57.0",
+    "eslint-config-preact": "^1.4.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
+    "typescript": "^5.4.5",
+    "vite": "^5.4.4"
+  }
 }

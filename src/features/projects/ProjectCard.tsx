@@ -11,7 +11,7 @@ export const ProjectCard = ({ project }: Props) => {
     <article class={PROJECT_CARD_CLS}>
       <figure class="max-h-32">
         <img
-          src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
+          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
           alt="Shoes"
         />
       </figure>

@@ -8,11 +8,12 @@ import { ProjectCard } from "../features/projects/ProjectCard";
 import { useProjectsList } from "../lib/projects";
 import { TITLE_CLS } from "../lib/styles";
 import { ProjectsLoading } from "../features/projects/ProjectsLoading";
+import { isEmptyError } from "../lib/db";
 
 /** List all projects */
 const ProjectsPage = () => {
-  const { data: projects, isError, isLoading, isSuccess } = useProjectsList();
-  const isEmpty = isSuccess && projects.items.length === 0;
+  const { data: projects, error, isError, isLoading, isSuccess } = useProjectsList();
+  const isEmpty = isEmptyError(error) || isSuccess && projects.items.length === 0;
 
   return (
     <main class="main-bg size-full">
@@ -26,7 +27,7 @@ const ProjectsPage = () => {
 
         {isLoading && <ProjectsLoading />}
 
-        {isError && "Error!"}
+        {isError && !isEmpty && "Error!"}
 
         {isEmpty && <ProjectsEmpty />}
 

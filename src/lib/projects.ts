@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { PbList, pb, queryClient } from "./db";
+import { PbList, ignore404, pb, queryClient } from "./db";
 import { userSignal } from "./user";
 
 const PROJECTS = pb.collection("cardinal_projects");
@@ -26,7 +26,7 @@ export const create = (name: string) => {
 export const useProjectsList = () =>
   useQuery<PbList<Project>>({
     queryKey,
-    queryFn: () => PROJECTS.getList(1, 20),
+    queryFn: ignore404(() => PROJECTS.getList(1, 20)),
     select: (data) => ({
       ...data,
       items: data.items.map((item) => ({

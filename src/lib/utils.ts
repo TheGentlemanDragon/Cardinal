@@ -4,12 +4,12 @@ export const preventDefault = (event: Event) => event.preventDefault();
 /** No operation */
 export const noop = () => null;
 
-const YEAR_IN_MS = 31556952000;
-const MONTH_IN_MS = 2629746000;
-const DAY_IN_MS = 86400000;
-const HOUR_IN_MS = 3600000;
-const MIN_IN_MS = 60000;
-const SEC_IN_MS = 1000;
+const YEAR_IN_MS = 31_556_952_000;
+const MONTH_IN_MS = 2_629_746_000;
+const DAY_IN_MS = 86_400_000;
+const HOUR_IN_MS = 3_600_000;
+const MIN_IN_MS = 60_000;
+const SEC_IN_MS = 1_000;
 
 /** Return time since date occured, as human-readable string */
 export const timeSince = (date: Date) => {

@@ -2,13 +2,14 @@ import { signal } from "@preact/signals-core";
 import { type Ref, useRef, useState } from "preact/hooks";
 import { PlusIcon } from "../icons/PlusIcon";
 import { create, useProjectsList } from "../../lib/projects";
+import { cls, MENU_BUTTON_CLS } from "../../lib/styles";
 
 const refSignal = signal<Ref<HTMLDialogElement> | null>(null);
 
 export const CreateProjectButton = () => (
   <div className="tooltip" data-tip="Create new project">
     <button
-      class="btn btn-sm btn-neutral btn-circle"
+      class={cls(MENU_BUTTON_CLS, "btn-sm btn-circle")}
       onClick={() => refSignal.value?.current?.showModal()}
     >
       <PlusIcon />

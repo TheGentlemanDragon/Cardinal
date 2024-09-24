@@ -6,13 +6,19 @@ export const INPUT_ICON_CLS = `_
   text-gray-400 pointer-events-none  
 `;
 
+export const MENU_BUTTON_CLS = "btn btn-neutral hover:bg-gray-700";
+
 export const PROJECT_CARD_CLS = `_
-  card card-compact shadow-lg rounded-lg
+  relative group
+  card card-compact shadow-lg rounded-xl
   bg-white text-neutral
-  hover:shadow-2xl hover:scale-110 transition-all
+  hover:shadow-blue-950/80
+  transition-all
   cursor-pointer
 `;
 
 export const TEXT_SHADOW_CLS = "[text-shadow:_2px_2px_4px_rgb(0_0_0_/_30%)]";
 
 export const TITLE_CLS = "text-2xl font-semibold";
+
+export const cls = (...args: string[]) => args.join(" ");

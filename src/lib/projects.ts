@@ -15,8 +15,8 @@ export type Project = {
   updated: Date;
 };
 
-export const create = (name: string) => {
-  PROJECTS.create({
+export const create = async (name: string) => {
+  await PROJECTS.create({
     name,
     owner: userSignal.value?.id,
   });

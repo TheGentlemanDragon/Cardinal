@@ -12,8 +12,15 @@ import { isEmptyError } from "../lib/db";
 
 /** List all projects */
 const ProjectsPage = () => {
-  const { data: projects, error, isError, isLoading, isSuccess } = useProjectsList();
-  const isEmpty = isEmptyError(error) || isSuccess && projects.items.length === 0;
+  const {
+    data: projects,
+    error,
+    isError,
+    isLoading,
+    isSuccess,
+  } = useProjectsList();
+  const isEmpty =
+    isEmptyError(error) || (isSuccess && projects.items.length === 0);
 
   return (
     <main class="main-bg size-full">

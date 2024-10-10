@@ -53,7 +53,11 @@ export const ProjectCard = ({ project }: Props) => {
 
       {/* Card body */}
       <div class="card-body gap-0">
-        <h2 class="card-title text-base">{project.name}</h2>
+        <h2 class="card-title text-base">
+          <a class="link" href={`/projects/${project.id}`}>
+            {project.name}
+          </a>
+        </h2>
         <p class="text-xs">{timeSince(project.created)}</p>
       </div>
     </article>

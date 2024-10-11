@@ -36,3 +36,9 @@ export const useProjectsList = () =>
       })),
     }),
   });
+
+export const useProject = (id: string) =>
+  useQuery<Project>({
+    queryKey,
+    queryFn: ignore404(() => PROJECTS.getOne(id)),
+  });

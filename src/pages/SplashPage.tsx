@@ -11,8 +11,8 @@ const SplashPage = () => {
           </h3>
 
           <p class="text-2xl text-gray-500 mt-12">
-            Cardinal aims to be the easiest ways to get the card game you have
-            in your head out on to the table top.
+            Cardinal aims to be the easiest way to get the card game you have in
+            your head out on to the table top.
           </p>
 
           <div class="mt-12">

@@ -11,6 +11,9 @@ const HOUR_IN_MS = 3_600_000;
 const MIN_IN_MS = 60_000;
 const SEC_IN_MS = 1_000;
 
+/** Always returns false */
+export const stubFalse = (arg?: any) => false;
+
 /** Return time since date occured, as human-readable string */
 export const timeSince = (date: Date) => {
   const diff = Date.now() - date.getTime();

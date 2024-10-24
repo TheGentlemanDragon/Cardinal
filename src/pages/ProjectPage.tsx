@@ -1,7 +1,8 @@
 import { useRoute } from "preact-iso";
-import { useProject } from "../lib/projects";
 import { Navbar } from "../features/Navbar";
 import { QueryStatus } from "../features/QueryStatus";
+import { useProject } from "../lib/projects";
+import { TITLE_CLS } from "../lib/styles";
 
 /** List project resources */
 const ProjectPage = () => {
@@ -14,15 +15,21 @@ const ProjectPage = () => {
   return (
     <main class="main-bg size-full">
       <Navbar />
-      <QueryStatus query={projectQuery}>
-        <QueryStatus.Loading>Loading</QueryStatus.Loading>
-        <QueryStatus.Error>Error</QueryStatus.Error>
-        <QueryStatus.Empty>Empty</QueryStatus.Empty>
+      <section class="grid grid-cols-3 gap-5 mx-auto max-w-screen-md pt-14">
+        <div class="col-span-3 flex justify-between">
+          <div class={TITLE_CLS}>Templates</div>
+        </div>
 
-        <QueryStatus.Success>
-          <pre>Page for Project {JSON.stringify(project, null, 2)}</pre>
-        </QueryStatus.Success>
-      </QueryStatus>
+        <QueryStatus query={projectQuery}>
+          <QueryStatus.Loading>Loading</QueryStatus.Loading>
+          <QueryStatus.Error>Error</QueryStatus.Error>
+          <QueryStatus.Empty>Empty</QueryStatus.Empty>
+
+          <QueryStatus.Success>
+            <pre>Page for Project {JSON.stringify(project, null, 2)}</pre>
+          </QueryStatus.Success>
+        </QueryStatus>
+      </section>
     </main>
   );
 };

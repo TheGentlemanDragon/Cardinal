@@ -1,5 +1,5 @@
 import { Project } from "../../lib/projects";
-import { cls, MENU_BUTTON_CLS, PROJECT_CARD_CLS } from "../../lib/styles";
+import { cls, MENU_BUTTON_CLS, CARD_CLS } from "../../lib/styles";
 import { timeSince } from "../../lib/utils";
 import { MenuIcon } from "../icons/MenuIcon";
 import { TrashIcon } from "../icons/TrashIcon";
@@ -10,7 +10,7 @@ type Props = {
 
 export const ProjectCard = ({ project }: Props) => {
   return (
-    <article class={PROJECT_CARD_CLS}>
+    <article class={CARD_CLS}>
       {/* Card image */}
       <figure class="max-h-32">
         <img

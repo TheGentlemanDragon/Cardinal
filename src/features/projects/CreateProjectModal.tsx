@@ -1,7 +1,7 @@
 import { useRef, useState } from "preact/hooks";
 import { PlusIcon } from "../icons/PlusIcon";
 import { create, useProjectsList } from "../../lib/projects";
-import { Modal } from "./Modal";
+import { Modal } from "../Modal";
 
 export const CreateProjectModalButton = () => {
   const { refetch } = useProjectsList();

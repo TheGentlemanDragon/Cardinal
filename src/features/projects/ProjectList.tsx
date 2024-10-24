@@ -1,8 +1,8 @@
 import { isEmptyError, type PbList } from "../../lib/db";
 import { type Project, useProjectsList } from "../../lib/projects";
+import { EmptyState } from "../EmptyState";
 import { QueryStatus } from "../QueryStatus";
 import { ProjectCard } from "./ProjectCard";
-import { ProjectsEmpty } from "./ProjectsEmpty";
 import { ProjectsLoading } from "./ProjectsLoading";
 
 /** List all projects */
@@ -24,7 +24,10 @@ export const ProjectList = () => {
       <QueryStatus.Error>Error!</QueryStatus.Error>
 
       <QueryStatus.Empty>
-        <ProjectsEmpty />
+        <EmptyState title="Create a Project">
+          Projects are collections of assets, templates, and decks of cards. You
+          currently do not have any projects. Click the + button to create one.
+        </EmptyState>
       </QueryStatus.Empty>
 
       <QueryStatus.Success>

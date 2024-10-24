@@ -8,7 +8,7 @@ export const INPUT_ICON_CLS = `_
 
 export const MENU_BUTTON_CLS = "btn btn-neutral hover:bg-gray-700";
 
-export const PROJECT_CARD_CLS = `_
+export const CARD_CLS = `_
   relative group
   card card-compact shadow-lg rounded-xl
   bg-white text-neutral

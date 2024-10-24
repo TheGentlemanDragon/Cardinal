@@ -1,8 +1,8 @@
-import { CreateProjectModalButton } from "../features/modals/CreateProjectModal";
-import { Navbar } from "../features/Navbar";
-import { TITLE_CLS } from "../lib/styles";
 // import { AddAssetButton, AssetsModal } from "../features/modals/AssetsModal";
+import { CreateProjectModalButton } from "../features/projects/CreateProjectModal";
+import { Navbar } from "../features/Navbar";
 import { ProjectList } from "../features/projects/ProjectList";
+import { TITLE_CLS } from "../lib/styles";
 
 /** List all projects */
 const ProjectsPage = () => {

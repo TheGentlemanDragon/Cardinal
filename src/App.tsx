@@ -1,6 +1,7 @@
 // import { hydrate, prerender as ssr } from "preact-iso";
 
 import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { render } from "preact";
 import {
   ErrorBoundary,
@@ -38,6 +39,7 @@ const App = () => {
           </Router>
         </ErrorBoundary>
       </LocationProvider>
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 };

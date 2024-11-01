@@ -1,18 +1,19 @@
-import { FormHint } from "../features/FormHint";
-import { UserIcon } from "../features/icons/UserIcon";
-import { KeyIcon } from "../features/icons/KeyIcon";
+import { KeyIcon, UserIcon } from "$icons";
 import {
-  login,
   error,
+  INPUT_CLS,
+  INPUT_ICON_CLS,
   isSignInIncomplete,
+  login,
   name,
   pass1,
+  preventDefault,
   reset,
   updateFormState,
   validateInput,
-} from "../lib/signUp";
-import { INPUT_ICON_CLS, INPUT_CLS } from "../lib/styles";
-import { preventDefault } from "../lib/utils";
+} from "$lib";
+
+import { FormHint } from "../features/FormHint";
 
 /** User sign in */
 const SignInPage = () => {

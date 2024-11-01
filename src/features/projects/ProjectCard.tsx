@@ -1,8 +1,5 @@
-import { Project } from "../../lib/projects";
-import { cls, MENU_BUTTON_CLS, CARD_CLS } from "../../lib/styles";
-import { timeSince } from "../../lib/utils";
-import { MenuIcon } from "../icons/MenuIcon";
-import { TrashIcon } from "../icons/TrashIcon";
+import { MenuIcon, TrashIcon } from "$icons";
+import { cls, CARD_CLS, MENU_BUTTON_CLS, Project, timeSince } from "$lib";
 
 type Props = {
   project: Project;

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { PbList, ignore404, pb, queryClient } from "./db";
+
+import { ignore404, pb, PbList } from "./db";
 
 const TEMPLATES = pb.collection("c_templates");
 const queryKey = ["templates"];

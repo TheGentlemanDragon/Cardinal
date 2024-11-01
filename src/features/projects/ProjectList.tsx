@@ -1,8 +1,12 @@
-import { isEmptyError, type PbList } from "../../lib/db";
-import { type Project, useProjectsList } from "../../lib/projects";
-import { TITLE_CLS } from "../../lib/styles";
-import { EmptyState } from "../EmptyState";
-import { QueryStatus } from "../QueryStatus";
+import { EmptyState, QueryStatus } from "$components";
+import {
+  isEmptyError,
+  TITLE_CLS,
+  useProjectsList,
+  type PbList,
+  type Project,
+} from "$lib";
+
 import { CreateProjectModalButton } from "./CreateProjectModal";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectsLoading } from "./ProjectsLoading";

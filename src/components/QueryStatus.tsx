@@ -1,6 +1,7 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import { Children, ReactNode } from "preact/compat";
-import { stubFalse } from "../lib/utils";
+
+import { stubFalse } from "$lib";
 
 type Props = {
   children: ReactNode;

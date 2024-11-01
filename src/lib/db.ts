@@ -1,5 +1,6 @@
-import PocketBase, { ClientResponseError } from "pocketbase";
 import { QueryClient } from "@tanstack/react-query";
+import PocketBase, { ClientResponseError } from "pocketbase";
+
 import { DB_URL } from "./config";
 
 const MAX_RETRIES = 3;

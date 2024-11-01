@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.9.0",
+    "@types/node": "^22.8.6",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.12.10",
     "eslint": "^8.57.0",

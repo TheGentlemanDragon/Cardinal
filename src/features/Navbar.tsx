@@ -1,5 +1,4 @@
-import { TEXT_SHADOW_CLS } from "../lib/styles";
-import { userInitials, userSignal } from "../lib/user";
+import { TEXT_SHADOW_CLS, userInitials, userSignal } from "$lib";
 
 export const Navbar = () => {
   const user = userSignal.value;

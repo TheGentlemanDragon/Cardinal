@@ -19,7 +19,7 @@ export const userSignal = signal<UsersAuth | null>(null);
 // Check for existing user session
 try {
   const pocketbaseAuth = JSON.parse(
-    localStorage.getItem("pocketbase_auth") || '""',
+    localStorage.getItem("pocketbase_auth") || '""'
   );
   userSignal.value = pocketbaseAuth?.model as UsersAuth;
 } catch (error) {

@@ -37,11 +37,11 @@ const signupSignals = [email, name, pass1, pass2];
 const signinSignals = [name, pass1];
 
 export const isSignUpIncomplete = computed(() =>
-  signupSignals.some((signal) => !signal.value),
+  signupSignals.some((signal) => !signal.value)
 );
 
 export const isSignInIncomplete = computed(() =>
-  signinSignals.some((signal) => !signal.value),
+  signinSignals.some((signal) => !signal.value)
 );
 
 ///// Public Methods ///////////////////////////////////////////////////////////
@@ -70,9 +70,9 @@ export const login = async () => {
       .authWithPassword(name.value, pass1.value);
 
     console.log({ authData });
-    location.assign("/projects")
+    location.assign("/projects");
   } catch (error) {
-    console.log({ error })
+    console.log({ error });
   }
 };
 

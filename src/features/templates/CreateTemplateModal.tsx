@@ -1,5 +1,6 @@
 import { useRoute } from "preact-iso";
 import { useRef, useState } from "preact/hooks";
+
 import { Modal } from "$components";
 import { PlusIcon } from "$icons";
 import { createTemplate, useTemplatesList } from "$lib";

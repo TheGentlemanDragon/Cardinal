@@ -1,9 +1,13 @@
 import { useRoute } from "preact-iso";
-import { isEmptyError, type PbList } from "../../lib/db";
-import { TITLE_CLS } from "../../lib/styles";
-import { type Template, useTemplatesList } from "../../lib/templates";
-import { EmptyState } from "../EmptyState";
-import { QueryStatus } from "../QueryStatus";
+import {
+  isEmptyError,
+  TITLE_CLS,
+  useTemplatesList,
+  type PbList,
+  type Template,
+} from "$lib";
+import { EmptyState, QueryStatus } from "$components";
+
 import { CreateTemplateModal } from "./CreateTemplateModal";
 import { TemplateCard } from "./TemplateCard";
 import { TemplatesLoading } from "./TemplatesLoading";

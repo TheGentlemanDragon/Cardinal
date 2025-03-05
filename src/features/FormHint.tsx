@@ -1,6 +1,6 @@
 import { useActiveElement } from "@react-hooks-library/core";
 
-import { error, isSignUpIncomplete, isSignInIncomplete } from "../lib/signUp";
+import { error, isSignInIncomplete, isSignUpIncomplete } from "$lib";
 
 type Props = {
   signin?: boolean;

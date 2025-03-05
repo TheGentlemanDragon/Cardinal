@@ -1,8 +1,5 @@
-import { Template } from "../../lib/templates";
-import { cls, MENU_BUTTON_CLS, CARD_CLS } from "../../lib/styles";
-import { timeSince } from "../../lib/utils";
-import { MenuIcon } from "../icons/MenuIcon";
-import { TrashIcon } from "../icons/TrashIcon";
+import { CARD_CLS, cls, MENU_BUTTON_CLS, Template, timeSince } from "$lib";
+import { MenuIcon, TrashIcon } from "$icons";
 
 type Props = {
   template: Template;

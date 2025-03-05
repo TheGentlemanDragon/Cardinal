@@ -10,16 +10,18 @@ import {
   Router,
   Route,
 } from "preact-iso";
+
+import { queryClient } from "$lib";
+
 import { usePageTitle } from "./features/usePageTitle";
-import { queryClient } from "./lib/db";
 import "./styles.css";
 
-const Splash = lazy(() => import("./pages/SplashPage"));
-const SignUp = lazy(() => import("./pages/SignUpPage"));
-const SignIn = lazy(() => import("./pages/SignInPage"));
+const NotFound = lazy(() => import("./pages/NotFoundPage"));
 const Project = lazy(() => import("./pages/ProjectPage"));
 const Projects = lazy(() => import("./pages/ProjectsPage"));
-const NotFound = lazy(() => import("./pages/NotFoundPage"));
+const SignIn = lazy(() => import("./pages/SignInPage"));
+const SignUp = lazy(() => import("./pages/SignUpPage"));
+const Splash = lazy(() => import("./pages/SplashPage"));
 
 const App = () => {
   usePageTitle("Cardinal");

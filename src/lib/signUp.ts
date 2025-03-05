@@ -1,5 +1,6 @@
+import { computed, signal, Signal } from "@preact/signals";
 import { TargetedEvent } from "preact/compat";
-import { computed, Signal, signal } from "@preact/signals";
+
 import { pb } from "./db";
 
 ///// Types ////////////////////////////////////////////////////////////////////

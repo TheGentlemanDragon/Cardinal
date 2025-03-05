@@ -1,4 +1,4 @@
-import { CARD_CLS } from "../../lib/styles";
+import { CARD_CLS } from "$lib";
 
 const ELEMENTS = ["", "", ""];
 

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { PbList, ignore404, pb, queryClient } from "./db";
+
+import { ignore404, pb, PbList, queryClient } from "./db";
 import { userSignal } from "./user";
 
 const PROJECTS = pb.collection("cardinal_projects");

@@ -1,8 +1,8 @@
 import { useRoute } from "preact-iso";
 import { useRef, useState } from "preact/hooks";
-import { PlusIcon } from "../icons/PlusIcon";
-import { create, useTemplatesList } from "../../lib/templates";
-import { Modal } from "../Modal";
+import { Modal } from "$components";
+import { PlusIcon } from "$icons";
+import { createTemplate, useTemplatesList } from "$lib";
 
 export const CreateTemplateModal = () => {
   const route = useRoute();
@@ -12,8 +12,8 @@ export const CreateTemplateModal = () => {
   const dialog = useRef<HTMLDialogElement>(null);
   const [name, setName] = useState("");
 
-  const createTemplate = () => {
-    create(name, projectId);
+  const create = () => {
+    createTemplate(name, projectId);
     refetch();
     dialog.current?.close();
   };
@@ -63,7 +63,7 @@ export const CreateTemplateModal = () => {
             <button
               class="btn btn-primary"
               disabled={name.length === 0}
-              onClick={createTemplate}
+              onClick={create}
             >
               Confirm
             </button>

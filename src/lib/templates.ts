@@ -16,7 +16,7 @@ export type Template = {
   updated: Date;
 };
 
-export const create = async (name: string, projectId: string) => {
+export const createTemplate = async (name: string, projectId: string) => {
   await TEMPLATES.create({
     name,
     owner: userSignal.value?.id,

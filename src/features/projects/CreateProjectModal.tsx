@@ -2,15 +2,15 @@ import { useRef, useState } from "preact/hooks";
 
 import { Modal } from "$components";
 import { PlusIcon } from "$icons";
-import { create, useProjectsList } from "$lib";
+import { createProject, useProjectsList } from "$lib";
 
 export const CreateProjectModalButton = () => {
   const { refetch } = useProjectsList();
   const dialog = useRef<HTMLDialogElement>(null);
   const [name, setName] = useState("");
 
-  const createProject = () => {
-    create(name);
+  const create = () => {
+    createProject(name);
     refetch();
     dialog.current?.close();
   };
@@ -60,7 +60,7 @@ export const CreateProjectModalButton = () => {
             <button
               class="btn btn-primary"
               disabled={name.length === 0}
-              onClick={createProject}
+              onClick={create}
             >
               Confirm
             </button>

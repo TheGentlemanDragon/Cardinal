@@ -25,8 +25,11 @@ export const QueryStatus = ({
 
   // Loop through children and find the matching status component
   Children.forEach(children, (child) => {
-    // @ts-expect-error: children have a type prop with the component object
-    if (query.isLoading && child.type === QueryStatus.Loading) {
+    if (
+      (query.isLoading || query.isPending) &&
+      // @ts-expect-error: children have a type prop with the component object
+      child.type === QueryStatus.Loading
+    ) {
       content = child;
     }
 

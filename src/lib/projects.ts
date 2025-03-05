@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ignore404, pb, PbList, queryClient } from "./db";
 import { userSignal } from "./user";
 
-const PROJECTS = pb.collection("c_projects");
+const PROJECTS = pb.collection("cardinal_projects");
 const queryKey = ["projects"];
 
 export type Project = {

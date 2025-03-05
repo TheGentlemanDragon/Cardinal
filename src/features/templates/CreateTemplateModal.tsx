@@ -1,16 +1,19 @@
+import { useRoute } from "preact-iso";
 import { useRef, useState } from "preact/hooks";
-
 import { Modal } from "$components";
 import { PlusIcon } from "$icons";
-import { createProject, useProjectsList } from "$lib";
+import { createTemplate, useTemplatesList } from "$lib";
 
-export const CreateProjectModalButton = () => {
-  const { refetch } = useProjectsList();
+export const CreateTemplateModal = () => {
+  const route = useRoute();
+  const projectId = route.params.id;
+
+  const { refetch } = useTemplatesList(projectId);
   const dialog = useRef<HTMLDialogElement>(null);
   const [name, setName] = useState("");
 
   const create = () => {
-    createProject(name);
+    createTemplate(name, projectId);
     refetch();
     dialog.current?.close();
   };
@@ -28,17 +31,17 @@ export const CreateProjectModalButton = () => {
 
       <dialog class="modal" id="createProjectModal" ref={dialog}>
         <Modal>
-          <Modal.Title>Create a new project</Modal.Title>
+          <Modal.Title>Create a new template</Modal.Title>
 
           <Modal.Content>
             <p>
-              A project is a collection of assets, templates, and decks of
-              cards. You can change these values later.
+              A templates is a card blueprint consisting of static or dynamic
+              text and/or images. You can change these values later.
             </p>
 
             <label class="form-control w-full max-w-xs">
               <div class="label">
-                <span class="label-text">Project Title</span>
+                <span class="label-text">Template Name</span>
               </div>
               <input
                 type="text"

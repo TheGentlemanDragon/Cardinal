@@ -1,30 +1,30 @@
 import { useRoute } from "preact-iso";
-
-import { EmptyState, QueryStatus } from "$components";
 import {
   isEmptyError,
   TITLE_CLS,
-  useTemplates,
+  useTemplatesList,
   type PbList,
   type Template,
 } from "$lib";
+import { EmptyState, QueryStatus } from "$components";
 
+import { CreateTemplateModal } from "./CreateTemplateModal";
 import { TemplateCard } from "./TemplateCard";
 import { TemplatesLoading } from "./TemplatesLoading";
 
 /** List all templates in a project */
 export const TemplateList = () => {
   const route = useRoute();
-  // const projectId = route.params.id;
+  const projectId = route.params.id;
 
-  const templatesQuery = useTemplates();
+  const templatesQuery = useTemplatesList(projectId);
   const { data: templates, error } = templatesQuery;
 
   return (
     <>
-      <div class="col-span-3 flex justify-between">
+      <div class="col-span-5 flex justify-between">
         <div class={TITLE_CLS}>Templates</div>
-        {/* <CreateTemplateModalButton /> */}
+        <CreateTemplateModal />
       </div>
 
       <QueryStatus
@@ -48,8 +48,8 @@ export const TemplateList = () => {
         </QueryStatus.Empty>
 
         <QueryStatus.Success>
-          {templates?.items.map((project) => (
-            <TemplateCard project={project} />
+          {templates?.items.map((template) => (
+            <TemplateCard template={template} />
           ))}
         </QueryStatus.Success>
       </QueryStatus>

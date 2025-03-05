@@ -1,18 +1,24 @@
-import { MenuIcon, TrashIcon } from "$icons";
 import { CARD_CLS, cls, MENU_BUTTON_CLS, Template, timeSince } from "$lib";
+import { MenuIcon, TrashIcon } from "$icons";
 
 type Props = {
-  project: Template;
+  template: Template;
 };
 
-export const TemplateCard = ({ project }: Props) => {
+export const TemplateCard = ({ template }: Props) => {
   return (
-    <article class={CARD_CLS}>
+    <article
+      class={
+        CARD_CLS +
+        ` w-40 h-64 aspect-[0.712] 
+        border-[#1565c0] border-2 border-dashed`
+      }
+    >
       {/* Card image */}
-      <figure class="max-h-32">
+      <figure>
         <img
-          src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-          alt="Shoes"
+          src={`https://picsum.photos/seed/${template.id}/160/155`}
+          alt={`${template.name}`}
         />
       </figure>
 
@@ -51,11 +57,11 @@ export const TemplateCard = ({ project }: Props) => {
       {/* Card body */}
       <div class="card-body gap-0">
         <h2 class="card-title text-base">
-          <a class="link" href={`/projects/${project.id}`}>
-            {project.name}
+          <a class="link" href={`/projects/${template.id}`}>
+            {template.name}
           </a>
         </h2>
-        <p class="text-xs">{timeSince(project.created)}</p>
+        <p class="text-xs">{timeSince(template.created)}</p>
       </div>
     </article>
   );

@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import { PbList, ignore404, pb, queryClient } from "./db";
+import { userSignal } from "./user";
 
-import { ignore404, pb, PbList } from "./db";
-
-const TEMPLATES = pb.collection("c_templates");
+const TEMPLATES = pb.collection("cardinal_templates");
 const queryKey = ["templates"];
 
 export type Template = {
@@ -16,10 +16,22 @@ export type Template = {
   updated: Date;
 };
 
-export const useTemplates = () =>
+export const createTemplate = async (name: string, projectId: string) => {
+  await TEMPLATES.create({
+    name,
+    owner: userSignal.value?.id,
+    project: projectId,
+  });
+  queryClient.invalidateQueries({ queryKey });
+};
+
+export const useTemplatesList = (projectId?: string) =>
   useQuery<PbList<Template>>({
+    enabled: projectId != undefined,
+    queryFn: ignore404(() =>
+      TEMPLATES.getList(1, 20, { filter: `project.id="${projectId}"` })
+    ),
     queryKey,
-    queryFn: ignore404(() => TEMPLATES.getList(1, 20)),
     select: (data) => ({
       ...data,
       items: data.items.map((item) => ({

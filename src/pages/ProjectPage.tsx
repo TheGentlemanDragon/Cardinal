@@ -7,7 +7,7 @@ const ProjectPage = () => {
     <main class="main-bg size-full">
       <Navbar />
 
-      <section class="grid grid-cols-3 gap-5 mx-auto max-w-screen-md pt-14">
+      <section class="grid grid-cols-5 gap-y-5 gap-x-32 mx-auto max-w-screen-md pt-14">
         <TemplateList />
       </section>
     </main>

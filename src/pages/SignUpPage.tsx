@@ -3,7 +3,6 @@ import {
   createUser,
   email,
   error,
-  INPUT_CLS,
   INPUT_ICON_CLS,
   isSignUpIncomplete,
   name,
@@ -46,7 +45,7 @@ const SignUpPage = () => {
           {/* Email */}
           <label class="relative">
             <input
-              class={`${INPUT_CLS} ${hasEmailError}`}
+              class={`input ${hasEmailError}`}
               id="email"
               minLength={3}
               placeholder="user@email.com"
@@ -61,7 +60,7 @@ const SignUpPage = () => {
           {/* Username */}
           <label class="relative">
             <input
-              class={`${INPUT_CLS} ${hasNameError}`}
+              class={`input ${hasNameError}`}
               id="name"
               minLength={3}
               placeholder="username"
@@ -76,7 +75,7 @@ const SignUpPage = () => {
           <label class="relative">
             <input
               autocomplete="off"
-              class={`${INPUT_CLS} ${hasPass1Error}`}
+              class={`input ${hasPass1Error}`}
               id="pass1"
               minLength={8}
               placeholder="password"
@@ -91,7 +90,7 @@ const SignUpPage = () => {
           <label class="relative">
             <input
               autocomplete="off"
-              class={`${INPUT_CLS} ${hasPass2Error}`}
+              class={`input ${hasPass2Error}`}
               id="pass2"
               minLength={8}
               placeholder="password"

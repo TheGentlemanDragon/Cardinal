@@ -1,7 +1,6 @@
 import { KeyIcon, UserIcon } from "$icons";
 import {
   error,
-  INPUT_CLS,
   INPUT_ICON_CLS,
   isSignInIncomplete,
   login,
@@ -39,7 +38,7 @@ const SignInPage = () => {
           {/* Username */}
           <label class="relative">
             <input
-              class={`${INPUT_CLS} ${hasNameError}`}
+              class={`input ${hasNameError}`}
               id="name"
               minLength={3}
               placeholder="username"
@@ -54,7 +53,7 @@ const SignInPage = () => {
           {/* Password */}
           <label class="relative">
             <input
-              class={`${INPUT_CLS} ${hasPass1Error}`}
+              class={`input ${hasPass1Error}`}
               id="pass1"
               minLength={8}
               placeholder="password"

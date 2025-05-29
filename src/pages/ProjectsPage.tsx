@@ -9,7 +9,7 @@ const ProjectsPage = () => {
     <Page>
       <Navbar />
 
-      <section class="grid grid-cols-3 gap-5 mx-auto max-w-screen-md pt-14">
+      <section class="grid grid-cols-3 gap-5 mx-auto max-w-(--breakpoint-md) pt-14">
         <ProjectList />
 
         {/* TODO: <>

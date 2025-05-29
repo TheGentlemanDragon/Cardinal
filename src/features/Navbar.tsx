@@ -14,7 +14,7 @@ export const Navbar = () => {
           Cardinal
         </a>
 
-        <div class="avatar placeholder">
+        <div class="avatar avatar-placeholder">
           <div class="bg-neutral-content text-neutral rounded-full w-8">
             <span class="text-xs font-bold">{userInitials(user)}</span>
           </div>

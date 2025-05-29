@@ -40,14 +40,15 @@ export const CreateTemplateModal = () => {
               text and/or images. You can change these values later.
             </p>
 
-            <label class="form-control w-full max-w-xs">
+            {/* TODO: Convert to <fieldset> */}
+            <label class="w-full max-w-xs">
               <div class="label">
-                <span class="label-text">Template Name</span>
+                <span>Template Name</span>
               </div>
               <input
                 type="text"
                 placeholder="Type here"
-                class="input input-bordered w-full max-w-xs"
+                class="input"
                 onInput={(event) => setName(event.currentTarget.value)}
               />
             </label>

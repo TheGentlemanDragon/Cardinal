@@ -40,7 +40,7 @@ export const TemplateCard = ({ template }: Props) => {
           class="
             dropdown-content menu
             bg-base-200 rounded-lg
-            z-[1] w-32 p-2
+            z-1 w-32 p-2
             shadow-md shadow-blue-950/80"
           data-theme="dark"
           tabindex={0}
@@ -57,7 +57,7 @@ export const TemplateCard = ({ template }: Props) => {
       {/* Card body */}
       <div class="card-body gap-0">
         <h2 class="card-title text-base">
-          <a class="link" href={`/projects/${template.id}`}>
+          <a class="link" href={`/templates/${template.id}`}>
             {template.name}
           </a>
         </h2>

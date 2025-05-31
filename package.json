@@ -21,7 +21,8 @@
     "@tanstack/react-query-devtools": "^5.59.16",
     "pocketbase": "^0.21.5",
     "preact": "^10.24.3",
-    "preact-iso": "^2.7.0"
+    "preact-iso": "^2.7.0",
+    "vite": "npm:rolldown-vite@latest"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.9.0",
@@ -32,7 +33,6 @@
     "eslint-config-preact": "^1.4.0",
     "preact-render-to-string": "^6.5.13",
     "tailwindcss": "^4.1.8",
-    "typescript": "^5.4.5",
-    "vite": "^5.4.8"
+    "typescript": "^5.4.5"
   }
 }

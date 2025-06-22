@@ -22,6 +22,7 @@ const Projects = lazy(() => import("./pages/ProjectsPage"));
 const SignIn = lazy(() => import("./pages/SignInPage"));
 const SignUp = lazy(() => import("./pages/SignUpPage"));
 const Splash = lazy(() => import("./pages/SplashPage"));
+const Editor = lazy(() => import("./pages/EditorPage"));
 
 const App = () => {
   usePageTitle("Cardinal");
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="/signin" component={SignIn} />
             <Route path="/projects/:id" component={Project} />
             <Route path="/projects" component={Projects} />
+            <Route path="/editor/:id" component={Editor} />
 
             <NotFound default />
           </Router>

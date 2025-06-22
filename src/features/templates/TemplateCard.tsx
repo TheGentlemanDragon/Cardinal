@@ -57,7 +57,7 @@ export const TemplateCard = ({ template }: Props) => {
       {/* Card body */}
       <div class="card-body gap-0">
         <h2 class="card-title text-base">
-          <a class="link" href={`/templates/${template.id}`}>
+          <a class="link" href={`/editor/${template.id}`}>
             {template.name}
           </a>
         </h2>

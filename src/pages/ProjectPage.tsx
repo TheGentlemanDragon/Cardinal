@@ -8,7 +8,7 @@ const ProjectPage = () => {
     <Page>
       <Navbar />
 
-      <section class="grid grid-cols-5 gap-y-5 gap-x-32 mx-auto max-w-(--breakpoint-md) pt-14">
+      <section class="grid grid-cols-4 gap-y-5 gap-x-5 mx-auto max-w-(--breakpoint-md) pt-14">
         <TemplateList />
       </section>
     </Page>

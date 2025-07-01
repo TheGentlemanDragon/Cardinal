@@ -7,20 +7,37 @@ type Props = {
 
 export const TemplateCard = ({ template }: Props) => {
   return (
-    <article
-      class={
-        CARD_CLS +
-        ` w-40 h-64 aspect-[0.712] 
-        border-[#1565c0] border-2 border-dashed`
-      }
-    >
-      {/* Card image */}
-      <figure>
-        <img
-          src={`https://picsum.photos/seed/${template.id}/160/155`}
-          alt={`${template.name}`}
-        />
-      </figure>
+    <div class="relative group">
+      <a class="link" href={`/editor/${template.id}`}>
+        <article
+          class={
+            CARD_CLS +
+            ` w-[172] aspect-[25/35] 
+            border-[#1565c0] border-2 border-dashed`
+          }
+        >
+          {/* Card image */}
+          <figure
+            class="h-36 bg-base-300 bg-gradient-to-br from-base-300 to-base-200 overflow-hidden"
+            style="background-image: radial-gradient(circle at center, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px;"
+          >
+            <img
+              src={`https://picsum.photos/seed/${template.id}/160/155`}
+              alt={`${template.name}`}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          </figure>
+
+          {/* Card body */}
+          <div class="card-body gap-0">
+            <h2 class="card-title text-base group-hover:underline">
+              {template.name}
+            </h2>
+            <p class="text-xs">{timeSince(template.created)}</p>
+          </div>
+        </article>
+      </a>
 
       {/* Card actions menu */}
       <div
@@ -53,16 +70,6 @@ export const TemplateCard = ({ template }: Props) => {
           </li>
         </ul>
       </div>
-
-      {/* Card body */}
-      <div class="card-body gap-0">
-        <h2 class="card-title text-base">
-          <a class="link" href={`/editor/${template.id}`}>
-            {template.name}
-          </a>
-        </h2>
-        <p class="text-xs">{timeSince(template.created)}</p>
-      </div>
-    </article>
+    </div>
   );
 };

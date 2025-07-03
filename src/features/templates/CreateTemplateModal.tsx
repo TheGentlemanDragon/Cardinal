@@ -21,7 +21,7 @@ export const CreateTemplateModal = () => {
 
   return (
     <>
-      <div className="tooltip" data-tip="Create new project">
+      <div class="tooltip" data-tip="Create new project">
         <button
           class="btn btn-sm btn-neutral btn-circle"
           onClick={() => dialog.current?.showModal()}

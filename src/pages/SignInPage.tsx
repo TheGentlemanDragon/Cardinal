@@ -25,7 +25,7 @@ const SignInPage = () => {
 
   return (
     <main class="main-bg size-full flex items-center justify-center">
-      <section className="card w-96 shadow-xl" data-theme="corporate">
+      <section class="card w-96 shadow-xl" data-theme="corporate">
         <form
           class="card-body"
           onBlur={validateInput}

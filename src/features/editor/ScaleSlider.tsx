@@ -22,7 +22,7 @@ export const ScaleSilder = () => {
     <div class="flex items-center absolute bottom-3 left-4">
       <Search />
       <input
-        class="range range-xs"
+        class="range range-xs ml-2"
         min="10"
         max="48"
         type="range"

@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals-core";
-import { TemplateIcon, TableIcon, CardPreviewIcon } from "$icons";
+import { BookDashed, BookImage, Table } from "lucide-preact";
 
 const editorView = signal("template");
 
@@ -13,15 +13,15 @@ const setView = (name: string) => () => (editorView.value = name);
 const MENU_ITEMS = [
   {
     id: "template",
-    Icon: TemplateIcon,
+    Icon: <BookDashed />,
   },
   {
     id: "preview",
-    Icon: CardPreviewIcon,
+    Icon: <BookImage />,
   },
   {
     id: "table",
-    Icon: TableIcon,
+    Icon: <Table />,
   },
 ];
 
@@ -30,7 +30,7 @@ export const EditorNav = () => (
     {MENU_ITEMS.map((item) => (
       <li>
         <a class={activeClass(item.id)} id={item.id} onClick={setView(item.id)}>
-          <item.Icon cls={iconClass} />
+          {item.Icon}
         </a>
       </li>
     ))}

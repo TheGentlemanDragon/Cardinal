@@ -1,8 +1,8 @@
 import { useRef, useState } from "preact/hooks";
 
 import { Modal } from "$components";
-import { PlusIcon } from "$icons";
 import { createProject, useProjectsList } from "$lib";
+import { Plus } from "lucide-preact";
 
 export const CreateProjectModalButton = () => {
   const { refetch } = useProjectsList();
@@ -22,7 +22,7 @@ export const CreateProjectModalButton = () => {
           class="btn btn-sm btn-neutral btn-circle"
           onClick={() => dialog.current?.showModal()}
         >
-          <PlusIcon />
+          <Plus />
         </button>
       </div>
 

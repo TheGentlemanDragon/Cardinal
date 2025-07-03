@@ -1,9 +1,7 @@
-import { EmailIcon, KeyIcon, UserIcon } from "$icons";
 import {
   createUser,
   email,
   error,
-  INPUT_ICON_CLS,
   isSignUpIncomplete,
   name,
   pass1,
@@ -13,6 +11,7 @@ import {
   updateFormState,
   validateInput,
 } from "$lib";
+import { AtSign, KeyRound, UserRound } from "lucide-preact";
 
 import { FormHint } from "../features/FormHint";
 
@@ -43,9 +42,9 @@ const SignUpPage = () => {
           <span>Create a Cardinal account</span>
 
           {/* Email */}
-          <label class="relative">
+          <label class="input relative">
             <input
-              class={`input ${hasEmailError}`}
+              class={hasEmailError}
               id="email"
               minLength={3}
               placeholder="user@email.com"
@@ -54,13 +53,13 @@ const SignUpPage = () => {
               value={email.value}
             />
 
-            <EmailIcon cls={INPUT_ICON_CLS} />
+            <AtSign />
           </label>
 
           {/* Username */}
-          <label class="relative">
+          <label class="input relative">
             <input
-              class={`input ${hasNameError}`}
+              class={hasNameError}
               id="name"
               minLength={3}
               placeholder="username"
@@ -68,14 +67,14 @@ const SignUpPage = () => {
               type="text"
               value={name.value}
             />
-            <UserIcon cls={INPUT_ICON_CLS} />
+            <UserRound />
           </label>
 
           {/* Password */}
-          <label class="relative">
+          <label class="input relative">
             <input
               autocomplete="off"
-              class={`input ${hasPass1Error}`}
+              class={hasPass1Error}
               id="pass1"
               minLength={8}
               placeholder="password"
@@ -83,14 +82,14 @@ const SignUpPage = () => {
               type="password"
               value={pass1.value}
             />
-            <KeyIcon cls={INPUT_ICON_CLS} />
+            <KeyRound />
           </label>
 
           {/* Password Confirm */}
-          <label class="relative">
+          <label class="input relative">
             <input
               autocomplete="off"
-              class={`input ${hasPass2Error}`}
+              class={hasPass2Error}
               id="pass2"
               minLength={8}
               placeholder="password"
@@ -98,7 +97,7 @@ const SignUpPage = () => {
               type="password"
               value={pass2.value}
             />
-            <KeyIcon cls={INPUT_ICON_CLS} />
+            <KeyRound />
           </label>
 
           <FormHint />

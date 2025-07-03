@@ -1,6 +1,6 @@
 import { effect, signal } from "@preact/signals-core";
+import { Search } from "lucide-preact";
 import { ChangeEvent } from "preact/compat";
-import { ScaleIcon } from "$icons";
 
 const SCALE_CACHE_KEY = "card-scale";
 const DEFAULT_SCALE = 30;
@@ -20,7 +20,7 @@ effect(() => localStorage.setItem(SCALE_CACHE_KEY, String(cardScale.value)));
 export const ScaleSilder = () => {
   return (
     <div class="flex items-center absolute bottom-3 left-4">
-      <ScaleIcon cls="mr-2" />
+      <Search />
       <input
         class="range range-xs"
         min="10"

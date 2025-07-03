@@ -1,7 +1,5 @@
-import { KeyIcon, UserIcon } from "$icons";
 import {
   error,
-  INPUT_ICON_CLS,
   isSignInIncomplete,
   login,
   name,
@@ -11,6 +9,7 @@ import {
   updateFormState,
   validateInput,
 } from "$lib";
+import { UserRound, KeyRound } from "lucide-preact";
 
 import { FormHint } from "../features/FormHint";
 
@@ -36,9 +35,9 @@ const SignInPage = () => {
           <h2 class="card-title">Sign In</h2>
 
           {/* Username */}
-          <label class="relative">
+          <label class="input relative">
             <input
-              class={`input ${hasNameError}`}
+              class={hasNameError}
               id="name"
               minLength={3}
               placeholder="username"
@@ -47,13 +46,13 @@ const SignInPage = () => {
               value={name.value}
             />
 
-            <UserIcon cls={INPUT_ICON_CLS} />
+            <UserRound />
           </label>
 
           {/* Password */}
-          <label class="relative">
+          <label class="input relative">
             <input
-              class={`input ${hasPass1Error}`}
+              class={hasPass1Error}
               id="pass1"
               minLength={8}
               placeholder="password"
@@ -62,7 +61,7 @@ const SignInPage = () => {
               value={pass1.value}
             />
 
-            <KeyIcon cls={INPUT_ICON_CLS} />
+            <KeyRound />
           </label>
 
           <FormHint signin />

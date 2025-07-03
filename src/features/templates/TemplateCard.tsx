@@ -1,5 +1,5 @@
-import { MenuIcon, TrashIcon } from "$icons";
 import { CARD_CLS, cls, MENU_BUTTON_CLS, Template, timeSince } from "$lib";
+import { Ellipsis, Trash } from "lucide-preact";
 
 type Props = {
   template: Template;
@@ -51,7 +51,7 @@ export const TemplateCard = ({ template }: Props) => {
           role="button"
           tabindex={0}
         >
-          <MenuIcon />
+          <Ellipsis />
         </div>
         <ul
           class="
@@ -64,7 +64,7 @@ export const TemplateCard = ({ template }: Props) => {
         >
           <li>
             <a class="text-red-400/90 rounded-md pl-2">
-              <TrashIcon cls="h-4 w-5" />
+              <Trash />
               <span>Delete</span>
             </a>
           </li>

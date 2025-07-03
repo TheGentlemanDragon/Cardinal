@@ -1,5 +1,5 @@
-import { MenuIcon, TrashIcon } from "$icons";
 import { cls, CARD_CLS, MENU_BUTTON_CLS, Project, timeSince } from "$lib";
+import { Ellipsis, Trash } from "lucide-preact";
 
 type Props = {
   project: Project;
@@ -45,7 +45,7 @@ export const ProjectCard = ({ project }: Props) => {
           role="button"
           tabindex={0}
         >
-          <MenuIcon />
+          <Ellipsis />
         </div>
         <ul
           class="
@@ -58,7 +58,7 @@ export const ProjectCard = ({ project }: Props) => {
         >
           <li>
             <a class="text-red-400/90 rounded-md pl-2">
-              <TrashIcon cls="h-4 w-5" />
+              <Trash />
               <span>Delete</span>
             </a>
           </li>

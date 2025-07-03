@@ -2,8 +2,8 @@ import { useRoute } from "preact-iso";
 import { useRef, useState } from "preact/hooks";
 
 import { Modal } from "$components";
-import { PlusIcon } from "$icons";
 import { createTemplate, useTemplatesList } from "$lib";
+import { Plus } from "lucide-preact";
 
 export const CreateTemplateModal = () => {
   const route = useRoute();
@@ -26,7 +26,7 @@ export const CreateTemplateModal = () => {
           class="btn btn-sm btn-neutral btn-circle"
           onClick={() => dialog.current?.showModal()}
         >
-          <PlusIcon />
+          <Plus />
         </button>
       </div>
 

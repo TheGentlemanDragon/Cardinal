@@ -7,8 +7,8 @@ type PageProps = {
 /**
  * Page component
  *
- * Applies background and full-page layout
+ * Applies background, full-page layout, and flex column
  */
 export const Page = ({ children }: PageProps) => {
-  return <main class="main-bg size-full">{children}</main>;
+  return <main class="main-bg size-full flex flex-col">{children}</main>;
 };

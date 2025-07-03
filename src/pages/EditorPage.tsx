@@ -1,7 +1,7 @@
 import { Page } from "../components/Page";
 import { EditorCard } from "../features/editor/EditorCard";
-import { EditorNav } from "../features/editor/EditorNav";
-import { ScaleSilder } from "../features/editor/ScaleSlider";
+import { EditorFooterTools } from "../features/editor/EditorFooterTools";
+import { EditorMenuStack } from "../features/editor/EditorMenuStack";
 import { Navbar } from "../features/Navbar";
 
 /** Edit templates */
@@ -10,9 +10,16 @@ const EditorPage = () => {
     <Page>
       <Navbar />
 
-      <EditorNav />
-      <EditorCard />
-      <ScaleSilder />
+      <section class="grow flex">
+        <div class="flex items-center p-4">
+          <EditorMenuStack />
+        </div>
+        <div class="grow flex justify-center items-center">
+          <EditorCard />
+        </div>
+      </section>
+
+      <EditorFooterTools />
     </Page>
   );
 };

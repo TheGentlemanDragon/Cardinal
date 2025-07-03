@@ -19,7 +19,7 @@ effect(() => localStorage.setItem(SCALE_CACHE_KEY, String(cardScale.value)));
 
 export const ScaleSilder = () => {
   return (
-    <div class="flex items-center absolute bottom-3 left-4">
+    <label class="flex items-center">
       <Search />
       <input
         class="range range-xs ml-2"
@@ -29,6 +29,6 @@ export const ScaleSilder = () => {
         value={cardScale}
         onInput={setScale}
       ></input>
-    </div>
+    </label>
   );
 };

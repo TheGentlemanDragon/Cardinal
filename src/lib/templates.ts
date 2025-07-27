@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import * as z from "zod/v4";
 
 import { PbList, ignore404, pb, queryClient } from "./db";
 import { userSignal } from "./user";
@@ -6,16 +7,18 @@ import { userSignal } from "./user";
 const TEMPLATES = pb.collection("cardinal_templates");
 const queryKey = ["templates"];
 
-export type Template = {
-  collectionId: string;
-  collectionName: string;
-  created: Date;
-  id: string;
-  name: string;
-  owner: string;
-  project: string;
-  updated: Date;
-};
+const templateSchema = z.object({
+  collectionId: z.string(),
+  collectionName: z.string(),
+  created: z.coerce.date(),
+  id: z.string(),
+  name: z.string(),
+  owner: z.string(),
+  project: z.string(),
+  updated: z.coerce.date(),
+});
+
+export type Template = z.infer<typeof templateSchema>;
 
 export const createTemplate = async (name: string, projectId: string) => {
   await TEMPLATES.create({
@@ -35,10 +38,6 @@ export const useTemplatesList = (projectId?: string) =>
     queryKey,
     select: (data) => ({
       ...data,
-      items: data.items.map((item) => ({
-        ...item,
-        created: new Date(item.created),
-        updated: new Date(item.updated),
-      })),
+      items: data.items.map((item) => templateSchema.parse(item)),
     }),
   });

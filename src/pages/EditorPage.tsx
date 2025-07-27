@@ -1,7 +1,7 @@
 import { Page } from "../components/Page";
 import { EditorCard } from "../features/editor/EditorCard";
 import { EditorFooterTools } from "../features/editor/EditorFooterTools";
-import { EditorMenuStack } from "../features/editor/EditorMenuStack";
+import { EditorMenu } from "../features/editor/EditorMenu";
 import { Navbar } from "../features/Navbar";
 
 /** Edit templates */
@@ -11,8 +11,8 @@ const EditorPage = () => {
       <Navbar />
 
       <section class="grow flex">
-        <div class="flex items-center p-4">
-          <EditorMenuStack />
+        <div class="flex justify-center items-center p-4">
+          <EditorMenu />
         </div>
         <div class="grow flex justify-center items-center">
           <EditorCard />

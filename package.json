@@ -23,7 +23,8 @@
     "pocketbase": "^0.21.5",
     "preact": "^10.24.3",
     "preact-iso": "^2.7.0",
-    "vite": "npm:rolldown-vite@latest"
+    "vite": "npm:rolldown-vite@latest",
+    "zod": "^3.25.74"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.9.0",

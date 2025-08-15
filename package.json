@@ -30,7 +30,7 @@
     "@preact/preset-vite": "^2.9.0",
     "@tailwindcss/postcss": "^4.1.8",
     "@types/node": "^22.8.6",
-    "daisyui": "^5.0.40",
+    "daisyui": "^5.0.50",
     "eslint": "^8.57.0",
     "eslint-config-preact": "^1.4.0",
     "preact-render-to-string": "^6.5.13",

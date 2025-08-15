@@ -17,18 +17,26 @@ export const cardScale = signal(getScale());
 
 effect(() => localStorage.setItem(SCALE_CACHE_KEY, String(cardScale.value)));
 
-export const ScaleSilder = () => {
+export const ScaleSlider = () => {
   return (
-    <label class="flex items-center">
-      <Search />
-      <input
-        class="range range-xs ml-2"
-        min="10"
-        max="48"
-        type="range"
-        value={cardScale}
-        onInput={setScale}
-      ></input>
-    </label>
+    <>
+      <label class="flex items-center">
+        <Search />
+        <input
+          class="range"
+          list="snap"
+          min="10"
+          max="48"
+          type="range"
+          value={cardScale}
+          onInput={setScale}
+        />
+      </label>
+
+      {/* Provides a magnetic snap-point slider thumb will snap to */}
+      <datalist id="snap">
+        <option value={DEFAULT_SCALE} />
+      </datalist>
+    </>
   );
 };

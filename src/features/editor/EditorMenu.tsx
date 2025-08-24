@@ -6,15 +6,14 @@ import {
   Table,
   Type,
 } from "lucide-preact";
-import { JSX } from "preact/jsx-runtime";
-import { setView, switchClass, activeClass } from "./editor";
-
-type MenuItem = {
-  id: string;
-  Icon: JSX.Element;
-  onClick: () => void;
-  tip?: string;
-};
+import {
+  clsMenuGroup,
+  clsMenuListH,
+  clsMenuOption,
+  clsMenuRadio,
+  type MenuItem,
+  setView,
+} from "./editor";
 
 const VIEW_ITEMS: MenuItem[] = [
   {
@@ -42,32 +41,40 @@ const ADD_ITEMS: MenuItem[] = [
     Icon: <Type />,
     id: "text",
     onClick: () => null,
+    tip: "Text",
   },
   {
     Icon: <Image />,
     id: "image",
     onClick: () => null,
+    tip: "Image",
   },
   {
     Icon: <Group />,
     id: "group",
     onClick: () => null,
+    tip: "Group",
   },
 ];
 
 type MenuGroupProps = {
   items: MenuItem[];
   label: string;
-  switch?: boolean;
+  radio?: boolean;
 };
 
 const MenuGroup = (props: MenuGroupProps) => (
-  <li class="bg-base-200 rounded-box">
-    <ul class="menu menu-horizontal items-center">
+  <li class={clsMenuGroup}>
+    <ul class={clsMenuListH}>
       <li class="ml-2 w-12">{props.label}</li>
       {props.items.map((item, index) => (
-        <li class={switchClass(props, index)} key={item.id}>
-          <a class={activeClass(item.id)} id={item.id} onClick={item.onClick}>
+        <li class={clsMenuRadio(props, index)} key={item.id}>
+          <a
+            class={clsMenuOption(item)}
+            data-tip={item.tip}
+            id={item.id}
+            onClick={item.onClick}
+          >
             {item.Icon}
           </a>
         </li>
@@ -78,7 +85,7 @@ const MenuGroup = (props: MenuGroupProps) => (
 
 export const EditorMenu = () => (
   <ul class="flex flex-col gap-3">
-    <MenuGroup label="View" items={VIEW_ITEMS} switch />
+    <MenuGroup label="View" items={VIEW_ITEMS} radio />
 
     <MenuGroup label="Add" items={ADD_ITEMS} />
   </ul>

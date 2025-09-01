@@ -1,23 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import * as z from "zod/v4";
 
 import { ignore404, pb, PbList, queryClient } from "./db";
 import { userSignal } from "./user";
+import { type Project, projectSchema } from "./types";
 
 const PROJECTS = pb.collection("cardinal_projects");
 const queryKey = ["projects"];
-
-const projectSchema = z.object({
-  collectionId: z.string(),
-  collectionName: z.string(),
-  created: z.coerce.date(),
-  id: z.string(),
-  name: z.string(),
-  owner: z.string(),
-  updated: z.coerce.date(),
-});
-
-export type Project = z.infer<typeof projectSchema>;
 
 export const createProject = async (name: string) => {
   await PROJECTS.create({

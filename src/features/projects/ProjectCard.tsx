@@ -1,4 +1,4 @@
-import { cls, CARD_CLS, MENU_BUTTON_CLS, Project, timeSince } from "$lib";
+import { cls, CARD_CLS, MENU_BUTTON_CLS, type Project, timeSince } from "$lib";
 import { Ellipsis, Trash } from "lucide-preact";
 
 type Props = {

@@ -10,10 +10,21 @@ import {
   clsMenuGroup,
   clsMenuListH,
   clsMenuOption,
-  clsMenuRadio,
   type MenuItem,
   setView,
-} from "./editor";
+  useAddToTemplate,
+} from "$lib";
+import { signal } from "@preact/signals-core";
+import type { UseMutateFunction } from "@tanstack/react-query";
+import type { RecordModel } from "pocketbase";
+import { useEffect } from "preact/hooks";
+
+const addToTemplate = signal<UseMutateFunction<
+  RecordModel,
+  Error,
+  string,
+  unknown
+> | null>(null);
 
 const VIEW_ITEMS: MenuItem[] = [
   {
@@ -40,22 +51,41 @@ const ADD_ITEMS: MenuItem[] = [
   {
     Icon: <Type />,
     id: "text",
-    onClick: () => null,
+    onClick: () => addToTemplate.value("text"),
     tip: "Text",
   },
   {
     Icon: <Image />,
     id: "image",
-    onClick: () => null,
+    onClick: () => addToTemplate.value("image"),
     tip: "Image",
   },
   {
     Icon: <Group />,
     id: "group",
-    onClick: () => null,
+    onClick: () => addToTemplate.value("group"),
     tip: "Group",
   },
 ];
+
+type MenuItemProps = {
+  value: MenuItem;
+  radio: boolean;
+};
+
+const MenuItem = ({
+  value: { Icon, id, onClick, tip },
+  radio,
+}: MenuItemProps) => {
+  const clsRadio = radio && "bg-[#1565c0] nth-[2]:rounded-l last:rounded-r";
+  return (
+    <li class={clsRadio}>
+      <a class={clsMenuOption(id, tip)} data-tip={tip} onClick={onClick}>
+        {Icon}
+      </a>
+    </li>
+  );
+};
 
 type MenuGroupProps = {
   items: MenuItem[];
@@ -63,30 +93,31 @@ type MenuGroupProps = {
   radio?: boolean;
 };
 
-const MenuGroup = (props: MenuGroupProps) => (
+const MenuGroup = ({ items, label, radio }: MenuGroupProps) => (
   <li class={clsMenuGroup}>
-    <ul class={clsMenuListH}>
-      <li class="ml-2 w-12">{props.label}</li>
-      {props.items.map((item, index) => (
-        <li class={clsMenuRadio(props, index)} key={item.id}>
-          <a
-            class={clsMenuOption(item)}
-            data-tip={item.tip}
-            id={item.id}
-            onClick={item.onClick}
-          >
-            {item.Icon}
-          </a>
-        </li>
+    <ul class={clsMenuListH(radio)}>
+      <li class="ml-2 w-12">{label}</li>
+      {items.map((item) => (
+        <MenuItem key={item.id} value={item} radio={radio} />
       ))}
     </ul>
   </li>
 );
 
-export const EditorMenu = () => (
-  <ul class="flex flex-col gap-3">
-    <MenuGroup label="View" items={VIEW_ITEMS} radio />
+export const EditorMenu = () => {
+  const { mutate } = useAddToTemplate();
 
-    <MenuGroup label="Add" items={ADD_ITEMS} />
-  </ul>
-);
+  useEffect(() => {
+    if (addToTemplate.value === null) {
+      addToTemplate.value = mutate;
+    }
+  }, [addToTemplate.value]);
+
+  return (
+    <ul class="flex flex-col gap-3">
+      <MenuGroup label="View" items={VIEW_ITEMS} radio />
+
+      <MenuGroup label="Add" items={ADD_ITEMS} />
+    </ul>
+  );
+};

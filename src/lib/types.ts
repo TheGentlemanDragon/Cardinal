@@ -26,14 +26,30 @@ export const projectSchema = z.object({
 
 export type Project = z.infer<typeof projectSchema>;
 
+export const elementSchema = z.object({
+  children: z.lazy(() => z.union([z.string(), elementSchema])).optional(),
+  props: z.object({
+    style: z
+      .object({
+        height: z.string().optional(),
+        left: z.string().optional(),
+        position: z.string().optional(),
+        top: z.string().optional(),
+        width: z.string().optional(),
+      })
+      .optional(),
+  }),
+  type: z.string(),
+});
+
 export const templateSchema = z.object({
   collectionId: z.string(),
   collectionName: z.string(),
   created: z.coerce.date(),
   data: z
     .object({
-      elements: z.any().optional(),
-      fields: z.any().optional(),
+      elements: z.array(elementSchema).optional(),
+      fields: z.array(z.any()).optional(),
     })
     .optional(),
   id: z.string(),

@@ -3,7 +3,7 @@ import { Search } from "lucide-preact";
 import { ChangeEvent } from "preact/compat";
 
 const SCALE_CACHE_KEY = "card-scale";
-const DEFAULT_SCALE = 30;
+const DEFAULT_SCALE = 25;
 
 const getScale = () => {
   const scale = localStorage.getItem(SCALE_CACHE_KEY);
@@ -25,8 +25,8 @@ export const ScaleSlider = () => {
         <input
           class="range"
           list="snap"
-          min="10"
-          max="48"
+          min="5"
+          max="45"
           type="range"
           value={cardScale}
           onInput={setScale}

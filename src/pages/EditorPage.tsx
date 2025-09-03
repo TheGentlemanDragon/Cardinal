@@ -2,6 +2,7 @@ import { Page } from "../components/Page";
 import { EditorCard } from "../features/editor/EditorCard";
 import { EditorFooterTools } from "../features/editor/EditorFooterTools";
 import { EditorMenu } from "../features/editor/EditorMenu";
+import { PropertiesMenu } from "../features/editor/PropertiesMenu";
 import { Navbar } from "../features/Navbar";
 
 /** Edit templates */
@@ -10,12 +11,15 @@ const EditorPage = () => {
     <Page>
       <Navbar />
 
-      <section class="grow flex">
-        <div class="flex justify-center items-center p-4">
+      <section class="grid grid-cols-[18rem_1fr_18rem] h-full place-items-center">
+        <div class="w-full p-6 z-10">
           <EditorMenu />
         </div>
-        <div class="grow flex justify-center items-center">
-          <EditorCard />
+
+        <EditorCard />
+
+        <div class="w-full p-6 z-10">
+          <PropertiesMenu />
         </div>
       </section>
 

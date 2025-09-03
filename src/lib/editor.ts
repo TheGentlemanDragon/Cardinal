@@ -18,14 +18,6 @@ export const editorView = signal("template");
 
 export const template = signal<Template>();
 
-// export const addElement = (text: string) => {
-//   if (!template.value) {
-//     return;
-//   }
-
-//   // const { elements } = template.value.data;
-// };
-
 export const setView = (name: string) => () => (editorView.value = name);
 
 export const syncTemplate = (value: Template) => {
@@ -36,10 +28,8 @@ export const syncTemplate = (value: Template) => {
 
 /** Styles */
 
-export const clsMenuGroup = "bg-base-200 rounded-box";
-
 export const clsMenuListH = (radio: boolean) =>
-  cls(radio && "group/radio", "menu menu-horizontal items-center");
+  cls(radio && "group/radio", "menu menu-horizontal items-center w-full");
 
 export const clsMenuOption = (id: string, tip: string) => {
   const active = editorView.value === id ? "menu-active scale-90" : "";

@@ -7,7 +7,6 @@ import {
   Type,
 } from "lucide-preact";
 import {
-  clsMenuGroup,
   clsMenuListH,
   clsMenuOption,
   type MenuItem,
@@ -94,9 +93,9 @@ type MenuGroupProps = {
 };
 
 const MenuGroup = ({ items, label, radio }: MenuGroupProps) => (
-  <li class={clsMenuGroup}>
+  <li class="bg-base-200 rounded-box shadow-md">
     <ul class={clsMenuListH(radio)}>
-      <li class="ml-2 w-12">{label}</li>
+      <li class="ml-2 grow">{label}</li>
       {items.map((item) => (
         <MenuItem key={item.id} value={item} radio={radio} />
       ))}

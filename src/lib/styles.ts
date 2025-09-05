@@ -19,4 +19,7 @@ export const TEXT_SHADOW_CLS = "[text-shadow:2px_2px_4px_rgb(0_0_0/30%)]";
 
 export const TITLE_CLS = "text-2xl font-semibold";
 
+export const HIDE_ARROWS =
+  "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none";
+
 export const cls = (...args: string[]) => args.filter((item) => item).join(" ");

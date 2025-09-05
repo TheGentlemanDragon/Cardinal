@@ -1,15 +1,31 @@
-/** Don't execute default input event */
-export const preventDefault = (event: Event) => event.preventDefault();
-
-/** No operation */
-export const noop = () => null;
-
 const YEAR_IN_MS = 31_556_952_000;
 const MONTH_IN_MS = 2_629_746_000;
 const DAY_IN_MS = 86_400_000;
 const HOUR_IN_MS = 3_600_000;
 const MIN_IN_MS = 60_000;
 const SEC_IN_MS = 1_000;
+
+// TODO: Enable if needed
+// const b62Chars =
+//   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+/** Return a random base62 string */
+// export const generateId = (length: number = 7) => {
+//   let result = "";
+
+//   for (let i = 0; i < length; i++) {
+//     const randIndex = Math.floor(Math.random() * b62Chars.length);
+//     result += b62Chars[randIndex];
+//   }
+
+//   return result;
+// };
+
+/** No operation */
+export const noop = () => null;
+
+/** Don't execute default input event */
+export const preventDefault = (event: Event) => event.preventDefault();
 
 /** Always returns false */
 export const stubFalse = (arg?: any) => false;

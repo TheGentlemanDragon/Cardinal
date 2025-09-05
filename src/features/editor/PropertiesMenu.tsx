@@ -22,7 +22,7 @@ export const PropertiesMenu = () => {
         <label class="input">
           x
           <input
-            class={cls("grow text-right", HIDE_ARROWS)}
+            class={cls("text-right", HIDE_ARROWS)}
             max="2.5"
             min="0.01"
             step="0.01"
@@ -34,7 +34,7 @@ export const PropertiesMenu = () => {
         <label class="input">
           y
           <input
-            class={cls("grow text-right", HIDE_ARROWS)}
+            class={cls("text-right", HIDE_ARROWS)}
             max="3.5"
             min="0.00"
             step="0.01"
@@ -48,7 +48,7 @@ export const PropertiesMenu = () => {
         <label class="input">
           <MoveHorizontal />
           <input
-            class={cls("grow text-right", HIDE_ARROWS)}
+            class={cls("text-right", HIDE_ARROWS)}
             max="2.5"
             min="0.01"
             step="0.01"
@@ -60,7 +60,7 @@ export const PropertiesMenu = () => {
         <label class="input">
           <MoveVertical />
           <input
-            class={cls("grow text-right", HIDE_ARROWS)}
+            class={cls("text-right", HIDE_ARROWS)}
             max="3.5"
             min="0.00"
             step="0.01"

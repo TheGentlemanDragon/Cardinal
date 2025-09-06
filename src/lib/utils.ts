@@ -5,21 +5,33 @@ const HOUR_IN_MS = 3_600_000;
 const MIN_IN_MS = 60_000;
 const SEC_IN_MS = 1_000;
 
-// TODO: Enable if needed
-// const b62Chars =
-//   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const b62Chars =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 /** Return a random base62 string */
-// export const generateId = (length: number = 7) => {
-//   let result = "";
+export const generateId = (length: number = 7) => {
+  let result = "";
 
-//   for (let i = 0; i < length; i++) {
-//     const randIndex = Math.floor(Math.random() * b62Chars.length);
-//     result += b62Chars[randIndex];
-//   }
+  for (let i = 0; i < length; i++) {
+    const randIndex = Math.floor(Math.random() * b62Chars.length);
+    result += b62Chars[randIndex];
+  }
 
-//   return result;
-// };
+  return result;
+};
+
+/** Given a list of string names and a base name, returns a unique name */
+export const getUniqueName = (names: string[], name: string) => {
+  let count = 1;
+  let suffix = "0";
+
+  while (names.includes(`${name}-${suffix}`)) {
+    suffix = count.toString();
+    count += 1;
+  }
+
+  return `${name}-${suffix}`;
+};
 
 /** No operation */
 export const noop = () => null;

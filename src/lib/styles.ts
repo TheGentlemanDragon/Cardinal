@@ -23,3 +23,5 @@ export const HIDE_ARROWS =
   "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none";
 
 export const cls = (...args: string[]) => args.filter((item) => item).join(" ");
+
+export const MENU_CLS = "bg-base-200 rounded-box shadow-md menu w-full";

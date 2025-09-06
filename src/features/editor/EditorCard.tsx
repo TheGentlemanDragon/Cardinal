@@ -15,7 +15,7 @@ export const EditorCard = () => {
       style={{ transform: `scale(${cardScale.value / 10})` }}
     >
       {isSuccess &&
-        template.data.elements.map((element) =>
+        template.elements.map((element) =>
           createElement(
             element.type,
             { ...element.props, class: DOTTED_OUTLINE },

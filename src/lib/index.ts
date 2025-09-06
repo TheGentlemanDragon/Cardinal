@@ -1,6 +1,7 @@
 export * from "./config";
 export * from "./db";
 export * from "./editor";
+export * from "./elements";
 export * from "./projects";
 export * from "./signUp";
 export * from "./styles";

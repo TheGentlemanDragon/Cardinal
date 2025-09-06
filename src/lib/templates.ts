@@ -4,10 +4,11 @@ import { PbList, ignore404, pb, queryClient } from "./db";
 import { userSignal } from "./user";
 import { useRoute } from "preact-iso";
 import { type Template, templateSchema } from "./types";
-import { newElementForTemplate } from "./element";
+import { newElementForTemplate } from "./elements";
 
 const TEMPLATES = pb.collection("cardinal_templates");
-const queryKey = ["templates"];
+
+const queryKey = (...keys) => ({ queryKey: ["templates", ...keys] });
 
 export const createTemplate = async (name: string, projectId: string) => {
   await TEMPLATES.create({
@@ -15,16 +16,16 @@ export const createTemplate = async (name: string, projectId: string) => {
     owner: userSignal.value?.id,
     project: projectId,
   });
-  queryClient.invalidateQueries({ queryKey });
+  queryClient.invalidateQueries(queryKey());
 };
 
 export const useTemplatesList = (projectId?: string) =>
   useQuery<PbList<Template>>({
+    ...queryKey(),
     enabled: projectId !== undefined,
     queryFn: ignore404(() =>
       TEMPLATES.getList(1, 20, { filter: `project.id="${projectId}"` })
     ),
-    queryKey,
     select: (data) => ({
       ...data,
       items: data.items.map((item) => templateSchema.parse(item)),
@@ -33,9 +34,9 @@ export const useTemplatesList = (projectId?: string) =>
 
 export const useTemplate = (templateId?: string) =>
   useQuery<Template>({
+    ...queryKey(templateId),
     enabled: templateId !== undefined,
     queryFn: ignore404(() => TEMPLATES.getOne(templateId)),
-    queryKey,
     select: (data) => templateSchema.parse(data),
   });
 
@@ -58,5 +59,6 @@ export const useAddToTemplate = () => {
         newElementForTemplate(type, template)
       );
     },
+    onSuccess: () => queryClient.invalidateQueries(queryKey()),
   });
 };

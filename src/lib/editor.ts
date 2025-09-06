@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals-core";
 import type { JSX } from "preact/jsx-runtime";
 
-import { cls, type Template } from "$lib";
+import { cls, MENU_CLS, type Template } from "$lib";
 
 /** Types */
 
@@ -16,7 +16,11 @@ export type MenuItem = {
 
 export const editorView = signal("template");
 
+export const element = signal<Element>();
+
 export const template = signal<Template>();
+
+/** Methods */
 
 export const setView = (name: string) => () => (editorView.value = name);
 
@@ -28,8 +32,8 @@ export const syncTemplate = (value: Template) => {
 
 /** Styles */
 
-export const clsMenuListH = (radio: boolean) =>
-  cls(radio && "group/radio", "menu menu-horizontal items-center w-full");
+export const clsMenuListH = (radio = false) =>
+  cls(radio && "group/radio", MENU_CLS, "menu-horizontal items-center pl-4");
 
 export const clsMenuOption = (id: string, tip: string) => {
   const active = editorView.value === id ? "menu-active scale-90" : "";

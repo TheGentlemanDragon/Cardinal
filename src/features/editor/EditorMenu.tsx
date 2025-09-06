@@ -17,6 +17,7 @@ import { signal } from "@preact/signals-core";
 import type { UseMutateFunction } from "@tanstack/react-query";
 import type { RecordModel } from "pocketbase";
 import { useEffect } from "preact/hooks";
+import { ElementList } from "./ElementList";
 
 const addToTemplate = signal<UseMutateFunction<
   RecordModel,
@@ -93,14 +94,12 @@ type MenuGroupProps = {
 };
 
 const MenuGroup = ({ items, label, radio }: MenuGroupProps) => (
-  <li class="bg-base-200 rounded-box shadow-md">
-    <ul class={clsMenuListH(radio)}>
-      <li class="ml-2 grow">{label}</li>
-      {items.map((item) => (
-        <MenuItem key={item.id} value={item} radio={radio} />
-      ))}
-    </ul>
-  </li>
+  <ul class={clsMenuListH(radio)}>
+    <li class="grow">{label}</li>
+    {items.map((item) => (
+      <MenuItem key={item.id} value={item} radio={radio} />
+    ))}
+  </ul>
 );
 
 export const EditorMenu = () => {
@@ -113,10 +112,12 @@ export const EditorMenu = () => {
   }, [addToTemplate.value]);
 
   return (
-    <ul class="flex flex-col gap-3">
+    <section class="flex flex-col gap-3">
       <MenuGroup label="View" items={VIEW_ITEMS} radio />
 
       <MenuGroup label="Add" items={ADD_ITEMS} />
-    </ul>
+
+      <ElementList />
+    </section>
   );
 };

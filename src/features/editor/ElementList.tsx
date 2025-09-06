@@ -1,4 +1,11 @@
-import { cls, MENU_CLS, useCurrentElements } from "$lib";
+import {
+  cls,
+  Element,
+  element,
+  MENU_CLS,
+  setElement,
+  useCurrentElements,
+} from "$lib";
 import { Group, Image, Type } from "lucide-preact";
 
 export const MENU_ICON_MAP = {
@@ -14,9 +21,12 @@ export const ElementList = () => {
     <ul class={MENU_CLS}>
       <li class="p-2">Elements</li>
       {isSuccess &&
-        elements.map((item) => (
+        elements.map((item: Element) => (
           <li>
-            <a class={cls()}>
+            <a
+              class={cls(element.value === item && "menu-active")}
+              onClick={() => setElement(item)}
+            >
               {MENU_ICON_MAP[item.type]} {item.name}
             </a>
           </li>

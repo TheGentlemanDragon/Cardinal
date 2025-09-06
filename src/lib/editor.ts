@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals-core";
 import type { JSX } from "preact/jsx-runtime";
 
-import { cls, MENU_CLS, type Template } from "$lib";
+import { cls, type Element, MENU_CLS, type Template } from "$lib";
 
 /** Types */
 
@@ -21,6 +21,8 @@ export const element = signal<Element>();
 export const template = signal<Template>();
 
 /** Methods */
+
+export const setElement = (el: Element) => (element.value = el);
 
 export const setView = (name: string) => () => (editorView.value = name);
 

@@ -1,8 +1,8 @@
-import { useCurrentTemplate } from "$lib";
+import { cls, element, useCurrentTemplate } from "$lib";
 import { createElement } from "preact";
 import { cardScale } from "./ScaleSlider";
 
-const DOTTED_OUTLINE = "outline outline-dashed outline-1 outline-blue-500";
+const DOTTED_OUTLINE = "outline outline-dashed outline-1";
 
 /** EditorCard Card */
 export const EditorCard = () => {
@@ -15,11 +15,19 @@ export const EditorCard = () => {
       style={{ transform: `scale(${cardScale.value / 10})` }}
     >
       {isSuccess &&
-        template.elements.map((element) =>
+        template.elements.map((item) =>
           createElement(
-            element.type,
-            { ...element.props, class: DOTTED_OUTLINE },
-            element.children
+            item.type,
+            {
+              ...item.props,
+              class: cls(
+                DOTTED_OUTLINE,
+                item.id === element.value?.id
+                  ? "outline-orange-500 animate-pulse duration-100 z-50"
+                  : "outline-blue-500 z-10"
+              ),
+            },
+            item.children
           )
         )}
     </div>

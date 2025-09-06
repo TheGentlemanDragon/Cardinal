@@ -1,4 +1,4 @@
-import { cls, HIDE_ARROWS } from "$lib";
+import { cls, element, HIDE_ARROWS } from "$lib";
 import { MoveHorizontal, MoveVertical } from "lucide-preact";
 
 export const PropertiesMenu = () => {
@@ -8,7 +8,7 @@ export const PropertiesMenu = () => {
 
       <fieldset class="fieldset">
         <legend class="fieldset-legend">Name</legend>
-        <input type="text" class="input" />
+        <input type="text" class="input" value={element.value?.name} />
 
         <legend class="fieldset-legend">Content</legend>
         <textarea type="text" class="textarea" />
@@ -25,8 +25,9 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max="2.5"
             min="0.01"
-            step="0.01"
+            step="0.001"
             type="number"
+            value={element.value?.props.style.left.replace("in", "")}
           />
           <span>in</span>
         </label>
@@ -37,8 +38,9 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max="3.5"
             min="0.00"
-            step="0.01"
+            step="0.001"
             type="number"
+            value={element.value?.props.style.top.replace("in", "")}
           />
           <span>in</span>
         </label>
@@ -51,8 +53,9 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max="2.5"
             min="0.01"
-            step="0.01"
+            step="0.001"
             type="number"
+            value={element.value?.props.style.width.replace("in", "")}
           />
           <span>in</span>
         </label>
@@ -63,8 +66,9 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max="3.5"
             min="0.00"
-            step="0.01"
+            step="0.001"
             type="number"
+            value={element.value?.props.style.height.replace("in", "")}
           />
           <span>in</span>
         </label>

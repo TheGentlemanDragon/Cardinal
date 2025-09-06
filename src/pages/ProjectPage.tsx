@@ -1,4 +1,4 @@
-import { Page } from "../components/Page";
+import { Page } from "$components";
 import { Navbar } from "../features/Navbar";
 import { TemplateList } from "../features/templates/TemplateList";
 

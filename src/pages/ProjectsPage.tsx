@@ -1,5 +1,5 @@
 // import { AddAssetButton, AssetsModal } from "../features/modals/AssetsModal";
-import { Page } from "../components/Page";
+import { Page } from "$components";
 import { Navbar } from "../features/Navbar";
 import { ProjectList } from "../features/projects/ProjectList";
 

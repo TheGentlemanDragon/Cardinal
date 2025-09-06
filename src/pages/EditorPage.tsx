@@ -1,4 +1,4 @@
-import { Page } from "../components/Page";
+import { Page } from "$components";
 import { EditorCard } from "../features/editor/EditorCard";
 import { EditorFooterTools } from "../features/editor/EditorFooterTools";
 import { EditorMenu } from "../features/editor/EditorMenu";

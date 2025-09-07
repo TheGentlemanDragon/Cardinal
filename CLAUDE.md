@@ -5,49 +5,61 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 - `npm run dev` - Start development server at http://localhost:5173/
-- `npm run build` - Build for production (outputs to `dist/`)
+- `npm run build` - Build for production to `dist/`
 - `npm run preview` - Preview production build at http://localhost:4173/
+- `npm run push` - Deploy to production server (runs build + rsync to fuchikoma:/volume1/docker/pocketbase/public)
 
 ## Architecture Overview
 
-This is a Preact + TypeScript application using PocketBase as the backend database. The project follows a feature-based architecture:
+Cardinal is a Preact-based web application for creating and managing card designs with templates. It uses:
 
-### Tech Stack
+- **Frontend**: Preact with TypeScript, Vite build system, TailwindCSS + DaisyUI for styling
+- **Backend**: PocketBase for database and API
+- **State Management**: Preact Signals for reactive state, TanStack Query for server state
+- **Routing**: preact-iso for client-side routing
 
-- **Frontend**: Preact with TypeScript
-- **Styling**: Tailwind CSS v4 + DaisyUI v5
-- **Build Tool**: Vite (using rolldown-vite)
-- **Database**: PocketBase (local instance at http://127.0.0.1:8090/)
-- **State Management**: @preact/signals + @tanstack/react-query
-- **Routing**: preact-iso
+### Core Data Models
 
-### Project Structure
+- **Project**: Top-level container for organizing templates and cards
+- **Template**: Design blueprint with elements and fields, belongs to a project  
+- **Card**: Instance of a template with specific data values
+- **Element**: UI component with positioning, styling, and content properties
 
-- `src/components/` - Reusable UI components (Modal, Page, QueryStatus, etc.)
-- `src/features/` - Feature-specific components organized by domain:
-  - `editor/` - Card editor functionality
-  - `projects/` - Project management
-  - `templates/` - Template system
-- `src/pages/` - Route-level page components
-- `src/lib/` - Core utilities and configuration:
-  - `db.ts` - PocketBase client and query utilities
-  - `config.ts` - Environment configuration (copy from `config.example.ts`)
-- `_old/` - Legacy React implementation (reference only)
+### Key Directories
 
-### Key Patterns
+- `src/lib/` - Core business logic, types, utilities, and database configuration
+- `src/pages/` - Route components (Splash, Projects, Editor, etc.)
+- `src/features/` - Feature-specific components organized by domain
+- `src/components/` - Shared UI components (Modal, Page, EmptyState, etc.)
+- `src/icons/` - Custom icon components
 
-- Uses TypeScript path aliases: `$lib`, `$components`, `$icons`, `$assets`
-- PocketBase integration with retry logic and 404 error handling
-- React Query for server state management with custom error handling
-- Feature-based component organization with index.ts barrel exports
+### State Management Patterns
 
-### Configuration
+- Global editor state managed through `src/lib/editor.ts` signals:
+  - `editorView` - Current editor view (template/properties)
+  - `element` - Currently selected element  
+  - `template` - Active template being edited
+- Server state managed via TanStack Query with PocketBase integration
+- Path aliases: `$lib`, `$components`, `$assets` for clean imports
 
-- Copy `src/lib/config.example.ts` to `src/lib/config.ts` for local development
-- PocketBase database URL defaults to http://127.0.0.1:8090/
-- Uses ESLint with preact configuration
+### Database Integration
 
-### Database Schema
+- PocketBase client configured in `src/lib/db.ts` with retry logic and error handling
+- Environment variable `VITE_DB_URL` required for database connection
+- Custom error handling for 404s and retry strategies for failed requests
+- Zod schemas in `src/lib/types.ts` for runtime type validation
 
-- Schema reference available in `schemas/pb_schema.json`
-- Template data format in `schemas/Template 0.csv`
+### Editor Architecture
+
+The editor is a visual design tool for creating templates:
+- Element positioning with absolute coordinates
+- Properties panel for styling and content editing
+- Template management with element hierarchy
+- Real-time preview of design changes
+
+### Styling System
+
+- TailwindCSS v4 with DaisyUI components
+- Custom utility classes in `src/lib/styles.ts`
+- Responsive design patterns throughout
+- CSS custom properties for theme variables

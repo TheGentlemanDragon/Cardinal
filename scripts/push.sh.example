@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+# Uses the SSH Host alias defined in ~/.ssh/config
+# Example:
+#   Host host
+#     HostName myhost
+#     User username
+#     IdentityFile ~/.ssh/ssh_key
+HOST=host
+DEST=/volume1/docker/pocketbase/public
+SRC=./dist
+
+# npm run build
+
+rsync -avz --delete "$SRC/" "$HOST:$DEST/"
+
+echo "Cardinal Deployed ✅"

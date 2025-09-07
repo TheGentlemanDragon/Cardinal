@@ -1,13 +1,11 @@
 import { QueryClient } from "@tanstack/react-query";
 import PocketBase, { ClientResponseError } from "pocketbase";
 
-import { DB_URL } from "./config";
-
 const MAX_RETRIES = 3;
 const HTTP_STATUS_TO_NOT_RETRY = [400, 401, 403, 404];
 const HTTP_STATUS_TO_IGNORE = 404;
 
-export const pb = new PocketBase(DB_URL);
+export const pb = new PocketBase(import.meta.env.VITE_DB_URL);
 
 export type PbList<BaseType> = {
   items: BaseType[];

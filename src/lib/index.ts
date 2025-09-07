@@ -1,4 +1,3 @@
-export * from "./config";
 export * from "./db";
 export * from "./editor";
 export * from "./elements";

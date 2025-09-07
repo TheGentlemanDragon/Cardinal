@@ -24,4 +24,4 @@ dist-ssr
 *.sw?
 
 .env.production
-scripts/push.sh
+scripts/deploy.sh

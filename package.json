@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "vite build --mode production",
-    "push": "./scripts/push.sh",
+    "deploy": "./scripts/deploy.sh",
+    "dev": "vite",
     "preview": "vite preview"
   },
   "eslintConfig": {

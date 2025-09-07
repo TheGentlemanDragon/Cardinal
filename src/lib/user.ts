@@ -27,4 +27,7 @@ try {
 }
 
 export const userInitials = (user: UsersAuth) =>
-  (user.name || user.email)[0].toUpperCase();
+  (user.name ?? user.email)
+    .split(" ")
+    .map((item) => item[0].toUpperCase())
+    .join("");

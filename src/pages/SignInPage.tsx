@@ -2,7 +2,7 @@ import {
   error,
   isSignInIncomplete,
   login,
-  name,
+  email,
   pass1,
   preventDefault,
   reset,
@@ -17,8 +17,8 @@ import { FormHint } from "../features/FormHint";
 const SignInPage = () => {
   const hasError = !!error.value.message;
 
-  const hasNameError =
-    hasError && error.value.id === "name" ? "input-error" : "";
+  const hasEmailError =
+    hasError && error.value.id === "email" ? "input-error" : "";
   const hasPass1Error =
     hasError && error.value.id === "pass1" ? "input-error" : "";
 
@@ -34,16 +34,16 @@ const SignInPage = () => {
         >
           <h2 class="card-title">Sign In</h2>
 
-          {/* Username */}
+          {/* Email */}
           <label class="input relative">
             <input
-              class={hasNameError}
-              id="name"
+              class={hasEmailError}
+              id="email"
               minLength={3}
-              placeholder="username"
+              placeholder="email"
               required
-              type="text"
-              value={name.value}
+              type="email"
+              value={email.value}
             />
 
             <UserRound />

@@ -35,7 +35,7 @@ export const isSignupDisabledSignal = signal(true);
 
 const inputSignalMap: Record<string, Signal> = { email, pass1, pass2, name };
 const signupSignals = [email, name, pass1, pass2];
-const signinSignals = [name, pass1];
+const signinSignals = [email, pass1];
 
 export const isSignUpIncomplete = computed(() =>
   signupSignals.some((signal) => !signal.value)
@@ -55,10 +55,11 @@ export const createUser = async (_event: SignupFormEvent) => {
       emailVisibility: false,
       password: pass1.value,
       passwordConfirm: pass2.value,
-      username: name.value,
+      name: name.value,
     };
     await pb.collection("users").create(data);
     await pb.collection("users").requestVerification(email.value);
+    await login();
   } catch (err) {
     console.error(err);
   }
@@ -68,9 +69,8 @@ export const login = async () => {
   try {
     const authData = await pb
       .collection("users")
-      .authWithPassword(name.value, pass1.value);
+      .authWithPassword(email.value, pass1.value);
 
-    console.log({ authData });
     location.assign("/projects");
   } catch (error) {
     console.log({ error });

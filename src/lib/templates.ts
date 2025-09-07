@@ -1,44 +1,29 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-
-import { PbList, ignore404, pb, queryClient } from "./db";
-import { userSignal } from "./user";
+import { useMutation } from "@tanstack/react-query";
 import { useRoute } from "preact-iso";
-import { type Template, templateSchema } from "./types";
+
+import { Collections } from "./db";
 import { newElementForTemplate } from "./elements";
+import { invalidate, useTemplate } from "./queries";
+import { user } from "./signals";
+import type { Element, Template } from "./types";
 
-const TEMPLATES = pb.collection("cardinal_templates");
-
-const queryKey = (...keys) => ({ queryKey: ["templates", ...keys] });
+const invalidateTemplates = () => invalidate("templates");
 
 export const createTemplate = async (name: string, projectId: string) => {
-  await TEMPLATES.create({
+  await Collections.Templates.create({
     name,
-    owner: userSignal.value?.id,
+    owner: user.value?.id,
     project: projectId,
   });
-  queryClient.invalidateQueries(queryKey());
+  invalidateTemplates();
 };
 
-export const useTemplatesList = (projectId?: string) =>
-  useQuery<PbList<Template>>({
-    ...queryKey(),
-    enabled: projectId !== undefined,
-    queryFn: ignore404(() =>
-      TEMPLATES.getList(1, 20, { filter: `project.id="${projectId}"` })
-    ),
-    select: (data) => ({
-      ...data,
-      items: data.items.map((item) => templateSchema.parse(item)),
-    }),
-  });
-
-export const useTemplate = (templateId?: string) =>
-  useQuery<Template>({
-    ...queryKey(templateId),
-    enabled: templateId !== undefined,
-    queryFn: ignore404(() => TEMPLATES.getOne(templateId)),
-    select: (data) => templateSchema.parse(data),
-  });
+const withUpdatedElement = (template: Template, element: Element) => ({
+  ...template,
+  elements: template.elements.map((item) =>
+    element.id === item.id ? element : item
+  ),
+});
 
 export const useCurrentTemplate = () => {
   const { params } = useRoute();
@@ -54,11 +39,23 @@ export const useAddToTemplate = () => {
         return;
       }
 
-      return await TEMPLATES.update(
+      return await Collections.Templates.update(
         template.id,
         newElementForTemplate(type, template)
       );
     },
-    onSuccess: () => queryClient.invalidateQueries(queryKey()),
+    onSuccess: invalidateTemplates,
+  });
+};
+
+export const useSaveElement = () => {
+  const { data: template, isSuccess } = useCurrentTemplate();
+
+  return useMutation({
+    mutationFn: async (element: Element) => {
+      const newTemplate = withUpdatedElement(template, element);
+      return await Collections.Templates.update(template.id, newTemplate);
+    },
+    onSuccess: invalidateTemplates,
   });
 };

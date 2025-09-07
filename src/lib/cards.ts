@@ -1,30 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-
-import { PbList, ignore404, pb, queryClient } from "./db";
-import { userSignal } from "./user";
-import { type Card, cardSchema } from "./types";
-
-const CARDS = pb.collection("cardinal_cards");
-const queryKey = ["cards"];
+import { Collections } from "./db";
+import { invalidate } from "./queries";
+import { user } from "./signals";
 
 export const createCard = async (name: string, templateId: string) => {
-  await CARDS.create({
+  await Collections.Cards.create({
     name,
-    owner: userSignal.value?.id,
+    owner: user.value?.id,
     template: templateId,
   });
-  queryClient.invalidateQueries({ queryKey });
+  invalidate("cards");
 };
-
-export const useCardsList = (templateId?: string) =>
-  useQuery<PbList<Card>>({
-    enabled: templateId !== undefined,
-    queryFn: ignore404(() =>
-      CARDS.getList(1, 20, { filter: `template.id="${templateId}"` })
-    ),
-    queryKey,
-    select: (data) => ({
-      ...data,
-      items: data.items.map((item) => cardSchema.parse(item)),
-    }),
-  });

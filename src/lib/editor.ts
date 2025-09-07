@@ -1,7 +1,7 @@
-import { signal } from "@preact/signals-core";
 import type { JSX } from "preact/jsx-runtime";
 
-import { cls, type Element, MENU_CLS, type Template } from "$lib";
+import { cls, MENU_CLS, type Template } from "$lib";
+import { editorView, template } from "./signals";
 
 /** Types */
 
@@ -12,19 +12,7 @@ export type MenuItem = {
   tip?: string;
 };
 
-/** Signals */
-
-export const editorView = signal("template");
-
-export const element = signal<Element>();
-
-export const template = signal<Template>();
-
 /** Methods */
-
-export const setElement = (el: Element) => (element.value = el);
-
-export const setView = (name: string) => () => (editorView.value = name);
 
 export const syncTemplate = (value: Template) => {
   if (value !== template.value) {

@@ -1,9 +1,7 @@
-import { TEXT_SHADOW_CLS, userInitials, userSignal } from "$lib";
+import { TEXT_SHADOW_CLS, userInitials, user } from "$lib";
 
 export const Navbar = () => {
-  const user = userSignal.value;
-
-  if (!user?.id) {
+  if (!user.value?.id) {
     return null;
   }
 
@@ -16,7 +14,7 @@ export const Navbar = () => {
 
         <div class="avatar avatar-placeholder">
           <div class="bg-neutral-content text-neutral rounded-full w-8">
-            <span class="text-xs font-bold">{userInitials(user)}</span>
+            <span class="text-xs font-bold">{userInitials(user.value)}</span>
           </div>
         </div>
       </nav>

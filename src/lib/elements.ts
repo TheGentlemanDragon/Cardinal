@@ -1,7 +1,6 @@
-import { useRoute } from "preact-iso";
 import { type Template } from "./types";
-import { useTemplate } from "./templates";
 import { generateId, getUniqueName } from "./utils";
+import { type Signal } from "@preact/signals";
 
 const DEFAULT_STYLE = {
   height: "0.33in",
@@ -21,6 +20,22 @@ const DEFAULT_TEXT = {
   type: "",
 };
 
+export const updateValue = (
+  element: Signal<Element>,
+  key: string,
+  value: string
+) => {
+  const keys = key.split(".");
+  let newElement = { ...element.value };
+  let obj = newElement;
+  let k = keys.shift();
+  for (; keys.length; k = keys.shift()) {
+    obj = obj[k];
+  }
+  obj[k] = value;
+  return newElement;
+};
+
 export const newElementForTemplate = (type: string, template: Template) => {
   const elements = [...template.elements];
 
@@ -38,15 +53,5 @@ export const newElementForTemplate = (type: string, template: Template) => {
   return {
     ...template,
     elements,
-  };
-};
-
-export const useCurrentElements = () => {
-  const { params } = useRoute();
-  const templateQuery = useTemplate(params.id);
-  const { data, isSuccess } = templateQuery;
-  return {
-    ...templateQuery,
-    data: isSuccess ? data.elements : undefined,
   };
 };

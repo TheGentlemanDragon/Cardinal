@@ -1,7 +1,7 @@
 import { computed, signal, Signal } from "@preact/signals";
 import { TargetedEvent } from "preact/compat";
 
-import { pb } from "./db";
+import { Collections, pb } from "./db";
 
 ///// Types ////////////////////////////////////////////////////////////////////
 
@@ -57,8 +57,8 @@ export const createUser = async (_event: SignupFormEvent) => {
       passwordConfirm: pass2.value,
       name: name.value,
     };
-    await pb.collection("users").create(data);
-    await pb.collection("users").requestVerification(email.value);
+    await Collections.Users.create(data);
+    await Collections.Users.requestVerification(email.value);
     await login();
   } catch (err) {
     console.error(err);

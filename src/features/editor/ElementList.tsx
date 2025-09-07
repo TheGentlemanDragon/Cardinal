@@ -4,7 +4,7 @@ import {
   element,
   MENU_CLS,
   setElement,
-  useCurrentElements,
+  useCurrentTemplate,
 } from "$lib";
 import { Group, Image, Type } from "lucide-preact";
 
@@ -15,14 +15,16 @@ export const MENU_ICON_MAP = {
 };
 
 export const ElementList = () => {
-  const { data: elements, isSuccess } = useCurrentElements();
+  const { data: template, isSuccess } = useCurrentTemplate();
+
+  const elements = isSuccess ? template.elements : [];
 
   return (
     <ul class={MENU_CLS}>
       <li class="p-2">Elements</li>
       {isSuccess &&
         elements.map((item: Element) => (
-          <li>
+          <li key={item.id}>
             <a
               class={cls(element.value === item && "menu-active")}
               onClick={() => setElement(item)}

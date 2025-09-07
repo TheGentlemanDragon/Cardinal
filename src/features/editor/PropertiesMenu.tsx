@@ -1,7 +1,18 @@
-import { cls, element, HIDE_ARROWS } from "$lib";
 import { MoveHorizontal, MoveVertical } from "lucide-preact";
+// import { JSX } from "preact";
+import { cls, element, HIDE_ARROWS, useSaveElement } from "$lib";
 
 export const PropertiesMenu = () => {
+  // const { mutate: update } = useSaveElement();
+
+  // const updateElement = (
+  //   event: JSX.TargetedEvent<HTMLInputElement, Event>
+  // ) => {};
+
+  // const saveElement = (event: FocusEvent) => {
+  //   update(element.value);
+  // };
+
   return (
     <div class="flex flex-col bg-base-200 rounded-box shadow-md p-4">
       <div class="font-medium mb-2">Properties</div>
@@ -24,9 +35,12 @@ export const PropertiesMenu = () => {
           <input
             class={cls("text-right", HIDE_ARROWS)}
             max="2.5"
-            min="0.01"
+            min="0.00"
             step="0.001"
             type="number"
+            // TODO: create Elements signal that reflects input change
+            // onInput={updateElement}
+            // onBlur={saveElement}
             value={element.value?.props.style.left.replace("in", "")}
           />
           <span>in</span>
@@ -65,7 +79,7 @@ export const PropertiesMenu = () => {
           <input
             class={cls("text-right", HIDE_ARROWS)}
             max="3.5"
-            min="0.00"
+            min="0.01"
             step="0.001"
             type="number"
             value={element.value?.props.style.height.replace("in", "")}

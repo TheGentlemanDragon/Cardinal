@@ -20,8 +20,42 @@ export const generateId = (length: number = 7) => {
   return result;
 };
 
+// Build a dot-path union like "a", "a.b", "c.d.e"
+export type Path<T> = T extends object
+  ? {
+      [K in keyof T & string]: T[K] extends object
+        ? `${K}` | `${K}.${Path<T[K]>}`
+        : `${K}`;
+    }[keyof T & string]
+  : never;
+
+export type PathValue<
+  T,
+  P extends string
+> = P extends `${infer K}.${infer Rest}`
+  ? K extends keyof T
+    ? PathValue<T[K], Rest>
+    : unknown
+  : P extends keyof T
+  ? T[P]
+  : unknown;
+
+export function get<T extends object, P extends Path<T>>(
+  obj: T,
+  path: P
+): PathValue<T, P> | undefined {
+  let acc: unknown = obj;
+
+  for (const key of path.split(".")) {
+    if (acc == null) return undefined;
+    acc = (acc as any)[key];
+  }
+
+  return acc as PathValue<T, P> | undefined;
+}
+
 /** Given a list of string names and a base name, returns a unique name */
-export const getUniqueName = (names: string[], name: string) => {
+export function getUniqueName(names: string[], name: string) {
   let count = 1;
   let suffix = "0";
 
@@ -31,19 +65,25 @@ export const getUniqueName = (names: string[], name: string) => {
   }
 
   return `${name}-${suffix}`;
-};
+}
 
 /** No operation */
-export const noop = () => null;
+export function noop() {
+  return null;
+}
 
 /** Don't execute default input event */
-export const preventDefault = (event: Event) => event.preventDefault();
+export function preventDefault(event: Event) {
+  return event.preventDefault();
+}
 
 /** Always returns false */
-export const stubFalse = (arg?: any) => false;
+export function stubFalse(arg?: any) {
+  return false;
+}
 
 /** Return time since date occured, as human-readable string */
-export const timeSince = (date: Date) => {
+export function timeSince(date: Date) {
   const diff = Date.now() - date.getTime();
   if (diff > YEAR_IN_MS) {
     return `${Math.floor(diff / YEAR_IN_MS)}Y ago`;
@@ -64,4 +104,4 @@ export const timeSince = (date: Date) => {
     return `${Math.floor(diff / SEC_IN_MS)}s ago`;
   }
   return "Just now";
-};
+}

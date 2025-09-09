@@ -1,4 +1,5 @@
 import { Page } from "$components";
+import { useCurrentTemplate } from "$lib";
 import { EditorCard } from "../features/editor/EditorCard";
 import { EditorFooterTools } from "../features/editor/EditorFooterTools";
 import { EditorMenu } from "../features/editor/EditorMenu";
@@ -7,6 +8,8 @@ import { Navbar } from "../features/Navbar";
 
 /** Edit templates */
 const EditorPage = () => {
+  useCurrentTemplate();
+
   return (
     <Page>
       <Navbar />

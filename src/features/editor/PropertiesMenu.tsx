@@ -1,17 +1,29 @@
 import { MoveHorizontal, MoveVertical } from "lucide-preact";
-// import { JSX } from "preact";
-import { cls, element, HIDE_ARROWS, useSaveElement } from "$lib";
+import { JSX } from "preact";
+import {
+  cls,
+  element,
+  get,
+  HIDE_ARROWS,
+  updateElement,
+  useSaveElement,
+} from "$lib";
+
+const update =
+  (key: string, valueFn: (str: string) => string = withIn) =>
+  (event: JSX.TargetedEvent<HTMLInputElement, Event>) => {
+    updateElement(key, valueFn(event.currentTarget.value));
+  };
+
+const withIn = (value) => value + "in";
+
+const getProp = (key: string) =>
+  get(element.value, key as any)?.replace("in", "");
 
 export const PropertiesMenu = () => {
-  // const { mutate: update } = useSaveElement();
+  const { mutate: save } = useSaveElement();
 
-  // const updateElement = (
-  //   event: JSX.TargetedEvent<HTMLInputElement, Event>
-  // ) => {};
-
-  // const saveElement = (event: FocusEvent) => {
-  //   update(element.value);
-  // };
+  const saveElement = () => save(element.value);
 
   return (
     <div class="flex flex-col bg-base-200 rounded-box shadow-md p-4">
@@ -36,12 +48,11 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max="2.5"
             min="0.00"
-            step="0.001"
+            step="0.005"
             type="number"
-            // TODO: create Elements signal that reflects input change
-            // onInput={updateElement}
-            // onBlur={saveElement}
-            value={element.value?.props.style.left.replace("in", "")}
+            onBlur={saveElement}
+            onInput={update("props.style.left")}
+            value={getProp("props.style.left")}
           />
           <span>in</span>
         </label>
@@ -52,9 +63,11 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max="3.5"
             min="0.00"
-            step="0.001"
+            step="0.005"
             type="number"
-            value={element.value?.props.style.top.replace("in", "")}
+            onBlur={saveElement}
+            onInput={update("props.style.top")}
+            value={getProp("props.style.top")}
           />
           <span>in</span>
         </label>
@@ -67,9 +80,11 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max="2.5"
             min="0.01"
-            step="0.001"
+            step="0.005"
             type="number"
-            value={element.value?.props.style.width.replace("in", "")}
+            onBlur={saveElement}
+            onInput={update("props.style.width")}
+            value={getProp("props.style.width")}
           />
           <span>in</span>
         </label>
@@ -80,9 +95,11 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max="3.5"
             min="0.01"
-            step="0.001"
+            step="0.005"
             type="number"
-            value={element.value?.props.style.height.replace("in", "")}
+            onBlur={saveElement}
+            onInput={update("props.style.height")}
+            value={getProp("props.style.height")}
           />
           <span>in</span>
         </label>

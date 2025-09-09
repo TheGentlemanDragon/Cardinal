@@ -1,10 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
+import { useEffect } from "preact/hooks";
 import { useRoute } from "preact-iso";
 
 import { Collections } from "./db";
 import { newElementForTemplate } from "./elements";
 import { invalidate, useTemplate } from "./queries";
-import { user } from "./signals";
+import { elements, user } from "./signals";
 import type { Element, Template } from "./types";
 
 const invalidateTemplates = () => invalidate("templates");
@@ -27,7 +28,19 @@ const withUpdatedElement = (template: Template, element: Element) => ({
 
 export const useCurrentTemplate = () => {
   const { params } = useRoute();
-  return useTemplate(params.id);
+  const query = useTemplate(params.id);
+
+  const { data, isSuccess } = query;
+
+  useEffect(() => {
+    if (!isSuccess) {
+      return;
+    }
+
+    elements.value = data.elements;
+  }, [data, isSuccess]);
+
+  return query;
 };
 
 export const useAddToTemplate = () => {
@@ -53,6 +66,10 @@ export const useSaveElement = () => {
 
   return useMutation({
     mutationFn: async (element: Element) => {
+      if (!isSuccess) {
+        return;
+      }
+
       const newTemplate = withUpdatedElement(template, element);
       return await Collections.Templates.update(template.id, newTemplate);
     },

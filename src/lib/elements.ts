@@ -1,6 +1,8 @@
-import { type Template } from "./types";
+import { createElement } from "preact";
+import { element } from "./signals";
+import { cls } from "./styles";
+import type { Element, Template } from "./types";
 import { generateId, getUniqueName } from "./utils";
-import { type Signal } from "@preact/signals";
 
 const DEFAULT_STYLE = {
   height: "0.33in",
@@ -20,21 +22,22 @@ const DEFAULT_TEXT = {
   type: "",
 };
 
-export const updateValue = (
-  element: Signal<Element>,
-  key: string,
-  value: string
-) => {
-  const keys = key.split(".");
-  let newElement = { ...element.value };
-  let obj = newElement;
-  let k = keys.shift();
-  for (; keys.length; k = keys.shift()) {
-    obj = obj[k];
-  }
-  obj[k] = value;
-  return newElement;
-};
+const DOTTED_OUTLINE = "outline outline-dashed outline-1";
+
+export const getElement = (item: Element) =>
+  createElement(
+    item.type,
+    {
+      ...item.props,
+      class: cls(
+        DOTTED_OUTLINE,
+        item.id === element.value?.id
+          ? "outline-orange-500 animate-pulse duration-100 z-50"
+          : "outline-blue-500 z-10"
+      ),
+    },
+    item.children
+  );
 
 export const newElementForTemplate = (type: string, template: Template) => {
   const elements = [...template.elements];
@@ -54,4 +57,16 @@ export const newElementForTemplate = (type: string, template: Template) => {
     ...template,
     elements,
   };
+};
+
+export const updateElement = (key: string, value: string) => {
+  const keys = key.split(".");
+  let newElement = structuredClone(element.value);
+  let obj = newElement;
+  let k = keys.shift();
+  for (; keys.length; k = keys.shift()) {
+    obj = obj[k];
+  }
+  obj[k] = value;
+  element.value = newElement;
 };

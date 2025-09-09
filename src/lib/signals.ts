@@ -5,6 +5,8 @@ export const editorView = signal("template");
 
 export const element = signal<Element>();
 
+export const elements = signal<Element[]>([]);
+
 export const template = signal<Template>();
 
 export const user = signal<UsersAuth | null>(null);

@@ -71,6 +71,7 @@ export const useSaveElement = () => {
       }
 
       const newTemplate = withUpdatedElement(template, element);
+      elements.value = newTemplate.elements;
       return await Collections.Templates.update(template.id, newTemplate);
     },
     onSuccess: invalidateTemplates,

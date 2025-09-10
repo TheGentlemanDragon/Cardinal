@@ -4,6 +4,7 @@ import {
   cls,
   element,
   get,
+  getMax,
   HIDE_ARROWS,
   updateElement,
   useSaveElement,
@@ -24,6 +25,8 @@ export const PropertiesMenu = () => {
   const { mutate: save } = useSaveElement();
 
   const saveElement = () => save(element.value);
+
+  const max = getMax(element.value?.props.style);
 
   return (
     <div class="flex flex-col bg-base-200 rounded-box shadow-md p-4">
@@ -46,7 +49,7 @@ export const PropertiesMenu = () => {
           x
           <input
             class={cls("text-right", HIDE_ARROWS)}
-            max="2.5"
+            max={max.left}
             min="0.00"
             step="0.005"
             type="number"
@@ -61,7 +64,7 @@ export const PropertiesMenu = () => {
           y
           <input
             class={cls("text-right", HIDE_ARROWS)}
-            max="3.5"
+            max={max.top}
             min="0.00"
             step="0.005"
             type="number"
@@ -78,7 +81,7 @@ export const PropertiesMenu = () => {
           <MoveHorizontal />
           <input
             class={cls("text-right", HIDE_ARROWS)}
-            max="2.5"
+            max={max.width}
             min="0.01"
             step="0.005"
             type="number"
@@ -93,7 +96,7 @@ export const PropertiesMenu = () => {
           <MoveVertical />
           <input
             class={cls("text-right", HIDE_ARROWS)}
-            max="3.5"
+            max={max.height}
             min="0.01"
             step="0.005"
             type="number"

@@ -1,4 +1,4 @@
-import { element, elements, getElement } from "$lib";
+import { element, elements, getElement, useCurrentTemplate } from "$lib";
 import { cardScale } from "./ScaleSlider";
 
 /** EditorCard Card */
@@ -9,12 +9,7 @@ export const EditorCard = () => {
       id="EditorCard"
       style={{ transform: `scale(${cardScale.value / 10})` }}
     >
-      {/* Selected element */}
-      {element.value && getElement(element.value)}
-
-      {elements.value
-        .filter((item) => item.id !== element.value?.id)
-        .map(getElement)}
+      {elements.value.map(getElement)}
     </div>
   );
 };

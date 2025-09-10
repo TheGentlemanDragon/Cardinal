@@ -28,7 +28,7 @@ export const getElement = (item: Element) =>
   createElement(
     item.type,
     {
-      ...item.props,
+      ...(item.id === element.value?.id ? element.value.props : item.props),
       class: cls(
         DOTTED_OUTLINE,
         item.id === element.value?.id
@@ -38,6 +38,30 @@ export const getElement = (item: Element) =>
     },
     item.children
   );
+
+const cardWidth = 2.5;
+const cardHeight = 3.5;
+
+export const getMax = (style?: Element["props"]["style"]) => {
+  if (!style) {
+    return {
+      left: cardWidth.toString(),
+      top: cardHeight.toString(),
+      width: cardWidth.toString(),
+      height: cardHeight.toString(),
+    };
+  }
+
+  const { left, top, width, height } = style;
+  const [x, y, w, h] = [left, top, width, height].map((i) => parseFloat(i));
+
+  return {
+    left: (cardWidth - w).toString(),
+    top: (cardHeight - h).toString(),
+    width: (cardWidth - x).toString(),
+    height: (cardHeight - y).toString(),
+  };
+};
 
 export const newElementForTemplate = (type: string, template: Template) => {
   const elements = [...template.elements];

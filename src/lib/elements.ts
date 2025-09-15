@@ -22,7 +22,7 @@ const DEFAULT_TEXT = {
   type: "",
 };
 
-const DOTTED_OUTLINE = "outline outline-dashed outline-1";
+const DOTTED_OUTLINE = "outline outline-dotted outline-1";
 
 const TYPE_MAP = {
   text: "div",

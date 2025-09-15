@@ -24,7 +24,7 @@ const SignInPage = () => {
 
   return (
     <main class="main-bg size-full flex items-center justify-center">
-      <section class="card w-96 shadow-xl" data-theme="corporate">
+      <section class="card w-96 shadow-xl" data-theme="dark">
         <form
           class="card-body"
           onBlur={validateInput}
@@ -68,7 +68,7 @@ const SignInPage = () => {
 
           <div class="card-actions justify-center">
             <button
-              class="btn"
+              class="btn btn-primary"
               disabled={isSignInIncomplete.value || !!error.value.message}
               onClick={login}
             >

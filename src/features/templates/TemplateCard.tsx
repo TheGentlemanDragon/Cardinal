@@ -13,7 +13,7 @@ export const TemplateCard = ({ template }: Props) => {
           class={
             CARD_CLS +
             ` w-[172] aspect-[25/35] 
-            border-[#1565c0] border-2 border-dashed`
+            border-primary border-2 border-dashed`
           }
         >
           {/* Card image */}
@@ -59,7 +59,6 @@ export const TemplateCard = ({ template }: Props) => {
             bg-base-200 rounded-lg
             z-1 w-32 p-2
             shadow-md shadow-blue-950/80"
-          data-theme="dark"
           tabindex={0}
         >
           <li>

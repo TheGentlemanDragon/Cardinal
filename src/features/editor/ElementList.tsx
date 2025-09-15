@@ -6,7 +6,7 @@ import {
   setElement,
   type Element,
 } from "$lib";
-import { Group, Image, Type } from "lucide-preact";
+import { Group, Image, Trash, Type } from "lucide-preact";
 
 export const MENU_ICON_MAP = {
   text: <Type size={16} />,
@@ -17,7 +17,12 @@ export const MENU_ICON_MAP = {
 export const ElementList = () => {
   return (
     <ul class={MENU_CLS}>
-      <li class="p-2">Elements</li>
+      <div class="flex items-center justify-between pl-2">
+        <span>Elements</span>
+        <button className="btn btn-square bg-primary" disabled={!element.value}>
+          <Trash size={16} />
+        </button>
+      </div>
       {elements.value.map((item: Element) => (
         <li key={item.id}>
           <a

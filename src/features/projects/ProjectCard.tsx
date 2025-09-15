@@ -53,7 +53,6 @@ export const ProjectCard = ({ project }: Props) => {
             bg-base-200 rounded-lg
             z-1 w-32 p-2
             shadow-md shadow-blue-950/80"
-          data-theme="dark"
           tabindex={0}
         >
           <li>

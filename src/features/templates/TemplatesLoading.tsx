@@ -9,7 +9,7 @@ export const TemplatesLoading = () => (
         class={`
           skeleton ${CARD_CLS}
           w-40 h-64 aspect-[0.712]
-          border-[#1565c0] border-2 border-dashed
+          border-primary border-2 border-dashed
         `}
       >
         <figure class="h-32"></figure>

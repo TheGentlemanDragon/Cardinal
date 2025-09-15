@@ -77,7 +77,7 @@ const MenuItem = ({
   value: { Icon, id, onClick, tip },
   radio,
 }: MenuItemProps) => {
-  const clsRadio = radio && "bg-[#1565c0] nth-[2]:rounded-l last:rounded-r";
+  const clsRadio = radio && "bg-primary nth-[2]:rounded-l-lg last:rounded-r-lg";
   return (
     <li class={clsRadio}>
       <a class={clsMenuOption(id, tip)} data-tip={tip} onClick={onClick}>
@@ -121,3 +121,4 @@ export const EditorMenu = () => {
     </section>
   );
 };
+``;

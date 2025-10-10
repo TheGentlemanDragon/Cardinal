@@ -1,5 +1,5 @@
 import { createElement } from "preact";
-import { element, setElementById } from "./signals";
+import { editorView, element, setElementById } from "./signals";
 import { cls } from "./styles";
 import type { Element, Template } from "./types";
 import { generateId, getUniqueName } from "./utils";
@@ -28,7 +28,7 @@ const TYPE_MAP = {
   text: "div",
 };
 
-export function getElement({ children, id, props, type }: Element) {
+export function getElement({ children, id, name, props, type }: Element) {
   return createElement(
     TYPE_MAP[type],
     {
@@ -36,13 +36,13 @@ export function getElement({ children, id, props, type }: Element) {
       id,
       class: cls(
         DOTTED_OUTLINE,
-        "element cursor-pointer",
+        "element cursor-pointer text-neutral-600",
         id === element.value?.id
           ? "outline-orange-500 animate-pulse duration-100 z-50"
           : "outline-blue-500 z-10"
       ),
     },
-    children
+    editorView.value === "template" ? name : children
   );
 }
 

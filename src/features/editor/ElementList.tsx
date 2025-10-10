@@ -19,6 +19,8 @@ export const ElementList = () => {
     <ul class={MENU_CLS}>
       <div class="flex items-center justify-between pl-2">
         <span>Elements</span>
+
+        {/* TODO: Implement delete element */}
         <button className="btn btn-square bg-primary" disabled={!element.value}>
           <Trash size={16} />
         </button>
@@ -26,7 +28,7 @@ export const ElementList = () => {
       {elements.value.map((item: Element) => (
         <li key={item.id}>
           <a
-            class={cls(element.value?.id === item.id && "menu-active")}
+            class={cls(element.value?.id === item.id && "bg-primary")}
             onClick={() => setElement(item)}
           >
             {MENU_ICON_MAP[item.type]} {item.name}

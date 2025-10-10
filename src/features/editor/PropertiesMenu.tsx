@@ -6,12 +6,13 @@ import {
   get,
   getMax,
   HIDE_ARROWS,
+  identity,
   updateElement,
   useSaveElement,
 } from "$lib";
 
 const update =
-  (key: string, valueFn: (str: string) => string = withIn) =>
+  (key: string, valueFn: (str: string) => string = identity) =>
   (event: JSX.TargetedEvent<HTMLInputElement, Event>) => {
     updateElement(key, valueFn(event.currentTarget.value));
   };
@@ -34,7 +35,13 @@ export const PropertiesMenu = () => {
 
       <fieldset class="fieldset">
         <legend class="fieldset-legend">Name</legend>
-        <input type="text" class="input" value={element.value?.name} />
+        <input
+          class="input"
+          onBlur={saveElement}
+          onInput={update("name")}
+          type="text"
+          value={element.value?.name}
+        />
 
         <legend class="fieldset-legend">Content</legend>
         <textarea type="text" class="textarea" />
@@ -51,10 +58,10 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max={max.left}
             min="0.00"
+            onBlur={saveElement}
+            onInput={update("props.style.left", withIn)}
             step="0.005"
             type="number"
-            onBlur={saveElement}
-            onInput={update("props.style.left")}
             value={getProp("props.style.left")}
           />
           <span>in</span>
@@ -66,10 +73,10 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max={max.top}
             min="0.00"
+            onBlur={saveElement}
+            onInput={update("props.style.top", withIn)}
             step="0.005"
             type="number"
-            onBlur={saveElement}
-            onInput={update("props.style.top")}
             value={getProp("props.style.top")}
           />
           <span>in</span>
@@ -83,10 +90,10 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max={max.width}
             min="0.01"
+            onBlur={saveElement}
+            onInput={update("props.style.width", withIn)}
             step="0.005"
             type="number"
-            onBlur={saveElement}
-            onInput={update("props.style.width")}
             value={getProp("props.style.width")}
           />
           <span>in</span>
@@ -98,10 +105,10 @@ export const PropertiesMenu = () => {
             class={cls("text-right", HIDE_ARROWS)}
             max={max.height}
             min="0.01"
+            onBlur={saveElement}
+            onInput={update("props.style.height", withIn)}
             step="0.005"
             type="number"
-            onBlur={saveElement}
-            onInput={update("props.style.height")}
             value={getProp("props.style.height")}
           />
           <span>in</span>

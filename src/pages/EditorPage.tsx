@@ -1,5 +1,5 @@
 import { Page } from "$components";
-import { useCurrentTemplate } from "$lib";
+import { element, useCurrentTemplate } from "$lib";
 import { EditorCard } from "../features/editor/EditorCard";
 import { EditorFooterTools } from "../features/editor/EditorFooterTools";
 import { EditorMenu } from "../features/editor/EditorMenu";
@@ -21,9 +21,11 @@ const EditorPage = () => {
 
         <EditorCard />
 
-        <div class="w-full p-6 z-10">
-          <PropertiesMenu />
-        </div>
+        {element.value && (
+          <div class="w-full p-6 z-10">
+            <PropertiesMenu />
+          </div>
+        )}
       </section>
 
       <EditorFooterTools />

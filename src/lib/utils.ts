@@ -67,6 +67,11 @@ export function getUniqueName(names: string[], name: string) {
   return `${name}-${suffix}`;
 }
 
+/** Returns the passed in value */
+export function identity(value) {
+  return value;
+}
+
 /** No operation */
 export function noop() {
   return null;

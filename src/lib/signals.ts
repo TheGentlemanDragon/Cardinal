@@ -11,7 +11,7 @@ export const template = signal<Template>();
 
 export const user = signal<UsersAuth | null>(null);
 
-export const setElement = (el: Element) => (element.value = el);
+export const setElement = (el?: Element) => (element.value = el);
 
 export const setElementById = (id: string) =>
   (element.value = elements.value.find((item) => item.id === id));

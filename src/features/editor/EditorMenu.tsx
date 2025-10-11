@@ -112,7 +112,7 @@ export const EditorMenu = () => {
   }, [addToTemplate.value]);
 
   return (
-    <section class="flex flex-col gap-3">
+    <section class="flex flex-col gap-3 pointer-events-auto">
       <MenuGroup label="View" items={VIEW_ITEMS} radio />
 
       <MenuGroup label="Add" items={ADD_ITEMS} />

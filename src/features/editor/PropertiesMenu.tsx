@@ -30,7 +30,7 @@ export const PropertiesMenu = () => {
   const max = getMax(element.value?.props.style);
 
   return (
-    <div class="flex flex-col bg-base-200 rounded-box shadow-md p-4">
+    <div class="flex flex-col bg-base-200 rounded-box shadow-md p-4 pointer-events-auto">
       <div class="font-medium mb-2">Properties</div>
 
       <fieldset class="fieldset">

@@ -20,7 +20,7 @@ effect(() => localStorage.setItem(SCALE_CACHE_KEY, String(cardScale.value)));
 export const ScaleSlider = () => {
   return (
     <>
-      <label class="flex items-center">
+      <label class="flex items-center pointer-events-auto">
         <Search />
         <input
           class="range"

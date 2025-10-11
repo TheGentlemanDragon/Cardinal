@@ -10,5 +10,9 @@ type PageProps = {
  * Applies background, full-page layout, and flex column
  */
 export const Page = ({ children }: PageProps) => {
-  return <main class="main-bg size-full flex flex-col">{children}</main>;
+  return (
+    <main class="main-bg size-full flex flex-col overflow-hidden">
+      {children}
+    </main>
+  );
 };

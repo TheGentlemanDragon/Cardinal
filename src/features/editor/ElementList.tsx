@@ -21,7 +21,10 @@ export const ElementList = () => {
         <span>Elements</span>
 
         {/* TODO: Implement delete element */}
-        <button className="btn btn-square bg-primary" disabled={!element.value}>
+        <button
+          className="btn btn-ghost btn-primary btn-square mb-2"
+          disabled={!element.value}
+        >
           <Trash size={16} />
         </button>
       </div>

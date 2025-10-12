@@ -2,14 +2,17 @@ import { useEffect } from "preact/hooks";
 
 export const useClickBackground = (callback: () => void) => {
   const executeCallback = (event: Event) => {
-    const target = event.target as HTMLElement;
-    if (target.nodeName === "MAIN") {
+    if (event.target === event.currentTarget) {
       callback();
     }
   };
 
   useEffect(() => {
-    document.addEventListener("click", executeCallback);
-    return () => document.removeEventListener("click", executeCallback);
+    document.querySelector("main").addEventListener("click", executeCallback);
+
+    return () =>
+      document
+        .querySelector("main")
+        .removeEventListener("click", executeCallback);
   }, []);
 };

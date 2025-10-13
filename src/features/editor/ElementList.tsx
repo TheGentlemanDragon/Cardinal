@@ -17,17 +17,18 @@ export const MENU_ICON_MAP = {
 export const ElementList = () => {
   return (
     <ul class={MENU_CLS}>
-      <div class="flex items-center justify-between pl-2">
+      <div class="flex items-center justify-between pl-2 mb-2">
         <span>Elements</span>
 
         {/* TODO: Implement delete element */}
         <button
-          className="btn btn-ghost btn-primary btn-square mb-2"
+          className="btn btn-ghost btn-primary btn-square"
           disabled={!element.value}
         >
           <Trash size={16} />
         </button>
       </div>
+
       {elements.value.map((item: Element) => (
         <li key={item.id}>
           <a

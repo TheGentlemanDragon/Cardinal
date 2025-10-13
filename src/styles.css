@@ -1,5 +1,8 @@
 @import "tailwindcss";
+
 @plugin "daisyui" {
+  /* Scrollbar gutter shows when dialog is open */
+  exclude: rootscrollgutter;
 }
 
 @plugin "daisyui/theme" {

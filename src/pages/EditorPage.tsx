@@ -1,5 +1,6 @@
 import { Page } from "$components";
 import { cls, element, setElement, useCurrentTemplate } from "$lib";
+import { AssetManager } from "../features/AssetManager";
 import { EditorCard } from "../features/editor/EditorCard";
 import { EditorFooterTools } from "../features/editor/EditorFooterTools";
 import { EditorMenu } from "../features/editor/EditorMenu";
@@ -37,6 +38,8 @@ const EditorPage = () => {
 
         <div class={panelCls}>{element.value ? <PropertiesMenu /> : null}</div>
       </section>
+
+      <AssetManager />
 
       <EditorFooterTools />
     </Page>

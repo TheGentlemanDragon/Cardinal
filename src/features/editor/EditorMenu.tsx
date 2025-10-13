@@ -18,6 +18,7 @@ import type { UseMutateFunction } from "@tanstack/react-query";
 import type { RecordModel } from "pocketbase";
 import { useEffect } from "preact/hooks";
 import { ElementList } from "./ElementList";
+import { AssetManagerButton } from "../AssetManager";
 
 const addToTemplate = signal<UseMutateFunction<
   RecordModel,
@@ -118,7 +119,8 @@ export const EditorMenu = () => {
       <MenuGroup label="Add" items={ADD_ITEMS} />
 
       <ElementList />
+
+      <AssetManagerButton />
     </section>
   );
 };
-``;

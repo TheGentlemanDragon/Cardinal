@@ -1,4 +1,5 @@
 import { ReactNode } from "preact/compat";
+import { X } from "lucide-preact";
 
 type ModalProps = {
   children: ReactNode;
@@ -26,14 +27,25 @@ export const Modal = ({ children }: ModalProps) => {
   );
 };
 
-Modal.Title = ({ children }: ModalProps) => (
+const closeModal = (event: Event) => {
+  const target = event.target as HTMLElement;
+  target.closest("dialog")?.close();
+};
+
+Modal.Title = ({ children, close }: ModalProps & { close?: boolean }) => (
   <section
     class="
       px-5 py-2 gap-2
-      flex justify-between
+      flex justify-between items-center
       border-b border-base-content/20"
   >
     <h1 class="text-lg font-bold">{children}</h1>
+
+    {close && (
+      <button class="btn btn-sm btn-ghost btn-square" onClick={closeModal}>
+        <X size={16} />
+      </button>
+    )}
   </section>
 );
 

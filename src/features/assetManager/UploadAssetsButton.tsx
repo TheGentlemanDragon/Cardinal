@@ -1,5 +1,5 @@
 import { useRef } from "preact/hooks";
-import { uploadFiles } from "$lib";
+import { cls, uploadFiles } from "$lib";
 
 const ACCEPTED_FILE_TYPES = [
   "image/gif",
@@ -8,7 +8,11 @@ const ACCEPTED_FILE_TYPES = [
   "image/webp",
 ];
 
-export const UploadAssetsButton = () => {
+type Props = {
+  outline?: boolean;
+};
+
+export const UploadAssetsButton = ({ outline = false }: Props) => {
   const fileInputRef = useRef(null);
 
   const selectFilesAndUpload = () => {
@@ -34,8 +38,11 @@ export const UploadAssetsButton = () => {
         type="file"
       />
 
-      <button class="btn btn-primary mt-8 mb-4" onClick={selectFilesAndUpload}>
-        Upload image(s)
+      <button
+        class={cls("btn btn-primary", outline && "btn-outline")}
+        onClick={selectFilesAndUpload}
+      >
+        Upload assets
       </button>
     </>
   );

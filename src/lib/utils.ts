@@ -1,4 +1,12 @@
-import { Path, PathValue, pb, UploadingFile, uploadingFiles, user } from "$lib";
+import {
+  invalidateAssets,
+  type Path,
+  type PathValue,
+  pb,
+  type UploadingFile,
+  uploadingFiles,
+  user,
+} from "$lib";
 
 const YEAR_IN_MS = 31_556_952_000;
 const MONTH_IN_MS = 2_629_746_000;
@@ -154,10 +162,11 @@ export async function uploadFiles(files: FileList) {
       };
 
       if (percent === 100) {
-        setTimeout(() => {
+        setTimeout(async () => {
           delete uploadingFiles.value[payload.id];
           uploadingFiles.value = { ...uploadingFiles.value };
-        }, 3000);
+          invalidateAssets();
+        }, 500);
       }
     });
 

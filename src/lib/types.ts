@@ -1,6 +1,19 @@
 import { JSX } from "preact";
 import * as z from "zod/v4";
 
+export const assetsSchema = z.object({
+  collectionId: z.string(),
+  collectionName: z.string(),
+  created: z.coerce.date(),
+  data: z.string(),
+  height: z.number(),
+  id: z.string(),
+  name: z.string(),
+  owner: z.string(),
+  updated: z.coerce.date(),
+  width: z.number(),
+});
+
 export const cardSchema = z.object({
   collectionId: z.string(),
   collectionName: z.string(),
@@ -54,6 +67,8 @@ export const templateSchema = z.object({
   updated: z.coerce.date(),
 });
 
+export type Asset = z.infer<typeof assetsSchema>;
+
 export type Card = z.infer<typeof cardSchema>;
 
 export type Element = z.infer<typeof elementSchema>;
@@ -96,14 +111,10 @@ export type Project = z.infer<typeof projectSchema>;
 
 export type Template = z.infer<typeof templateSchema>;
 
-export type UploadingFile = {
-  data: File;
-  height: number;
-  id: string;
-  name: string;
-  owner: string;
-  width: number;
-};
+export type UploadingFile = Omit<
+  Asset,
+  "created" | "data" | "updated" | "collectionId" | "collectionName"
+> & { data: File };
 
 export type UsersAuth = {
   avatar: string;

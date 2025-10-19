@@ -1,15 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { Collections, ignore404 } from "./db";
-import { getQueryKey, invalidate, parseItems } from "./queries";
+import { getQueryKey, parseItems, queryClient } from "./queries";
 import { user } from "./signals";
 import { type Project, type PbList, projectSchema } from "./types";
+
+export const invalidateProjects = () =>
+  queryClient.invalidateQueries({ queryKey: ["projects"] });
 
 export async function createProject(name: string) {
   await Collections.Projects.create({
     name,
     owner: user.value?.id,
   });
-  invalidate("projects");
+  invalidateProjects();
 }
 
 export function getProject(id: string) {

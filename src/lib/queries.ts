@@ -28,10 +28,6 @@ export function getQueryKey(...keys: any) {
   return [...keys];
 }
 
-export function invalidate(...keys: any) {
-  return queryClient.invalidateQueries({ queryKey: getQueryKey(keys) });
-}
-
 export function parseItems(schema) {
   return (data) => ({
     ...data,

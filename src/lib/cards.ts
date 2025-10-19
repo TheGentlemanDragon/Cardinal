@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import { Collections, ignore404 } from "./db";
-import { getQueryKey, invalidate, parseItems } from "./queries";
+import { getQueryKey, parseItems, queryClient } from "./queries";
 import { user } from "./signals";
 import { type PbList, type Card, cardSchema } from "./types";
+
+export const invalidateCards = () =>
+  queryClient.invalidateQueries({ queryKey: ["cards"] });
 
 export async function createCard(name: string, templateId: string) {
   await Collections.Cards.create({
@@ -10,7 +13,7 @@ export async function createCard(name: string, templateId: string) {
     owner: user.value?.id,
     template: templateId,
   });
-  invalidate("cards");
+  invalidateCards();
 }
 
 export function getCards(templateId: string) {

@@ -3,7 +3,7 @@ import { useEffect } from "preact/hooks";
 import { useRoute } from "preact-iso";
 import { Collections, ignore404 } from "./db";
 import { newElementForTemplate } from "./elements";
-import { getQueryKey, invalidate, parseItems } from "./queries";
+import { getQueryKey, parseItems, queryClient } from "./queries";
 import { elements, template, user } from "./signals";
 import {
   templateSchema,
@@ -12,7 +12,8 @@ import {
   type Template,
 } from "./types";
 
-const invalidateTemplates = () => invalidate("templates");
+export const invalidateTemplates = () =>
+  queryClient.invalidateQueries({ queryKey: ["templates"] });
 
 function withUpdatedElement(template: Template, element: Element) {
   return {

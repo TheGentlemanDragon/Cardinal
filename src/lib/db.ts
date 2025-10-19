@@ -7,6 +7,7 @@ export const HTTP_STATUS_TO_IGNORE = 404;
 export const pb = new PocketBase(import.meta.env.VITE_DB_URL);
 
 export const Collections = {
+  Assets: pb.collection("cardinal_assets"),
   Cards: pb.collection("cardinal_cards"),
   Projects: pb.collection("cardinal_projects"),
   Templates: pb.collection("cardinal_templates"),

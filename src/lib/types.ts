@@ -1,3 +1,4 @@
+import { JSX } from "preact";
 import * as z from "zod/v4";
 
 export const cardSchema = z.object({
@@ -57,6 +58,12 @@ export type Card = z.infer<typeof cardSchema>;
 
 export type Element = z.infer<typeof elementSchema>;
 
+export type MenuItem = {
+  id: string;
+  Icon: JSX.Element;
+  onClick: () => void;
+  tip?: string;
+};
 // Build a dot-path union like "a", "a.b", "c.d.e"
 export type Path<T> = T extends object
   ? {
@@ -76,6 +83,14 @@ export type PathValue<
   : P extends keyof T
   ? T[P]
   : unknown;
+
+export type PbList<BaseType> = {
+  items: BaseType[];
+  page: number;
+  perPage: number;
+  totalItems: number;
+  totalPages: number;
+};
 
 export type Project = z.infer<typeof projectSchema>;
 

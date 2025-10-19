@@ -11,8 +11,9 @@ try {
   console.error({ error });
 }
 
-export const userInitials = (user: UsersAuth) =>
-  (user.name ?? user.email)
+export function userInitials(user: UsersAuth) {
+  return (user.name ?? user.email)
     .split(" ")
     .map((item) => item[0].toUpperCase())
     .join("");
+}

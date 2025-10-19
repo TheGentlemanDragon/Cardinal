@@ -1,49 +1,57 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "preact/hooks";
 import { useRoute } from "preact-iso";
-
-import { Collections } from "./db";
+import { Collections, ignore404 } from "./db";
 import { newElementForTemplate } from "./elements";
-import { invalidate, useTemplate } from "./queries";
-import { elements, user } from "./signals";
-import type { Element, Template } from "./types";
+import { getQueryKey, invalidate, parseItems } from "./queries";
+import { elements, template, user } from "./signals";
+import {
+  templateSchema,
+  type Element,
+  type PbList,
+  type Template,
+} from "./types";
 
 const invalidateTemplates = () => invalidate("templates");
 
-export const createTemplate = async (name: string, projectId: string) => {
+function withUpdatedElement(template: Template, element: Element) {
+  return {
+    ...template,
+    elements: template.elements.map((item) =>
+      element.id === item.id ? element : item
+    ),
+  };
+}
+
+export async function createTemplate(name: string, projectId: string) {
   await Collections.Templates.create({
     name,
     owner: user.value?.id,
     project: projectId,
   });
   invalidateTemplates();
-};
+}
 
-const withUpdatedElement = (template: Template, element: Element) => ({
-  ...template,
-  elements: template.elements.map((item) =>
-    element.id === item.id ? element : item
-  ),
-});
+export function getTemplate(id: string) {
+  return ignore404((): Promise<Template> => Collections.Templates.getOne(id));
+}
 
-export const useCurrentTemplate = () => {
-  const { params } = useRoute();
-  const query = useTemplate(params.id);
+export function getTemplates(projectId: string) {
+  return ignore404(
+    (): Promise<PbList<Template>> =>
+      Collections.Templates.getList(1, 20, {
+        filter: `project.id="${projectId}"`,
+      })
+  );
+}
 
-  const { data, isSuccess } = query;
+export function syncTemplate(value: Template) {
+  if (value !== template.value) {
+    template.value = value;
+  }
+}
 
-  useEffect(() => {
-    if (!isSuccess) {
-      return;
-    }
-
-    elements.value = data.elements;
-  }, [data, isSuccess]);
-
-  return query;
-};
-
-export const useAddToTemplate = () => {
+export function useAddToTemplate() {
   const { data: template, isSuccess } = useCurrentTemplate();
 
   return useMutation({
@@ -59,9 +67,26 @@ export const useAddToTemplate = () => {
     },
     onSuccess: invalidateTemplates,
   });
-};
+}
 
-export const useSaveElement = () => {
+export function useCurrentTemplate() {
+  const { params } = useRoute();
+  const query = useTemplate(params.id);
+
+  const { data, isSuccess } = query;
+
+  useEffect(() => {
+    if (!isSuccess) {
+      return;
+    }
+
+    elements.value = data.elements;
+  }, [data, isSuccess]);
+
+  return query;
+}
+
+export function useSaveElement() {
   const { data: template, isSuccess } = useCurrentTemplate();
 
   return useMutation({
@@ -76,4 +101,22 @@ export const useSaveElement = () => {
     },
     onSuccess: invalidateTemplates,
   });
-};
+}
+
+export function useTemplate(templateId?: string) {
+  return useQuery<Template>({
+    enabled: templateId !== undefined,
+    queryFn: getTemplate(templateId),
+    queryKey: getQueryKey("templates", { templateId }),
+    select: templateSchema.parse,
+  });
+}
+
+export function useTemplatesList(projectId: string) {
+  return useQuery<PbList<Template>>({
+    enabled: projectId !== undefined,
+    queryFn: getTemplates(projectId),
+    queryKey: getQueryKey("templates", { projectId }),
+    select: parseItems(templateSchema),
+  });
+}

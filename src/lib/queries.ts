@@ -1,70 +1,40 @@
-import { useQuery } from "@tanstack/react-query";
-import {
-  type PbList,
-  getCards,
-  getProject,
-  getProjects,
-  getTemplate,
-  getTemplates,
-  queryClient,
-} from "./db";
-import {
-  type Card,
-  cardSchema,
-  type Project,
-  projectSchema,
-  type Template,
-  templateSchema,
-} from "./types";
+import { QueryClient } from "@tanstack/react-query";
+import { HTTP_STATUS_TO_NOT_RETRY, MAX_RETRIES, isPbError } from "./db";
 
-export const getQueryKey = (...keys: any) => [...keys];
+/** Default query client for React Query */
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (failureCount, error) => {
+        if (failureCount > MAX_RETRIES) {
+          return false;
+        }
 
-export const invalidate = (...keys: any) =>
-  queryClient.invalidateQueries({ queryKey: getQueryKey(keys) });
+        if (
+          isPbError(error) &&
+          HTTP_STATUS_TO_NOT_RETRY.includes(error.response.code)
+        ) {
+          console.log(`Aborting retry due to ${error.response.code} status`);
+          return false;
+        }
 
-const parseItems = (schema) => (data) => ({
-  ...data,
-  items: data.items.map((item) => schema.parse(item)),
+        return true;
+      },
+    },
+  },
 });
 
-/** Cards */
-export const useCardsList = (templateId?: string) =>
-  useQuery<PbList<Card>>({
-    enabled: templateId !== undefined,
-    queryFn: getCards(templateId),
-    queryKey: getQueryKey("cards"),
-    select: parseItems(cardSchema),
+export function getQueryKey(...keys: any) {
+  return [...keys];
+}
+
+export function invalidate(...keys: any) {
+  return queryClient.invalidateQueries({ queryKey: getQueryKey(keys) });
+}
+
+export function parseItems(schema) {
+  return (data) => ({
+    ...data,
+    items: data.items.map((item) => schema.parse(item)),
   });
-
-/** Projects */
-
-export const useProject = (id: string) =>
-  useQuery<Project>({
-    queryFn: getProject(id),
-    queryKey: getQueryKey("projects", { id }),
-  });
-
-export const useProjectsList = () =>
-  useQuery<PbList<Project>>({
-    queryFn: getProjects,
-    queryKey: getQueryKey("projects"),
-    select: parseItems(projectSchema),
-  });
-
-/** Templates */
-
-export const useTemplate = (templateId?: string) =>
-  useQuery<Template>({
-    enabled: templateId !== undefined,
-    queryFn: getTemplate(templateId),
-    queryKey: getQueryKey("templates", { templateId }),
-    select: templateSchema.parse,
-  });
-
-export const useTemplatesList = (projectId: string) =>
-  useQuery<PbList<Template>>({
-    enabled: projectId !== undefined,
-    queryFn: getTemplates(projectId),
-    queryKey: getQueryKey("templates", { projectId }),
-    select: parseItems(templateSchema),
-  });
+}

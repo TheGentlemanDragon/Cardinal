@@ -4,6 +4,9 @@ import { cls } from "./styles";
 import type { Element, Template } from "./types";
 import { generateId, getUniqueName } from "./utils";
 
+const CARD_HEIGHT = 3.5;
+const CARD_WIDTH = 2.5;
+
 const DEFAULT_STYLE = {
   height: "0.33in",
   left: "0.125in",
@@ -28,6 +31,17 @@ const TYPE_MAP = {
   text: "div",
 };
 
+function withPointInRect({ x, y }: { x: number; y: number }) {
+  return function (rect: DOMRect) {
+    return (
+      x >= rect.x &&
+      x <= rect.x + rect.width &&
+      y >= rect.y &&
+      y < rect.y + rect.height
+    );
+  };
+}
+
 export function getElement({ children, id, name, props, type }: Element) {
   return createElement(
     TYPE_MAP[type],
@@ -46,16 +60,13 @@ export function getElement({ children, id, name, props, type }: Element) {
   );
 }
 
-const cardWidth = 2.5;
-const cardHeight = 3.5;
-
 export function getMax(style?: Element["props"]["style"]) {
   if (!style) {
     return {
-      left: cardWidth.toString(),
-      top: cardHeight.toString(),
-      width: cardWidth.toString(),
-      height: cardHeight.toString(),
+      left: CARD_WIDTH.toString(),
+      top: CARD_HEIGHT.toString(),
+      width: CARD_WIDTH.toString(),
+      height: CARD_HEIGHT.toString(),
     };
   }
 
@@ -63,10 +74,10 @@ export function getMax(style?: Element["props"]["style"]) {
   const [x, y, w, h] = [left, top, width, height].map((i) => parseFloat(i));
 
   return {
-    left: (cardWidth - w).toString(),
-    top: (cardHeight - h).toString(),
-    width: (cardWidth - x).toString(),
-    height: (cardHeight - y).toString(),
+    left: (CARD_WIDTH - w).toString(),
+    top: (CARD_HEIGHT - h).toString(),
+    width: (CARD_WIDTH - x).toString(),
+    height: (CARD_HEIGHT - y).toString(),
   };
 }
 
@@ -87,17 +98,6 @@ export function newElementForTemplate(type: string, template: Template) {
   return {
     ...template,
     elements,
-  };
-}
-
-function withPointInRect({ x, y }: { x: number; y: number }) {
-  return function (rect: DOMRect) {
-    return (
-      x >= rect.x &&
-      x <= rect.x + rect.width &&
-      y >= rect.y &&
-      y < rect.y + rect.height
-    );
   };
 }
 

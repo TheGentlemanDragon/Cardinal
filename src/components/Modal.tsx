@@ -1,8 +1,10 @@
-import { ReactNode } from "preact/compat";
 import { X } from "lucide-preact";
+import { ReactNode } from "preact/compat";
+import { cls } from "$lib";
 
 type ModalProps = {
   children: ReactNode;
+  wide?: boolean;
 };
 
 /**
@@ -12,10 +14,10 @@ type ModalProps = {
  * Because Daisy's modal uses a dialog element needing a ref for event handling
  * to open and close, this component should be placed within dialog with the ref
  */
-export const Modal = ({ children }: ModalProps) => {
+export const Modal = ({ children, wide = false }: ModalProps) => {
   return (
     <>
-      <article class="modal-box p-0">
+      <article class={cls("modal-box p-0", wide && "max-w-2xl")}>
         {/* Modal Title, Content and Actions */}
         {children}
       </article>
@@ -54,7 +56,7 @@ Modal.Content = ({ children }: ModalProps) => (
 );
 
 Modal.Actions = ({ children }: ModalProps) => (
-  <section class="pr-3 pb-3 gap-1 flex flex-col">
+  <section class="px-3 pb-3 gap-1 flex flex-col">
     <footer class="modal-action m-0">{children}</footer>
   </section>
 );

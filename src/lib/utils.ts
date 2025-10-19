@@ -1,3 +1,5 @@
+import { Path, PathValue, pb, UploadingFile, uploadingFiles, user } from "$lib";
+
 const YEAR_IN_MS = 31_556_952_000;
 const MONTH_IN_MS = 2_629_746_000;
 const DAY_IN_MS = 86_400_000;
@@ -5,41 +7,21 @@ const HOUR_IN_MS = 3_600_000;
 const MIN_IN_MS = 60_000;
 const SEC_IN_MS = 1_000;
 
-const b62Chars =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+const b36Chars = "abcdefghijklmnopqrstuvwxyz0123456789";
 
 /** Return a random base62 string */
-export const generateId = (length: number = 7) => {
+export function generateId(length: number = 15) {
   let result = "";
 
   for (let i = 0; i < length; i++) {
-    const randIndex = Math.floor(Math.random() * b62Chars.length);
-    result += b62Chars[randIndex];
+    const randIndex = Math.floor(randomNumber() * b36Chars.length);
+    result += b36Chars[randIndex];
   }
 
   return result;
-};
+}
 
-// Build a dot-path union like "a", "a.b", "c.d.e"
-export type Path<T> = T extends object
-  ? {
-      [K in keyof T & string]: T[K] extends object
-        ? `${K}` | `${K}.${Path<T[K]>}`
-        : `${K}`;
-    }[keyof T & string]
-  : never;
-
-export type PathValue<
-  T,
-  P extends string
-> = P extends `${infer K}.${infer Rest}`
-  ? K extends keyof T
-    ? PathValue<T[K], Rest>
-    : unknown
-  : P extends keyof T
-  ? T[P]
-  : unknown;
-
+/** Get value at path */
 export function get<T extends object, P extends Path<T>>(
   obj: T,
   path: P
@@ -52,6 +34,26 @@ export function get<T extends object, P extends Path<T>>(
   }
 
   return acc as PathValue<T, P> | undefined;
+}
+
+/** Load image to get dimensions and return record */
+export async function getFilePayload(file: File): Promise<UploadingFile> {
+  return new Promise((resolve) => {
+    const objectUrl = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      resolve({
+        data: file,
+        height: img.height,
+        id: generateId(),
+        name: file.name,
+        owner: user.value?.id,
+        width: img.width,
+      });
+      URL.revokeObjectURL(objectUrl);
+    };
+    img.src = objectUrl;
+  });
 }
 
 /** Given a list of string names and a base name, returns a unique name */
@@ -67,7 +69,7 @@ export function getUniqueName(names: string[], name: string) {
   return `${name}-${suffix}`;
 }
 
-/** Returns the passed in value */
+/** Return the passed in value */
 export function identity(value) {
   return value;
 }
@@ -82,7 +84,14 @@ export function preventDefault(event: Event) {
   return event.preventDefault();
 }
 
-/** Always returns false */
+/** Return random number between 0 and 1 */
+export const randomNumber = () => {
+  const randomBytes = new Uint32Array(1);
+  crypto.getRandomValues(randomBytes);
+  return randomBytes[0] / (0xffffffff + 1);
+};
+
+/** Always return false */
 export function stubFalse(arg?: any) {
   return false;
 }
@@ -109,4 +118,49 @@ export function timeSince(date: Date) {
     return `${Math.floor(diff / SEC_IN_MS)}s ago`;
   }
   return "Just now";
+}
+
+/** Upload files */
+export async function uploadFiles(files: FileList) {
+  for await (const payload of Array.from(files).map(getFilePayload)) {
+    uploadingFiles.value = {
+      ...uploadingFiles.value,
+      [payload.id]: { file: payload, percent: 0 },
+    };
+
+    const formData = new FormData();
+
+    Object.entries(payload).forEach(([key, value]) =>
+      formData.append(key, value as any)
+    );
+
+    const request = new XMLHttpRequest();
+
+    request.open(
+      "POST",
+      `${import.meta.env.VITE_DB_URL}api/collections/cardinal_assets/records`
+    );
+
+    request.setRequestHeader("Authorization", `Bearer ${pb.authStore.token}`);
+
+    request.upload.addEventListener("progress", (event: ProgressEvent) => {
+      const percent = Math.floor((event.loaded / event.total) * 100);
+      uploadingFiles.value = {
+        ...uploadingFiles.value,
+        [payload.id]: {
+          file: payload,
+          percent,
+        },
+      };
+
+      if (percent === 100) {
+        setTimeout(() => {
+          delete uploadingFiles.value[payload.id];
+          uploadingFiles.value = { ...uploadingFiles.value };
+        }, 3000);
+      }
+    });
+
+    request.send(formData);
+  }
 }

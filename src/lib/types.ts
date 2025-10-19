@@ -57,9 +57,38 @@ export type Card = z.infer<typeof cardSchema>;
 
 export type Element = z.infer<typeof elementSchema>;
 
+// Build a dot-path union like "a", "a.b", "c.d.e"
+export type Path<T> = T extends object
+  ? {
+      [K in keyof T & string]: T[K] extends object
+        ? `${K}` | `${K}.${Path<T[K]>}`
+        : `${K}`;
+    }[keyof T & string]
+  : never;
+
+export type PathValue<
+  T,
+  P extends string
+> = P extends `${infer K}.${infer Rest}`
+  ? K extends keyof T
+    ? PathValue<T[K], Rest>
+    : unknown
+  : P extends keyof T
+  ? T[P]
+  : unknown;
+
 export type Project = z.infer<typeof projectSchema>;
 
 export type Template = z.infer<typeof templateSchema>;
+
+export type UploadingFile = {
+  data: File;
+  height: number;
+  id: string;
+  name: string;
+  owner: string;
+  width: number;
+};
 
 export type UsersAuth = {
   avatar: string;

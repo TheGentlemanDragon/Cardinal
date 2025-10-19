@@ -1,23 +1,53 @@
 import { signal } from "@preact/signals-core";
+import { HTMLAttributes } from "preact/compat";
 import { useRef } from "preact/hooks";
 import { Modal } from "$components";
+import { uploadingFiles } from "$lib";
+import { UploadAssetsButton } from "./UploadAssetsButton";
 
 const assetManagerDialog = signal<any>(null);
 
-const NoImagesContent = ({ upload }) => {
+export const NoImagesContent = () => {
   return (
     <div class="flex flex-col items-center">
       <figure>
-        <img src="/images/NoImages.png" alt="Shoes" />
+        <img
+          src="/images/NoImages.png"
+          alt="Shoes"
+          class="transform scale-75"
+        />
       </figure>
 
       <h2 class="card-title">No images</h2>
 
       <p>Upload an image to get started.</p>
 
-      <button class="btn btn-primary mt-8 mb-4" onClick={upload}>
-        Upload image
-      </button>
+      <UploadAssetsButton />
+    </div>
+  );
+};
+
+export const LoadingFilesContent = () => {
+  return (
+    <div class="flex flex-wrap gap-3 items-center">
+      {Object.values(uploadingFiles.value).map(({ file, percent }) => {
+        const progressProps = {
+          className: "radial-progress",
+          style: `--value:${percent}`,
+          "aria-valuenow": percent,
+          role: "progressbar",
+        } as HTMLAttributes<HTMLDivElement>;
+
+        return (
+          <div class="card bg-neutral text-neutral-content w-36">
+            <div class="card-body items-center text-center">
+              {/* TODO: Why is ellipsis not working? */}
+              <h2 class="card-title block truncate w-28">{file.name}</h2>
+              <div {...progressProps}>{percent}%</div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
@@ -36,14 +66,9 @@ export const AssetManagerButton = () => {
 };
 
 export const AssetManager = () => {
-  const hasFiles = false;
-  const fileInput = useRef(null);
+  const hasFiles = Object.keys(uploadingFiles.value).length > 0;
 
   assetManagerDialog.value = useRef<HTMLDialogElement>(null);
-
-  const uploadFile = (event) => {
-    console.log("Uploading file");
-  };
 
   const selectFile = (event) => {
     console.log("Selecting file");
@@ -59,7 +84,7 @@ export const AssetManager = () => {
         <Modal.Title close>Asset Manager</Modal.Title>
 
         <Modal.Content>
-          <NoImagesContent upload={uploadFile} />
+          {hasFiles ? <LoadingFilesContent /> : <NoImagesContent />}
         </Modal.Content>
 
         {hasFiles && (

@@ -1,3 +1,5 @@
+import { signal } from "@preact/signals-core";
+import type { UseMutateFunction } from "@tanstack/react-query";
 import {
   BookDashed,
   BookImage,
@@ -6,6 +8,8 @@ import {
   Table,
   Type,
 } from "lucide-preact";
+import type { RecordModel } from "pocketbase";
+import { useEffect } from "preact/hooks";
 import {
   clsMenuListH,
   clsMenuOption,
@@ -13,12 +17,8 @@ import {
   setView,
   useAddToTemplate,
 } from "$lib";
-import { signal } from "@preact/signals-core";
-import type { UseMutateFunction } from "@tanstack/react-query";
-import type { RecordModel } from "pocketbase";
-import { useEffect } from "preact/hooks";
 import { ElementList } from "./ElementList";
-import { AssetManagerButton } from "../AssetManager";
+import { AssetManagerButton } from "../assetManager/AssetManager";
 
 const addToTemplate = signal<UseMutateFunction<
   RecordModel,

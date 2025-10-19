@@ -1,11 +1,11 @@
 import { Page } from "$components";
 import { cls, element, setElement, useCurrentTemplate } from "$lib";
-import { AssetManager } from "../features/AssetManager";
+import { AssetManager } from "../features/assetManager/AssetManager";
 import { EditorCard } from "../features/editor/EditorCard";
 import { EditorFooterTools } from "../features/editor/EditorFooterTools";
 import { EditorMenu } from "../features/editor/EditorMenu";
-import { PropertiesMenu } from "../features/editor/PropertiesMenu";
 import { Navbar } from "../features/Navbar";
+import { PropertiesMenu } from "../features/editor/PropertiesMenu";
 import { useClickBackground } from "../features/useClickBackground";
 
 const panelCls = "w-72 p-6 z-10";

@@ -4,6 +4,7 @@ import {
   elements,
   MENU_CLS,
   setElement,
+  useDeleteElement,
   type Element,
 } from "$lib";
 import { Group, Image, Trash, Type } from "lucide-preact";
@@ -15,6 +16,8 @@ export const MENU_ICON_MAP = {
 };
 
 export const ElementList = () => {
+  const { mutate: deleteElement } = useDeleteElement();
+
   return (
     <ul class={MENU_CLS}>
       <div class="flex items-center justify-between pl-2 mb-2">
@@ -24,6 +27,7 @@ export const ElementList = () => {
         <button
           className="btn btn-ghost btn-primary btn-square"
           disabled={!element.value}
+          onClick={() => deleteElement(element.value)}
         >
           <Trash size={16} />
         </button>

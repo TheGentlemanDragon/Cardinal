@@ -15,6 +15,13 @@ import {
 export const invalidateTemplates = () =>
   queryClient.invalidateQueries({ queryKey: ["templates"] });
 
+function withoutElement(template: Template, element: Element) {
+  return {
+    ...template,
+    elements: template.elements.filter((item) => item.id !== element.id),
+  };
+}
+
 function withUpdatedElement(template: Template, element: Element) {
   return {
     ...template,
@@ -85,6 +92,23 @@ export function useCurrentTemplate() {
   }, [data, isSuccess]);
 
   return query;
+}
+
+export function useDeleteElement() {
+  const { data: template, isSuccess } = useCurrentTemplate();
+
+  return useMutation({
+    mutationFn: async (element: Element) => {
+      if (!isSuccess) {
+        return;
+      }
+
+      const newTemplate = withoutElement(template, element);
+      elements.value = newTemplate.elements;
+      return await Collections.Templates.update(template.id, newTemplate);
+    },
+    onSuccess: invalidateTemplates,
+  });
 }
 
 export function useSaveElement() {

@@ -2,7 +2,7 @@ import { signal } from "@preact/signals-core";
 import { useRef } from "preact/hooks";
 import { Modal } from "$components";
 import { uploadingFiles, useAssetsList } from "$lib";
-import { AssetsContent, NoImagesContent } from "./AssetsModalContent";
+import { AssetContent, NoImagesContent } from "./AssetModalContent";
 import { UploadAssetsButton } from "./UploadAssetsButton";
 
 const assetManagerDialog = signal<any>(null);
@@ -33,17 +33,13 @@ export const AssetManager = () => {
   };
 
   return (
-    <dialog
-      class="modal"
-      id="createProjectModal"
-      ref={assetManagerDialog.value}
-    >
+    <dialog class="modal" id="assetManagerModal" ref={assetManagerDialog.value}>
       <Modal wide>
         <Modal.Title close>Asset Manager</Modal.Title>
 
         <Modal.Content>
           {hasFiles ? (
-            <AssetsContent assets={assets.items} />
+            <AssetContent assets={assets.items} />
           ) : (
             <NoImagesContent />
           )}

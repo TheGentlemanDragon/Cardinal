@@ -28,7 +28,7 @@ type Props = {
   assets: Asset[];
 };
 
-export const AssetsContent = ({ assets }: Props) => {
+export const AssetContent = ({ assets }: Props) => {
   const allAssets = [
     ...Object.values(uploadingFiles.value).map((item) => ({
       ...item.file,
@@ -38,7 +38,7 @@ export const AssetsContent = ({ assets }: Props) => {
   ];
 
   return (
-    <div class="flex flex-wrap gap-3 items-center">
+    <div class="flex flex-wrap ml-3 gap-3 items-center">
       {allAssets.map((file) => {
         const isUploading = "percent" in file;
         const progressProps = isUploading

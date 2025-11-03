@@ -1,6 +1,26 @@
 import { HTMLAttributes } from "preact/compat";
-import { type Asset, pb, uploadingFiles } from "$lib";
+import { Trash } from "lucide-preact";
+import { IconAction } from "$components";
+import { deleteAsset, type Asset, pb, uploadingFiles } from "$lib";
 import { UploadAssetsButton } from "./UploadAssetsButton";
+
+const ImageAsset = ({ asset }: { asset: Asset }) => {
+  const deleteImage = () => deleteAsset(asset.id);
+
+  return (
+    <figure class="group">
+      <img
+        alt={asset.name}
+        class="w-full object-cover"
+        src={pb.files.getUrl(asset, asset.data, { thumb: "100x100" })}
+      />
+
+      <div class="absolute top-1 right-1">
+        <IconAction icon={Trash} size="small" onConfirm={deleteImage} />
+      </div>
+    </figure>
+  );
+};
 
 export const NoImagesContent = () => {
   return (
@@ -58,13 +78,7 @@ export const AssetContent = ({ assets }: Props) => {
                 <div {...progressProps}>{file.percent}%</div>
               </div>
             ) : (
-              <figure>
-                <img
-                  alt={file.name}
-                  class="w-full object-cover"
-                  src={pb.files.getUrl(file, file.data, { thumb: "100x100" })}
-                />
-              </figure>
+              <ImageAsset asset={file} />
             )}
           </div>
         );

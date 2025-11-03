@@ -11,8 +11,10 @@ import {
   user,
 } from "$lib";
 
-export const invalidateAssets = () =>
-  queryClient.invalidateQueries({ queryKey: ["assets"] });
+export async function deleteAsset(id: string) {
+  await Collections.Assets.delete(id);
+  invalidateAssets();
+}
 
 export function getAssets() {
   return ignore404(
@@ -21,6 +23,10 @@ export function getAssets() {
         filter: `owner.id="${user.value?.id}"`,
       })
   );
+}
+
+export function invalidateAssets() {
+  return queryClient.invalidateQueries({ queryKey: ["assets"] });
 }
 
 export function useAssetsList() {

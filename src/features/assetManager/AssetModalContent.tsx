@@ -11,7 +11,13 @@ type ImageAssetProps = {
 };
 
 const ImageAsset = ({ asset, isSelected, onSelect }: ImageAssetProps) => {
-  const deleteImage = () => deleteAsset(asset.id);
+  const deleteImage = async () => {
+    if (isSelected) {
+      onSelect(null);
+    }
+
+    await deleteAsset(asset.id);
+  };
 
   return (
     <figure

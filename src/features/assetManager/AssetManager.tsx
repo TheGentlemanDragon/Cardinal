@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals-core";
-import { useRef, useState } from "preact/hooks";
+import { useEffect, useRef, useState } from "preact/hooks";
 import { Modal } from "$components";
 import { noop, type Asset, uploadingFiles, useAssetsList } from "$lib";
 import { AssetContent, NoImagesContent } from "./AssetModalContent";
@@ -33,6 +33,20 @@ export const AssetManager = ({ onSelect = noop }: AssetManagerProps) => {
     Object.keys(uploadingFiles.value).length + assets.items.length > 0;
 
   assetManagerDialog.value = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    if (!selectedAsset || !assets) {
+      return;
+    }
+
+    const isSelectedAssetAvailable = assets.items.some(
+      (asset) => asset.id === selectedAsset.id,
+    );
+
+    if (!isSelectedAssetAvailable) {
+      setSelectedAsset(null);
+    }
+  }, [assets, selectedAsset]);
 
   const closeModal = () => {
     assetManagerDialog.value?.current?.close();

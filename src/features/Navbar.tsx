@@ -10,6 +10,7 @@ export const Navbar = () => {
       <nav class="navbar pr-6 justify-between">
         <a
           class={`btn btn-ghost text-lg font-bold pointer-events-auto ${TEXT_SHADOW_CLS}`}
+          href="/projects"
         >
           Cardinal
         </a>

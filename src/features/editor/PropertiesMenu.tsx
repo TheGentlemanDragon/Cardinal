@@ -44,7 +44,7 @@ export const PropertiesMenu = () => {
         />
 
         <legend class="fieldset-legend">Content</legend>
-        <textarea type="text" class="textarea" />
+        <textarea class="textarea" />
       </fieldset>
 
       <div class="divider my-2" />

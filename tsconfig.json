@@ -19,5 +19,6 @@
     },
     "types": ["node"]
   },
-  "include": ["node_modules/vite/client.d.ts", "**/*"]
+  "include": ["node_modules/vite/client.d.ts", "**/*"],
+  "exclude": ["_old", "dist"]
 }

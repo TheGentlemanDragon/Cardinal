@@ -39,7 +39,7 @@ const App = () => {
             <Route path="/projects" component={Projects} />
             <Route path="/editor/:id" component={Editor} />
 
-            <NotFound default />
+            <Route default component={NotFound} />
           </Router>
         </ErrorBoundary>
       </LocationProvider>

@@ -1,7 +1,7 @@
 import { signal } from "@preact/signals-core";
-import { useRef } from "preact/hooks";
+import { useRef, useState } from "preact/hooks";
 import { Modal } from "$components";
-import { uploadingFiles, useAssetsList } from "$lib";
+import { noop, type Asset, uploadingFiles, useAssetsList } from "$lib";
 import { AssetContent, NoImagesContent } from "./AssetModalContent";
 import { UploadAssetsButton } from "./UploadAssetsButton";
 
@@ -20,26 +20,51 @@ export const AssetManagerButton = () => {
   );
 };
 
-export const AssetManager = () => {
+type AssetManagerProps = {
+  onSelect?: (value: Asset["data"]) => void;
+};
+
+export const AssetManager = ({ onSelect = noop }: AssetManagerProps) => {
   const { data: assets } = useAssetsList();
+  const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
 
   const hasFiles =
-    Object.keys(uploadingFiles.value).length + assets?.items.length > 0;
+    assets &&
+    Object.keys(uploadingFiles.value).length + assets.items.length > 0;
 
   assetManagerDialog.value = useRef<HTMLDialogElement>(null);
 
-  const selectFile = (event) => {
-    console.log("Selecting file");
+  const closeModal = () => {
+    assetManagerDialog.value?.current?.close();
+    setSelectedAsset(null);
+  };
+
+  const selectFile = () => {
+    if (!selectedAsset) {
+      return;
+    }
+
+    onSelect(selectedAsset.data);
+    closeModal();
   };
 
   return (
-    <dialog class="modal" id="assetManagerModal" ref={assetManagerDialog.value}>
+    <dialog
+      class="modal"
+      id="assetManagerModal"
+      onClose={() => setSelectedAsset(null)}
+      ref={assetManagerDialog.value}
+    >
       <Modal wide>
         <Modal.Title close>Asset Manager</Modal.Title>
 
         <Modal.Content>
           {hasFiles ? (
-            <AssetContent assets={assets.items} />
+            <AssetContent
+              assets={assets.items}
+              onSelect={setSelectedAsset}
+              selectedAssetId={selectedAsset?.id}
+            />
           ) : (
             <NoImagesContent />
           )}
@@ -51,14 +76,15 @@ export const AssetManager = () => {
               <UploadAssetsButton outline />
             </div>
 
-            <button
-              class="btn btn-ghost"
-              onClick={() => assetManagerDialog.value?.current?.close()}
-            >
+            <button class="btn btn-ghost" onClick={closeModal}>
               Cancel
             </button>
 
-            <button class="btn btn-primary" onClick={selectFile}>
+            <button
+              class="btn btn-primary"
+              disabled={!selectedAsset}
+              onClick={selectFile}
+            >
               Confirm
             </button>
           </Modal.Actions>

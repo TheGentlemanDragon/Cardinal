@@ -1,14 +1,25 @@
 import { HTMLAttributes } from "preact/compat";
 import { Trash } from "lucide-preact";
 import { IconAction } from "$components";
-import { deleteAsset, type Asset, pb, uploadingFiles } from "$lib";
+import { deleteAsset, type Asset, pb, uploadingFiles, cls } from "$lib";
 import { UploadAssetsButton } from "./UploadAssetsButton";
 
-const ImageAsset = ({ asset }: { asset: Asset }) => {
+type ImageAssetProps = {
+  asset: Asset;
+  isSelected: boolean;
+  onSelect: (asset: Asset | null) => void;
+};
+
+const ImageAsset = ({ asset, isSelected, onSelect }: ImageAssetProps) => {
   const deleteImage = () => deleteAsset(asset.id);
 
   return (
-    <figure class="group">
+    <figure
+      class={cls("group relative cursor-pointer rounded-2xl", {
+        "outline-4 outline-offset-3 outline-primary": isSelected,
+      })}
+      onClick={() => onSelect(isSelected ? null : asset)}
+    >
       <img
         alt={asset.name}
         class="w-full object-cover"
@@ -46,9 +57,11 @@ export const NoImagesContent = () => {
 
 type Props = {
   assets: Asset[];
+  onSelect: (asset: Asset | null) => void;
+  selectedAssetId?: Asset["id"];
 };
 
-export const AssetContent = ({ assets }: Props) => {
+export const AssetContent = ({ assets, onSelect, selectedAssetId }: Props) => {
   const allAssets = [
     ...Object.values(uploadingFiles.value).map((item) => ({
       ...item.file,
@@ -71,14 +84,22 @@ export const AssetContent = ({ assets }: Props) => {
           : {};
 
         return (
-          <div class="card bg-neutral text-neutral-content overflow-hidden w-28">
+          <div
+            class={cls("card bg-neutral text-neutral-content w-28", {
+              "cursor-pointer": !isUploading,
+            })}
+          >
             {isUploading ? (
               <div class="card-body items-center text-center">
                 <h2 class="card-title block truncate w-28">{file.name}</h2>
                 <div {...progressProps}>{file.percent}%</div>
               </div>
             ) : (
-              <ImageAsset asset={file} />
+              <ImageAsset
+                asset={file}
+                isSelected={selectedAssetId === file.id}
+                onSelect={onSelect}
+              />
             )}
           </div>
         );

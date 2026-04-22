@@ -1,4 +1,5 @@
 import { Check, LucideIcon, X } from "lucide-preact";
+import { JSX } from "preact";
 import { useState } from "preact/hooks";
 
 type Props = {
@@ -23,15 +24,22 @@ export const IconAction = ({
 
   const iconSize = SIZE_MAP[size];
 
-  const showConfirm = () => {
+  const stopPropagation = (event: MouseEvent) => {
+    event.stopPropagation();
+  };
+
+  const showConfirm = (event: MouseEvent) => {
+    stopPropagation(event);
     setIsConfirm(true);
   };
 
-  const cancelConfirmation = () => {
+  const cancelConfirmation = (event?: MouseEvent) => {
+    event?.stopPropagation();
     setIsConfirm(false);
   };
 
-  const confirmAction = () => {
+  const confirmAction = (event: MouseEvent) => {
+    stopPropagation(event);
     setIsConfirm(false);
     onConfirm();
   };
@@ -41,6 +49,7 @@ export const IconAction = ({
       {isConfirm ? (
         <div
           class="flex p-1 rounded-lg bg-base-200"
+          onClick={stopPropagation}
           onMouseLeave={cancelConfirmation}
         >
           <button

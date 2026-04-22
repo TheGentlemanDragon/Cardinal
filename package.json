@@ -13,29 +13,27 @@
     "extends": "preact"
   },
   "dependencies": {
-    "@preact/signals": "^1.3.0",
-    "@preact/signals-core": "^1.8.0",
+    "@preact/signals": "^1.3.4",
+    "@preact/signals-core": "^1.14.1",
     "@react-hooks-library/core": "^0.6.2",
-    "@tailwindcss/typography": "^0.5.13",
-    "@tailwindcss/vite": "^4.1.8",
-    "@tanstack/react-query": "^5.59.13",
-    "@tanstack/react-query-devtools": "^5.59.16",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.2.4",
+    "@tanstack/react-query": "^5.99.2",
+    "@tanstack/react-query-devtools": "^5.99.2",
     "lucide-preact": "^0.525.0",
     "pocketbase": "^0.21.5",
-    "preact": "^10.24.3",
-    "preact-iso": "^2.7.0",
-    "vite": "npm:rolldown-vite@latest",
-    "zod": "^3.25.74"
+    "preact": "^10.29.1",
+    "preact-iso": "^2.11.1",
+    "vite": "^8.0.9",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@preact/preset-vite": "^2.9.0",
-    "@tailwindcss/postcss": "^4.1.8",
-    "@types/node": "^22.8.6",
-    "daisyui": "^5.0.50",
-    "eslint": "^8.57.0",
-    "eslint-config-preact": "^1.4.0",
-    "preact-render-to-string": "^6.5.13",
-    "tailwindcss": "^4.1.8",
-    "typescript": "^5.4.5"
+    "@preact/preset-vite": "^2.10.5",
+    "@tailwindcss/postcss": "^4.2.4",
+    "@types/node": "^22.19.17",
+    "daisyui": "^5.5.19",
+    "preact-render-to-string": "^6.6.7",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^5.9.3"
   }
 }

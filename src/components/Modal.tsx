@@ -17,7 +17,7 @@ type ModalProps = {
 export const Modal = ({ children, wide = false }: ModalProps) => {
   return (
     <>
-      <article class={cls("modal-box p-0", wide && "max-w-2xl")}>
+      <article class={cls("modal-box p-0", { "max-w-2xl": wide })}>
         {/* Modal Title, Content and Actions */}
         {children}
       </article>

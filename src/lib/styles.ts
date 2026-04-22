@@ -1,4 +1,22 @@
-export const cls = (...args: string[]) => args.filter((item) => item).join(" ");
+type ClassMap = Record<string, unknown>;
+type ClassArg = string | ClassMap | false | null | undefined;
+
+export const cls = (...args: ClassArg[]) =>
+  args
+    .flatMap((arg) => {
+      if (!arg) {
+        return [];
+      }
+
+      if (typeof arg === "string") {
+        return [arg];
+      }
+
+      return Object.entries(arg)
+        .filter(([, value]) => value)
+        .map(([key]) => key);
+    })
+    .join(" ");
 
 export const CARD_CLS = `_
   relative group

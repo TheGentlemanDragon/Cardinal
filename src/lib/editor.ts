@@ -5,9 +5,9 @@ import { editorView, template } from "./signals";
 
 export function clsMenuListH(radio = false) {
   return cls(
-    radio && "group/radio",
+    { "group/radio": radio },
     MENU_CLS,
-    "menu-horizontal items-center pl-4"
+    "menu-horizontal items-center pl-4",
   );
 }
 

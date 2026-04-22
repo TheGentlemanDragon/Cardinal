@@ -13,14 +13,17 @@ type Props = {
 };
 
 export const UploadAssetsButton = ({ outline = false }: Props) => {
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const selectFilesAndUpload = () => {
     fileInputRef.current?.click();
   };
 
   const startUpload = (event: Event) => {
-    if (!(event.target instanceof HTMLInputElement)) {
+    if (
+      !(event.target instanceof HTMLInputElement) ||
+      event.target.files === null
+    ) {
       return;
     }
 
@@ -39,7 +42,7 @@ export const UploadAssetsButton = ({ outline = false }: Props) => {
       />
 
       <button
-        class={cls("btn btn-primary", outline && "btn-outline")}
+        class={cls("btn btn-primary", { "btn-outline": outline })}
         onClick={selectFilesAndUpload}
       >
         Upload assets

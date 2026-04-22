@@ -48,15 +48,13 @@ export function getElement({ children, id, name, props, type }: Element) {
     {
       ...(id === element.value?.id ? element.value.props : props),
       id,
-      class: cls(
-        DOTTED_OUTLINE,
-        "element cursor-pointer text-neutral-600",
-        id === element.value?.id
-          ? "outline-orange-500 animate-pulse duration-100 z-50"
-          : "outline-blue-500 z-10"
-      ),
+      class: cls(DOTTED_OUTLINE, "element cursor-pointer text-neutral-600", {
+        "outline-orange-500 animate-pulse duration-100 z-50":
+          id === element.value?.id,
+        "outline-blue-500 z-10": id !== element.value?.id,
+      }),
     },
-    editorView.value === "template" ? name : children
+    editorView.value === "template" ? name : children,
   );
 }
 
@@ -118,7 +116,7 @@ export function selectNextElement(event) {
   // Get the first clicked on item from shifted array
   const isPointInRect = withPointInRect({ x, y });
   const clickedElement = elements.find((item) =>
-    isPointInRect(item.getBoundingClientRect())
+    isPointInRect(item.getBoundingClientRect()),
   );
 
   // Select that item by its index in original array

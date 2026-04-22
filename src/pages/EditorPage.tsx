@@ -1,5 +1,5 @@
 import { Page } from "$components";
-import { cls, element, setElement, useCurrentTemplate } from "$lib";
+import { cls, element, noop, setElement, useCurrentTemplate } from "$lib";
 import { AssetManager } from "../features/assetManager/AssetManager";
 import { EditorCard } from "../features/editor/EditorCard";
 import { EditorFooterTools } from "../features/editor/EditorFooterTools";
@@ -16,8 +16,6 @@ const twoPanelCls = "grid-cols-[18rem_1fr_18rem]";
 const EditorPage = () => {
   useCurrentTemplate();
 
-  const colsStyle = element.value ? twoPanelCls : onePanelCls;
-
   useClickBackground(() => setElement());
 
   return (
@@ -27,7 +25,7 @@ const EditorPage = () => {
       <section
         class={cls(
           "grid transition-all h-full place-items-center pointer-events-none",
-          colsStyle
+          { [twoPanelCls]: element.value, [onePanelCls]: !element.value },
         )}
       >
         <div class={panelCls}>
@@ -39,7 +37,7 @@ const EditorPage = () => {
         <div class={panelCls}>{element.value ? <PropertiesMenu /> : null}</div>
       </section>
 
-      <AssetManager />
+      <AssetManager onSelect={noop} />
 
       <EditorFooterTools />
     </Page>

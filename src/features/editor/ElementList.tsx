@@ -36,7 +36,7 @@ export const ElementList = () => {
       {elements.value.map((item: Element) => (
         <li key={item.id}>
           <a
-            class={cls(element.value?.id === item.id && "bg-primary")}
+            class={cls({ "bg-primary": element.value?.id === item.id })}
             onClick={() => setElement(item)}
           >
             {MENU_ICON_MAP[item.type]} {item.name}

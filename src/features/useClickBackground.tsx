@@ -8,11 +8,11 @@ export const useClickBackground = (callback: () => void) => {
   };
 
   useEffect(() => {
-    document.querySelector("main").addEventListener("click", executeCallback);
+    document.querySelector("main")?.addEventListener("click", executeCallback);
 
     return () =>
       document
         .querySelector("main")
-        .removeEventListener("click", executeCallback);
+        ?.removeEventListener("click", executeCallback);
   }, []);
 };

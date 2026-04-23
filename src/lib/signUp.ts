@@ -1,5 +1,9 @@
-import { computed, signal, Signal } from "@preact/signals";
-import { TargetedEvent } from "preact/compat";
+import { computed, signal, type Signal } from "@preact/signals";
+import type {
+  TargetedFocusEvent,
+  TargetedInputEvent,
+  TargetedMouseEvent,
+} from "preact";
 
 import { Collections, pb } from "./db";
 
@@ -10,10 +14,9 @@ export interface InputState {
   value: string;
 }
 
-type SignupFormEvent = TargetedEvent<
-  HTMLFormElement | HTMLButtonElement,
-  Event
->;
+type SignupButtonEvent = TargetedMouseEvent<HTMLButtonElement>;
+type SignupFocusEvent = TargetedFocusEvent<HTMLFormElement>;
+type SignupInputEvent = TargetedInputEvent<HTMLFormElement>;
 
 ///// Constants ////////////////////////////////////////////////////////////////
 
@@ -48,7 +51,7 @@ export const isSignInIncomplete = computed(() =>
 ///// Public Methods ///////////////////////////////////////////////////////////
 
 /** Create a user */
-export const createUser = async (_event: SignupFormEvent) => {
+export const createUser = async (_event: SignupButtonEvent) => {
   try {
     const data = {
       email: email.value,
@@ -78,12 +81,12 @@ export const login = async () => {
 };
 
 /** Clear error state and select input value */
-export const reset = ({ target }: SignupFormEvent) => {
+export const reset = ({ target }: SignupFocusEvent) => {
   if (target === null || !(target instanceof HTMLInputElement)) {
     return;
   }
 
-  target.select && target.select();
+  target.select();
 
   if (target.id === error.value.id && error.value) {
     error.value = { id: "", message: "" };
@@ -91,7 +94,7 @@ export const reset = ({ target }: SignupFormEvent) => {
 };
 
 /** Update form state; Happens on each input to check for complete form */
-export const updateFormState = ({ target }: SignupFormEvent) => {
+export const updateFormState = ({ target }: SignupInputEvent) => {
   if (target === null || !(target instanceof HTMLInputElement)) {
     return;
   }
@@ -100,7 +103,7 @@ export const updateFormState = ({ target }: SignupFormEvent) => {
 };
 
 /** Run input validity check and cache to state */
-export const validateInput = async ({ target }: SignupFormEvent) => {
+export const validateInput = async ({ target }: SignupFocusEvent) => {
   if (target === null || !(target instanceof HTMLInputElement)) {
     return;
   }

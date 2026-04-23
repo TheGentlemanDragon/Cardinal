@@ -20,7 +20,7 @@ export function ignore404<T>(fn: () => Promise<T>) {
     try {
       return await fn();
     } catch (error) {
-      if (isPbError(error) && isIgnorable(error)) {
+      if (error instanceof Error && isPbError(error) && isIgnorable(error)) {
         return await ({ items: [] } as T);
       }
       throw error;
@@ -29,7 +29,7 @@ export function ignore404<T>(fn: () => Promise<T>) {
 }
 
 /** Returns true if the given error was HTTP 404 error */
-export function isEmptyError(error: Error) {
+export function isEmptyError(error: Error | null) {
   if (!error) {
     return false;
   }

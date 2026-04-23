@@ -8,8 +8,9 @@ import {
   type Element,
 } from "$lib";
 import { Group, Image, Trash, Type } from "lucide-preact";
+import { JSX } from "preact/jsx-runtime";
 
-export const MENU_ICON_MAP = {
+export const MENU_ICON_MAP: Record<string, JSX.Element> = {
   text: <Type size={16} />,
   image: <Image size={16} />,
   group: <Group size={16} />,
@@ -27,7 +28,7 @@ export const ElementList = () => {
         <button
           className="btn btn-ghost btn-primary btn-square"
           disabled={!element.value}
-          onClick={() => deleteElement(element.value)}
+          onClick={() => element.value && deleteElement(element.value)}
         >
           <Trash size={16} />
         </button>

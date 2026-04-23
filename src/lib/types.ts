@@ -26,7 +26,24 @@ export const cardSchema = z.object({
   updated: z.coerce.date(),
 });
 
-export const elementSchema = z.object({
+// Redundant, but needed for self-referencing type
+type BaseElement = {
+  children?: string | Element;
+  id: string;
+  name: string;
+  props: {
+    style?: {
+      height?: string;
+      left?: string;
+      position?: string;
+      top?: string;
+      width?: string;
+    };
+  };
+  type: string;
+};
+
+export const elementSchema: z.ZodType<BaseElement> = z.object({
   children: z.lazy(() => z.union([z.string(), elementSchema])).optional(),
   id: z.string(),
   name: z.string(),
@@ -58,8 +75,8 @@ export const templateSchema = z.object({
   collectionId: z.string(),
   collectionName: z.string(),
   created: z.coerce.date(),
-  elements: z.array(elementSchema).nullable(),
-  fields: z.array(z.any()).nullable(),
+  elements: z.array(elementSchema),
+  fields: z.array(z.any()),
   id: z.string(),
   name: z.string(),
   owner: z.string(),
@@ -90,14 +107,14 @@ export type Path<T> = T extends object
 
 export type PathValue<
   T,
-  P extends string
+  P extends string,
 > = P extends `${infer K}.${infer Rest}`
   ? K extends keyof T
     ? PathValue<T[K], Rest>
     : unknown
   : P extends keyof T
-  ? T[P]
-  : unknown;
+    ? T[P]
+    : unknown;
 
 export type PbList<BaseType> = {
   items: BaseType[];

@@ -1,6 +1,6 @@
 import { effect, signal } from "@preact/signals-core";
 import { Search } from "lucide-preact";
-import { ChangeEvent } from "preact/compat";
+import type { TargetedInputEvent } from "preact";
 
 const SCALE_CACHE_KEY = "card-scale";
 const DEFAULT_SCALE = 25;
@@ -10,8 +10,8 @@ const getScale = () => {
   return scale === null ? DEFAULT_SCALE : parseInt(scale, 10);
 };
 
-const setScale = (event: ChangeEvent<HTMLInputElement>) =>
-  (cardScale.value = parseInt(event.currentTarget.value));
+const setScale = (event: TargetedInputEvent<HTMLInputElement>) =>
+  (cardScale.value = parseInt(event.currentTarget.value, 10));
 
 export const cardScale = signal(getScale());
 

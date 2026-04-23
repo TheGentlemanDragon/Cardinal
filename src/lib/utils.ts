@@ -32,7 +32,7 @@ export function generateId(length: number = 15) {
 /** Get value at path */
 export function get<T extends object, P extends Path<T>>(
   obj: T,
-  path: P
+  path: P,
 ): PathValue<T, P> | undefined {
   let acc: unknown = obj;
 
@@ -55,7 +55,7 @@ export async function getFilePayload(file: File): Promise<UploadingFile> {
         height: img.height,
         id: generateId(),
         name: file.name,
-        owner: user.value?.id,
+        owner: user.value?.id ?? "",
         width: img.width,
       });
       URL.revokeObjectURL(objectUrl);
@@ -78,7 +78,7 @@ export function getUniqueName(names: string[], name: string) {
 }
 
 /** Return the passed in value */
-export function identity(value) {
+export function identity<T>(value: T): T {
   return value;
 }
 
@@ -139,14 +139,14 @@ export async function uploadFiles(files: FileList) {
     const formData = new FormData();
 
     Object.entries(payload).forEach(([key, value]) =>
-      formData.append(key, value as any)
+      formData.append(key, value as any),
     );
 
     const request = new XMLHttpRequest();
 
     request.open(
       "POST",
-      `${import.meta.env.VITE_DB_URL}api/collections/cardinal_assets/records`
+      `${import.meta.env.VITE_DB_URL}api/collections/cardinal_assets/records`,
     );
 
     request.setRequestHeader("Authorization", `Bearer ${pb.authStore.token}`);

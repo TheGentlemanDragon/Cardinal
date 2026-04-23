@@ -27,7 +27,7 @@ const DEFAULT_TEXT = {
 
 const DOTTED_OUTLINE = "outline outline-dotted outline-1";
 
-const TYPE_MAP = {
+const TYPE_MAP: Record<string, string> = {
   text: "div",
 };
 
@@ -99,13 +99,13 @@ export function newElementForTemplate(type: string, template: Template) {
   };
 }
 
-export function selectNextElement(event) {
+export function selectNextElement(event: MouseEvent) {
   const { x, y } = event;
 
   // Shift elements to back
   const allElements = Array.from(document.querySelectorAll(".element"));
   const index = element.value
-    ? allElements.findIndex((item) => item.id === element.value.id)
+    ? allElements.findIndex((item) => item.id === element.value?.id)
     : -1;
 
   const elements = [

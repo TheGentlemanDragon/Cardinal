@@ -1,4 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
+import type * as z from "zod/v4";
 import { HTTP_STATUS_TO_NOT_RETRY, MAX_RETRIES, isPbError } from "./db";
 
 /** Default query client for React Query */
@@ -28,8 +29,10 @@ export function getQueryKey(...keys: any) {
   return [...keys];
 }
 
-export function parseItems(schema) {
-  return (data) => ({
+export function parseItems<Schema extends z.ZodType>(schema: Schema) {
+  return <List extends { items: unknown[] }>(
+    data: List
+  ): Omit<List, "items"> & { items: z.infer<Schema>[] } => ({
     ...data,
     items: data.items.map((item) => schema.parse(item)),
   });

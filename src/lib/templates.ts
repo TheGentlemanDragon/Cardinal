@@ -26,13 +26,15 @@ function withUpdatedElement(template: Template, element: Element) {
   return {
     ...template,
     elements: template.elements.map((item) =>
-      element.id === item.id ? element : item
+      element.id === item.id ? element : item,
     ),
   };
 }
 
 export async function createTemplate(name: string, projectId: string) {
   await Collections.Templates.create({
+    elements: [],
+    fields: [],
     name,
     owner: user.value?.id,
     project: projectId,
@@ -49,7 +51,7 @@ export function getTemplates(projectId: string) {
     (): Promise<PbList<Template>> =>
       Collections.Templates.getList(1, 20, {
         filter: `project.id="${projectId}"`,
-      })
+      }),
   );
 }
 
@@ -65,12 +67,12 @@ export function useAddToTemplate() {
   return useMutation({
     mutationFn: async (type: string) => {
       if (!isSuccess) {
-        return;
+        throw new Error("Cannot add element before template is loaded.");
       }
 
       return await Collections.Templates.update(
         template.id,
-        newElementForTemplate(type, template)
+        newElementForTemplate(type, template),
       );
     },
     onSuccess: invalidateTemplates,
@@ -100,7 +102,7 @@ export function useDeleteElement() {
   return useMutation({
     mutationFn: async (element: Element) => {
       if (!isSuccess) {
-        return;
+        throw new Error("Cannot delete element before template is loaded.");
       }
 
       const newTemplate = withoutElement(template, element);
@@ -117,7 +119,7 @@ export function useSaveElement() {
   return useMutation({
     mutationFn: async (element: Element) => {
       if (!isSuccess) {
-        return;
+        throw new Error("Cannot save element before template is loaded.");
       }
 
       const newTemplate = withUpdatedElement(template, element);
@@ -128,7 +130,7 @@ export function useSaveElement() {
   });
 }
 
-export function useTemplate(templateId?: string) {
+export function useTemplate(templateId: string) {
   return useQuery<Template>({
     enabled: templateId !== undefined,
     queryFn: getTemplate(templateId),

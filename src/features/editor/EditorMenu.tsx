@@ -52,19 +52,19 @@ const ADD_ITEMS: MenuItem[] = [
   {
     Icon: <Type />,
     id: "text",
-    onClick: () => addToTemplate.value("text"),
+    onClick: () => addToTemplate.value?.("text"),
     tip: "Text",
   },
   {
     Icon: <Image />,
     id: "image",
-    onClick: () => addToTemplate.value("image"),
+    onClick: () => addToTemplate.value?.("image"),
     tip: "Image",
   },
   {
     Icon: <Group />,
     id: "group",
-    onClick: () => addToTemplate.value("group"),
+    onClick: () => addToTemplate.value?.("group"),
     tip: "Group",
   },
 ];
@@ -78,7 +78,9 @@ const MenuItem = ({
   value: { Icon, id, onClick, tip },
   radio,
 }: MenuItemProps) => {
-  const clsRadio = radio && "bg-primary nth-[2]:rounded-l-lg last:rounded-r-lg";
+  const clsRadio = radio
+    ? "bg-primary nth-[2]:rounded-l-lg last:rounded-r-lg"
+    : "";
   return (
     <li class={clsRadio}>
       <a class={clsMenuOption(id, tip)} data-tip={tip} onClick={onClick}>
@@ -94,7 +96,7 @@ type MenuGroupProps = {
   radio?: boolean;
 };
 
-const MenuGroup = ({ items, label, radio }: MenuGroupProps) => (
+const MenuGroup = ({ items, label, radio = false }: MenuGroupProps) => (
   <ul class={clsMenuListH(radio)}>
     <li class="grow">{label}</li>
     {items.map((item) => (

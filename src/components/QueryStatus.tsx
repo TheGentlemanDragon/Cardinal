@@ -3,9 +3,11 @@ import { Children, ReactNode } from "preact/compat";
 
 import { stubFalse } from "$lib";
 
-type Props = {
+type HasChildren = {
   children: ReactNode;
+};
 
+type Props = HasChildren & {
   /** Tanstack Query object */
   query: UseQueryResult<unknown, Error>;
 
@@ -61,10 +63,10 @@ export const QueryStatus = ({
   return <>{content}</>;
 };
 
-QueryStatus.Loading = ({ children }) => <>{children}</>;
+QueryStatus.Loading = ({ children }: HasChildren) => <>{children}</>;
 
-QueryStatus.Error = ({ children }) => <>{children}</>;
+QueryStatus.Error = ({ children }: HasChildren) => <>{children}</>;
 
-QueryStatus.Empty = ({ children }) => <>{children}</>;
+QueryStatus.Empty = ({ children }: HasChildren) => <>{children}</>;
 
-QueryStatus.Success = ({ children }) => <>{children}</>;
+QueryStatus.Success = ({ children }: HasChildren) => <>{children}</>;

@@ -1,5 +1,5 @@
-import { cls, MENU_CLS, type Template } from "$lib";
-import { editorView, template } from "./signals";
+import { cls, MENU_CLS } from "$lib";
+import { editorView } from "./signals";
 
 /** Styles */
 
@@ -11,7 +11,7 @@ export function clsMenuListH(radio = false) {
   );
 }
 
-export function clsMenuOption(id: string, tip: string) {
+export function clsMenuOption(id: string, tip?: string) {
   const active = editorView.value === id ? "menu-active scale-90" : "";
   const tooltip = tip ? "tooltip tooltip-info" : "";
   return `${active} ${tooltip}`;

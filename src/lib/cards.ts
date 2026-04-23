@@ -21,14 +21,14 @@ export function getCards(templateId: string) {
     (): Promise<PbList<Card>> =>
       Collections.Cards.getList(1, 20, {
         filter: `template.id="${templateId}"`,
-      })
+      }),
   );
 }
 
 export function useCardsList(templateId?: string) {
   return useQuery<PbList<Card>>({
     enabled: templateId !== undefined,
-    queryFn: getCards(templateId),
+    queryFn: getCards(templateId!),
     queryKey: getQueryKey("cards"),
     select: parseItems(cardSchema),
   });

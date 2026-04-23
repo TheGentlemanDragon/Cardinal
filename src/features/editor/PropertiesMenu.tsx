@@ -1,5 +1,5 @@
 import { MoveHorizontal, MoveVertical } from "lucide-preact";
-import { JSX } from "preact";
+import type { TargetedInputEvent } from "preact";
 import {
   cls,
   element,
@@ -13,19 +13,19 @@ import {
 
 const update =
   (key: string, valueFn: (str: string) => string = identity) =>
-  (event: JSX.TargetedEvent<HTMLInputElement, Event>) => {
+  (event: TargetedInputEvent<HTMLInputElement>) => {
     updateElement(key, valueFn(event.currentTarget.value));
   };
 
-const withIn = (value) => value + "in";
+const withIn = (value: string) => value + "in";
 
 const getProp = (key: string) =>
-  get(element.value, key as any)?.replace("in", "");
+  element.value ? get(element.value, key as any)?.replace("in", "") : undefined;
 
 export const PropertiesMenu = () => {
   const { mutate: save } = useSaveElement();
 
-  const saveElement = () => save(element.value);
+  const saveElement = () => element.value && save(element.value);
 
   const max = getMax(element.value?.props.style);
 
